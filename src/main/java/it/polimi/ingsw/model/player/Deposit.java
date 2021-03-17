@@ -18,4 +18,8 @@ public class Deposit {
     public void removeResource(int row, Resource resource) {
 
     }
+
+    public void moveRow(int toMove, int destination) {
+
+    }
 }
