@@ -14,11 +14,7 @@ public class Game {
     private Player currentPlayer;
     private Lorenzo lorenzo;
 
-    public void start() {
-
-    }
-
-    public void addNewPlayer() {
+    public void addPlayer(Player player) {
 
     }
 
@@ -42,6 +38,14 @@ public class Game {
         return market;
     }
 
+    public Player getPlayerAt(int index) {
+        return players.get(index);
+    }
+
+    public int getPlayerNum() {
+        return players.size();
+    }
+
     public void nextPlayer() {
 
     }
@@ -51,6 +55,10 @@ public class Game {
     }
 
     public void createMarket() {
+
+    }
+
+    public void randomSortPlayers() {
 
     }
 }

@@ -5,4 +5,9 @@ import java.util.List;
 public class Deck {
     private List<LeaderCard> leaderCards;
     private List<DevelopmentCard> developmentCards;
+
+    public List<LeaderCard> initialDrawLeaders(){
+
+    }
+
 }
