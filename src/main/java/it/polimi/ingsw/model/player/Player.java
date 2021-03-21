@@ -37,27 +37,7 @@ public class Player {
 
     }
 
-    public void setLeaderCards(List<LeaderCard> cards){
-
-    }
-
-    public void discardLeader(LeaderCard leaderCard) {
-
-    }
-
-    public void buyCard(DevelopmentCard developmentCard) {
-
-    }
-
-    public void useMarket() {
-
-    }
-
-    public void useProduction(DevelopmentCard developmentCard) {
-
-    }
-
-    public void endTurn() {
+    public void setLeaderCards(List<LeaderCard> cards) {
 
     }
 }

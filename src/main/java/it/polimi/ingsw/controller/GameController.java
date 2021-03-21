@@ -56,6 +56,10 @@ public class GameController {
 
     }
 
+    private void useBaseProduction(Player player, Resource[] baseProductionInput, Resource baseProductionOutput) {
+
+    }
+
     private boolean buyDevelopmentCard(Player player, DevelopmentCard leader) {
 
     }
