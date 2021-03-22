@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.event.MarketPlayerActionEvent;
 import it.polimi.ingsw.controller.event.PlayerActionEvent;
+import it.polimi.ingsw.controller.event.ProductionPlayerActionEvent;
+import it.polimi.ingsw.controller.event.SelectLeadersPlayerActionEvent;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.Card;
@@ -12,9 +15,10 @@ import java.util.List;
 
 public class GameController {
     private Game game;
+    private int eventNum;
 
     public GameController() {
-
+        eventNum = 0;
     }
 
     public void initializeGame() {
@@ -34,10 +38,23 @@ public class GameController {
             List<LeaderCard> draw = game.getDeck().initialDrawLeaders();
             game.getPlayerAt(i).setLeaderCards(draw);
         }
+        //view scelta carte
     }
 
     public void handlePlayerAction(PlayerActionEvent event) {
-
+        if(event instanceof SelectLeadersPlayerActionEvent) {
+            eventNum++;
+            event.getPlayer().setLeaderCards(((SelectLeadersPlayerActionEvent) event).getSelectedLeaders());
+            if (eventNum >= game.getPlayerNum()) {
+                //primo turno giocatore (view)
+            }
+        } else if(event instanceof MarketPlayerActionEvent) {
+            MarketPlayerActionEvent marketEvent = (MarketPlayerActionEvent) event;
+            marketEvent.setResult(useMarket(marketEvent.getPlayer(), marketEvent.getSelected(), marketEvent.getWhiteConversion()));
+            // view vede risultati
+            // player deve disporre resources
+        } else if(event instanceof ProductionPlayerActionEvent){
+        }
     }
 
     public int calculateScore(Player player) {
