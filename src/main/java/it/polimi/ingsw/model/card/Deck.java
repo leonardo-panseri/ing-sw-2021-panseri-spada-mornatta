@@ -19,6 +19,7 @@ public class Deck {
         for(int i = 0; i < 4; i++){
             int randomNumber = (int) (Math.random() * (leaderCards.size() - 1));
             result.add(leaderCards.get(randomNumber));
+            leaderCards.remove(randomNumber);
         }
         return result;
     }
