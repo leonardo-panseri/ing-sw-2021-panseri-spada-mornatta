@@ -11,6 +11,44 @@ public class PlayerBoard {
     private Deposit deposit;
 
     public void addCard(int slot, DevelopmentCard developmentCard) {
+        //slot 1 == cardSlotLeft
+        //slot 2 == cardSlotCenter
+        //slot 3 == cardSlotRight
+        if (cardSlotLeft == null) {
+            cardSlotLeft = new Stack<DevelopmentCard>();
+        }
+        if (cardSlotCenter == null) {
+            cardSlotCenter = new Stack<DevelopmentCard>();
+        }
+        if (cardSlotRight == null) {
+            cardSlotRight = new Stack<DevelopmentCard>();
+        }
+        if (slot == 1) {
+            pushDevelopmentCard(developmentCard, cardSlotLeft);
+        }
+        if (slot == 2) {
+            pushDevelopmentCard(developmentCard, cardSlotCenter);
+        }
+        if (slot == 3) {
+            pushDevelopmentCard(developmentCard, cardSlotRight);
+        }
 
     }
+
+    private void pushDevelopmentCard(DevelopmentCard developmentCard, Stack<DevelopmentCard> cardSlot) {
+        if (cardSlot.size() == 0 && developmentCard.getLevel() == 1) {
+            cardSlot.push(developmentCard);
+        } else if (cardSlot.size() == 1) {
+            if (cardSlot.get(0).getLevel() == 1 && developmentCard.getLevel() == 2) {
+                cardSlot.push(developmentCard);
+            }
+        } else if (cardSlot.size() == 2) {
+            if (cardSlot.get(1).getLevel() == 2 && developmentCard.getLevel() == 3) {
+                cardSlot.push(developmentCard);
+            }
+        }
+    }
+
 }
+
+
