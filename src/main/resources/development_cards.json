@@ -1,0 +1,31 @@
+[
+  {
+    "cost": {
+      "SERVANT": 3
+    },
+    "level": 2,
+    "productionInput": {
+      "COIN": 1
+    },
+    "productionOutput": {
+      "STONE": 3
+    },
+    "color": "GREEN",
+    "victoryPoints": 0
+  },
+  {
+    "cost": {
+      "STONE": 4
+    },
+    "level": 2,
+    "productionInput": {
+      "SERVANT": 2
+    },
+    "productionOutput": {
+      "STONE": 3,
+      "FAITH": 1
+    },
+    "color": "GREEN",
+    "victoryPoints": 0
+  }
+]

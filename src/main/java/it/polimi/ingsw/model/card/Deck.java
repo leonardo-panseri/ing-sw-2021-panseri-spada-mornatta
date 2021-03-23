@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.card;
 
+import it.polimi.ingsw.controller.util.DeckParser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +10,8 @@ public class Deck {
     private List<DevelopmentCard> developmentCards;
 
     public Deck() {
-        leaderCards = new ArrayList<>();
-        developmentCards = new ArrayList<>();
+        leaderCards = DeckParser.loadLeaderCards();
+        developmentCards = DeckParser.loadDevelopmentCards();
     }
 
     public List<LeaderCard> initialDrawLeaders(){

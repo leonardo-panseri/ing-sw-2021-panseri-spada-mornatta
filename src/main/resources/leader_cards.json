@@ -1,1 +1,26 @@
-{}
+[
+  {
+    "cardRequirements": {
+      "BLUE": 2
+    },
+    "resourceRequirements": {
+      "COIN": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3
+    },
+    "resourceRequirements": {
+      "STONE": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  }
+]

@@ -18,4 +18,12 @@ public class SpecialAbility {
     public Resource getTargetResource() {
         return targetResource;
     }
+
+    @Override
+    public String toString() {
+        return "SpecialAbility{" +
+                "type=" + type +
+                ", targetResource=" + targetResource +
+                '}';
+    }
 }

@@ -9,6 +9,12 @@ public class LeaderCard {
     private Map<Resource, Integer> resourceRequirements;
     private SpecialAbility specialAbility;
 
+    public LeaderCard(Map<CardColor, Integer> cardRequirements, Map<Resource, Integer> resourceRequirements, SpecialAbility specialAbility) {
+        this.cardRequirements = cardRequirements;
+        this.resourceRequirements = resourceRequirements;
+        this.specialAbility = specialAbility;
+    }
+
     public Map<CardColor, Integer> getCardRequirements() {
         return cardRequirements;
     }
@@ -19,5 +25,14 @@ public class LeaderCard {
 
     public SpecialAbility getSpecialAbility() {
         return specialAbility;
+    }
+
+    @Override
+    public String toString() {
+        return "LeaderCard{" +
+                "cardRequirements=" + cardRequirements +
+                ", resourceRequirements=" + resourceRequirements +
+                ", specialAbility=" + specialAbility +
+                '}';
     }
 }

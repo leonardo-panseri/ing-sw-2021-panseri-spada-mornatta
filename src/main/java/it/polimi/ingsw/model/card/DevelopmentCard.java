@@ -11,6 +11,14 @@ public class DevelopmentCard extends  Card {
     private Map<Resource, Integer> productionOutput;
     private CardColor color;
 
+    public DevelopmentCard(Map<Resource, Integer> cost, int level, Map<Resource, Integer> productionInput, Map<Resource, Integer> productionOutput, CardColor color) {
+        this.cost = cost;
+        this.level = level;
+        this.productionInput = productionInput;
+        this.productionOutput = productionOutput;
+        this.color = color;
+    }
+
     public Map<Resource, Integer> getProductionInput() {
         return productionInput;
     }
@@ -21,5 +29,16 @@ public class DevelopmentCard extends  Card {
 
     public int getLevel() {
         return level;
+    }
+
+    @Override
+    public String toString() {
+        return "DevelopmentCard{" +
+                "cost=" + cost +
+                ", level=" + level +
+                ", productionInput=" + productionInput +
+                ", productionOutput=" + productionOutput +
+                ", color=" + color +
+                '}';
     }
 }
