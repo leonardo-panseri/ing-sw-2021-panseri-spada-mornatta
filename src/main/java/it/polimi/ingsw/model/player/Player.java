@@ -14,6 +14,13 @@ public class Player {
     private Map<LeaderCard, Boolean> leaderCards;
     private PlayerBoard board;
 
+    public Player(String nick){
+        this.nick = nick;
+        faithPoints = 0;
+        popeFavours = 0;
+        board = new PlayerBoard();
+    }
+
     public String getNick() {
         return nick;
     }

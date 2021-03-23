@@ -26,17 +26,17 @@ public class Market {
         for (int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++) {
                 int randomIndex;
+                grid[i][j] = new Box();
                 if(blankCounter < 4){
-                    randomIndex = (int) (Math.random() * (types.size()));
+                    randomIndex = (int) (Math.random() * (types.size()+1));
                 } else{
-                    randomIndex = (int) (Math.random() * (types.size()-1));
+                    randomIndex = (int) (Math.random() * (types.size()));
                 }
 
                 //If generated number is equal to size, leave the box with null, indicating a white ball
                 if(randomIndex < types.size()){
                     grid[i][j].setResource(types.get(randomIndex));
                 }
-
                 if(grid[i][j].getResource() == null) blankCounter++;
                 else{
                     switch (grid[i][j].getResource()){
@@ -70,7 +70,7 @@ public class Market {
         }
 
         //Set the last remaining resource as the slide resource
-        slideResource = types.get(0);
+        if(types.size() != 0) slideResource = types.get(0);
     }
 
     public List<Resource> getRow(int row) {

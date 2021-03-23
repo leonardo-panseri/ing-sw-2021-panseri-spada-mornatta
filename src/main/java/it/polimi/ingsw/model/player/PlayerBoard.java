@@ -10,19 +10,16 @@ public class PlayerBoard {
     private Stack<DevelopmentCard> cardSlotRight;
     private Deposit deposit;
 
+    public PlayerBoard(){
+        cardSlotLeft = new Stack<>();
+        cardSlotCenter = new Stack<>();
+        cardSlotRight = new Stack<>();
+    }
+
     public void addCard(int slot, DevelopmentCard developmentCard) {
         //slot 1 == cardSlotLeft
         //slot 2 == cardSlotCenter
         //slot 3 == cardSlotRight
-        if (cardSlotLeft == null) {
-            cardSlotLeft = new Stack<DevelopmentCard>();
-        }
-        if (cardSlotCenter == null) {
-            cardSlotCenter = new Stack<DevelopmentCard>();
-        }
-        if (cardSlotRight == null) {
-            cardSlotRight = new Stack<DevelopmentCard>();
-        }
         if (slot == 1) {
             pushDevelopmentCard(developmentCard, cardSlotLeft);
         }
