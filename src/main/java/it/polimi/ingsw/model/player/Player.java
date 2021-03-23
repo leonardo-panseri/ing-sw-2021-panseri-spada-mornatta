@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,10 +35,13 @@ public class Player {
     }
 
     public void setLeaderActive(LeaderCard leaderCard) {
-
+        leaderCards.put(leaderCard, true);
     }
 
     public void setLeaderCards(List<LeaderCard> cards) {
-
+        if(leaderCards == null) leaderCards = new HashMap<>();
+        for (LeaderCard leaderCard : cards){
+            leaderCards.put(leaderCard, false);
+        }
     }
 }
