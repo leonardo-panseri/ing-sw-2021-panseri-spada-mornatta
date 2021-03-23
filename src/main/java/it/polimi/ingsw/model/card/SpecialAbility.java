@@ -6,6 +6,11 @@ public class SpecialAbility {
     private SpecialAbilityType type;
     private Resource targetResource;
 
+    public SpecialAbility(SpecialAbilityType type, Resource targetResource) {
+        this.type = type;
+        this.targetResource = targetResource;
+    }
+
     public SpecialAbilityType getType() {
         return type;
     }

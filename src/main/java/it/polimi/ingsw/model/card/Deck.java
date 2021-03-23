@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Deck {
     private List<LeaderCard> leaderCards;
@@ -11,7 +10,6 @@ public class Deck {
     public Deck() {
         leaderCards = new ArrayList<>();
         developmentCards = new ArrayList<>();
-        // Aggiungere carte ai mazzi
     }
 
     public List<LeaderCard> initialDrawLeaders(){

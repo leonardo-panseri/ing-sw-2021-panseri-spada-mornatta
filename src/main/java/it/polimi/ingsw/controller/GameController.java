@@ -58,7 +58,7 @@ public class GameController {
     }
 
     public int calculateScore(Player player) {
-
+        return 0;
     }
 
     public void exit() {
@@ -66,11 +66,11 @@ public class GameController {
     }
 
     private List<Resource> useMarket(Player player, int selection, Resource whiteConversion) {
-
+        return null;
     }
 
     private List<Resource> useProduction(Player player, Card card) {
-
+        return null;
     }
 
     private void useBaseProduction(Player player, Resource[] baseProductionInput, Resource baseProductionOutput) {
@@ -78,11 +78,11 @@ public class GameController {
     }
 
     private boolean buyDevelopmentCard(Player player, DevelopmentCard leader) {
-
+        return false;
     }
 
     private boolean activateLeaderCard(Player player, LeaderCard leader) {
-
+        return false;
     }
 
     private void endTurn(Player player) {
