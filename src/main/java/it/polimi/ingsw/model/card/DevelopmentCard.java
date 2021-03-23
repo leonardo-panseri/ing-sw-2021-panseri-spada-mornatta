@@ -18,4 +18,8 @@ public class DevelopmentCard extends  Card {
     public Map<Resource, Integer> getProductionOutput() {
         return productionOutput;
     }
+
+    public int getLevel() {
+        return level;
+    }
 }
