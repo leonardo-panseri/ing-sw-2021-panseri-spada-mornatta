@@ -27,7 +27,64 @@ public class MarketTest {
 
     @Test
     public void initializationMarket() {
-        assertNotNull(testMarket);
+
+        int coinCounter = 0;
+        int stoneCounter = 0;
+        int shieldCounter = 0;
+        int servantCounter = 0;
+        int faithCounter = 0;
+        int blankCounter = 0;
+        for(int i = 0; i < 4; i++){
+            for(Resource res : testMarket.getColumn(i)){
+                if(res == null) blankCounter++;
+                else {
+                    switch (res){
+                        case COIN:
+                            coinCounter++;
+                            break;
+                        case STONE:
+                            stoneCounter++;
+                            break;
+                        case SHIELD:
+                            shieldCounter++;
+                            break;
+                        case SERVANT:
+                            servantCounter++;
+                            break;
+                        case FAITH:
+                            faithCounter++;
+                            break;
+                    }
+                }
+            }
+        }
+        if(testMarket.getSlideResource() == null) blankCounter++;
+        else {
+            switch (testMarket.getSlideResource()){
+                case COIN:
+                    coinCounter++;
+                    break;
+                case STONE:
+                    stoneCounter++;
+                    break;
+                case SHIELD:
+                    shieldCounter++;
+                    break;
+                case SERVANT:
+                    servantCounter++;
+                    break;
+                case FAITH:
+                    faithCounter++;
+                    break;
+            }
+        }
+
+        assertEquals(2, coinCounter);
+        assertEquals(2, stoneCounter);
+        assertEquals(2,shieldCounter);
+        assertEquals(2, servantCounter);
+        assertEquals(1, faithCounter);
+        assertEquals(4, blankCounter);
     }
 
     @Test
