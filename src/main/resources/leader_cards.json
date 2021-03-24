@@ -1,10 +1,8 @@
 [
   {
     "cardRequirements": {
-      "BLUE": 2
-    },
-    "resourceRequirements": {
-      "COIN": 4
+      "BLUE": 2,
+      "STONE": 4
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -13,10 +11,8 @@
   },
   {
     "cardRequirements": {
-      "PURPLE": 3
-    },
-    "resourceRequirements": {
-      "STONE": 2
+      "PURPLE": 3,
+      "COIN": 2
     },
     "specialAbility": {
       "type": "DEPOT",

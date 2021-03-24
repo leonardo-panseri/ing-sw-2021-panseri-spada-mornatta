@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.card;
 
-import it.polimi.ingsw.controller.util.DeckParser;
+import it.polimi.ingsw.constant.DeckParser;
 
 import java.util.ArrayList;
 import java.util.List;
