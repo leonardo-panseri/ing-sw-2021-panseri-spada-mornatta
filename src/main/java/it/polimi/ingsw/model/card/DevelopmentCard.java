@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Resource;
 
 import java.util.Map;
 
-public class DevelopmentCard extends  Card {
+public class DevelopmentCard extends Card {
     private Map<Resource, Integer> cost;
     private int level;
     private Map<Resource, Integer> productionInput;

@@ -1,26 +1,18 @@
 package it.polimi.ingsw.model.card;
 
-import it.polimi.ingsw.model.Resource;
-
 import java.util.Map;
 
-public class LeaderCard {
-    private Map<CardColor, Integer> cardRequirements;
-    private Map<Resource, Integer> resourceRequirements;
+public class LeaderCard extends Card {
+    private Map<LeaderCardRequirement, Integer> cardRequirements;
     private SpecialAbility specialAbility;
 
-    public LeaderCard(Map<CardColor, Integer> cardRequirements, Map<Resource, Integer> resourceRequirements, SpecialAbility specialAbility) {
+    public LeaderCard(Map<LeaderCardRequirement, Integer> cardRequirements, SpecialAbility specialAbility) {
         this.cardRequirements = cardRequirements;
-        this.resourceRequirements = resourceRequirements;
         this.specialAbility = specialAbility;
     }
 
-    public Map<CardColor, Integer> getCardRequirements() {
+    public Map<LeaderCardRequirement, Integer> getCardRequirements() {
         return cardRequirements;
-    }
-
-    public Map<Resource, Integer> getResourceRequirements() {
-        return resourceRequirements;
     }
 
     public SpecialAbility getSpecialAbility() {
@@ -31,7 +23,6 @@ public class LeaderCard {
     public String toString() {
         return "LeaderCard{" +
                 "cardRequirements=" + cardRequirements +
-                ", resourceRequirements=" + resourceRequirements +
                 ", specialAbility=" + specialAbility +
                 '}';
     }

@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model.card;
 
-public enum CardColor {
+public enum CardColor implements LeaderCardRequirement {
     GREEN, BLUE, YELLOW, PURPLE
 }
