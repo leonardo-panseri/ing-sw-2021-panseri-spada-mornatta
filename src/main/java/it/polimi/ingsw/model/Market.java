@@ -29,8 +29,10 @@ public class Market {
                 grid[i][j] = new Box();
                 if(blankCounter < 4){
                     randomIndex = (int) (Math.random() * (types.size()+1));
+                    while(randomIndex == types.size()+1) randomIndex = (int) (Math.random() * (types.size()+1));
                 } else{
                     randomIndex = (int) (Math.random() * (types.size()));
+                    while(randomIndex == types.size()) randomIndex = (int) (Math.random() * (types.size()));
                 }
 
                 //If generated number is equal to size, leave the box with null, indicating a white ball
