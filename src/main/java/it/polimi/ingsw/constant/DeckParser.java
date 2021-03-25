@@ -18,12 +18,12 @@ public class DeckParser {
         List<LeaderCard> leaderCards = new ArrayList<>();
 
         JsonArray array = parseJsonArrayFromFile(LEADER_CARDS_FILE);
-        if(array != null) {
+        if (array != null) {
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(LeaderCardRequirement.class, new LeaderCardRequirementAdapter());
             Gson gson = builder.create();
             try {
-                for(JsonElement serializedCard : array) {
+                for (JsonElement serializedCard : array) {
                     LeaderCard leaderCard = gson.fromJson(serializedCard, LeaderCard.class);
                     leaderCards.add(leaderCard);
                 }
@@ -39,7 +39,7 @@ public class DeckParser {
         List<DevelopmentCard> developmentCards = new ArrayList<>();
 
         JsonArray array = parseJsonArrayFromFile(DEVELOPMENT_CARDS_FILE);
-        if(array != null) {
+        if (array != null) {
             Gson gson = new Gson();
             try {
                 for (JsonElement serializedCard : array) {
@@ -56,7 +56,7 @@ public class DeckParser {
     private static JsonArray parseJsonArrayFromFile(String fileName) {
         InputStreamReader reader;
         InputStream in = DeckParser.class.getClassLoader().getResourceAsStream(fileName);
-        if(in != null) {
+        if (in != null) {
             reader = new InputStreamReader(in);
         } else {
             System.out.println("Can't open file " + fileName);
@@ -81,12 +81,14 @@ public class DeckParser {
             try {
                 color = CardColor.valueOf(enumConstant);
                 return color;
-            } catch (IllegalArgumentException ignored) {}
+            } catch (IllegalArgumentException ignored) {
+            }
             Resource resource;
             try {
                 resource = Resource.valueOf(enumConstant);
                 return resource;
-            } catch (IllegalArgumentException ignored) {}
+            } catch (IllegalArgumentException ignored) {
+            }
             return null;
         }
     }
