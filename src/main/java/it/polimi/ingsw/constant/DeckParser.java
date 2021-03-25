@@ -63,8 +63,7 @@ public class DeckParser {
             return null;
         }
 
-        JsonParser parser = new JsonParser();
-        return parser.parse(reader).getAsJsonArray();
+        return JsonParser.parseReader(reader).getAsJsonArray();
     }
 
     private static class LeaderCardRequirementAdapter extends TypeAdapter<LeaderCardRequirement> {
