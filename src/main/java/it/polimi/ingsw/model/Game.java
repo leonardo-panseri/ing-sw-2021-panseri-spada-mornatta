@@ -17,12 +17,12 @@ public class Game {
     private Player currentPlayer;
     private Lorenzo lorenzo;
 
-    public Game(){
+    public Game() {
 
     }
 
     public void addPlayer(Player player) {
-        if(players == null) players = new ArrayList<>();
+        if (players == null) players = new ArrayList<>();
         players.add(player);
     }
 
@@ -55,7 +55,7 @@ public class Game {
     }
 
     public void nextPlayer() {
-        int nextIndex = players.indexOf(currentPlayer)+1;
+        int nextIndex = players.indexOf(currentPlayer) + 1;
         if (nextIndex >= players.size()) nextIndex = 0;
         currentPlayer = players.get(nextIndex);
     }
@@ -68,7 +68,7 @@ public class Game {
         market = new Market();
     }
 
-    public void createLorenzo(){
+    public void createLorenzo() {
         lorenzo = new Lorenzo();
     }
 

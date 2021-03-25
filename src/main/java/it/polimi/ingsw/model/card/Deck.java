@@ -14,18 +14,18 @@ public class Deck {
         developmentCards = DeckParser.loadDevelopmentCards();
     }
 
-    public List<LeaderCard> initialDrawLeaders(){
+    public List<LeaderCard> initialDrawLeaders() {
         List<LeaderCard> result = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             int randomNumber = (int) (Math.random() * (leaderCards.size()));
-            while(randomNumber == leaderCards.size()) randomNumber = (int) (Math.random() * (leaderCards.size()));
+            while (randomNumber == leaderCards.size()) randomNumber = (int) (Math.random() * (leaderCards.size()));
             result.add(leaderCards.get(randomNumber));
             leaderCards.remove(randomNumber);
         }
         return result;
     }
 
-    public void removeBoughtCard(DevelopmentCard card){
+    public void removeBoughtCard(DevelopmentCard card) {
         developmentCards.remove(card);
     }
 

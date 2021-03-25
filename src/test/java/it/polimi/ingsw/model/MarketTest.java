@@ -19,7 +19,7 @@ public class MarketTest {
         testGame.setCurrentPlayer(testGame.getPlayerAt(0));
         testGame.createMarket();
         testMarket = testGame.getMarket();
-        for (int i=0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             System.out.println(testMarket.getRow(i));
         }
         System.out.println("\n");
@@ -34,11 +34,11 @@ public class MarketTest {
         int servantCounter = 0;
         int faithCounter = 0;
         int blankCounter = 0;
-        for(int i = 0; i < 4; i++){
-            for(Resource res : testMarket.getColumn(i)){
-                if(res == null) blankCounter++;
+        for (int i = 0; i < 4; i++) {
+            for (Resource res : testMarket.getColumn(i)) {
+                if (res == null) blankCounter++;
                 else {
-                    switch (res){
+                    switch (res) {
                         case COIN:
                             coinCounter++;
                             break;
@@ -58,9 +58,9 @@ public class MarketTest {
                 }
             }
         }
-        if(testMarket.getSlideResource() == null) blankCounter++;
+        if (testMarket.getSlideResource() == null) blankCounter++;
         else {
-            switch (testMarket.getSlideResource()){
+            switch (testMarket.getSlideResource()) {
                 case COIN:
                     coinCounter++;
                     break;
@@ -81,7 +81,7 @@ public class MarketTest {
 
         assertEquals(2, coinCounter);
         assertEquals(2, stoneCounter);
-        assertEquals(2,shieldCounter);
+        assertEquals(2, shieldCounter);
         assertEquals(2, servantCounter);
         assertEquals(1, faithCounter);
         assertEquals(4, blankCounter);
@@ -93,7 +93,7 @@ public class MarketTest {
         Resource testFirstSphere = testMarket.getRow(0).get(0);
         testMarket.shiftRow(0);
 
-        for (int i=0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             System.out.println(testMarket.getRow(i));
         }
 
@@ -107,7 +107,7 @@ public class MarketTest {
         Resource testFirstSphere = testMarket.getColumn(0).get(0);
         testMarket.shiftColumn(0);
 
-        for (int i=0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             System.out.println(testMarket.getRow(i));
         }
 

@@ -34,7 +34,7 @@ public class GameController {
     public void start() {
         game.randomSortPlayers();
         game.setCurrentPlayer(game.getPlayerAt(0));
-        for(int i=0; i<game.getPlayerNum(); i++){
+        for (int i = 0; i < game.getPlayerNum(); i++) {
             List<LeaderCard> draw = game.getDeck().initialDrawLeaders();
             game.getPlayerAt(i).setLeaderCards(draw);
         }
@@ -42,18 +42,18 @@ public class GameController {
     }
 
     public void handlePlayerAction(PlayerActionEvent event) {
-        if(event instanceof SelectLeadersPlayerActionEvent) {
+        if (event instanceof SelectLeadersPlayerActionEvent) {
             eventNum++;
             event.getPlayer().setLeaderCards(((SelectLeadersPlayerActionEvent) event).getSelectedLeaders());
             if (eventNum >= game.getPlayerNum()) {
                 //primo turno giocatore (view)
             }
-        } else if(event instanceof MarketPlayerActionEvent) {
+        } else if (event instanceof MarketPlayerActionEvent) {
             MarketPlayerActionEvent marketEvent = (MarketPlayerActionEvent) event;
             marketEvent.setResult(useMarket(marketEvent.getPlayer(), marketEvent.getSelected(), marketEvent.getWhiteConversion()));
             // view vede risultati
             // player deve disporre resources
-        } else if(event instanceof ProductionPlayerActionEvent){
+        } else if (event instanceof ProductionPlayerActionEvent) {
         }
     }
 

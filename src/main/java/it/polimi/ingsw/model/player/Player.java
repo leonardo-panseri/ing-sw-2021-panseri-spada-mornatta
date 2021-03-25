@@ -14,7 +14,7 @@ public class Player {
     private Map<LeaderCard, Boolean> leaderCards;
     private PlayerBoard board;
 
-    public Player(String nick){
+    public Player(String nick) {
         this.nick = nick;
         faithPoints = 0;
         popeFavours = 0;
@@ -46,8 +46,8 @@ public class Player {
     }
 
     public void setLeaderCards(List<LeaderCard> cards) {
-        if(leaderCards == null) leaderCards = new HashMap<>();
-        for (LeaderCard leaderCard : cards){
+        if (leaderCards == null) leaderCards = new HashMap<>();
+        for (LeaderCard leaderCard : cards) {
             leaderCards.put(leaderCard, false);
         }
     }

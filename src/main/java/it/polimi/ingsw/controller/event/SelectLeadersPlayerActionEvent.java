@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.card.LeaderCard;
 
 import java.util.List;
 
-public class SelectLeadersPlayerActionEvent extends PlayerActionEvent{
+public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
     private List<LeaderCard> selectedLeaders;
 
 

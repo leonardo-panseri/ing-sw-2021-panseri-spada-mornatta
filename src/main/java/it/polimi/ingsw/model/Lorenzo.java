@@ -8,7 +8,7 @@ public class Lorenzo {
     private int faithPoints;
     private ArrayList<LorenzoAction> actions;
 
-    public Lorenzo(){
+    public Lorenzo() {
         faithPoints = 0;
         actions = new ArrayList<>();
         actions.addAll(Arrays.asList(LorenzoAction.values()));
@@ -18,12 +18,12 @@ public class Lorenzo {
         return actions.get(0);
     }
 
-    public int getFaithPoints(){
+    public int getFaithPoints() {
         return faithPoints;
     }
 
     public void popAction() {
-        if(actions.size()>0) actions.remove(0);
+        if (actions.size() > 0) actions.remove(0);
     }
 
     public void shuffleActions() {
@@ -32,7 +32,7 @@ public class Lorenzo {
         Collections.shuffle(actions);
     }
 
-    public void addPoints(int points){
+    public void addPoints(int points) {
         faithPoints += points;
     }
 }
