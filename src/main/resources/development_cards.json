@@ -1,31 +1,242 @@
-[
-  {
-    "cost": {
-      "SERVANT": 3
-    },
-    "level": 2,
-    "productionInput": {
-      "COIN": 1
-    },
-    "productionOutput": {
-      "STONE": 3
-    },
-    "color": "GREEN",
-    "victoryPoints": 0
+{
+  "levelOne": {
+    "GREEN": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 1,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "GREEN",
+        "victoryPoints": 0
+      },
+      {
+        "cost": {
+          "STONE": 3
+        },
+        "level": 1,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "GREEN",
+        "victoryPoints": 0
+      }
+    ],
+    "BLUE": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 1,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "BLUE",
+        "victoryPoints": 0
+      }
+    ],
+    "YELLOW": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 1,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "YELLOW",
+        "victoryPoints": 0
+      }
+    ],
+    "PURPLE": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 1,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "PURPLE",
+        "victoryPoints": 0
+      }
+    ]
   },
-  {
-    "cost": {
-      "STONE": 4
-    },
-    "level": 2,
-    "productionInput": {
-      "SERVANT": 2
-    },
-    "productionOutput": {
-      "STONE": 3,
-      "FAITH": 1
-    },
-    "color": "GREEN",
-    "victoryPoints": 0
+  "levelTwo": {
+    "GREEN": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 2,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "GREEN",
+        "victoryPoints": 0
+      },
+      {
+        "cost": {
+          "STONE": 3
+        },
+        "level": 2,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "GREEN",
+        "victoryPoints": 0
+      }
+    ],
+    "BLUE": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 2,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "BLUE",
+        "victoryPoints": 0
+      }
+    ],
+    "YELLOW": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 2,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "YELLOW",
+        "victoryPoints": 0
+      }
+    ],
+    "PURPLE": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 2,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "PURPLE",
+        "victoryPoints": 0
+      }
+    ]
+  },
+  "levelThree": {
+    "GREEN": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 3,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "GREEN",
+        "victoryPoints": 0
+      },
+      {
+        "cost": {
+          "STONE": 3
+        },
+        "level": 3,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "GREEN",
+        "victoryPoints": 0
+      }
+    ],
+    "BLUE": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 3,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "BLUE",
+        "victoryPoints": 0
+      }
+    ],
+    "YELLOW": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 3,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "YELLOW",
+        "victoryPoints": 0
+      }
+    ],
+    "PURPLE": [
+      {
+        "cost": {
+          "SERVANT": 3
+        },
+        "level": 3,
+        "productionInput": {
+          "COIN": 1
+        },
+        "productionOutput": {
+          "STONE": 3
+        },
+        "color": "PURPLE",
+        "victoryPoints": 0
+      }
+    ]
   }
-]
+}
