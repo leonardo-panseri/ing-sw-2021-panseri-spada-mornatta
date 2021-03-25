@@ -8,7 +8,9 @@ import it.polimi.ingsw.model.card.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 public class DeckParser {
     private static final String LEADER_CARDS_FILE = "leader_cards.json";
@@ -17,7 +19,12 @@ public class DeckParser {
     public static List<LeaderCard> loadLeaderCards() {
         List<LeaderCard> leaderCards = new ArrayList<>();
 
-        JsonArray array = parseJsonArrayFromFile(LEADER_CARDS_FILE);
+        JsonElement parsedJson = parseJsonFromFile(LEADER_CARDS_FILE);
+        if(parsedJson == null) {
+            return leaderCards;
+        }
+        JsonArray array = parsedJson.getAsJsonArray();
+
         if(array != null) {
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(LeaderCardRequirement.class, new LeaderCardRequirementAdapter());
@@ -35,25 +42,50 @@ public class DeckParser {
         return leaderCards;
     }
 
-    public static List<DevelopmentCard> loadDevelopmentCards() {
-        List<DevelopmentCard> developmentCards = new ArrayList<>();
+    public static List<HashMap<CardColor, Stack<DevelopmentCard>>> loadDevelopmentCards() {
+        List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards = new ArrayList<>();
 
-        JsonArray array = parseJsonArrayFromFile(DEVELOPMENT_CARDS_FILE);
-        if(array != null) {
-            Gson gson = new Gson();
-            try {
-                for (JsonElement serializedCard : array) {
-                    DevelopmentCard developmentCard = gson.fromJson(serializedCard, DevelopmentCard.class);
-                    developmentCards.add(developmentCard);
-                }
-            } catch (JsonSyntaxException e) {
-                System.out.println("File " + DEVELOPMENT_CARDS_FILE + " has incorrect syntax");
-            }
+        JsonElement parsedJson = parseJsonFromFile(DEVELOPMENT_CARDS_FILE);
+        if(parsedJson == null) {
+            return developmentCards;
         }
+        JsonObject object = parsedJson.getAsJsonObject();
+        developmentCards.add(parseDevelopmentCardsOfLevel(object, "levelOne"));
+        developmentCards.add(parseDevelopmentCardsOfLevel(object, "levelTwo"));
+        developmentCards.add(parseDevelopmentCardsOfLevel(object, "levelThree"));
+
         return developmentCards;
     }
 
-    private static JsonArray parseJsonArrayFromFile(String fileName) {
+    private static HashMap<CardColor, Stack<DevelopmentCard>> parseDevelopmentCardsOfLevel(JsonObject obj, String id) {
+        HashMap<CardColor, Stack<DevelopmentCard>> result = new HashMap<>();
+
+        JsonObject colors = obj.get(id).getAsJsonObject();
+        result.put(CardColor.GREEN, parseDevelopmentCardsFromArray(colors.get("GREEN").getAsJsonArray()));
+        result.put(CardColor.BLUE, parseDevelopmentCardsFromArray(colors.get("BLUE").getAsJsonArray()));
+        result.put(CardColor.YELLOW, parseDevelopmentCardsFromArray(colors.get("YELLOW").getAsJsonArray()));
+        result.put(CardColor.PURPLE, parseDevelopmentCardsFromArray(colors.get("PURPLE").getAsJsonArray()));
+
+        return result;
+    }
+
+    private static Stack<DevelopmentCard> parseDevelopmentCardsFromArray(JsonArray array) {
+        Stack<DevelopmentCard> result = new Stack<>();
+
+        Gson gson = new Gson();
+        try {
+            for (JsonElement serializedCard : array) {
+                DevelopmentCard developmentCard = gson.fromJson(serializedCard, DevelopmentCard.class);
+                result.add(developmentCard);
+            }
+        } catch (JsonSyntaxException e) {
+            System.out.println("File " + DEVELOPMENT_CARDS_FILE + " has incorrect syntax");
+        }
+
+        return result;
+    }
+
+    private static JsonElement parseJsonFromFile(String fileName) {
         InputStreamReader reader;
         InputStream in = DeckParser.class.getClassLoader().getResourceAsStream(fileName);
         if(in != null) {
@@ -63,8 +95,14 @@ public class DeckParser {
             return null;
         }
 
-        JsonParser parser = new JsonParser();
-        return parser.parse(reader).getAsJsonArray();
+        JsonElement result = null;
+        try {
+            result = JsonParser.parseReader(reader);
+        } catch (JsonIOException | JsonSyntaxException e) {
+            System.out.println("Can't read from file " + fileName);
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private static class LeaderCardRequirementAdapter extends TypeAdapter<LeaderCardRequirement> {

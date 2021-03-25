@@ -31,6 +31,10 @@ public class DevelopmentCard extends Card {
         return level;
     }
 
+    public CardColor getColor() {
+        return color;
+    }
+
     @Override
     public String toString() {
         return "DevelopmentCard{" +
