@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,18 +12,19 @@ public class Deposit {
     private List<Resource> middleRow;
     private List<Resource> bottomRow;
     private Map<Resource, Integer> strongBox;
-    private List<Resource> switchedResources;
+
+    public Deposit() {
+        middleRow = new ArrayList<>();
+        bottomRow = new ArrayList<>();
+        strongBox = new HashMap<>();
+    }
 
     public void addResource(int row, Resource resource) {
         //1 topRow
         //2 middleRow
         //3 bottomRow
-        if(middleRow == null){
-            middleRow = new ArrayList<>();
-        }
-        if(bottomRow == null){
-            bottomRow = new ArrayList<>();
-        }
+
+
         if (row == 1 && topRow == null) {
             topRow = resource;
         } else if (row == 2 && middleRow.size() < 2) {
@@ -44,65 +46,78 @@ public class Deposit {
     }
 
     public void moveRow(int toMove, int destination) {
-        //1 topRow
-        //2 middleRow
-        //3 bottomRow
-        if (toMove == 1 && destination == 2 && topRow != null) {
-            if (middleRow.size() == 1) {
-                switchedResources.clear();
-                switchedResources = middleRow;
-                middleRow.clear();
-                middleRow.add(topRow);
-                topRow = switchedResources.get(0);
-            }
-        }
-        if (toMove == 1 && destination == 3 && topRow != null) {
-            if (bottomRow.size() == 1) {
-                switchedResources.clear();
-                switchedResources = bottomRow;
-                bottomRow.clear();
-                bottomRow.add(topRow);
-                topRow = switchedResources.get(0);
-            }
-        }
-        if (toMove == 2 && destination == 1 && middleRow != null) {
-            if (middleRow.size() == 1) {
-                switchedResources.clear();
-                switchedResources.add(topRow);
-                topRow = middleRow.get(0);
-                middleRow.clear();
-                middleRow = switchedResources;
+        List<Resource> switchedResources = new ArrayList<>();
+        switch (toMove) {
+            case 1:
+                if (topRow != null) {
+                    if (middleRow.size() == 1 && destination == 2) {
+                        // Top <--> Middle
+                        switchedResources = middleRow;
+                        middleRow.clear();
+                        middleRow.add(topRow);
+                        topRow = switchedResources.get(0);
+                    } else if (bottomRow.size() == 1 && destination == 3) {
+                        // Top <--> Bottom
+                        switchedResources = bottomRow;
+                        bottomRow.clear();
+                        bottomRow.add(topRow);
+                        topRow = switchedResources.get(0);
+                    }
+                }
+                break;
 
-            }
-        }
-        if (toMove == 2 && destination == 3 && middleRow != null) {
-            if (middleRow.size() == 2) {
-                switchedResources.clear();
-                switchedResources = bottomRow;
-                bottomRow.clear();
-                bottomRow = middleRow;
-                middleRow.clear();
-                middleRow = switchedResources;
-            }
-        }
-        if (toMove == 3 && destination == 1 && bottomRow != null) {
+            case 2:
+                if (middleRow != null) {
+                    if (middleRow.size() == 1 && destination == 1) {
+                        // Middle <--> Top
+                        switchedResources.add(topRow);
+                        topRow = middleRow.get(0);
+                        middleRow.clear();
+                        middleRow = switchedResources;
+                    } else if (middleRow.size() == 2 && destination == 3)   {
+                        // Middle <--> Bottom
+                        switchedResources = bottomRow;
+                        bottomRow.clear();
+                        bottomRow = middleRow;
+                        middleRow.clear();
+                        middleRow = switchedResources;
+                    }
+                }
+                break;
 
-            if (bottomRow.size() == 1) {
-                switchedResources.clear();
-                switchedResources.add(topRow);
-                topRow = bottomRow.get(0);
-                bottomRow.clear();
-                bottomRow = switchedResources;
-            }
+            case 3:
+                if (bottomRow != null) {
+                    if (bottomRow.size() == 1 && destination == 1) {
+                        // Bottom <--> Top
+                        switchedResources.add(topRow);
+                        topRow = bottomRow.get(0);
+                        bottomRow.clear();
+                        bottomRow = switchedResources;
+                    } else if (bottomRow.size() == 2 && destination == 2) {
+                        // Bottom <--> Middle
+                        switchedResources = middleRow;
+                        middleRow = bottomRow;
+                        bottomRow.clear();
+                        bottomRow = switchedResources;
+                    }
+                }
+                break;
         }
-        if (toMove == 3 && destination == 2 && bottomRow != null) {
-            if (bottomRow.size() < 3) {
-                switchedResources.clear();
-                switchedResources = middleRow;
-                middleRow = bottomRow;
-                bottomRow.clear();
-                bottomRow = switchedResources;
-            }
+    }
+
+    public void addToStrongbox(Resource resource) {
+        int counter = 0;
+        if (strongBox.containsKey(resource)) {
+            counter = strongBox.get(resource) + 1;
+        }
+        strongBox.put(resource, counter);
+    }
+
+    public void removeFromStrongbox(Resource resource) {
+        int counter = 0;
+        if (strongBox.containsKey(resource) && strongBox.get(resource) > 0) {
+            counter = strongBox.get(resource) - 1;
+            strongBox.put(resource, counter);
         }
     }
 }

@@ -1,0 +1,5 @@
+package it.polimi.ingsw.model;
+
+public enum LorenzoAction {
+    REDDEVELOPMENT, BLUEDEVELOPMENT, YELLOWDEVELOPMENT, GREENDEVELOPMENT, MOVE, MOVESHUFFLE
+}

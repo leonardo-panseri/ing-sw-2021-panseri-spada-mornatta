@@ -10,7 +10,7 @@ public class PlayerBoard {
     private Stack<DevelopmentCard> cardSlotRight;
     private Deposit deposit;
 
-    public PlayerBoard(){
+    public PlayerBoard() {
         cardSlotLeft = new Stack<>();
         cardSlotCenter = new Stack<>();
         cardSlotRight = new Stack<>();
