@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.event.PlayerActionEvent;
 import it.polimi.ingsw.model.card.Deck;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Collection;
