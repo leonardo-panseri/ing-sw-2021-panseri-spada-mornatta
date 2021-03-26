@@ -49,6 +49,7 @@ public class DeckParser {
         if(parsedJson == null) {
             return developmentCards;
         }
+        
         JsonObject object = parsedJson.getAsJsonObject();
         developmentCards.add(parseDevelopmentCardsOfLevel(object, "levelOne"));
         developmentCards.add(parseDevelopmentCardsOfLevel(object, "levelTwo"));
