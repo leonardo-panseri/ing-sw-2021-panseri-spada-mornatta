@@ -59,8 +59,6 @@ public class Server {
                 Player player = new Player(conn.getPlayerName());
                 controller.addPlayer(player);
                 RemoteView remoteView = new RemoteView(player, conn);
-                //controller.addObserver(remoteView);
-                //forse model?
                 remoteView.addObserver(controller);
             }
         }

@@ -10,18 +10,16 @@ import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
 
 import java.util.List;
 
-public class GameController extends Observable<PlayerActionEvent> {
+public class GameController implements Observer<PlayerActionEvent> {
     private final Game game;
     private int eventNum;
 
     public GameController() {
         game = new Game();
-        game.createDeck();
-        game.createMarket();
 
         eventNum = 0;
     }
@@ -89,6 +87,11 @@ public class GameController extends Observable<PlayerActionEvent> {
     }
 
     private void exitGame() {
+
+    }
+
+    @Override
+    public void update(PlayerActionEvent message) {
 
     }
 }

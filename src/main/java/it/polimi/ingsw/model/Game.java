@@ -20,7 +20,8 @@ public class Game {
     private Lorenzo lorenzo;
 
     public Game() {
-
+        deck = new Deck();
+        market = new Market();
     }
 
     public void addPlayer(Player player) {
@@ -60,14 +61,6 @@ public class Game {
         int nextIndex = players.indexOf(currentPlayer) + 1;
         if (nextIndex >= players.size()) nextIndex = 0;
         currentPlayer = players.get(nextIndex);
-    }
-
-    public void createDeck() {
-        deck = new Deck();
-    }
-
-    public void createMarket() {
-        market = new Market();
     }
 
     public void createLorenzo() {

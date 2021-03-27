@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
-public abstract class View extends Observable<PlayerMove> implements Observer<PlayerActionEvent> {
+public abstract class View extends Observable<PlayerActionEvent> {
 
     private Player player;
 
