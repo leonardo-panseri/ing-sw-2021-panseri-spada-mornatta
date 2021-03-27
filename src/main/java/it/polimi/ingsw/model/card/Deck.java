@@ -3,11 +3,13 @@ package it.polimi.ingsw.model.card;
 import it.polimi.ingsw.constant.DeckParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 public class Deck {
     private List<LeaderCard> leaderCards;
-    private List<DevelopmentCard> developmentCards;
+    private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
     public Deck() {
         leaderCards = DeckParser.loadLeaderCards();
@@ -26,7 +28,10 @@ public class Deck {
     }
 
     public void removeBoughtCard(DevelopmentCard card) {
-        developmentCards.remove(card);
+        developmentCards
+                .get(card.getLevel() - 1)
+                .get(card.getColor())
+                .pop();
     }
 
 }
