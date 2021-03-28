@@ -24,6 +24,10 @@ public class GameController implements Observer<PlayerActionEvent> {
         eventNum = 0;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
     public void addPlayer(Player player) {
         game.addPlayer(player);
     }

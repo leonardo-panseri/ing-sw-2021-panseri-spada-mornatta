@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ProductionPlayerActionEvent extends PlayerActionEvent {
     private Card card;
-    private List<Resource> result;
     private Resource[] baseProductionInput;
     private Resource baseProductionOutput;
 }

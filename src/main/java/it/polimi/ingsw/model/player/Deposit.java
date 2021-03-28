@@ -1,22 +1,26 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Deposit {
+public class Deposit extends Observable<PropertyUpdate> {
+    private Player player;
     private Resource topRow;
     private List<Resource> middleRow;
     private List<Resource> bottomRow;
     private Map<Resource, Integer> strongBox;
 
-    public Deposit() {
+    public Deposit(Player player) {
         middleRow = new ArrayList<>();
         bottomRow = new ArrayList<>();
         strongBox = new HashMap<>();
+        this.player = player;
     }
 
     public void addResource(int row, Resource resource) {

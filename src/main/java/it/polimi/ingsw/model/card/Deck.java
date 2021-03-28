@@ -1,19 +1,23 @@
 package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.constant.DeckParser;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.PropertyUpdate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
-public class Deck {
+public class Deck extends Observable<PropertyUpdate> {
     private List<LeaderCard> leaderCards;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
     public Deck() {
         leaderCards = DeckParser.loadLeaderCards();
         developmentCards = DeckParser.loadDevelopmentCards();
+        for (HashMap<CardColor, Stack<DevelopmentCard>> map : developmentCards){
+            for (Stack<DevelopmentCard> stack : map.values()){
+                Collections.shuffle(stack);
+            }
+        }
     }
 
     public List<LeaderCard> initialDrawLeaders() {

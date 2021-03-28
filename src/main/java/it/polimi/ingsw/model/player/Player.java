@@ -2,12 +2,14 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Player {
+public class Player extends Observable<PropertyUpdate> {
     private String nick;
     private int faithPoints;
     private int popeFavours;
@@ -18,7 +20,7 @@ public class Player {
         this.nick = nick;
         faithPoints = 0;
         popeFavours = 0;
-        board = new PlayerBoard();
+        board = new PlayerBoard(this);
     }
 
     public String getNick() {
@@ -27,6 +29,10 @@ public class Player {
 
     public int getFaithPoints() {
         return faithPoints;
+    }
+
+    public PlayerBoard getBoard(){
+        return board;
     }
 
     public void setFaithPoints(int faithPoints) {

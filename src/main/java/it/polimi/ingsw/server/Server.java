@@ -60,6 +60,13 @@ public class Server {
                 controller.addPlayer(player);
                 RemoteView remoteView = new RemoteView(player, conn);
                 remoteView.addObserver(controller);
+                controller.getGame().addObserver(remoteView);
+                controller.getGame().getDeck().addObserver(remoteView);
+                controller.getGame().getMarket().addObserver(remoteView);
+                player.addObserver(remoteView);
+                player.getBoard().addObserver(remoteView);
+                player.getBoard().getDeposit().addObserver(remoteView);
+                //controller.getGame().getLorenzo().addObserver(remoteView);
             }
         }
     }

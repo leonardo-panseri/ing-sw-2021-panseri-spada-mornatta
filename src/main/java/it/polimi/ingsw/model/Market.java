@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.PropertyUpdate;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Market {
+public class Market extends Observable<PropertyUpdate> {
     private Box[][] grid;
     private Resource slideResource;
 

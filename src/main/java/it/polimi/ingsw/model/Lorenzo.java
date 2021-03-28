@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.PropertyUpdate;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Lorenzo {
+public class Lorenzo extends Observable<PropertyUpdate> {
     private int faithPoints;
     private ArrayList<LorenzoAction> actions;
 

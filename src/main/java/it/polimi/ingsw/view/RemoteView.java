@@ -3,8 +3,14 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.view.event.PropertyUpdate;
 
-public class RemoteView extends View {
+public class RemoteView extends View implements Observer<PropertyUpdate> {
+
+    @Override
+    public void update(PropertyUpdate message) {
+
+    }
 
     private class MessageReceiver implements Observer<String> {
 

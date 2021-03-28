@@ -1,19 +1,28 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.Stack;
 
-public class PlayerBoard {
+public class PlayerBoard extends Observable<PropertyUpdate> {
+    private Player player;
     private Stack<DevelopmentCard> cardSlotLeft;
     private Stack<DevelopmentCard> cardSlotCenter;
     private Stack<DevelopmentCard> cardSlotRight;
     private Deposit deposit;
 
-    public PlayerBoard() {
+    public PlayerBoard(Player player) {
         cardSlotLeft = new Stack<>();
         cardSlotCenter = new Stack<>();
         cardSlotRight = new Stack<>();
+        deposit = new Deposit(player);
+        this.player = player;
+    }
+
+    public Deposit getDeposit(){
+        return deposit;
     }
 
     public void addCard(int slot, DevelopmentCard developmentCard) {
