@@ -41,7 +41,7 @@ public class RemoteView extends View implements Observer<PropertyUpdate> {
         clientConnection.asyncSend(message);
     }
 
-    @Override
+    /*@Override
     public void update(MoveMessage message)
     {
         showMessage(message.getBoard());
@@ -68,6 +68,6 @@ public class RemoteView extends View implements Observer<PropertyUpdate> {
         }
 
         showMessage(resultMsg);
-    }
+    }*/
 
 }
