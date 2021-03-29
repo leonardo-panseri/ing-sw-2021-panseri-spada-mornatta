@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Models the deposit of a player board, comprehensive of the three rows of resources slots, adn the strongbox.
+ * Rows are indexed starting from 1 and ending to 3, from top to bottom.
+ */
 public class Deposit extends Observable<PropertyUpdate> {
     private Player player;
     private Resource topRow;
@@ -16,6 +20,11 @@ public class Deposit extends Observable<PropertyUpdate> {
     private List<Resource> bottomRow;
     private Map<Resource, Integer> strongBox;
 
+    /**
+     * Constructor: instantiates the three rows of slots, and store the owner of the player board.
+     *
+     * @param player the player owner of the board.
+     */
     public Deposit(Player player) {
         middleRow = new ArrayList<>();
         bottomRow = new ArrayList<>();
@@ -23,6 +32,12 @@ public class Deposit extends Observable<PropertyUpdate> {
         this.player = player;
     }
 
+    /**
+     * Adds the desired resource into a free slot on the indicated row, if the move if possible.
+     *
+     * @param row the row where to insert the resource in
+     * @param resource the resource to insert
+     */
     public void addResource(int row, Resource resource) {
         //1 topRow
         //2 middleRow
@@ -39,6 +54,12 @@ public class Deposit extends Observable<PropertyUpdate> {
 
     }
 
+    /**
+     * Remove a resource of the desired type from the indicated row, if existing.
+     *
+     * @param row the row where to delete the resource from
+     * @param resource the resource to delete
+     */
     public void removeResource(int row, Resource resource) {
         if (row == 1 && topRow != null) {
             topRow = null;
@@ -49,6 +70,12 @@ public class Deposit extends Observable<PropertyUpdate> {
         }
     }
 
+    /**
+     * Switches two rows of resources, checking if the move is possible.
+     *
+     * @param toMove row to move
+     * @param destination row to be switched with the previous one
+     */
     public void moveRow(int toMove, int destination) {
         List<Resource> switchedResources = new ArrayList<>();
         switch (toMove) {
@@ -109,6 +136,12 @@ public class Deposit extends Observable<PropertyUpdate> {
         }
     }
 
+    /**
+     * Adds the desired resource into the strongbox, modeled by a map of resources and integers.
+     * If the type of resource is already stored, it adds one to the current related counter.
+     *
+     * @param resource the resource to be added into the strongbox
+     */
     public void addToStrongbox(Resource resource) {
         int counter = 0;
         if (strongBox.containsKey(resource)) {
@@ -117,6 +150,12 @@ public class Deposit extends Observable<PropertyUpdate> {
         strongBox.put(resource, counter);
     }
 
+    /**
+     * Removes the desired resource into the strongbox, modeled by a map of resources and integers.
+     * If the type of resource is stored, it removes one to the current related counter.
+     *
+     * @param resource
+     */
     public void removeFromStrongbox(Resource resource) {
         int counter = 0;
         if (strongBox.containsKey(resource) && strongBox.get(resource) > 0) {
