@@ -12,10 +12,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Utility class for parsing card objects from JSON files.
+ */
 public class DeckParser {
     private static final String LEADER_CARDS_FILE = "leader_cards.json";
     private static final String DEVELOPMENT_CARDS_FILE = "development_cards.json";
 
+    /**
+     * Creates all {@link LeaderCard} objects from a configuration file and returns them in a List.
+     *
+     * @return a list of the leader cards parsed from the file, any error during parsing will cause the method to return an empty list
+     */
     public static List<LeaderCard> loadLeaderCards() {
         List<LeaderCard> leaderCards = new ArrayList<>();
 
@@ -42,6 +50,11 @@ public class DeckParser {
         return leaderCards;
     }
 
+    /**
+     * Creates all {@link DevelopmentCard} objects from a configuration file and returns them in a List.
+     *
+     * @return a list of the development cards parsed from the file, any error during parsing will cause the list to be empty
+     */
     public static List<HashMap<CardColor, Stack<DevelopmentCard>>> loadDevelopmentCards() {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards = new ArrayList<>();
 
@@ -58,6 +71,13 @@ public class DeckParser {
         return developmentCards;
     }
 
+    /**
+     * Parses all the {@link DevelopmentCard} of the level identified by id from the given JsonObject.
+     *
+     * @param obj a json object containing the serialized development cards organized by level and color
+     * @param id a string representing the identifier for the level that should be parsed
+     * @return an hashmap that maps card colors to a stack of development cards
+     */
     private static HashMap<CardColor, Stack<DevelopmentCard>> parseDevelopmentCardsOfLevel(JsonObject obj, String id) {
         HashMap<CardColor, Stack<DevelopmentCard>> result = new HashMap<>();
 
@@ -70,6 +90,12 @@ public class DeckParser {
         return result;
     }
 
+    /**
+     * Parses all the {@link DevelopmentCard} from the given JsonArray.
+     *
+     * @param array a json array containing the serialized development cards
+     * @return a stack of development cards parsed from the json array
+     */
     private static Stack<DevelopmentCard> parseDevelopmentCardsFromArray(JsonArray array) {
         Stack<DevelopmentCard> result = new Stack<>();
 
@@ -86,6 +112,12 @@ public class DeckParser {
         return result;
     }
 
+    /**
+     * Parses a JsonElement from a file in the resources folder with the given path.
+     *
+     * @param fileName the path to the file relative to the resources folder
+     * @return a json element representing the content of the file
+     */
     private static JsonElement parseJsonFromFile(String fileName) {
         InputStreamReader reader;
         InputStream in = DeckParser.class.getClassLoader().getResourceAsStream(fileName);
@@ -106,6 +138,11 @@ public class DeckParser {
         return result;
     }
 
+    /**
+     * Adapter for deserialization of {@link LeaderCardRequirement} from a json object.
+     *
+     * @see com.google.gson.TypeAdapter
+     */
     private static class LeaderCardRequirementAdapter extends TypeAdapter<LeaderCardRequirement> {
 
         @Override

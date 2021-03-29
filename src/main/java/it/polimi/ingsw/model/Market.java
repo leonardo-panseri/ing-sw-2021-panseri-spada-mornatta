@@ -6,10 +6,26 @@ import it.polimi.ingsw.view.event.PropertyUpdate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Model class representing the game market. Notifies all registered observer of state updates.
+ */
 public class Market extends Observable<PropertyUpdate> {
     private Box[][] grid;
     private Resource slideResource;
 
+    /**
+     * Constructs a market with randomized marbles in each box. The market always contains the following marbles:
+     * <ul>
+     *     <li>2 COIN</li>
+     *     <li>2 STONE</li>
+     *     <li>2 SHIELD</li>
+     *     <li>2 SERVANT</li>
+     *     <li>1 FAITH</li>
+     *     <li>4 WHITE</li>
+     * </ul>
+     * Each marble represents a {@link Resource}, except for WHITE that represent no resource (in the data structure
+     * this is stored as <code>null</code>).
+     */
     public Market() {
         grid = new Box[3][4];
 
@@ -77,6 +93,13 @@ public class Market extends Observable<PropertyUpdate> {
         if (types.size() != 0) slideResource = types.get(0);
     }
 
+    /**
+     * Gets a List of resources corresponding to the marbles in the given row.
+     *
+     * @param row the index of the row, valid values are between 0 and 2, where 0 represents the top row and 2 the
+     *            bottom row
+     * @return a list of the resources contained in the given row
+     */
     public List<Resource> getRow(int row) {
         List<Resource> result = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -85,6 +108,13 @@ public class Market extends Observable<PropertyUpdate> {
         return result;
     }
 
+    /**
+     * Gets a List of resources corresponding to the marbles in the given column.
+     *
+     * @param column the index of the column, valid values are between 0 and 3, where 0 represents the leftmost column
+     *               and 3 the rightmost column
+     * @return a list of the resources contained in the given column
+     */
     public List<Resource> getColumn(int column) {
         List<Resource> result = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -93,6 +123,13 @@ public class Market extends Observable<PropertyUpdate> {
         return result;
     }
 
+    /**
+     * Shifts the given row to the left, inserting the slide marble in the rightmost position and moving the
+     * marble in the leftmost position in the slide.
+     *
+     * @param row the index of the row to shift, valid values are between 0 and 2, where 0 represents the top row and 2
+     *            the bottom row
+     */
     public void shiftRow(int row) {
         Resource temp = grid[row][0].getResource();
         for (int i = 0; i < 3; i++) {
@@ -102,6 +139,13 @@ public class Market extends Observable<PropertyUpdate> {
         slideResource = temp;
     }
 
+    /**
+     * Shifts the given column up, inserting the slide marble in the bottom position and moving the marble in the
+     * top position in the slide.
+     *
+     * @param column the index of the column to shift, valid values are between 0 and 3, where 0 represents the leftmost
+     *               column and 3 the rightmost column
+     */
     public void shiftColumn(int column) {
         Resource temp = grid[0][column].getResource();
         for (int i = 0; i < 2; i++) {
@@ -111,6 +155,11 @@ public class Market extends Observable<PropertyUpdate> {
         slideResource = temp;
     }
 
+    /**
+     * Gets the resource corresponding to the marble in the slide.
+     *
+     * @return the resource corresponding to the marble in the slide
+     */
     public Resource getSlideResource() {
         return slideResource;
     }
