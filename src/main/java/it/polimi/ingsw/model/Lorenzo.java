@@ -6,10 +6,11 @@ import it.polimi.ingsw.view.event.PropertyUpdate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Lorenzo extends Observable<PropertyUpdate> {
     private int faithPoints;
-    private ArrayList<LorenzoAction> actions;
+    private List<LorenzoAction> actions;
 
     public Lorenzo() {
         faithPoints = 0;
@@ -30,7 +31,7 @@ public class Lorenzo extends Observable<PropertyUpdate> {
     }
 
     public void shuffleActions() {
-        actions.clone();
+        actions.clear();
         actions.addAll(Arrays.asList(LorenzoAction.values()));
         Collections.shuffle(actions);
     }
