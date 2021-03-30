@@ -8,4 +8,9 @@ import java.util.List;
 public class InitialDrawUpdate extends PropertyUpdate {
     private Player player;
     private List<LeaderCard> leaders;
+
+    @Override
+    public String serialize() {
+        return null;
+    }
 }

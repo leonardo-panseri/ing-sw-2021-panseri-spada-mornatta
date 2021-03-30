@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.Deck;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.view.event.TurnUpdate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +76,7 @@ public class Game extends Observable<PropertyUpdate> {
      */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        notify(new TurnUpdate(currentPlayer));
     }
 
     /**

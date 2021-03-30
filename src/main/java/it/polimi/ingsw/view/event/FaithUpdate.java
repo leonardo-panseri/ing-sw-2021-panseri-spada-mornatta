@@ -6,4 +6,9 @@ public class FaithUpdate extends PropertyUpdate {
     private Player player;
     private int faithPoints;
     private int popeFavours;
+
+    @Override
+    public String serialize() {
+        return null;
+    }
 }

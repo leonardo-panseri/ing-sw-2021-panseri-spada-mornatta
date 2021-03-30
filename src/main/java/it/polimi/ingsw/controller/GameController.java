@@ -34,12 +34,11 @@ public class GameController implements Observer<PlayerActionEvent> {
 
     public void start() {
         game.randomSortPlayers();
-        game.setCurrentPlayer(game.getPlayerAt(0));
         for (int i = 0; i < game.getPlayerNum(); i++) {
             List<LeaderCard> draw = game.getDeck().initialDrawLeaders();
             game.getPlayerAt(i).setLeaderCards(draw);
         }
-        //view scelta carte
+        game.setCurrentPlayer(game.getPlayerAt(0));
     }
 
     public void handlePlayerAction(PlayerActionEvent event) {

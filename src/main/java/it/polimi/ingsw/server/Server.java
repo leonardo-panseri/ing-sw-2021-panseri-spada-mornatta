@@ -17,16 +17,18 @@ public class Server {
     private static final int PORT = 12345;
     private final ServerSocket serverSocket;
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
-    private final Map<SocketClientConnection, Boolean> waitingConnection = new HashMap<>();
-    private final Map<UUID, Set<SocketClientConnection>> playingConnection = new HashMap<>();
+    private final List<SocketClientConnection> waitingConnection = new ArrayList<>();
+    private int playersToStart;
+    private final Map<UUID, List<SocketClientConnection>> playingConnection = new HashMap<>();
     private UUID currentLobbyID = UUID.randomUUID();
 
     public synchronized void deregisterConnection(SocketClientConnection c) {
-        Set<SocketClientConnection> connections = playingConnection.get(c.getLobbyID());
+        List<SocketClientConnection> connections = playingConnection.get(c.getLobbyID());
         if(connections != null) {
             connections.remove(c);
             for(SocketClientConnection conn : connections) {
                 if(conn != null) {
+                    conn.sendServerMessage(ServerMessages.SOMEONE_CRASHED);
                     conn.closeConnection();
                 }
                 connections.remove(conn);
@@ -37,25 +39,22 @@ public class Server {
         }
     }
 
-    public synchronized void lobby(SocketClientConnection c){
-        waitingConnection.put(c, false);
-        c.asyncSend(ServerMessages.LOBBY_WAITING);
+    public boolean isLobbyEmpty() {
+        return waitingConnection.isEmpty();
     }
 
-    public synchronized void ready(SocketClientConnection c) {
-        waitingConnection.put(c, true);
+    void setPlayersToStart(int playersToStart) {
+        this.playersToStart = playersToStart;
+    }
 
-        boolean startGame = true;
-        for(boolean b : waitingConnection.values())
-            startGame = startGame && b;
-
-        if(startGame) {
-            Set<SocketClientConnection> connections = waitingConnection.keySet();
-            playingConnection.put(currentLobbyID, connections);
-            waitingConnection.clear();
+    public synchronized void lobby(SocketClientConnection c){
+        waitingConnection.add(c);
+        if(waitingConnection.size() == playersToStart) {
+            playingConnection.put(currentLobbyID, waitingConnection);
+            currentLobbyID = UUID.randomUUID();
 
             GameController controller = new GameController();
-            for(SocketClientConnection conn : connections) {
+            for(SocketClientConnection conn : waitingConnection) {
                 Player player = new Player(conn.getPlayerName());
                 controller.addPlayer(player);
                 RemoteView remoteView = new RemoteView(player, conn);
@@ -66,8 +65,20 @@ public class Server {
                 player.addObserver(remoteView);
                 player.getBoard().addObserver(remoteView);
                 player.getBoard().getDeposit().addObserver(remoteView);
-                //controller.getGame().getLorenzo().addObserver(remoteView);
+                if(playersToStart == 1) {
+                    controller.getGame().getLorenzo().addObserver(remoteView);
+                }
             }
+
+            controller.getGame().getMarket().initializeMarket();
+            controller.getGame().getDeck().shuffleDevelopmentDeck();
+            controller.start();
+
+            for(SocketClientConnection conn : waitingConnection) {
+                conn.asyncSendServerMessage(ServerMessages.GAME_START);
+            }
+
+            waitingConnection.clear();
         }
     }
 
@@ -79,7 +90,7 @@ public class Server {
         while(true){
             try {
                 Socket newSocket = serverSocket.accept();
-                if(waitingConnection.keySet().size() > 4) {
+                if(waitingConnection.size() >= 4) {
                     newSocket.close();
                 }
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this, currentLobbyID);

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.constant.DeckParser;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.DevelopmentDeckUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.*;
@@ -15,18 +16,33 @@ public class Deck extends Observable<PropertyUpdate> {
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
     /**
-     * Constructor for a new Deck. It loads leader cards from a JSON file utilizing the DeckParser.
+     * Constructs a new Deck. It loads leader cards from a JSON file utilizing the DeckParser.
      * The same occurs for the development cards.
-     * Eventually, it organizes the development cards in decks as the game specifies and shuffle them.
      */
     public Deck() {
         leaderCards = DeckParser.loadLeaderCards();
         developmentCards = DeckParser.loadDevelopmentCards();
+    }
+
+    /**
+     * Gets the development cards.
+     *
+     * @return the development cards
+     */
+    public List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentCards() {
+        return developmentCards;
+    }
+
+    /**
+     * Shuffles the development cards.
+     */
+    public void shuffleDevelopmentDeck() {
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : developmentCards){
             for (Stack<DevelopmentCard> stack : map.values()){
                 Collections.shuffle(stack);
             }
         }
+        notify(new DevelopmentDeckUpdate(developmentCards));
     }
 
     /**
@@ -56,5 +72,4 @@ public class Deck extends Observable<PropertyUpdate> {
                 .get(card.getColor())
                 .pop();
     }
-
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.OwnedLeadersUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public class Player extends Observable<PropertyUpdate> {
         this.nick = nick;
         faithPoints = 0;
         popeFavours = 0;
+        leaderCards = new HashMap<>();
         board = new PlayerBoard(this);
     }
 
@@ -96,9 +98,9 @@ public class Player extends Observable<PropertyUpdate> {
      * @param cards a new list of leader cards of the player.
      */
     public void setLeaderCards(List<LeaderCard> cards) {
-        if (leaderCards == null) leaderCards = new HashMap<>();
         for (LeaderCard leaderCard : cards) {
             leaderCards.put(leaderCard, false);
         }
+        notify(new OwnedLeadersUpdate(this, leaderCards));
     }
 }

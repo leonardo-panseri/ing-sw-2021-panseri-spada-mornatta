@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.CreateMarketUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.ArrayList;
@@ -14,7 +15,14 @@ public class Market extends Observable<PropertyUpdate> {
     private Resource slideResource;
 
     /**
-     * Constructs a market with randomized marbles in each box. The market always contains the following marbles:
+     * Constructs an empty market.
+     */
+    public Market() {
+        grid = new Box[3][4];
+    }
+
+    /**
+     * Initializes the market with randomized marbles in each box. The market always contains the following marbles:
      * <ul>
      *     <li>2 COIN</li>
      *     <li>2 STONE</li>
@@ -26,9 +34,7 @@ public class Market extends Observable<PropertyUpdate> {
      * Each marble represents a {@link Resource}, except for WHITE that represent no resource (in the data structure
      * this is stored as <code>null</code>).
      */
-    public Market() {
-        grid = new Box[3][4];
-
+    public void initializeMarket() {
         int stoneCounter = 0;
         int coinCounter = 0;
         int servantCounter = 0;
@@ -91,6 +97,7 @@ public class Market extends Observable<PropertyUpdate> {
 
         //Set the last remaining resource as the slide resource
         if (types.size() != 0) slideResource = types.get(0);
+        notify(new CreateMarketUpdate(grid));
     }
 
     /**

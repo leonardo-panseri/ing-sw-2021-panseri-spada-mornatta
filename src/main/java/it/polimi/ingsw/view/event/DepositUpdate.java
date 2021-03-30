@@ -9,4 +9,9 @@ import java.util.Map;
 public class DepositUpdate extends PropertyUpdate{
     private Player player;
     private Map<Integer, List<Resource>> changes;
+
+    @Override
+    public String serialize() {
+        return null;
+    }
 }

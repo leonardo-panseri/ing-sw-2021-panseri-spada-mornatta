@@ -38,20 +38,28 @@ public class SocketClientConnection extends Observable<String> implements Client
         return playerName;
     }
 
-    private synchronized void send(Object message) {
-            try {
-                out.reset();
-                out.writeObject(message);
-                out.flush();
-            } catch(IOException e){
-                System.err.println(e.getMessage());
-            }
+    synchronized void sendServerMessage(String message) {
+        String jsonMessage = "{\"type\":\"ServerMessages\",\"content\":\"" + message + "\"}";
+        send(jsonMessage);
+    }
 
+    public void asyncSendServerMessage(final String message){
+        new Thread(() -> sendServerMessage(message)).start();
+    }
+
+    synchronized void send(Object message) {
+        try {
+            out.reset();
+            out.writeObject(message);
+            out.flush();
+        } catch(IOException e){
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override
     public synchronized void closeConnection() {
-        send(ServerMessages.DISCONNECT);
+        sendServerMessage(ServerMessages.DISCONNECT);
         try {
             socket.close();
         } catch (IOException e) {
@@ -69,12 +77,7 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     @Override
     public void asyncSend(final Object message){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                send(message);
-            }
-        }).start();
+        new Thread(() -> send(message)).start();
     }
 
     @Override
@@ -83,12 +86,42 @@ public class SocketClientConnection extends Observable<String> implements Client
         try{
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            send(ServerMessages.INPUT_NAME);
+
+            sendServerMessage(ServerMessages.INPUT_NAME);
             String read = in.nextLine();
             playerName = read;
+
+            if(server.isLobbyEmpty()) {
+                int playerNum = -1;
+                while(playerNum == -1) {
+                    if(!server.isLobbyEmpty()) {
+                        sendServerMessage(ServerMessages.ALREADY_SELECTED);
+                        break;
+                    }
+
+                    sendServerMessage(ServerMessages.CHOOSE_PLAYER_NUM);
+                    read = in.nextLine();
+                    try {
+                        playerNum = Integer.parseInt(read);
+                    } catch (NumberFormatException e) {
+                        sendServerMessage(ServerMessages.INVALID_INPUT);
+                        playerNum = -1;
+                    }
+                    if(playerNum > 4 || playerNum <= 0) {
+                        sendServerMessage(ServerMessages.INVALID_INPUT);
+                        playerNum = -1;
+                    }
+                }
+
+                if(server.isLobbyEmpty()) {
+                    server.setPlayersToStart(playerNum);
+                } else {
+                    sendServerMessage(ServerMessages.ALREADY_SELECTED);
+                }
+            }
+
             server.lobby(this);
-            read = in.nextLine();
-            server.ready(this);
+
             while(isActive()){
                 read = in.nextLine();
                 notify(read);
