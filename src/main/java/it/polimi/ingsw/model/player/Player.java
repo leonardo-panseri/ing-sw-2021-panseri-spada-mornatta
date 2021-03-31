@@ -101,6 +101,6 @@ public class Player extends Observable<PropertyUpdate> {
         for (LeaderCard leaderCard : cards) {
             leaderCards.put(leaderCard, false);
         }
-        notify(new OwnedLeadersUpdate(this, leaderCards));
+        notify(new OwnedLeadersUpdate(this.getNick(), leaderCards));
     }
 }

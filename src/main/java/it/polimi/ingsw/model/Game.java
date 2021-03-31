@@ -76,7 +76,7 @@ public class Game extends Observable<PropertyUpdate> {
      */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
-        notify(new TurnUpdate(currentPlayer));
+        notify(new TurnUpdate(currentPlayer.getNick()));
     }
 
     /**

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.LorenzoUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.ArrayList;
@@ -65,5 +66,6 @@ public class Lorenzo extends Observable<PropertyUpdate> {
      */
     public void addPoints(int points) {
         faithPoints += points;
+        notify(new LorenzoUpdate(this.faithPoints));
     }
 }
