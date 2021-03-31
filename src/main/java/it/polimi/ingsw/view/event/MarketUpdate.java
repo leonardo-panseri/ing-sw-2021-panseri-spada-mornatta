@@ -9,8 +9,9 @@ public class MarketUpdate extends PropertyUpdate {
     private List<Resource> changedList;
     private Resource slideResource;
 
-    @Override
-    public String serialize() {
-        return null;
+    public MarketUpdate(int index, List<Resource> changedList, Resource slideResource) {
+        this.index = index;
+        this.changedList = changedList;
+        this.slideResource = slideResource;
     }
 }

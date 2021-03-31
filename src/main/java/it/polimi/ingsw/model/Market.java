@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.event.CreateMarketUpdate;
+import it.polimi.ingsw.view.event.MarketUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.ArrayList;
@@ -144,6 +145,7 @@ public class Market extends Observable<PropertyUpdate> {
         }
         grid[row][3].setResource(slideResource);
         slideResource = temp;
+        notify(new MarketUpdate(row, getRow(row), slideResource));
     }
 
     /**
@@ -160,6 +162,7 @@ public class Market extends Observable<PropertyUpdate> {
         }
         grid[2][column].setResource(slideResource);
         slideResource = temp;
+        notify(new MarketUpdate(column + 3, getColumn(column), slideResource));
     }
 
     /**
