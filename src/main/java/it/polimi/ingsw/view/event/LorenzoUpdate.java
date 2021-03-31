@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.event;
 
-public class LorenzoUpdate extends PropertyUpdate {
-    private int faithPoints;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
-    @Override
-    public String serialize() {
-        return null;
+public class LorenzoUpdate extends PropertyUpdate {
+    private final int faithPoints;
+
+    public LorenzoUpdate(int points) {
+        faithPoints = points;
     }
 }

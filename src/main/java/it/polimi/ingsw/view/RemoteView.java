@@ -12,12 +12,6 @@ public class RemoteView extends View implements Observer<PropertyUpdate> {
         @Override
         public void update(String message) {
             System.out.println("Received: " + message);
-//            try{
-//                String[] inputs = message.split(",");
-//                handleMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]));
-//            }catch(IllegalArgumentException e){
-//                clientConnection.asyncSend("Error!");
-//            }
         }
 
     }
