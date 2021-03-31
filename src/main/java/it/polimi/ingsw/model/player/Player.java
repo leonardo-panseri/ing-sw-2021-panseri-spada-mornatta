@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.FaithUpdate;
 import it.polimi.ingsw.view.event.OwnedLeadersUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
@@ -52,7 +53,7 @@ public class Player extends Observable<PropertyUpdate> {
      *
      * @return a board
      */
-    public PlayerBoard getBoard(){
+    public PlayerBoard getBoard() {
         return board;
     }
 
@@ -62,7 +63,9 @@ public class Player extends Observable<PropertyUpdate> {
      * @param faithPoints the position in the faith track
      */
     public void setFaithPoints(int faithPoints) {
+
         this.faithPoints = faithPoints;
+        notify(new FaithUpdate(this.nick, this.faithPoints, this.popeFavours));
     }
 
     /**
@@ -80,7 +83,9 @@ public class Player extends Observable<PropertyUpdate> {
      * @param popeFavours the new amount of pope favours
      */
     public void setPopeFavours(int popeFavours) {
+
         this.popeFavours = popeFavours;
+        notify(new FaithUpdate(this.nick, this.faithPoints, this.popeFavours));
     }
 
     /**
