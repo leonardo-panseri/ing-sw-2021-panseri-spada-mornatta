@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.BoughtCardUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.Stack;
@@ -79,6 +80,7 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
                 cardSlot.push(developmentCard);
             }
         }
+        notify(new BoughtCardUpdate(player.getNick(), developmentCard));
     }
 
 }

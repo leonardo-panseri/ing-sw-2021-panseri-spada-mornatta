@@ -1,17 +1,16 @@
 package it.polimi.ingsw.view.event;
 
 import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 import java.util.Map;
 
 public class DepositUpdate extends PropertyUpdate{
-    private Player player;
-    private Map<Integer, List<Resource>> changes;
+    private final String player;
+    private final Map<Integer, List<Resource>> changes;
 
-    @Override
-    public String serialize() {
-        return null;
+    public DepositUpdate(String player, Map<Integer, List<Resource>> changes) {
+        this.player = player;
+        this.changes = changes;
     }
 }

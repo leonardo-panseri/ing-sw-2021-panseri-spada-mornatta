@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.event.DepositStrongboxUpdate;
+import it.polimi.ingsw.view.event.DepositUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 import java.util.ArrayList;
@@ -35,15 +37,10 @@ public class Deposit extends Observable<PropertyUpdate> {
     /**
      * Adds the desired resource into a free slot on the indicated row, if the move if possible.
      *
-     * @param row the row where to insert the resource in
+     * @param row the row where to insert the resource in, 1 is the top row, 2 is the middle row and 3 is the bottom row
      * @param resource the resource to insert
      */
     public void addResource(int row, Resource resource) {
-        //1 topRow
-        //2 middleRow
-        //3 bottomRow
-
-
         if (row == 1 && topRow == null) {
             topRow = resource;
         } else if (row == 2 && middleRow.size() < 2) {
@@ -51,7 +48,7 @@ public class Deposit extends Observable<PropertyUpdate> {
         } else if (row == 3 && bottomRow.size() < 3) {
             bottomRow.add(resource);
         }
-
+        notifyDepositUpdate(row);
     }
 
     /**
@@ -68,6 +65,7 @@ public class Deposit extends Observable<PropertyUpdate> {
         } else if (row == 3 && bottomRow.size() > 0) {
             bottomRow.remove(resource);
         }
+        notifyDepositUpdate(row);
     }
 
     /**
@@ -78,17 +76,20 @@ public class Deposit extends Observable<PropertyUpdate> {
      */
     public void moveRow(int toMove, int destination) {
         List<Resource> switchedResources = new ArrayList<>();
+        int movedTo = -1;
         switch (toMove) {
             case 1:
                 if (topRow != null) {
                     if (middleRow.size() == 1 && destination == 2) {
                         // Top <--> Middle
+                        movedTo = 2;
                         switchedResources = middleRow;
                         middleRow.clear();
                         middleRow.add(topRow);
                         topRow = switchedResources.get(0);
                     } else if (bottomRow.size() == 1 && destination == 3) {
                         // Top <--> Bottom
+                        movedTo = 3;
                         switchedResources = bottomRow;
                         bottomRow.clear();
                         bottomRow.add(topRow);
@@ -101,12 +102,14 @@ public class Deposit extends Observable<PropertyUpdate> {
                 if (middleRow != null) {
                     if (middleRow.size() == 1 && destination == 1) {
                         // Middle <--> Top
+                        movedTo = 1;
                         switchedResources.add(topRow);
                         topRow = middleRow.get(0);
                         middleRow.clear();
                         middleRow = switchedResources;
                     } else if (middleRow.size() == 2 && destination == 3)   {
                         // Middle <--> Bottom
+                        movedTo = 3;
                         switchedResources = bottomRow;
                         bottomRow.clear();
                         bottomRow = middleRow;
@@ -120,12 +123,14 @@ public class Deposit extends Observable<PropertyUpdate> {
                 if (bottomRow != null) {
                     if (bottomRow.size() == 1 && destination == 1) {
                         // Bottom <--> Top
+                        movedTo = 1;
                         switchedResources.add(topRow);
                         topRow = bottomRow.get(0);
                         bottomRow.clear();
                         bottomRow = switchedResources;
                     } else if (bottomRow.size() == 2 && destination == 2) {
                         // Bottom <--> Middle
+                        movedTo = 2;
                         switchedResources = middleRow;
                         middleRow = bottomRow;
                         bottomRow.clear();
@@ -134,6 +139,33 @@ public class Deposit extends Observable<PropertyUpdate> {
                 }
                 break;
         }
+        if(movedTo != -1) {
+            notifyDepositUpdate(1, movedTo);
+        }
+    }
+
+    /**
+     * Notifies observers of deposit update.
+     *
+     * @param rows the rows that have been modified
+     */
+    private void notifyDepositUpdate(int... rows) {
+        HashMap<Integer, List<Resource>> changes = new HashMap<>();
+        for(int i : rows) {
+            List<Resource> row = null;
+            switch (i) {
+                case 1 -> {
+                    row = new ArrayList<>();
+                    row.add(topRow);
+                }
+                case 2 -> row = middleRow;
+                case 3 -> row = middleRow;
+            }
+            if(row != null) {
+                changes.put(i, row);
+            }
+        }
+        notify(new DepositUpdate(player.getNick(), changes));
     }
 
     /**
@@ -148,6 +180,7 @@ public class Deposit extends Observable<PropertyUpdate> {
             counter = strongBox.get(resource) + 1;
         }
         strongBox.put(resource, counter);
+        notifyStrongboxUpdate();
     }
 
     /**
@@ -161,6 +194,14 @@ public class Deposit extends Observable<PropertyUpdate> {
         if (strongBox.containsKey(resource) && strongBox.get(resource) > 0) {
             counter = strongBox.get(resource) - 1;
             strongBox.put(resource, counter);
+            notifyStrongboxUpdate();
         }
+    }
+
+    /**
+     * Notifies observers of strongbox update.
+     */
+    private void notifyStrongboxUpdate() {
+        notify(new DepositStrongboxUpdate(player.getNick(), strongBox));
     }
 }
