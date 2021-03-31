@@ -129,8 +129,9 @@ public class Game extends Observable<PropertyUpdate> {
     /**
      * Creates the singleplayer opponent.
      */
-    public void createLorenzo() {
+    public Lorenzo createLorenzo() {
         lorenzo = new Lorenzo();
+        return lorenzo;
     }
 
     /**

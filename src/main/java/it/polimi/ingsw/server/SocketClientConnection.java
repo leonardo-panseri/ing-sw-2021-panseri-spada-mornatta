@@ -123,6 +123,9 @@ public class SocketClientConnection extends Observable<String> implements Client
             server.lobby(this);
 
             while(isActive()){
+
+                System.out.println("Waiting for player input: " + getPlayerName());
+
                 read = in.nextLine();
                 notify(read);
             }

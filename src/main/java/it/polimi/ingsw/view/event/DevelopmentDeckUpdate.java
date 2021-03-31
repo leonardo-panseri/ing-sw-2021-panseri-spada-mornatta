@@ -14,4 +14,11 @@ public class DevelopmentDeckUpdate extends PropertyUpdate {
     public DevelopmentDeckUpdate(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards) {
         this.developmentCards = developmentCards;
     }
+
+    @Override
+    public String toString() {
+        return "DevelopmentDeckUpdate{" +
+                "developmentCards=" + developmentCards +
+                '}';
+    }
 }

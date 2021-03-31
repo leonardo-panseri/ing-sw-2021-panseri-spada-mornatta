@@ -49,6 +49,9 @@ public class Server {
 
     public synchronized void lobby(SocketClientConnection c){
         waitingConnection.add(c);
+
+        System.out.println("Player connected: " + c.getPlayerName());
+
         if(waitingConnection.size() == playersToStart) {
             playingConnection.put(currentLobbyID, waitingConnection);
             currentLobbyID = UUID.randomUUID();
@@ -66,7 +69,7 @@ public class Server {
                 player.getBoard().addObserver(remoteView);
                 player.getBoard().getDeposit().addObserver(remoteView);
                 if(playersToStart == 1) {
-                    controller.getGame().getLorenzo().addObserver(remoteView);
+                    controller.getGame().createLorenzo().addObserver(remoteView);
                 }
             }
 
