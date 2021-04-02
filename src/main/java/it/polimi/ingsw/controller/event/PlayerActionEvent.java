@@ -1,13 +1,19 @@
 package it.polimi.ingsw.controller.event;
 
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.constant.GsonParser;
+import it.polimi.ingsw.controller.GameController;
 
 public abstract class PlayerActionEvent {
-    private Player player;
-    private boolean cancelled;
+    private String playerName;
 
-    public Player getPlayer() {
-        return player;
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public abstract void process(GameController controller);
+
+    public String serialize() {
+        return "{\"type\":\"" + this.getClass().getSimpleName() + "\",\"content\":" + GsonParser.instance().getGson().toJson(this) + "}";
     }
 }
 

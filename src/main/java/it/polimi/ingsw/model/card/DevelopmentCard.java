@@ -8,6 +8,7 @@ import java.util.Map;
  * Subclass that models a DevelopmentCard.
  */
 public class DevelopmentCard extends Card {
+    //private int id;
     private Map<Resource, Integer> cost;
     private int level;
     private Map<Resource, Integer> productionInput;

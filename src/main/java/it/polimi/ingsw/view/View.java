@@ -19,11 +19,6 @@ public abstract class View extends Observable<PlayerActionEvent> {
 
     protected abstract void showMessage(Object message);
 
-    void handleMove(int row, int column) {
-        System.out.println(row + " " + column);
-        //notify(new PlayerMove(player, row, column, this));
-    }
-
     public void reportError(String message){
         showMessage(message);
     }

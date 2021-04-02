@@ -13,15 +13,13 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
 
 import java.util.List;
+import java.util.Map;
 
 public class GameController implements Observer<PlayerActionEvent> {
     private final Game game;
-    private int eventNum;
 
     public GameController() {
         game = new Game();
-
-        eventNum = 0;
     }
 
     public Game getGame() {
@@ -41,21 +39,44 @@ public class GameController implements Observer<PlayerActionEvent> {
         game.setCurrentPlayer(game.getPlayerAt(0));
     }
 
-    public void handlePlayerAction(PlayerActionEvent event) {
-        if (event instanceof SelectLeadersPlayerActionEvent) {
-            eventNum++;
-            event.getPlayer().setLeaderCards(((SelectLeadersPlayerActionEvent) event).getSelectedLeaders());
-            if (eventNum >= game.getPlayerNum()) {
-                //primo turno giocatore (view)
-            }
-        } else if (event instanceof MarketPlayerActionEvent) {
-            MarketPlayerActionEvent marketEvent = (MarketPlayerActionEvent) event;
-            marketEvent.setResult(useMarket(marketEvent.getPlayer(), marketEvent.getSelected(), marketEvent.getWhiteConversion()));
-            // view vede risultati
-            // player deve disporre resources
-        } else if (event instanceof ProductionPlayerActionEvent) {
-        }
+    public void activateLeaderCard(String playerName, LeaderCard leader) {
+
     }
+
+    public void buyDevelopmentCard(String playerName, DevelopmentCard leader, int slot) {
+
+    }
+
+    public void updatePlayerDeposit(String playerName, Map<Integer, List<Resource>> changes) {
+
+    }
+
+    public void discardLeader(String playerName, LeaderCard card) {
+
+    }
+
+    public void endTurn(String playerName) {
+
+    }
+
+    public void useMarket(String playerName, int selection, Resource whiteConversion) {
+
+    }
+
+    public void useBaseProduction(String playerName, Resource[] baseProductionInput, Resource baseProductionOutput) {
+
+    }
+
+    public void useProduction(String playerName, Card card) {
+
+    }
+
+    public void selectInitialLeaders(String playerName, List<LeaderCard> cards) {
+
+    }
+
+
+
 
     public int calculateScore(Player player) {
         return 0;
@@ -65,36 +86,15 @@ public class GameController implements Observer<PlayerActionEvent> {
 
     }
 
-    private List<Resource> useMarket(Player player, int selection, Resource whiteConversion) {
-        return null;
-    }
-
-    private List<Resource> useProduction(Player player, Card card) {
-        return null;
-    }
-
-    private void useBaseProduction(Player player, Resource[] baseProductionInput, Resource baseProductionOutput) {
-
-    }
-
-    private boolean buyDevelopmentCard(Player player, DevelopmentCard leader) {
-        return false;
-    }
-
-    private boolean activateLeaderCard(Player player, LeaderCard leader) {
-        return false;
-    }
-
-    private void endTurn(Player player) {
-
-    }
-
     private void exitGame() {
 
     }
 
-    @Override
-    public void update(PlayerActionEvent message) {
 
+
+
+    @Override
+    public void update(PlayerActionEvent event) {
+        event.process(this);
     }
 }

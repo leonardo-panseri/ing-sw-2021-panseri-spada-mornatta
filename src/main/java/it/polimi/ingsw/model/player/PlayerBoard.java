@@ -1,10 +1,15 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.event.BoughtCardUpdate;
+import it.polimi.ingsw.view.event.MarketResultUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -17,6 +22,7 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
     private Stack<DevelopmentCard> cardSlotCenter;
     private Stack<DevelopmentCard> cardSlotRight;
     private Deposit deposit;
+    private List<Resource> marketResults;
 
     /**
      * Constructor: instantiates the slots, the deposit and the player reference.
@@ -28,6 +34,7 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
         cardSlotCenter = new Stack<>();
         cardSlotRight = new Stack<>();
         deposit = new Deposit(player);
+        marketResults = new ArrayList<>();
         this.player = player;
     }
 
@@ -59,11 +66,11 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
         if (slot == 3) {
             pushDevelopmentCard(developmentCard, cardSlotRight);
         }
-
+        notify(new BoughtCardUpdate(player.getNick(), developmentCard, slot));
     }
 
     /**
-     * Push the development card on top of the slot, if the move is possible.
+     * Pushes the development card on top of the slot, if the move is possible.
      *
      * @param developmentCard the card to push
      * @param cardSlot the slot where to push the card
@@ -80,9 +87,18 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
                 cardSlot.push(developmentCard);
             }
         }
-        notify(new BoughtCardUpdate(player.getNick(), developmentCard));
     }
 
+    /**
+     * Sets the market results of this {@link Player} PlayerBoard.
+     *
+     * @param marketResults an arraylist containing the market results
+     */
+    public void setMarketResults(ArrayList<Resource> marketResults) {
+        this.marketResults.clear();
+        this.marketResults.addAll(marketResults);
+        notify(new MarketResultUpdate(player.getNick(), this.marketResults));
+    }
 }
 
 
