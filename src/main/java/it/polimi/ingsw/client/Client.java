@@ -41,6 +41,8 @@ public class Client {
         try{
             SocketClientRead readThread = new SocketClientRead(this, socketIn);
             SocketClientWrite writeThread = new SocketClientWrite(this, socketOut);
+            readThread.start();
+            writeThread.start();
             readThread.join();
             writeThread.join();
         } catch(InterruptedException | NoSuchElementException e){
