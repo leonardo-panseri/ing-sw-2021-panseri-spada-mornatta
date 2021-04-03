@@ -1,10 +1,5 @@
 package it.polimi.ingsw.client;
 
-import com.google.gson.*;
-import it.polimi.ingsw.constant.GsonParser;
-import it.polimi.ingsw.model.card.DevelopmentCard;
-import it.polimi.ingsw.view.event.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
@@ -16,6 +11,8 @@ public class Client {
 
     private String ip;
     private int port;
+    private SocketClientRead readThread;
+    private SocketClientWrite writeThread;
 
     public Client(String ip, int port){
         this.ip = ip;
@@ -32,6 +29,10 @@ public class Client {
         this.active = active;
     }
 
+    public void sendMessage(String message) {
+        writeThread.sendMessage(message);
+    }
+
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
@@ -39,10 +40,22 @@ public class Client {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
 
         try{
-            SocketClientRead readThread = new SocketClientRead(this, socketIn);
-            SocketClientWrite writeThread = new SocketClientWrite(this, socketOut);
+            Scanner stdin = new Scanner(System.in);
+            CLI cli;
+            int chosen = -1;
+            while (chosen != 1 && chosen != 2){
+                System.out.println("Choose interface: \n" +
+                        "1) CLI");
+                chosen = stdin.nextInt();
+            }
+            if(chosen == 1) {
+                cli = new CLI(this);
+            } else cli = new CLI(this);
+            readThread = new SocketClientRead(this, socketIn, cli);
+            writeThread = new SocketClientWrite(this, socketOut, cli);
             readThread.start();
             writeThread.start();
+            cli.run();
             readThread.join();
             writeThread.join();
         } catch(InterruptedException | NoSuchElementException e){

@@ -9,12 +9,16 @@ public abstract class View extends Observable<PlayerActionEvent> {
 
     private Player player;
 
-    protected View(Player player){
-        this.player = player;
+    protected View(){
+        this.player = null;
     }
 
     protected Player getPlayer(){
         return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     protected abstract void showMessage(Object message);

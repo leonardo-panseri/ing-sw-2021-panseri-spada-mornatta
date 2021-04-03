@@ -61,7 +61,8 @@ public class Server {
             for(SocketClientConnection conn : waitingConnection) {
                 Player player = new Player(conn.getPlayerName());
                 controller.addPlayer(player);
-                RemoteView remoteView = new RemoteView(player, conn);
+                RemoteView remoteView = conn.getRemoteView();
+                remoteView.setPlayer(player);
                 remoteView.addObserver(controller);
                 controller.getGame().addObserver(remoteView);
                 controller.getGame().getDeck().addObserver(remoteView);
@@ -97,6 +98,7 @@ public class Server {
                     newSocket.close();
                 }
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this, currentLobbyID);
+                socketConnection.setRemoteView(new RemoteView(socketConnection));
                 executor.submit(socketConnection);
             } catch (IOException e) {
                 System.out.println("Connection Error!");

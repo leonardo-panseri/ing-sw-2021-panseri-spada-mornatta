@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -16,6 +18,7 @@ public class SocketClientConnection extends Observable<String> implements Client
     private final Server server;
     private final UUID lobbyID;
     private String playerName;
+    private RemoteView remoteView;
 
     private boolean active = true;
 
@@ -24,6 +27,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         this.server = server;
         this.lobbyID = lobbyID;
         this.playerName = null;
+        this.remoteView = null;
     }
 
     private synchronized boolean isActive(){
@@ -38,12 +42,20 @@ public class SocketClientConnection extends Observable<String> implements Client
         return playerName;
     }
 
+    public RemoteView getRemoteView() {
+        return remoteView;
+    }
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
     public void setPlayersToStart(int playersNum) {
         server.setPlayersToStart(playersNum);
+    }
+
+    public void setRemoteView(RemoteView remoteView) {
+        this.remoteView = remoteView;
     }
 
     synchronized void sendServerMessage(String message) {
@@ -102,12 +114,22 @@ public class SocketClientConnection extends Observable<String> implements Client
             while (playerName == null) {
                 sendServerMessage(ServerMessages.INPUT_NAME);
                 read = in.nextLine();
+
+
+                System.out.println(read);
+
+
                 notify(read);
             }
 
             while (server.isLobbyEmpty()) {
                 sendServerMessage(ServerMessages.CHOOSE_PLAYER_NUM);
                 read = in.nextLine();
+
+
+                System.out.println(read);
+
+
                 if(!server.isLobbyEmpty()) {
                     sendServerMessage(ServerMessages.ALREADY_SELECTED);
                     break;
@@ -153,6 +175,11 @@ public class SocketClientConnection extends Observable<String> implements Client
                 System.out.println("Waiting for player input: " + getPlayerName());
 
                 read = in.nextLine();
+
+
+                System.out.println(read);
+
+
                 notify(read);
             }
         } catch (IOException | NoSuchElementException e) {

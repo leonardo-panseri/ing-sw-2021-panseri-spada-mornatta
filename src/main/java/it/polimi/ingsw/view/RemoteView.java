@@ -87,8 +87,8 @@ public class RemoteView extends View implements Observer<PropertyUpdate> {
 
     private final SocketClientConnection clientConnection;
 
-    public RemoteView(Player player, SocketClientConnection c) {
-        super(player);
+    public RemoteView(SocketClientConnection c) {
+        super();
         this.clientConnection = c;
         c.addObserver(new ActionReceiver());
     }

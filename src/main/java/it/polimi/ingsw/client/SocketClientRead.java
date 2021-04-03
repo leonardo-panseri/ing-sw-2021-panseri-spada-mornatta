@@ -9,12 +9,14 @@ import java.io.ObjectInputStream;
 public class SocketClientRead extends Thread {
     private final Client client;
     private final ObjectInputStream socketIn;
+    private final CLI cli;
 
-    public SocketClientRead(Client client, ObjectInputStream socketIn) {
+    public SocketClientRead(Client client, ObjectInputStream socketIn, CLI cli) {
         super();
 
         this.client = client;
         this.socketIn = socketIn;
+        this.cli = cli;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class SocketClientRead extends Thread {
             System.out.println("Object toString: " + update.toString());
         }
         if(serverMessage != null) {
-            System.out.println("Received server message: " + serverMessage);
+            cli.handleServerMessage(serverMessage);
         }
     }
 
