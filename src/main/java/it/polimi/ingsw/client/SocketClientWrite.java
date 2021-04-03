@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.event.PlayerActionEvent;
 
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class SocketClientWrite extends Thread {
@@ -12,6 +13,7 @@ public class SocketClientWrite extends Thread {
     private final Client client;
     private final PrintWriter socketOut;
     private final ArrayBlockingQueue<String> bufferOut;
+    private final Scanner stdin = new Scanner(System.in);
 
     public SocketClientWrite(Client client, PrintWriter socketOut) {
         super();
@@ -24,10 +26,13 @@ public class SocketClientWrite extends Thread {
     @Override
     public void run() {
         try {
-            Iterator<String> messages = bufferOut.iterator();
             while (client.isActive()) {
-                while (messages.hasNext()) {
-                    String message = messages.next();
+                String inputLine = stdin.nextLine();
+                if(bufferOut.remainingCapacity() > 0) {
+                    bufferOut.add(inputLine);
+                }
+                while (bufferOut.size() > 0) {
+                    String message = bufferOut.remove();
 
                     socketOut.println(message);
                     socketOut.flush();

@@ -18,5 +18,145 @@
       "type": "DEPOT",
       "targetResource": "COIN"
     }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "cardRequirements": {
+      "BLUE": 2,
+      "STONE": 4
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "cardRequirements": {
+      "PURPLE": 3,
+      "COIN": 2
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "COIN"
+    }
   }
 ]

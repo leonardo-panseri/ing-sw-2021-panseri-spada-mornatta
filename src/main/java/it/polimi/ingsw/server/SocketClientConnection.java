@@ -15,7 +15,6 @@ public class SocketClientConnection extends Observable<String> implements Client
     private ObjectOutputStream out;
     private final Server server;
     private final UUID lobbyID;
-
     private String playerName;
 
     private boolean active = true;
@@ -24,6 +23,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         this.socket = socket;
         this.server = server;
         this.lobbyID = lobbyID;
+        this.playerName = null;
     }
 
     private synchronized boolean isActive(){
@@ -36,6 +36,14 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public void setPlayersToStart(int playersNum) {
+        server.setPlayersToStart(playersNum);
     }
 
     synchronized void sendServerMessage(String message) {
@@ -80,16 +88,34 @@ public class SocketClientConnection extends Observable<String> implements Client
         new Thread(() -> send(message)).start();
     }
 
+    public void addToLobby() {
+        server.lobby(this);
+    }
+
     @Override
     public void run() {
         Scanner in;
         try{
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
+            String read;
+            while (playerName == null) {
+                sendServerMessage(ServerMessages.INPUT_NAME);
+                read = in.nextLine();
+                notify(read);
+            }
 
-            sendServerMessage(ServerMessages.INPUT_NAME);
-            String read = in.nextLine();
-            playerName = read;
+            while (server.isLobbyEmpty()) {
+                sendServerMessage(ServerMessages.CHOOSE_PLAYER_NUM);
+                read = in.nextLine();
+                if(!server.isLobbyEmpty()) {
+                    sendServerMessage(ServerMessages.ALREADY_SELECTED);
+                    break;
+                }
+                notify(read);
+            }
+
+            /*playerName = read;
 
             if(server.isLobbyEmpty()) {
                 int playerNum = -1;
@@ -120,7 +146,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 }
             }
 
-            server.lobby(this);
+            server.lobby(this);*/
 
             while(isActive()){
 
@@ -132,6 +158,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
+            System.out.println("Sto per chiudere");
             close();
         }
     }

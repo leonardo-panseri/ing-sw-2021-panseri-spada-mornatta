@@ -6,6 +6,8 @@ import it.polimi.ingsw.controller.event.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.server.ServerMessages;
+import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 public class RemoteView extends View implements Observer<PropertyUpdate> {
@@ -34,6 +36,26 @@ public class RemoteView extends View implements Observer<PropertyUpdate> {
         private void handleAction(String type, JsonElement content) {
             PlayerActionEvent actionEvent = null;
             switch (type) {
+                case "PlayerName" -> {
+                    try {
+                        clientConnection.setPlayerName(content.getAsString());
+                    } catch (ClassCastException | IllegalStateException e) {
+                        System.err.println("Can't assign name");
+                    }
+                }
+                case "PlayerNum" -> {
+                    try {
+                        int playerNum = content.getAsInt();
+                        if(playerNum < 1 || playerNum > 4) {
+                            clientConnection.asyncSendServerMessage(ServerMessages.INVALID_INPUT);
+                            break;
+                        }
+                        clientConnection.setPlayersToStart(playerNum);
+                        clientConnection.addToLobby();
+                    } catch (ClassCastException | IllegalStateException e) {
+                        System.err.println("Can't assign players required to start");
+                    }
+                }
                 case "ActivateLeaderPlayerActionEvent" -> actionEvent = deserializeActionEvent(content, ActivateLeaderPlayerActionEvent.class);
                 case "BuyPlayerActionEvent" -> actionEvent = deserializeActionEvent(content, BuyPlayerActionEvent.class);
                 case "DepositPlayerActionEvent" -> actionEvent = deserializeActionEvent(content, DepositPlayerActionEvent.class);
@@ -63,9 +85,9 @@ public class RemoteView extends View implements Observer<PropertyUpdate> {
         }
     }
 
-    private final ClientConnection clientConnection;
+    private final SocketClientConnection clientConnection;
 
-    public RemoteView(Player player, ClientConnection c) {
+    public RemoteView(Player player, SocketClientConnection c) {
         super(player);
         this.clientConnection = c;
         c.addObserver(new ActionReceiver());

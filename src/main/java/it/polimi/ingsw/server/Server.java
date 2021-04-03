@@ -53,6 +53,7 @@ public class Server {
         System.out.println("Player connected: " + c.getPlayerName());
 
         if(waitingConnection.size() == playersToStart) {
+            System.out.println("Starting game!");
             playingConnection.put(currentLobbyID, waitingConnection);
             currentLobbyID = UUID.randomUUID();
 
@@ -76,7 +77,6 @@ public class Server {
             controller.getGame().getMarket().initializeMarket();
             controller.getGame().getDeck().shuffleDevelopmentDeck();
             controller.start();
-
             for(SocketClientConnection conn : waitingConnection) {
                 conn.asyncSendServerMessage(ServerMessages.GAME_START);
             }
