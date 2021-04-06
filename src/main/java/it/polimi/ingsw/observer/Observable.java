@@ -16,12 +16,6 @@ public class Observable<T> {
         }
     }
 
-    public void removeObserver(Observer<T> observer){
-        synchronized (observers) {
-            observers.remove(observer);
-        }
-    }
-
     protected void notify(T message){
         synchronized (observers) {
             for(Observer<T> observer : observers){

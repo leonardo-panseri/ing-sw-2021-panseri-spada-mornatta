@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.RemoteView;
-import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class SocketClientConnection extends Observable<String> implements ClientConnection, Runnable {
+public class SocketClientConnection extends Observable<String> implements Runnable {
 
     private final Socket socket;
     private ObjectOutputStream out;
@@ -77,7 +76,6 @@ public class SocketClientConnection extends Observable<String> implements Client
         }
     }
 
-    @Override
     public synchronized void closeConnection() {
         sendServerMessage(ServerMessages.DISCONNECT);
         try {
@@ -95,7 +93,6 @@ public class SocketClientConnection extends Observable<String> implements Client
         System.out.println("Done!");
     }
 
-    @Override
     public void asyncSend(final Object message){
         new Thread(() -> send(message)).start();
     }
@@ -137,39 +134,6 @@ public class SocketClientConnection extends Observable<String> implements Client
                 notify(read);
             }
 
-            /*playerName = read;
-
-            if(server.isLobbyEmpty()) {
-                int playerNum = -1;
-                while(playerNum == -1) {
-                    if(!server.isLobbyEmpty()) {
-                        sendServerMessage(ServerMessages.ALREADY_SELECTED);
-                        break;
-                    }
-
-                    sendServerMessage(ServerMessages.CHOOSE_PLAYER_NUM);
-                    read = in.nextLine();
-                    try {
-                        playerNum = Integer.parseInt(read);
-                    } catch (NumberFormatException e) {
-                        sendServerMessage(ServerMessages.INVALID_INPUT);
-                        playerNum = -1;
-                    }
-                    if(playerNum > 4 || playerNum <= 0) {
-                        sendServerMessage(ServerMessages.INVALID_INPUT);
-                        playerNum = -1;
-                    }
-                }
-
-                if(server.isLobbyEmpty()) {
-                    server.setPlayersToStart(playerNum);
-                } else {
-                    sendServerMessage(ServerMessages.ALREADY_SELECTED);
-                }
-            }
-
-            server.lobby(this);*/
-
             while(isActive()){
 
                 System.out.println("Waiting for player input: " + getPlayerName());
@@ -185,7 +149,6 @@ public class SocketClientConnection extends Observable<String> implements Client
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
-            System.out.println("Sto per chiudere");
             close();
         }
     }
