@@ -18,6 +18,7 @@ public class MarketTest {
         testGame.addPlayer(new Player("Edoardo"));
         testGame.setCurrentPlayer(testGame.getPlayerAt(0));
         testMarket = testGame.getMarket();
+        testMarket.initializeMarket();
         for (int i = 0; i < 3; i++) {
             System.out.println(testMarket.getRow(i));
         }

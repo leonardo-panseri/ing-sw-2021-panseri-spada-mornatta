@@ -44,6 +44,15 @@ public class Lorenzo extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Returns the actions of Lorenzo
+     *
+     * @return the actions of Lorenzo
+     */
+    List<LorenzoAction> getActions(){
+        return actions;
+    }
+
+    /**
      * Pops the first action from the actions list. If the list is empty does nothing.
      */
     public void popAction() {
