@@ -43,6 +43,15 @@ public class Deposit extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Getter: gets the strongbox.
+     *
+     * @return the strongbox
+     */
+    Map<Resource, Integer> getStrongBox() {
+        return strongBox;
+    }
+
+    /**
      * Constructor: instantiates the three rows of slots, and store the owner of the player board.
      *
      * @param player the player owner of the board.
@@ -104,14 +113,14 @@ public class Deposit extends Observable<PropertyUpdate> {
                         // Top <--> Middle
                         movedTo = 2;
                         switchedResources = middleRow;
-                        middleRow.clear();
+                        middleRow = null;
                         middleRow.add(topRow);
                         topRow = switchedResources.get(0);
                     } else if (destination == 3 && bottomRow.size() < 2) {
                         // Top <--> Bottom
                         movedTo = 3;
                         switchedResources = bottomRow;
-                        bottomRow.clear();
+                        bottomRow = null;
                         bottomRow.add(topRow);
                         topRow = switchedResources.get(0);
                     }
@@ -123,17 +132,16 @@ public class Deposit extends Observable<PropertyUpdate> {
                     if (destination == 1 && middleRow.size() < 2) {
                         // Middle <--> Top
                         movedTo = 1;
-                        switchedResources.add(topRow);
+                        if (topRow != null) switchedResources.add(topRow);
                         topRow = middleRow.get(0);
-                        middleRow.clear();
+                        middleRow = null;
                         middleRow = switchedResources;
                     } else if (destination == 3 && bottomRow.size() < 3) {
                         // Middle <--> Bottom
                         movedTo = 3;
                         switchedResources = bottomRow;
-                        bottomRow.clear();
                         bottomRow = middleRow;
-                        middleRow.clear();
+                        middleRow = null;
                         middleRow = switchedResources;
                     }
                 }
@@ -144,16 +152,16 @@ public class Deposit extends Observable<PropertyUpdate> {
                     if (destination == 1 && bottomRow.size() < 2) {
                         // Bottom <--> Top
                         movedTo = 1;
-                        switchedResources.add(topRow);
+                        if (topRow != null) switchedResources.add(topRow);
                         topRow = bottomRow.get(0);
-                        bottomRow.clear();
+                        bottomRow = null;
                         bottomRow = switchedResources;
                     } else if (destination == 2 && bottomRow.size() < 3) {
                         // Bottom <--> Middle
                         movedTo = 2;
                         switchedResources = middleRow;
                         middleRow = bottomRow;
-                        bottomRow.clear();
+                        bottomRow = null;
                         bottomRow = switchedResources;
                     }
                 }
@@ -179,7 +187,7 @@ public class Deposit extends Observable<PropertyUpdate> {
                     row.add(topRow);
                 }
                 case 2 -> row = middleRow;
-                case 3 -> row = middleRow;
+                case 3 -> row = bottomRow;
             }
             if (row != null) {
                 changes.put(i, row);
@@ -195,7 +203,7 @@ public class Deposit extends Observable<PropertyUpdate> {
      * @param resource the resource to be added into the strongbox
      */
     public void addToStrongbox(Resource resource) {
-        int counter = 0;
+        int counter = 1;
         if (strongBox.containsKey(resource)) {
             counter = strongBox.get(resource) + 1;
         }
@@ -207,10 +215,10 @@ public class Deposit extends Observable<PropertyUpdate> {
      * Removes the desired resource into the strongbox, modeled by a map of resources and integers.
      * If the type of resource is stored, it removes one to the current related counter.
      *
-     * @param resource
+     * @param resource the resource to be removed
      */
     public void removeFromStrongbox(Resource resource) {
-        int counter = 0;
+        int counter;
         if (strongBox.containsKey(resource) && strongBox.get(resource) > 0) {
             counter = strongBox.get(resource) - 1;
             strongBox.put(resource, counter);

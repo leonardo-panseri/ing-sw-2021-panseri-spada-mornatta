@@ -58,7 +58,7 @@ class DepositTest {
     }
 
     @Test
-    void moveRow() {
+    void moveRowTest() {
         removeResourceTest();
         List<Resource> rowToMove = new ArrayList<>(testDeposit.getRow(2));
         List<Resource> destinationRow = new ArrayList<>(testDeposit.getRow(3));
@@ -70,10 +70,27 @@ class DepositTest {
     }
 
     @Test
-    void addToStrongbox() {
+    void addToStrongboxTest() {
+        testDeposit.addToStrongbox(Resource.SHIELD);
+        testDeposit.addToStrongbox(Resource.COIN);
+        testDeposit.addToStrongbox(Resource.COIN);
+        testDeposit.addToStrongbox(Resource.SERVANT);
+
+        assertEquals(1, testDeposit.getStrongBox().get(Resource.SHIELD));
+        assertEquals(2, testDeposit.getStrongBox().get(Resource.COIN));
+        assertEquals(1, testDeposit.getStrongBox().get(Resource.SERVANT));
     }
 
     @Test
     void removeFromStrongbox() {
+        addToStrongboxTest();
+        testDeposit.removeFromStrongbox(Resource.SHIELD);
+        testDeposit.removeFromStrongbox(Resource.COIN);
+        testDeposit.removeFromStrongbox(Resource.COIN);
+        testDeposit.removeFromStrongbox(Resource.SERVANT);
+
+        assertEquals(0, testDeposit.getStrongBox().get(Resource.SHIELD));
+        assertEquals(0, testDeposit.getStrongBox().get(Resource.COIN));
+        assertEquals(0, testDeposit.getStrongBox().get(Resource.SERVANT));
     }
 }
