@@ -39,21 +39,11 @@ public class MarketTest {
                 if (res == null) blankCounter++;
                 else {
                     switch (res) {
-                        case COIN:
-                            coinCounter++;
-                            break;
-                        case STONE:
-                            stoneCounter++;
-                            break;
-                        case SHIELD:
-                            shieldCounter++;
-                            break;
-                        case SERVANT:
-                            servantCounter++;
-                            break;
-                        case FAITH:
-                            faithCounter++;
-                            break;
+                        case COIN -> coinCounter++;
+                        case STONE -> stoneCounter++;
+                        case SHIELD -> shieldCounter++;
+                        case SERVANT -> servantCounter++;
+                        case FAITH -> faithCounter++;
                     }
                 }
             }
@@ -61,21 +51,11 @@ public class MarketTest {
         if (testMarket.getSlideResource() == null) blankCounter++;
         else {
             switch (testMarket.getSlideResource()) {
-                case COIN:
-                    coinCounter++;
-                    break;
-                case STONE:
-                    stoneCounter++;
-                    break;
-                case SHIELD:
-                    shieldCounter++;
-                    break;
-                case SERVANT:
-                    servantCounter++;
-                    break;
-                case FAITH:
-                    faithCounter++;
-                    break;
+                case COIN -> coinCounter++;
+                case STONE -> stoneCounter++;
+                case SHIELD -> shieldCounter++;
+                case SERVANT -> servantCounter++;
+                case FAITH -> faithCounter++;
             }
         }
 
