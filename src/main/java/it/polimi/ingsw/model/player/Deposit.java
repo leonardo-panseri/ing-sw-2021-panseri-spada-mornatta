@@ -23,6 +23,26 @@ public class Deposit extends Observable<PropertyUpdate> {
     private Map<Resource, Integer> strongBox;
 
     /**
+     * Getter: gets the requested row of resources.
+     *
+     * @param row the index of the wanted row of resources
+     * @return a list with the resources
+     */
+    List<Resource> getRow(int row) {
+        if (row == 1) {
+            List<Resource> result = new ArrayList<>();
+            result.add(topRow);
+            return result;
+        } else if (row == 2) {
+            return middleRow;
+        } else if (row == 3) {
+            return bottomRow;
+        }
+        notifyDepositUpdate(row);
+        return null;
+    }
+
+    /**
      * Constructor: instantiates the three rows of slots, and store the owner of the player board.
      *
      * @param player the player owner of the board.
@@ -37,7 +57,7 @@ public class Deposit extends Observable<PropertyUpdate> {
     /**
      * Adds the desired resource into a free slot on the indicated row, if the move if possible.
      *
-     * @param row the row where to insert the resource in, 1 is the top row, 2 is the middle row and 3 is the bottom row
+     * @param row      the row where to insert the resource in, 1 is the top row, 2 is the middle row and 3 is the bottom row
      * @param resource the resource to insert
      */
     public void addResource(int row, Resource resource) {
@@ -54,7 +74,7 @@ public class Deposit extends Observable<PropertyUpdate> {
     /**
      * Remove a resource of the desired type from the indicated row, if existing.
      *
-     * @param row the row where to delete the resource from
+     * @param row      the row where to delete the resource from
      * @param resource the resource to delete
      */
     public void removeResource(int row, Resource resource) {
@@ -71,7 +91,7 @@ public class Deposit extends Observable<PropertyUpdate> {
     /**
      * Switches two rows of resources, checking if the move is possible.
      *
-     * @param toMove row to move
+     * @param toMove      row to move
      * @param destination row to be switched with the previous one
      */
     public void moveRow(int toMove, int destination) {
@@ -80,14 +100,14 @@ public class Deposit extends Observable<PropertyUpdate> {
         switch (toMove) {
             case 1:
                 if (topRow != null) {
-                    if (middleRow.size() == 1 && destination == 2) {
+                    if (destination == 2 && middleRow.size() < 2) {
                         // Top <--> Middle
                         movedTo = 2;
                         switchedResources = middleRow;
                         middleRow.clear();
                         middleRow.add(topRow);
                         topRow = switchedResources.get(0);
-                    } else if (bottomRow.size() == 1 && destination == 3) {
+                    } else if (destination == 3 && bottomRow.size() < 2) {
                         // Top <--> Bottom
                         movedTo = 3;
                         switchedResources = bottomRow;
@@ -100,14 +120,14 @@ public class Deposit extends Observable<PropertyUpdate> {
 
             case 2:
                 if (middleRow != null) {
-                    if (middleRow.size() == 1 && destination == 1) {
+                    if (destination == 1 && middleRow.size() < 2) {
                         // Middle <--> Top
                         movedTo = 1;
                         switchedResources.add(topRow);
                         topRow = middleRow.get(0);
                         middleRow.clear();
                         middleRow = switchedResources;
-                    } else if (middleRow.size() == 2 && destination == 3)   {
+                    } else if (destination == 3 && bottomRow.size() < 3) {
                         // Middle <--> Bottom
                         movedTo = 3;
                         switchedResources = bottomRow;
@@ -121,14 +141,14 @@ public class Deposit extends Observable<PropertyUpdate> {
 
             case 3:
                 if (bottomRow != null) {
-                    if (bottomRow.size() == 1 && destination == 1) {
+                    if (destination == 1 && bottomRow.size() < 2) {
                         // Bottom <--> Top
                         movedTo = 1;
                         switchedResources.add(topRow);
                         topRow = bottomRow.get(0);
                         bottomRow.clear();
                         bottomRow = switchedResources;
-                    } else if (bottomRow.size() == 2 && destination == 2) {
+                    } else if (destination == 2 && bottomRow.size() < 3) {
                         // Bottom <--> Middle
                         movedTo = 2;
                         switchedResources = middleRow;
@@ -139,7 +159,7 @@ public class Deposit extends Observable<PropertyUpdate> {
                 }
                 break;
         }
-        if(movedTo != -1) {
+        if (movedTo != -1) {
             notifyDepositUpdate(1, movedTo);
         }
     }
@@ -151,7 +171,7 @@ public class Deposit extends Observable<PropertyUpdate> {
      */
     private void notifyDepositUpdate(int... rows) {
         HashMap<Integer, List<Resource>> changes = new HashMap<>();
-        for(int i : rows) {
+        for (int i : rows) {
             List<Resource> row = null;
             switch (i) {
                 case 1 -> {
@@ -161,7 +181,7 @@ public class Deposit extends Observable<PropertyUpdate> {
                 case 2 -> row = middleRow;
                 case 3 -> row = middleRow;
             }
-            if(row != null) {
+            if (row != null) {
                 changes.put(i, row);
             }
         }
