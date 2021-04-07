@@ -19,6 +19,6 @@ public class MarketPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().useMarket(getPlayerName(), selected, whiteConversion);
+        controller.getPlayerController().useMarket(getPlayer(controller), selected, whiteConversion);
     }
 }

@@ -43,7 +43,7 @@ class DeckTest {
 
         color = CardColor.GREEN;
 
-        devCard = new DevelopmentCard(reqMap, level, inMap, outMap, color);
+        devCard = new DevelopmentCard(1, reqMap, level, inMap, outMap, color);
     }
 
     @Test

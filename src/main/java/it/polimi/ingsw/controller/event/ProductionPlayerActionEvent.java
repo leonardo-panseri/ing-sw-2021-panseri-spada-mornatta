@@ -5,18 +5,21 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.Card;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ProductionPlayerActionEvent extends PlayerActionEvent {
-    private Card card;
+    private UUID cardUUID;
     private Resource[] baseProductionInput;
     private Resource baseProductionOutput;
 
     @Override
     public void process(GameController controller) {
-        if(card == null) {
-            controller.getPlayerController().useBaseProduction(getPlayerName(), baseProductionInput, baseProductionOutput);
+        if(cardUUID == null) {
+            controller.getPlayerController().useBaseProduction(getPlayer(controller), baseProductionInput, baseProductionOutput);
         } else {
-            controller.getPlayerController().useProduction(getPlayerName(), card);
+            Card card = controller.getGame().getDeck().getLeaderCardByUuid(cardUUID);
+            if(card == null) controller.getGame().getDeck().getDevelopmentCardByUuid(cardUUID);
+            controller.getPlayerController().useProduction(getPlayer(controller), card);
         }
     }
 }

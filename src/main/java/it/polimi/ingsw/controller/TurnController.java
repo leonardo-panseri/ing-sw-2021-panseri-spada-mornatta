@@ -20,7 +20,7 @@ public class TurnController {
         gameController.getGame().setCurrentPlayer(gameController.getGame().getPlayerAt(0));
     }
 
-    public void endTurn(String playerName) {
+    public void endTurn() {
 
     }
 }

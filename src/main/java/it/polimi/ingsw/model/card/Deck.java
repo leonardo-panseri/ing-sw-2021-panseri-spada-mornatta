@@ -25,6 +25,38 @@ public class Deck extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Gets the LeaderCard with the given UUID.
+     *
+     * @param uuid the uuid of the card to search for
+     * @return the leader card with the given UUID or <code>null</code> if not found
+     */
+    public LeaderCard getLeaderCardByUuid(UUID uuid) {
+        LeaderCard result = null;
+        for(LeaderCard card : leaderCards) {
+            if(uuid.equals(card.getUuid())) result = card;
+        }
+        return result;
+    }
+
+    /**
+     * Gets the DevelopmentCard with the given UUID.
+     *
+     * @param uuid the uuid of the card to search for
+     * @return the development card with the given UUID or <code>null</code> if not found
+     */
+    public DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
+        DevelopmentCard result = null;
+        for(HashMap<CardColor, Stack<DevelopmentCard>> color : developmentCards) {
+            for(Stack<DevelopmentCard> pile : color.values()) {
+                for(DevelopmentCard card : pile) {
+                    if(uuid.equals(card.getUuid())) result = card;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * Gets the development cards.
      *
      * @return the development cards

@@ -52,6 +52,20 @@ public class Game extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Gets the Player with the given name.
+     *
+     * @param playerName the name of the player to search for
+     * @return the player with the given name or <code>null</code> if not found
+     */
+    public Player getPlayerByName(String playerName) {
+        Player result = null;
+        for(Player player : players) {
+            if(player.getNick().equals(playerName)) result = player;
+        }
+        return result;
+    }
+
+    /**
      * Removes the given {@link Player} from the game. Does nothing if the player is not in the game.
      *
      * @param player the player that will be removed from the game

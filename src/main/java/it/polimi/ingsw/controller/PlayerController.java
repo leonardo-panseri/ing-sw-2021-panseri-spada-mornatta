@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 import java.util.Map;
@@ -16,35 +17,35 @@ public class PlayerController {
         this.gameController = gameController;
     }
 
-    public void activateLeaderCard(String playerName, LeaderCard leader) {
+    public void activateLeaderCard(Player player, LeaderCard leader) {
 
     }
 
-    public void buyDevelopmentCard(String playerName, DevelopmentCard leader, int slot) {
+    public void buyDevelopmentCard(Player player, DevelopmentCard leader, int slot) {
 
     }
 
-    public void updatePlayerDeposit(String playerName, Map<Integer, List<Resource>> changes) {
+    public void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes) {
 
     }
 
-    public void discardLeader(String playerName, LeaderCard card) {
+    public void discardLeader(Player player, LeaderCard card) {
 
     }
 
-    public void useMarket(String playerName, int selection, Resource whiteConversion) {
+    public void useMarket(Player player, int selection, Resource whiteConversion) {
 
     }
 
-    public void useBaseProduction(String playerName, Resource[] baseProductionInput, Resource baseProductionOutput) {
+    public void useBaseProduction(Player player, Resource[] baseProductionInput, Resource baseProductionOutput) {
 
     }
 
-    public void useProduction(String playerName, Card card) {
+    public void useProduction(Player player, Card card) {
 
     }
 
-    public void selectInitialLeaders(String playerName, List<LeaderCard> cards) {
+    public void selectInitialLeaders(Player player, List<LeaderCard> cards) {
 
     }
 }

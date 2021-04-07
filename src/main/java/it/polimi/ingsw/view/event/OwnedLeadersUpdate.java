@@ -1,10 +1,6 @@
 package it.polimi.ingsw.view.event;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import it.polimi.ingsw.constant.GsonParser;
 import it.polimi.ingsw.model.card.LeaderCard;
-import it.polimi.ingsw.model.player.Player;
 
 import java.util.Map;
 

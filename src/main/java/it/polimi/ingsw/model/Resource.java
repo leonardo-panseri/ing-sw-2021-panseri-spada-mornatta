@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.card.LeaderCardRequirement;
-
 /**
  * Enumeration representing game resource types.
  */
-public enum Resource implements LeaderCardRequirement {
+public enum Resource {
     COIN, STONE, SHIELD, SERVANT, FAITH
 }

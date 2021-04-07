@@ -15,6 +15,6 @@ public class DepositPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().updatePlayerDeposit(getPlayerName(), changes);
+        controller.getPlayerController().updatePlayerDeposit(getPlayer(controller), changes);
     }
 }

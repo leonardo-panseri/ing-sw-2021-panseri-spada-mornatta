@@ -3,11 +3,13 @@ package it.polimi.ingsw.controller.event;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.card.LeaderCard;
 
+import java.util.UUID;
+
 public class ActivateLeaderPlayerActionEvent extends PlayerActionEvent {
-    private LeaderCard leaderCard;
+    private UUID leaderCardUUID;
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().activateLeaderCard(getPlayerName(), leaderCard);
+        controller.getPlayerController().activateLeaderCard(getPlayer(controller), controller.getGame().getDeck().getLeaderCardByUuid(leaderCardUUID));
     }
 }

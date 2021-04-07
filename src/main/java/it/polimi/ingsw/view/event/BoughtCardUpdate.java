@@ -1,15 +1,15 @@
 package it.polimi.ingsw.view.event;
 
-import it.polimi.ingsw.model.card.DevelopmentCard;
+import java.util.UUID;
 
 public class BoughtCardUpdate extends PropertyUpdate{
     private final String playerName;
-    private final DevelopmentCard card;
+    private final UUID developmentCardUUID;
     private final int slot;
 
-    public BoughtCardUpdate(String playerName, DevelopmentCard card, int slot) {
+    public BoughtCardUpdate(String playerName, UUID developmentCardUUID, int slot) {
         this.playerName = playerName;
-        this.card = card;
+        this.developmentCardUUID = developmentCardUUID;
         this.slot = slot;
     }
 }
