@@ -67,30 +67,23 @@ public class Market extends Observable<PropertyUpdate> {
                 if (grid[i][j].getResource() == null) blankCounter++;
                 else {
                     switch (grid[i][j].getResource()) {
-                        case STONE:
+                        case STONE -> {
                             stoneCounter++;
                             if (stoneCounter >= 2) types.remove(Resource.STONE);
-                            break;
-
-                        case COIN:
+                        }
+                        case COIN -> {
                             coinCounter++;
                             if (coinCounter >= 2) types.remove(Resource.COIN);
-                            break;
-
-                        case SERVANT:
+                        }
+                        case SERVANT -> {
                             servantCounter++;
                             if (servantCounter >= 2) types.remove(Resource.SERVANT);
-                            break;
-
-                        case SHIELD:
+                        }
+                        case SHIELD -> {
                             shieldCounter++;
                             if (shieldCounter >= 2) types.remove(Resource.SHIELD);
-                            break;
-
-                        case FAITH:
-                            types.remove(Resource.FAITH);
-                            break;
-
+                        }
+                        case FAITH -> types.remove(Resource.FAITH);
                     }
                 }
             }
