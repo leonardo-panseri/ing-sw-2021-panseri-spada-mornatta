@@ -8,6 +8,6 @@ public class DiscardLeaderPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.discardLeader(getPlayerName(), leaderCard);
+        controller.getPlayerController().discardLeader(getPlayerName(), leaderCard);
     }
 }

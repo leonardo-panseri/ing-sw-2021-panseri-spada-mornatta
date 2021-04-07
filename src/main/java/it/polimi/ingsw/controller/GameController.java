@@ -14,66 +14,30 @@ import java.util.Map;
 
 public class GameController implements Observer<PlayerActionEvent> {
     private final Game game;
+    private final TurnController turnController;
+    private final PlayerController playerController;
 
     public GameController() {
         game = new Game();
+        turnController = new TurnController(this);
+        playerController = new PlayerController(this);
     }
 
     public Game getGame() {
         return game;
     }
 
+    public TurnController getTurnController() {
+        return turnController;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
     public void addPlayer(Player player) {
         game.addPlayer(player);
     }
-
-    public void start() {
-        game.randomSortPlayers();
-        for (int i = 0; i < game.getPlayerNum(); i++) {
-            List<LeaderCard> draw = game.getDeck().initialDrawLeaders();
-            game.getPlayerAt(i).setLeaderCards(draw);
-        }
-        game.setCurrentPlayer(game.getPlayerAt(0));
-    }
-
-    public void activateLeaderCard(String playerName, LeaderCard leader) {
-
-    }
-
-    public void buyDevelopmentCard(String playerName, DevelopmentCard leader, int slot) {
-
-    }
-
-    public void updatePlayerDeposit(String playerName, Map<Integer, List<Resource>> changes) {
-
-    }
-
-    public void discardLeader(String playerName, LeaderCard card) {
-
-    }
-
-    public void endTurn(String playerName) {
-
-    }
-
-    public void useMarket(String playerName, int selection, Resource whiteConversion) {
-
-    }
-
-    public void useBaseProduction(String playerName, Resource[] baseProductionInput, Resource baseProductionOutput) {
-
-    }
-
-    public void useProduction(String playerName, Card card) {
-
-    }
-
-    public void selectInitialLeaders(String playerName, List<LeaderCard> cards) {
-
-    }
-
-
-
 
     public int calculateScore(Player player) {
         return 0;
@@ -86,9 +50,6 @@ public class GameController implements Observer<PlayerActionEvent> {
     private void exitGame() {
 
     }
-
-
-
 
     @Override
     public void update(PlayerActionEvent event) {

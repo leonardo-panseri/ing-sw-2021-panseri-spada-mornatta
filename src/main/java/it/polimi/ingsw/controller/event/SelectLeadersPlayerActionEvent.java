@@ -15,6 +15,6 @@ public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.selectInitialLeaders(getPlayerName(), selectedLeaders);
+        controller.getPlayerController().selectInitialLeaders(getPlayerName(), selectedLeaders);
     }
 }

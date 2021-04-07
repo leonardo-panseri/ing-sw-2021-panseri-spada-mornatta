@@ -76,7 +76,7 @@ public class Server {
 
             controller.getGame().getMarket().initializeMarket();
             controller.getGame().getDeck().shuffleDevelopmentDeck();
-            controller.start();
+            controller.getTurnController().start();
             for(SocketClientConnection conn : waitingConnection) {
                 conn.asyncSendServerMessage(ServerMessages.GAME_START);
             }

@@ -8,6 +8,6 @@ public class ActivateLeaderPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.activateLeaderCard(getPlayerName(), leaderCard);
+        controller.getPlayerController().activateLeaderCard(getPlayerName(), leaderCard);
     }
 }

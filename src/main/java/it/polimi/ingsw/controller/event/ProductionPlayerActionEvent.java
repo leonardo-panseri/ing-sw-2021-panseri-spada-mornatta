@@ -14,9 +14,9 @@ public class ProductionPlayerActionEvent extends PlayerActionEvent {
     @Override
     public void process(GameController controller) {
         if(card == null) {
-            controller.useBaseProduction(getPlayerName(), baseProductionInput, baseProductionOutput);
+            controller.getPlayerController().useBaseProduction(getPlayerName(), baseProductionInput, baseProductionOutput);
         } else {
-            controller.useProduction(getPlayerName(), card);
+            controller.getPlayerController().useProduction(getPlayerName(), card);
         }
     }
 }

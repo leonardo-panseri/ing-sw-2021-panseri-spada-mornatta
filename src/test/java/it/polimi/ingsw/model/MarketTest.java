@@ -1,16 +1,16 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.player.Player;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MarketTest {
     Game testGame;
     Market testMarket;
 
-    @Before
+    @BeforeEach
     public void initialization() {
         testGame = new Game();
         testGame.addPlayer(new Player("Davide"));

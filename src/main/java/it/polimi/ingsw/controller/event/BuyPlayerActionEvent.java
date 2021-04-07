@@ -9,6 +9,6 @@ public class BuyPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.buyDevelopmentCard(getPlayerName(), developmentCard, slot);
+        controller.getPlayerController().buyDevelopmentCard(getPlayerName(), developmentCard, slot);
     }
 }
