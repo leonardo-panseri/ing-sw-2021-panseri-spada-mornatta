@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.event;
 
-import it.polimi.ingsw.constant.GsonParser;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 

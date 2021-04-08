@@ -20,9 +20,28 @@ public class LeaderCardRequirement {
         this.cardLevelRequirements = cardLevelRequirements;
     }
 
+    /**
+     * Checks if the given Player can afford the card with this requirements.
+     *
+     * @param player the player that will be checked
+     * @return true if the player can afford the card, false otherwise
+     */
     boolean canPlayerAfford(Player player) {
-        //TODO Scrivere metodo
-        return true;
+        if(!Card.canPlayerAffordResources(player, resourceRequirements))
+            return false;
+        boolean canAfford = true;
+        for(CardColor color : cardColorRequirements.keySet()) {
+            int required = cardColorRequirements.get(color);
+            int playerAmount = player.getBoard().getAmountOfCardOfColor(color);
+            if(playerAmount < required)
+                canAfford = false;
+        }
+        for(CardColor color : cardLevelRequirements.keySet()) {
+            int requiredLevel = cardLevelRequirements.get(color);
+            if(!player.getBoard().hasCardOfColorAndLevel(color, requiredLevel))
+                canAfford = false;
+        }
+        return canAfford;
     }
 
     @Override

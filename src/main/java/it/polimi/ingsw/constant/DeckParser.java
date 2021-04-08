@@ -35,7 +35,7 @@ public class DeckParser {
 
         if(array != null) {
             GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(LeaderCardRequirement.class, new LeaderCardRequirementAdapter());
+            //builder.registerTypeAdapter(LeaderCardRequirement.class, new LeaderCardRequirementAdapter());
             Gson gson = builder.create();
             try {
                 for(JsonElement serializedCard : array) {
@@ -138,11 +138,11 @@ public class DeckParser {
         return result;
     }
 
-    /**
+    /*/**
      * Adapter for deserialization of {@link LeaderCardRequirement} from a json object.
      *
      * @see com.google.gson.TypeAdapter
-     */
+     *\/
     private static class LeaderCardRequirementAdapter extends TypeAdapter<LeaderCardRequirement> {
 
         @Override
@@ -165,5 +165,5 @@ public class DeckParser {
             } catch (IllegalArgumentException ignored) {}
             return null;
         }
-    }
+    }*/
 }

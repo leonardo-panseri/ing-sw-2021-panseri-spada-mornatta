@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.card;
 
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -15,7 +17,7 @@ public abstract class Card {
     /**
      * Constructs a Card with a random UUID and the given victory points.
      *
-     * @param victoryPoints
+     * @param victoryPoints the amount of victory points of this card
      */
     public Card(int victoryPoints) {
         this.uuid = UUID.randomUUID();
@@ -44,7 +46,18 @@ public abstract class Card {
      * Checks if the given Player can afford this card.
      *
      * @param player the player that will be checked
-     * @return true if the player can afford this cards, false otherwise
+     * @return true if the player can afford this card, false otherwise
      */
     public abstract boolean canPlayerAfford(Player player);
+
+    protected static boolean canPlayerAffordResources(Player player, Map<Resource, Integer> resources) {
+        boolean canAfford = true;
+        for (Resource res : resources.keySet()) {
+            int required = resources.get(res);
+            int playerAmount = player.getBoard().getDeposit().getAmountOfResource(res);
+            if(playerAmount < required)
+                canAfford = false;
+        }
+        return canAfford;
+    }
 }

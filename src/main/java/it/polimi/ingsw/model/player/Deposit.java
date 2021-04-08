@@ -64,6 +64,26 @@ public class Deposit extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Gets the total amount of the given resource in this player board.
+     *
+     * @param resource the resource to count
+     * @return the total amount of the given resource
+     */
+    public int getAmountOfResource(Resource resource) {
+        int amount = 0;
+        if(topRow == resource)
+            amount++;
+        for(Resource res : middleRow)
+            if(res == resource)
+                amount++;
+        for(Resource res : bottomRow)
+            if(res == resource)
+                amount++;
+        amount += strongBox.getOrDefault(resource, 0);
+        return amount;
+    }
+
+    /**
      * Adds the desired resource into a free slot on the indicated row, if the move if possible.
      *
      * @param row      the row where to insert the resource in, 1 is the top row, 2 is the middle row and 3 is the bottom row
@@ -112,15 +132,15 @@ public class Deposit extends Observable<PropertyUpdate> {
                     if (destination == 2 && middleRow.size() < 2) {
                         // Top <--> Middle
                         movedTo = 2;
-                        switchedResources = middleRow;
-                        middleRow = null;
+                        switchedResources.addAll(middleRow);
+                        middleRow.clear();
                         middleRow.add(topRow);
                         topRow = switchedResources.get(0);
                     } else if (destination == 3 && bottomRow.size() < 2) {
                         // Top <--> Bottom
                         movedTo = 3;
-                        switchedResources = bottomRow;
-                        bottomRow = null;
+                        switchedResources.addAll(bottomRow);
+                        bottomRow.clear();
                         bottomRow.add(topRow);
                         topRow = switchedResources.get(0);
                     }

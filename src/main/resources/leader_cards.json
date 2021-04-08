@@ -1,5 +1,6 @@
 [
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -10,6 +11,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -20,6 +22,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -30,6 +33,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -40,6 +44,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -50,6 +55,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -60,6 +66,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -70,6 +77,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -80,6 +88,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -90,6 +99,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -100,6 +110,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -110,6 +121,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -120,6 +132,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -130,6 +143,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2
@@ -140,6 +154,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "BLUE": 2,
       "STONE": 4
@@ -150,6 +165,7 @@
     }
   },
   {
+    "victoryPoints": 0,
     "cardRequirements": {
       "PURPLE": 3,
       "COIN": 2

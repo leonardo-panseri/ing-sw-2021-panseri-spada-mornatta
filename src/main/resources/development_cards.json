@@ -2,6 +2,7 @@
   "levelOne": {
     "GREEN": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -12,10 +13,10 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "GREEN",
-        "victoryPoints": 0
+        "color": "GREEN"
       },
       {
+        "victoryPoints": 0,
         "cost": {
           "STONE": 3
         },
@@ -26,12 +27,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "GREEN",
-        "victoryPoints": 0
+        "color": "GREEN"
       }
     ],
     "BLUE": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -42,12 +43,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "BLUE",
-        "victoryPoints": 0
+        "color": "BLUE"
       }
     ],
     "YELLOW": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -58,12 +59,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "YELLOW",
-        "victoryPoints": 0
+        "color": "YELLOW"
       }
     ],
     "PURPLE": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -74,14 +75,14 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "PURPLE",
-        "victoryPoints": 0
+        "color": "PURPLE"
       }
     ]
   },
   "levelTwo": {
     "GREEN": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -92,10 +93,10 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "GREEN",
-        "victoryPoints": 0
+        "color": "GREEN"
       },
       {
+        "victoryPoints": 0,
         "cost": {
           "STONE": 3
         },
@@ -106,12 +107,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "GREEN",
-        "victoryPoints": 0
+        "color": "GREEN"
       }
     ],
     "BLUE": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -122,12 +123,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "BLUE",
-        "victoryPoints": 0
+        "color": "BLUE"
       }
     ],
     "YELLOW": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -138,12 +139,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "YELLOW",
-        "victoryPoints": 0
+        "color": "YELLOW"
       }
     ],
     "PURPLE": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -154,14 +155,14 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "PURPLE",
-        "victoryPoints": 0
+        "color": "PURPLE"
       }
     ]
   },
   "levelThree": {
     "GREEN": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -172,10 +173,10 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "GREEN",
-        "victoryPoints": 0
+        "color": "GREEN"
       },
       {
+        "victoryPoints": 0,
         "cost": {
           "STONE": 3
         },
@@ -186,12 +187,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "GREEN",
-        "victoryPoints": 0
+        "color": "GREEN"
       }
     ],
     "BLUE": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -202,12 +203,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "BLUE",
-        "victoryPoints": 0
+        "color": "BLUE"
       }
     ],
     "YELLOW": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -218,12 +219,12 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "YELLOW",
-        "victoryPoints": 0
+        "color": "YELLOW"
       }
     ],
     "PURPLE": [
       {
+        "victoryPoints": 0,
         "cost": {
           "SERVANT": 3
         },
@@ -234,8 +235,7 @@
         "productionOutput": {
           "STONE": 3
         },
-        "color": "PURPLE",
-        "victoryPoints": 0
+        "color": "PURPLE"
       }
     ]
   }

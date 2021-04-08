@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.event;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.card.LeaderCard;
 
 import java.util.UUID;
 

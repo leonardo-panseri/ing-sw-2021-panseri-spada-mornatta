@@ -44,7 +44,7 @@ public class DevelopmentCard extends Card {
 
     @Override
     public boolean canPlayerAfford(Player player) {
-        //TODO Scrivere metodo
+        return canPlayerAffordResources(player, cost);
     }
 
     /**

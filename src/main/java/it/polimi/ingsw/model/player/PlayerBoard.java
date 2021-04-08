@@ -1,16 +1,14 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.event.BoughtCardUpdate;
 import it.polimi.ingsw.view.event.MarketResultUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Models the player board of a player, composed by a reference to the owner, three stacks of development cards
@@ -48,6 +46,45 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Gets a List containing all card slots.
+     *
+     * @return an arraylist containing all card slots
+     */
+    private List<Stack<DevelopmentCard>> getAllCardSlots() {
+        return new ArrayList<>(Arrays.asList(cardSlotLeft, cardSlotCenter, cardSlotRight));
+    }
+
+    /**
+     * Gets the total amount of cards with the given color.
+     *
+     * @param color the card color of the cards that will be counted
+     * @return the total amount of cards with the given color
+     */
+    public int getAmountOfCardOfColor(CardColor color) {
+        int amount = 0;
+        for(Stack<DevelopmentCard> slot : getAllCardSlots())
+            for(DevelopmentCard card : slot)
+                if(card.getColor() == color)
+                    amount++;
+        return amount;
+    }
+
+    /**
+     * Checks if this PlayerBoard has a card with the given color and the given level.
+     *
+     * @param color the color to search for
+     * @param level the level to search for
+     * @return true if found, false otherwise
+     */
+    public boolean hasCardOfColorAndLevel(CardColor color, int level) {
+        for(Stack<DevelopmentCard> slot : getAllCardSlots())
+            for(DevelopmentCard card : slot)
+                if(card.getColor() == color && card.getLevel() == level)
+                    return true;
+        return false;
+    }
+
+    /**
      * Calls for the method to push the bought development card in the desired stack.
      *
      * @param slot the slot where to push the card
@@ -66,7 +103,7 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
         if (slot == 3) {
             pushDevelopmentCard(developmentCard, cardSlotRight);
         }
-        notify(new BoughtCardUpdate(player.getNick(), developmentCard, slot));
+        notify(new BoughtCardUpdate(player.getNick(), developmentCard.getUuid(), slot));
     }
 
     /**
