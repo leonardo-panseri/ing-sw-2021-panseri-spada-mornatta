@@ -140,7 +140,7 @@ public class Game extends Observable<PropertyUpdate> {
     public void nextPlayer() {
         int nextIndex = players.indexOf(currentPlayer) + 1;
         if (nextIndex >= players.size()) nextIndex = 0;
-        currentPlayer = players.get(nextIndex);
+        setCurrentPlayer(players.get(nextIndex));
     }
 
     /**

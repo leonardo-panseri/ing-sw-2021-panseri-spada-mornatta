@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 
@@ -20,7 +21,11 @@ public class TurnController {
         gameController.getGame().setCurrentPlayer(gameController.getGame().getPlayerAt(0));
     }
 
-    public void endTurn() {
-
+    public void endTurn(Player player) {
+        if(gameController.getGame().getCurrentPlayer().equals(player)) {
+            gameController.getGame().nextPlayer();
+        } else {
+            //TODO Send error
+        }
     }
 }

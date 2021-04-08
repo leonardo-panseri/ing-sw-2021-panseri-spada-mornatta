@@ -24,6 +24,8 @@ public class Deck extends Observable<PropertyUpdate> {
         developmentCards = DeckParser.loadDevelopmentCards();
     }
 
+    //TODO Getting the card by uuid can return null because the cards get removed from the deck
+
     /**
      * Gets the LeaderCard with the given UUID.
      *

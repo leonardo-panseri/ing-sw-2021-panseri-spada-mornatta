@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -59,5 +60,13 @@ public abstract class Card {
                 canAfford = false;
         }
         return canAfford;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return Objects.equals(uuid, card.uuid);
     }
 }
