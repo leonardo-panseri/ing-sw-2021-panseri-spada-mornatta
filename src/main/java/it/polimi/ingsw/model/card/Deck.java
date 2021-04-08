@@ -33,7 +33,10 @@ public class Deck extends Observable<PropertyUpdate> {
     public LeaderCard getLeaderCardByUuid(UUID uuid) {
         LeaderCard result = null;
         for(LeaderCard card : leaderCards) {
-            if(uuid.equals(card.getUuid())) result = card;
+            if(uuid.equals(card.getUuid())) {
+                result = card;
+                break;
+            }
         }
         return result;
     }
@@ -46,10 +49,14 @@ public class Deck extends Observable<PropertyUpdate> {
      */
     public DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
         DevelopmentCard result = null;
+        outerLoop:
         for(HashMap<CardColor, Stack<DevelopmentCard>> color : developmentCards) {
             for(Stack<DevelopmentCard> pile : color.values()) {
                 for(DevelopmentCard card : pile) {
-                    if(uuid.equals(card.getUuid())) result = card;
+                    if(uuid.equals(card.getUuid())) {
+                        result = card;
+                        break outerLoop;
+                    }
                 }
             }
         }

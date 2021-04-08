@@ -22,6 +22,7 @@ public class LeaderCardRequirement {
 
     boolean canPlayerAfford(Player player) {
         //TODO Scrivere metodo
+        return true;
     }
 
     @Override

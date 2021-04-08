@@ -60,7 +60,10 @@ public class Game extends Observable<PropertyUpdate> {
     public Player getPlayerByName(String playerName) {
         Player result = null;
         for(Player player : players) {
-            if(player.getNick().equals(playerName)) result = player;
+            if(player.getNick().equals(playerName)) {
+                result = player;
+                break;
+            }
         }
         return result;
     }

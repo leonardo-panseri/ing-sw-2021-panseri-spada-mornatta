@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.card.DevelopmentCard;
