@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.event.PropertyUpdate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Models a player, composed by a nickname, faith points indicating the current position in the faith track,
@@ -92,9 +93,18 @@ public class Player extends Observable<PropertyUpdate> {
      * Activates a leader card possessed by the player by putting the true value in the card map.
      *
      * @param leaderCard a leader card to be activated
+     * @throws IllegalArgumentException if the given leader card is not present in this player board or if it is
+     *                                  already active
      */
-    public void setLeaderActive(LeaderCard leaderCard) {
-        leaderCards.put(leaderCard, true);
+    public void setLeaderActive(LeaderCard leaderCard) throws IllegalArgumentException {
+        if(leaderCards.containsKey(leaderCard)) {
+            if(!leaderCards.get(leaderCard))
+                leaderCards.put(leaderCard, true);
+            else
+                throw new IllegalArgumentException("leadercard_already_active");
+        } else {
+            throw new IllegalArgumentException("leadercard_not_present");
+        }
     }
 
     /**
@@ -107,5 +117,13 @@ public class Player extends Observable<PropertyUpdate> {
             leaderCards.put(leaderCard, false);
         }
         notify(new OwnedLeadersUpdate(this.getNick(), leaderCards));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(nick, player.nick);
     }
 }

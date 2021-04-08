@@ -118,6 +118,15 @@ public class Deposit extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Removes all the given resources from this deposit.
+     *
+     * @param resources a map that associates resource to quantity
+     */
+    public void removeResources(Map<Resource, Integer> resources) {
+        //TODO Write methods
+    }
+
+    /**
      * Switches two rows of resources, checking if the move is possible.
      *
      * @param toMove      row to move

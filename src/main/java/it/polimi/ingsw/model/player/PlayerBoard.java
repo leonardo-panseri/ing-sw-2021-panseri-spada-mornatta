@@ -85,6 +85,45 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Checks if a card of the given level can be placed in the given slot.
+     *
+     * @param level the level of the card
+     * @param slot the slot to place the card in
+     * @return true if the card can be placed in the slot, false otherwise
+     */
+    public boolean canPlaceCardOfLevel(int level, int slot) {
+        if(slot < 1 || slot > 3)
+            return false;
+
+        List<Stack<DevelopmentCard>> slots = getAllCardSlots();
+        boolean canPlace = false;
+        if(level == 1) {
+            if(slots.get(slot - 1).isEmpty()) {
+                canPlace = true;
+            }
+        } else if(level > 1 && level < 4) {
+            int topCardLevel = slots.get(slot - 1).peek().getLevel();
+            if (topCardLevel == level - 1) {
+                canPlace = true;
+            }
+
+        }
+        return canPlace;
+    }
+
+    /**
+     * Gets the total amount of development cards in this player board.
+     *
+     * @return the total amount of development cards
+     */
+    public int getNumberOfDevelopmentCards() {
+        int amount = 0;
+        for(Stack<DevelopmentCard> slot : getAllCardSlots())
+            amount += slot.size();
+        return amount;
+    }
+
+    /**
      * Calls for the method to push the bought development card in the desired stack.
      *
      * @param slot the slot where to push the card

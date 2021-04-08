@@ -48,6 +48,15 @@ public class DevelopmentCard extends Card {
     }
 
     /**
+     * Gets the cost.
+     *
+     * @return the cost
+     */
+    public Map<Resource, Integer> getCost() {
+        return cost;
+    }
+
+    /**
      * Returns the pruduction input.
      *
      * @return the production input
