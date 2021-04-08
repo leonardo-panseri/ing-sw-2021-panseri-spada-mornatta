@@ -31,7 +31,7 @@ public class Deposit extends Observable<PropertyUpdate> {
     List<Resource> getRow(int row) {
         if (row == 1) {
             List<Resource> result = new ArrayList<>();
-            result.add(topRow);
+            if(topRow != null) result.add(topRow);
             return result;
         } else if (row == 2) {
             return middleRow;

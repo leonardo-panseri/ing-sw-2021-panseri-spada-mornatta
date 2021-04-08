@@ -17,6 +17,12 @@ class DepositTest {
     Game testGame;
     Deposit testDeposit;
 
+    void printDepo(){
+        System.out.println(testDeposit.getRow(1));
+        System.out.println(testDeposit.getRow(2));
+        System.out.println(testDeposit.getRow(3) + "\n");
+    }
+
     @BeforeEach
     void setUp() {
         testGame = new Game();
@@ -52,7 +58,7 @@ class DepositTest {
         testDeposit.removeResource(2, Resource.STONE);
         testDeposit.removeResource(3, Resource.COIN);
 
-        assertNull(testDeposit.getRow(1).get(0));
+        assertEquals(0, testDeposit.getRow(1).size());
         assertEquals(1, testDeposit.getRow(2).size());
         assertEquals(2, testDeposit.getRow(3).size());
     }
@@ -60,13 +66,25 @@ class DepositTest {
     @Test
     void moveRowTest() {
         removeResourceTest();
-        List<Resource> rowToMove = new ArrayList<>(testDeposit.getRow(2));
-        List<Resource> destinationRow = new ArrayList<>(testDeposit.getRow(3));
+        printDepo();
+        List<Resource> rowToMove;
+        List<Resource> destinationRow;
+
+        rowToMove = new ArrayList<>(testDeposit.getRow(2));
+        destinationRow = new ArrayList<>(testDeposit.getRow(3));
         testDeposit.moveRow(2,3);
+        printDepo();
 
         assertEquals(rowToMove, testDeposit.getRow(3));
         assertEquals(destinationRow, testDeposit.getRow(2));
 
+        rowToMove = new ArrayList<>(testDeposit.getRow(3));
+        destinationRow = new ArrayList<>(testDeposit.getRow(1));
+        testDeposit.moveRow(3,1);
+        printDepo();
+
+        assertEquals(rowToMove, testDeposit.getRow(1));
+        assertEquals(destinationRow, testDeposit.getRow(3));
     }
 
     @Test
