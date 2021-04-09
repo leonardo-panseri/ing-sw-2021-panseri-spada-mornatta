@@ -97,14 +97,13 @@ public class Player extends Observable<PropertyUpdate> {
      *                                  already active
      */
     public void setLeaderActive(LeaderCard leaderCard) throws IllegalArgumentException {
-        if(leaderCards.containsKey(leaderCard)) {
-            if(!leaderCards.get(leaderCard))
-                leaderCards.put(leaderCard, true);
-            else
-                throw new IllegalArgumentException("leadercard_already_active");
-        } else {
+        if(!leaderCards.containsKey(leaderCard))
             throw new IllegalArgumentException("leadercard_not_present");
-        }
+        if(leaderCards.get(leaderCard))
+            throw new IllegalArgumentException("leadercard_already_active");
+
+        leaderCards.put(leaderCard, true);
+        notify(new OwnedLeadersUpdate(getNick(), leaderCards));
     }
 
     /**
@@ -117,6 +116,33 @@ public class Player extends Observable<PropertyUpdate> {
             leaderCards.put(leaderCard, false);
         }
         notify(new OwnedLeadersUpdate(this.getNick(), leaderCards));
+    }
+
+    /**
+     * Adds the given amount of faith points to this player.
+     *
+     * @param faithPoints the amount of faith points to add
+     */
+    public void addFaithPoints(int faithPoints) {
+        this.faithPoints += faithPoints;
+        notify(new FaithUpdate(getNick(), faithPoints, popeFavours));
+    }
+
+    /**
+     * Discards the given LeaderCard from this player hand.
+     *
+     * @param card the leader card that will be discarded
+     * @throws IllegalArgumentException if the player does not have this leader card in his hand or if this card is
+     *                                  already active
+     */
+    public void discardLeader(LeaderCard card) throws IllegalArgumentException {
+        if(!leaderCards.containsKey(card))
+            throw new IllegalArgumentException("leadercard_not_present");
+        if(leaderCards.get(card))
+            throw new IllegalArgumentException("leadercard_already_active");
+
+        leaderCards.remove(card);
+        notify(new OwnedLeadersUpdate(getNick(), leaderCards));
     }
 
     @Override

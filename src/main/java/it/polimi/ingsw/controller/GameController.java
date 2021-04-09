@@ -32,6 +32,10 @@ public class GameController implements Observer<PlayerActionEvent> {
         game.addPlayer(player);
     }
 
+    public void endGame() {
+
+    }
+
     public int calculateScore(Player player) {
         return 0;
     }
@@ -47,5 +51,9 @@ public class GameController implements Observer<PlayerActionEvent> {
     @Override
     public void update(PlayerActionEvent event) {
         event.process(this);
+    }
+
+    boolean isPlaying(Player player) {
+        return getGame().getCurrentPlayer().equals(player);
     }
 }

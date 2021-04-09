@@ -170,10 +170,27 @@ public class PlayerBoard extends Observable<PropertyUpdate> {
      *
      * @param marketResults an arraylist containing the market results
      */
-    public void setMarketResults(ArrayList<Resource> marketResults) {
+    public void setMarketResults(List<Resource> marketResults) {
         this.marketResults.clear();
         this.marketResults.addAll(marketResults);
         notify(new MarketResultUpdate(player.getNick(), this.marketResults));
+    }
+
+    /**
+     * Gets the amount of resources in the market result slots.
+     *
+     * @return the amount of resources stored in the market result slots
+     */
+    public int getUnusedMarketResults() {
+        return marketResults.size();
+    }
+
+    /**
+     * Clears the market result slots.
+     */
+    public void clearMarketResults() {
+        marketResults.clear();
+        notify(new MarketResultUpdate(player.getNick(), marketResults));
     }
 }
 

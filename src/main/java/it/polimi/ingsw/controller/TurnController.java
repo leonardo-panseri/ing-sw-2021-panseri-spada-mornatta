@@ -22,10 +22,17 @@ public class TurnController {
     }
 
     public void endTurn(Player player) {
-        if(gameController.getGame().getCurrentPlayer().equals(player)) {
-            gameController.getGame().nextPlayer();
-        } else {
+        if(!gameController.isPlaying(player)) {
             //TODO Send error
+            return;
         }
+
+        int discardedMarketResults = player.getBoard().getUnusedMarketResults();
+        if(discardedMarketResults > 0) {
+            for(Player p : gameController.getGame().getPlayers())
+                if(!p.equals(player))
+                    p.addFaithPoints(discardedMarketResults);
+        }
+        gameController.getGame().nextPlayer();
     }
 }

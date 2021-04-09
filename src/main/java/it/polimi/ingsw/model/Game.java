@@ -115,6 +115,15 @@ public class Game extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Gets all players.
+     *
+     * @return a list of players participating in this game
+     */
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /**
      * Gets the player at the given index in the players list.
      *
      * @param index the position of the player in the player list

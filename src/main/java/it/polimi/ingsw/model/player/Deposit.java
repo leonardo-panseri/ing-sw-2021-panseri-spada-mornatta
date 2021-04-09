@@ -84,6 +84,17 @@ public class Deposit extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Applies the given changes to this player deposit, checking if they are legal.
+     *
+     * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
+     *                2 -> middle, 3 -> bottom, 4 -> strongbox), the value is the list of resources to put in the row
+     * @throws IllegalArgumentException if the changes are not legal
+     */
+    public void applyChanges(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
+
+    }
+
+    /**
      * Adds the desired resource into a free slot on the indicated row, if the move if possible.
      *
      * @param row      the row where to insert the resource in, 1 is the top row, 2 is the middle row and 3 is the bottom row
