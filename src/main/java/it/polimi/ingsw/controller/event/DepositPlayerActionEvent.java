@@ -3,11 +3,15 @@ package it.polimi.ingsw.controller.event;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Resource;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 
 public class DepositPlayerActionEvent extends PlayerActionEvent {
-    private final Map<Integer, List<Resource>> changes; // The model should check that changes are legal
+    @Serial
+    private static final long serialVersionUID = 9204228336536058886L;
+
+    private final Map<Integer, List<Resource>> changes;
 
     public DepositPlayerActionEvent(Map<Integer, List<Resource>> changes) {
         this.changes = changes;

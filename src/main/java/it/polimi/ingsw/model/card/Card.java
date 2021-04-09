@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.card;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -11,7 +13,10 @@ import java.util.UUID;
  * Abstract class containing the victory points.
  */
 
-public abstract class Card {
+public abstract class Card implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -5973224638164897402L;
+
     private UUID uuid;
     private int victoryPoints;
 

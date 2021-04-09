@@ -2,12 +2,16 @@ package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
  * Subclass that models a leader card.
  */
 public class LeaderCard extends Card {
+    @Serial
+    private static final long serialVersionUID = -7287359739334056170L;
+
     private LeaderCardRequirement cardRequirements;
     private SpecialAbility specialAbility;
 

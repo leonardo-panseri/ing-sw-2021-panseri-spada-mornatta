@@ -4,10 +4,14 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.Card;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.UUID;
 
 public class ProductionPlayerActionEvent extends PlayerActionEvent {
+    @Serial
+    private static final long serialVersionUID = -1555283945398296364L;
+
     private UUID cardUUID;
     private Resource[] baseProductionInput;
     private Resource baseProductionOutput;

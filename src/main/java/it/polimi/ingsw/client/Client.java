@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.view.View;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -13,6 +16,8 @@ public class Client {
     private int port;
     private SocketClientRead readThread;
     private SocketClientWrite writeThread;
+
+    private View view;
 
     public Client(String ip, int port){
         this.ip = ip;
@@ -29,19 +34,22 @@ public class Client {
         this.active = active;
     }
 
-    public void sendMessage(String message) {
-        writeThread.sendMessage(message);
+    public View getView() {
+        return view;
+    }
+
+    public void send(Object message) {
+        writeThread.send(message);
     }
 
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
+        ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
 
         try{
             Scanner stdin = new Scanner(System.in);
-            CLI cli;
             int chosen = -1;
             while (chosen != 1 && chosen != 2){
                 System.out.println("Choose interface: \n" +
@@ -49,13 +57,13 @@ public class Client {
                 chosen = stdin.nextInt();
             }
             if(chosen == 1) {
-                cli = new CLI(this);
-            } else cli = new CLI(this);
-            readThread = new SocketClientRead(this, socketIn, cli);
-            writeThread = new SocketClientWrite(this, socketOut, cli);
+                view = new CLI(this);
+            } else view = new CLI(this);
+            readThread = new SocketClientRead(this, socketIn);
+            writeThread = new SocketClientWrite(this, socketOut);
             readThread.start();
             writeThread.start();
-            cli.run();
+            view.run();
             readThread.join();
             writeThread.join();
         } catch(InterruptedException | NoSuchElementException e){

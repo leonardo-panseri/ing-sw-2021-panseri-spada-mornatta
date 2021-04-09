@@ -3,9 +3,13 @@ package it.polimi.ingsw.controller.event;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 
+import java.io.Serial;
 import java.util.UUID;
 
 public class BuyPlayerActionEvent extends PlayerActionEvent {
+    @Serial
+    private static final long serialVersionUID = 5030461192380878280L;
+
     private UUID developmentCardUuid;
     private int slot;
 

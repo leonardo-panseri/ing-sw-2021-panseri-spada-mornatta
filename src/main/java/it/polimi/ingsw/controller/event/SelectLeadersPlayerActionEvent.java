@@ -3,13 +3,16 @@ package it.polimi.ingsw.controller.event;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.card.LeaderCard;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
-    private List<UUID> selectedLeadersUUID;
+    @Serial
+    private static final long serialVersionUID = -4349081220755030803L;
 
+    private List<UUID> selectedLeadersUUID;
 
     public List<UUID> getSelectedLeaders() {
         return selectedLeadersUUID;

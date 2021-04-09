@@ -36,6 +36,6 @@ public class RemoteView extends Observable<PlayerActionEvent> implements Observe
 
     @Override
     public void update(PropertyUpdate update) {
-        clientConnection.asyncSend(update.serialize());
+        clientConnection.asyncSend(update);
     }
 }

@@ -3,12 +3,17 @@ package it.polimi.ingsw.model.card;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Models requirements for leader cards, as they can be resources or development cards.
  */
-public class LeaderCardRequirement {
+public class LeaderCardRequirement implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 4281900239968141563L;
+
     private final Map<Resource, Integer> resourceRequirements;
     private final Map<CardColor, Integer> cardColorRequirements;
     private final Map<CardColor, Integer> cardLevelRequirements;

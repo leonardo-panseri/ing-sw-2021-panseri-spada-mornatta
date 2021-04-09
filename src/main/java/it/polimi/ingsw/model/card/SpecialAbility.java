@@ -2,11 +2,17 @@ package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.model.Resource;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Models a special ability, storing the type and the target resource.
  */
 
-public class SpecialAbility {
+public class SpecialAbility implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -6196877805986709485L;
+
     private SpecialAbilityType type;
     private Resource targetResource;
 

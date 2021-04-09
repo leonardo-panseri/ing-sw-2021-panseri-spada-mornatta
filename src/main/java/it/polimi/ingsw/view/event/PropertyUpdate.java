@@ -1,15 +1,13 @@
 package it.polimi.ingsw.view.event;
 
-import it.polimi.ingsw.constant.GsonParser;
+import it.polimi.ingsw.view.View;
 
-public abstract class PropertyUpdate {
+import java.io.Serial;
+import java.io.Serializable;
 
-    /**
-     * Serializes the object into a JSON string.
-     *
-     * @return a json string representing the object
-     */
-    public String serialize() {
-        return "{\"type\":\"" + this.getClass().getSimpleName() + "\",\"content\":" + GsonParser.instance().getGson().toJson(this) + "}";
-    }
+public abstract class PropertyUpdate implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 8611410949820701833L;
+
+    public abstract void process(View view);
 }

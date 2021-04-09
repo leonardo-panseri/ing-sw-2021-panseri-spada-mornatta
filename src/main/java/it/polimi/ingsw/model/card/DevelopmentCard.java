@@ -3,12 +3,16 @@ package it.polimi.ingsw.model.card;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
  * Subclass that models a DevelopmentCard.
  */
 public class DevelopmentCard extends Card {
+    @Serial
+    private static final long serialVersionUID = -1379804978081533382L;
+
     private Map<Resource, Integer> cost;
     private int level;
     private Map<Resource, Integer> productionInput;

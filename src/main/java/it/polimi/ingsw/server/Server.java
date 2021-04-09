@@ -17,7 +17,7 @@ public class Server {
     private final ServerSocket serverSocket;
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
     private final List<SocketClientConnection> waitingConnection = new ArrayList<>();
-    private int playersToStart;
+    private int playersToStart = -1;
     private final Map<UUID, List<SocketClientConnection>> playingConnection = new HashMap<>();
     private UUID currentLobbyID = UUID.randomUUID();
 
@@ -44,6 +44,7 @@ public class Server {
 
     void setPlayersToStart(int playersToStart) {
         this.playersToStart = playersToStart;
+        checkGameStart();
     }
 
     public synchronized void lobby(SocketClientConnection c){
@@ -51,6 +52,10 @@ public class Server {
 
         System.out.println("Player connected: " + c.getPlayerName());
 
+        checkGameStart();
+    }
+
+    private void checkGameStart() {
         if(waitingConnection.size() == playersToStart) {
             System.out.println("Starting game!");
             playingConnection.put(currentLobbyID, waitingConnection);
@@ -74,15 +79,27 @@ public class Server {
                 }
             }
 
+            for(SocketClientConnection conn : waitingConnection) {
+                conn.sendServerMessage(ServerMessages.GAME_START);
+            }
+
             controller.getGame().getMarket().initializeMarket();
             controller.getGame().getDeck().shuffleDevelopmentDeck();
             controller.getTurnController().start();
-            for(SocketClientConnection conn : waitingConnection) {
-                conn.asyncSendServerMessage(ServerMessages.GAME_START);
-            }
 
             waitingConnection.clear();
+
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    playersToStart = -1;
+                }
+            }, 200);
         }
+    }
+
+    public boolean isPlayersToStartSet() {
+        return playersToStart > 0 && playersToStart < 5;
     }
 
     public Server() throws IOException {
@@ -90,11 +107,20 @@ public class Server {
     }
 
     public void run(){
+        System.out.println("Server starting...");
+
         while(true){
             try {
+                System.out.println("Waiting for connection");
+
                 Socket newSocket = serverSocket.accept();
+
+                System.out.println("Accepted new connection");
+
                 if(waitingConnection.size() >= 4) {
                     newSocket.close();
+
+                    System.out.println("Can't accept more than 4 connections");
                 }
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this, currentLobbyID);
                 socketConnection.setRemoteView(new RemoteView(socketConnection));

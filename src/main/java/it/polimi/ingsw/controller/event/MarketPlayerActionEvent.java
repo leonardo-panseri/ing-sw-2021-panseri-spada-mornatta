@@ -3,9 +3,13 @@ package it.polimi.ingsw.controller.event;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Resource;
 
+import java.io.Serial;
 import java.util.List;
 
 public class MarketPlayerActionEvent extends PlayerActionEvent {
+    @Serial
+    private static final long serialVersionUID = 1928950514602330030L;
+
     private int selected;
     private Resource whiteConversion;
 

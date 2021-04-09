@@ -1,16 +1,19 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.controller.event.PlayerActionEvent;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.server.event.ServerMessage;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class SocketClientConnection extends Observable<String> implements Runnable {
+public class SocketClientConnection extends Observable<Object> implements Runnable {
 
     private final Socket socket;
     private ObjectOutputStream out;
@@ -20,6 +23,8 @@ public class SocketClientConnection extends Observable<String> implements Runnab
     private RemoteView remoteView;
 
     private boolean active = true;
+
+    private boolean hasSetPlayersToStart = false;
 
     public SocketClientConnection(Socket socket, Server server, UUID lobbyID) {
         this.socket = socket;
@@ -51,6 +56,7 @@ public class SocketClientConnection extends Observable<String> implements Runnab
 
     public void setPlayersToStart(int playersNum) {
         server.setPlayersToStart(playersNum);
+        hasSetPlayersToStart = true;
     }
 
     public void setRemoteView(RemoteView remoteView) {
@@ -58,8 +64,8 @@ public class SocketClientConnection extends Observable<String> implements Runnab
     }
 
     synchronized void sendServerMessage(String message) {
-        String jsonMessage = "{\"type\":\"ServerMessages\",\"content\":\"" + message + "\"}";
-        send(jsonMessage);
+        ServerMessage serverMessage = new ServerMessage(message);
+        send(serverMessage);
     }
 
     public void asyncSendServerMessage(final String message){
@@ -103,14 +109,15 @@ public class SocketClientConnection extends Observable<String> implements Runnab
 
     @Override
     public void run() {
-        Scanner in;
+        ObjectInputStream in;
         try{
-            in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            String read;
+            in = new ObjectInputStream(socket.getInputStream());
+
+            Object read;
             while (playerName == null) {
                 sendServerMessage(ServerMessages.INPUT_NAME);
-                read = in.nextLine();
+                read = in.readObject();
 
 
                 System.out.println(read);
@@ -119,15 +126,15 @@ public class SocketClientConnection extends Observable<String> implements Runnab
                 notify(read);
             }
 
-            while (server.isLobbyEmpty()) {
+            while (!server.isPlayersToStartSet() && !hasSetPlayersToStart) {
                 sendServerMessage(ServerMessages.CHOOSE_PLAYER_NUM);
-                read = in.nextLine();
+                read = in.readObject();
 
 
                 System.out.println(read);
 
 
-                if(!server.isLobbyEmpty()) {
+                if(server.isPlayersToStartSet()) {
                     sendServerMessage(ServerMessages.ALREADY_SELECTED);
                     break;
                 }
@@ -135,18 +142,11 @@ public class SocketClientConnection extends Observable<String> implements Runnab
             }
 
             while(isActive()){
-
-                System.out.println("Waiting for player input: " + getPlayerName());
-
-                read = in.nextLine();
-
-
-                System.out.println(read);
-
+                read = in.readObject();
 
                 notify(read);
             }
-        } catch (IOException | NoSuchElementException e) {
+        } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
             close();
