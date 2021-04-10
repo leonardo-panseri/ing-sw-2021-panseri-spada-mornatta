@@ -6,10 +6,7 @@ import it.polimi.ingsw.view.event.FaithUpdate;
 import it.polimi.ingsw.view.event.OwnedLeadersUpdate;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Models a player, composed by a nickname, faith points indicating the current position in the faith track,
@@ -20,6 +17,12 @@ public class Player extends Observable<PropertyUpdate> {
     private String nick;
     private int faithPoints;
     private int popeFavours;
+
+
+    public Map<LeaderCard, Boolean> getLeaderCards() {
+        return leaderCards;
+    }
+
     private Map<LeaderCard, Boolean> leaderCards;
     private PlayerBoard board;
 
