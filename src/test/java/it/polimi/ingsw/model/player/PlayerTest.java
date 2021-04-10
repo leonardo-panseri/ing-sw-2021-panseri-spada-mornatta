@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import it.polimi.ingsw.model.player.Player;
@@ -95,9 +96,23 @@ class PlayerTest {
 
     @Test
     void setLeaderActive() {
-        System.out.println(testListLeaderCards);
-        testListLeaderCards.put(testLeaderCard, true);
-        System.out.println(testListLeaderCards);
+        //System.out.println(testListLeaderCards);
+        //testListLeaderCards.put(testLeaderCard, true);
+        //System.out.println(testListLeaderCards);
+        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
+        testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+        assert (testGame.getPlayerByName("Edoardo").getLeaderCards().get(testLeaderCard));
+        //System.out.println(testGame.getPlayerByName("Edoardo").getLeaderCards().toString());
+        //testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+        });
+
+      //  Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      //      testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard2);
+       // });
+
     }
 
     @Test
@@ -122,5 +137,6 @@ class PlayerTest {
 
     @Test
     void discardLeader() {
+
     }
 }
