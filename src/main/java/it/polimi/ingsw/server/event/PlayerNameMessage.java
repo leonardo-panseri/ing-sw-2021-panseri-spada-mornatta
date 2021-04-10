@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.event;
 
+import it.polimi.ingsw.server.LobbyController;
 import it.polimi.ingsw.server.SocketClientConnection;
 
 import java.io.Serial;
@@ -15,8 +16,7 @@ public class PlayerNameMessage extends ClientMessage {
     }
 
     @Override
-    public void process(SocketClientConnection connection) {
-        connection.setPlayerName(playerName);
-        connection.addToLobby();
+    public void process(LobbyController lobbyController) {
+        lobbyController.setPlayerName(getClientConnection(), playerName);
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.event;
 
+import it.polimi.ingsw.server.LobbyController;
 import it.polimi.ingsw.server.ServerMessages;
 import it.polimi.ingsw.server.SocketClientConnection;
 
@@ -16,11 +17,7 @@ public class PlayersToStartMessage extends ClientMessage {
     }
 
     @Override
-    public void process(SocketClientConnection connection) {
-        if(playersToStart < 1 || playersToStart > 4) {
-            connection.asyncSendServerMessage(ServerMessages.INVALID_INPUT);
-            return;
-        }
-        connection.setPlayersToStart(playersToStart);
+    public void process(LobbyController lobbyController) {
+        lobbyController.setPlayersToStart(getClientConnection(), playersToStart);
     }
 }

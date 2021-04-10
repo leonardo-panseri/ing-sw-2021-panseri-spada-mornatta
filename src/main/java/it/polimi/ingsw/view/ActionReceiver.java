@@ -19,7 +19,7 @@ public class ActionReceiver implements Observer<Object> {
             System.out.println("Processing client message");
 
             ClientMessage clientMessage = (ClientMessage) action;
-            clientMessage.process(remoteView.getClientConnection());
+            remoteView.notifyClientMessage(clientMessage);
         } else if(action instanceof PlayerActionEvent) {
             System.out.println("Processing player action");
 

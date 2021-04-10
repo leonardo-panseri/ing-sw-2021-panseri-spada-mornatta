@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
+import it.polimi.ingsw.server.event.ClientMessage;
 import it.polimi.ingsw.view.event.PropertyUpdate;
 
 public class RemoteView extends Observable<PlayerActionEvent> implements Observer<PropertyUpdate> {
@@ -32,6 +33,11 @@ public class RemoteView extends Observable<PlayerActionEvent> implements Observe
 
     void notifyActionEvent(PlayerActionEvent event) {
         notify(event);
+    }
+
+    void notifyClientMessage(ClientMessage message) {
+        message.setClientConnection(getClientConnection());
+        clientConnection.getLobbyController().update(message);
     }
 
     @Override

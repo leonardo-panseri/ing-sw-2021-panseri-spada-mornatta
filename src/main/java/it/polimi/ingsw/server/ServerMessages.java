@@ -8,5 +8,6 @@ public class ServerMessages {
     public static final String GAME_START = "game_start";
 
     public static final String INVALID_INPUT = "invalid_input";
+    public static final String TOO_MANY_CONNECTIONS = "too_many_players_already_connected";
     public static final String SOMEONE_CRASHED = "someone_crashed";
 }

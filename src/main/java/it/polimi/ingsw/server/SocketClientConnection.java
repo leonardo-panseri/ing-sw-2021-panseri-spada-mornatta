@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.event.PlayerActionEvent;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.server.event.DirectServerMessage;
 import it.polimi.ingsw.server.event.ServerMessage;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -10,66 +11,53 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.UUID;
 
-public class SocketClientConnection extends Observable<Object> implements Runnable {
-
+public class SocketClientConnection extends Observable<Object> implements Runnable, Observer<ServerMessage> {
     private final Socket socket;
     private ObjectOutputStream out;
-    private final Server server;
-    private final UUID lobbyID;
+
+    private final LobbyController lobbyController;
     private String playerName;
-    private RemoteView remoteView;
+    private final RemoteView remoteView;
+    private UUID lobbyUUID;
 
     private boolean active = true;
 
-    private boolean hasSetPlayersToStart = false;
-
-    public SocketClientConnection(Socket socket, Server server, UUID lobbyID) {
+    public SocketClientConnection(Socket socket, LobbyController lobbyController) {
         this.socket = socket;
-        this.server = server;
-        this.lobbyID = lobbyID;
+        this.lobbyController = lobbyController;
         this.playerName = null;
-        this.remoteView = null;
+        this.remoteView = new RemoteView(this);
+        this.lobbyUUID = null;
     }
 
     private synchronized boolean isActive(){
         return active;
     }
 
-    public UUID getLobbyID() {
-        return lobbyID;
-    }
-
     public String getPlayerName() {
         return playerName;
-    }
-
-    public RemoteView getRemoteView() {
-        return remoteView;
     }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public void setPlayersToStart(int playersNum) {
-        server.setPlayersToStart(playersNum);
-        hasSetPlayersToStart = true;
+    public RemoteView getRemoteView() {
+        return remoteView;
     }
 
-    public void setRemoteView(RemoteView remoteView) {
-        this.remoteView = remoteView;
+    public LobbyController getLobbyController() {
+        return lobbyController;
     }
 
-    synchronized void sendServerMessage(String message) {
-        ServerMessage serverMessage = new ServerMessage(message);
-        send(serverMessage);
+    public UUID getLobbyUUID() {
+        return lobbyUUID;
     }
 
-    public void asyncSendServerMessage(final String message){
-        new Thread(() -> sendServerMessage(message)).start();
+    public void setLobbyUUID(UUID lobbyUUID) {
+        this.lobbyUUID = lobbyUUID;
     }
 
     synchronized void send(Object message) {
@@ -83,7 +71,8 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
     }
 
     public synchronized void closeConnection() {
-        sendServerMessage(ServerMessages.DISCONNECT);
+        update(new DirectServerMessage(this, ServerMessages.DISCONNECT));
+
         try {
             socket.close();
         } catch (IOException e) {
@@ -94,17 +83,14 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
 
     private void close() {
         closeConnection();
+
         System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
+        lobbyController.deregisterConnection(this);
         System.out.println("Done!");
     }
 
     public void asyncSend(final Object message){
         new Thread(() -> send(message)).start();
-    }
-
-    public void addToLobby() {
-        server.lobby(this);
     }
 
     @Override
@@ -114,33 +100,9 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
+            lobbyController.addToLobby(this);
+
             Object read;
-            while (playerName == null) {
-                sendServerMessage(ServerMessages.INPUT_NAME);
-                read = in.readObject();
-
-
-                System.out.println(read);
-
-
-                notify(read);
-            }
-
-            while (!server.isPlayersToStartSet() && !hasSetPlayersToStart) {
-                sendServerMessage(ServerMessages.CHOOSE_PLAYER_NUM);
-                read = in.readObject();
-
-
-                System.out.println(read);
-
-
-                if(server.isPlayersToStartSet()) {
-                    sendServerMessage(ServerMessages.ALREADY_SELECTED);
-                    break;
-                }
-                notify(read);
-            }
-
             while(isActive()){
                 read = in.readObject();
 
@@ -151,5 +113,15 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
         } finally {
             close();
         }
+    }
+
+    @Override
+    public void update(ServerMessage message) {
+        if(message instanceof DirectServerMessage) {
+            DirectServerMessage dm = (DirectServerMessage) message;
+            if(dm.getRecipient() == this)
+                asyncSend(dm);
+        } else
+            asyncSend(message);
     }
 }
