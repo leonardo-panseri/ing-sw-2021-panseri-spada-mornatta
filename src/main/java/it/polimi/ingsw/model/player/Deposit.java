@@ -31,7 +31,7 @@ public class Deposit extends Observable<PropertyUpdate> {
     List<Resource> getRow(int row) {
         if (row == 1) {
             List<Resource> result = new ArrayList<>();
-            if(topRow != null) result.add(topRow);
+            if (topRow != null) result.add(topRow);
             return result;
         } else if (row == 2) {
             return middleRow;
@@ -40,6 +40,12 @@ public class Deposit extends Observable<PropertyUpdate> {
         }
         notifyDepositUpdate(row);
         return null;
+    }
+
+    int findResource(Resource res) {
+        if (topRow == res) return 1;
+        if (middleRow.contains(res)) return 2;
+        return 3;
     }
 
     /**
@@ -71,13 +77,13 @@ public class Deposit extends Observable<PropertyUpdate> {
      */
     public int getAmountOfResource(Resource resource) {
         int amount = 0;
-        if(topRow == resource)
+        if (topRow == resource)
             amount++;
-        for(Resource res : middleRow)
-            if(res == resource)
+        for (Resource res : middleRow)
+            if (res == resource)
                 amount++;
-        for(Resource res : bottomRow)
-            if(res == resource)
+        for (Resource res : bottomRow)
+            if (res == resource)
                 amount++;
         amount += strongBox.getOrDefault(resource, 0);
         return amount;
@@ -87,11 +93,59 @@ public class Deposit extends Observable<PropertyUpdate> {
      * Applies the given changes to this player deposit, checking if they are legal.
      *
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
-     *                2 -> middle, 3 -> bottom, 4 -> strongbox), the value is the list of resources to put in the row
+     *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
      * @throws IllegalArgumentException if the changes are not legal
      */
     public void applyChanges(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
+        checkDepositMove(changes);
+        for (int i = 1; i < 4; i++) {
+            if (changes.containsKey(i)) {
+                if (i == 1) topRow = changes.get(i).get(0);
+                else if (i == 2) middleRow = changes.get(i);
+                else bottomRow = changes.get(i);
+            }
+        }
+    }
 
+    /**
+     * Checks if the deposit move is legal.
+     *
+     * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
+     *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     * @throws IllegalArgumentException if the changes are not legal
+     */
+    public void checkDepositMove(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
+        List<Integer> untouchedRows = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            if (!changes.containsKey(i)) untouchedRows.add(i);
+        }
+
+        Map<Resource, Integer> oldResources = new HashMap<>();
+        for (Resource res : Resource.values()) {
+            oldResources.put(res, getAmountOfResource(res));
+        }
+
+        Map<Resource, Integer> newResources = new HashMap<>();
+        for (int missingRow : untouchedRows) {
+            changes.put(missingRow, getRow(missingRow));
+        }
+        for (List<Resource> row : changes.values()) {
+            for (Resource res : row) {
+                if (newResources.containsKey(res)) {
+                    newResources.put(res, newResources.get(res) + 1);
+                } else {
+                    newResources.put(res, 1);
+                }
+            }
+        }
+        for (Resource res : Resource.values()) {
+            if (!newResources.containsKey(res)) newResources.put(res, 0);
+        }
+
+        for (Resource res : Resource.values()) {
+            if (!oldResources.get(res).equals(newResources.get(res)))
+                throw new IllegalArgumentException("illegal_deposit_move");
+        }
     }
 
     /**
@@ -134,7 +188,12 @@ public class Deposit extends Observable<PropertyUpdate> {
      * @param resources a map that associates resource to quantity
      */
     public void removeResources(Map<Resource, Integer> resources) {
-        //TODO Write methods
+        for (Resource res : resources.keySet()) {
+            int row = findResource(res);
+            for (int i = 0; i < resources.get(res); i++) {
+                removeResource(row, res);
+            }
+        }
     }
 
     /**
@@ -249,6 +308,14 @@ public class Deposit extends Observable<PropertyUpdate> {
         }
         strongBox.put(resource, counter);
         notifyStrongboxUpdate();
+    }
+
+    public void addMultipleToStrongbox(Map<Resource, Integer> resources){
+        for (Resource res : resources.keySet()) {
+            for (int i = 0; i < resources.get(res); i++) {
+                addToStrongbox(res);
+            }
+        }
     }
 
     /**

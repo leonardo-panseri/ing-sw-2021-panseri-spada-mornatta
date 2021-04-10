@@ -13,7 +13,7 @@ public class ProductionPlayerActionEvent extends PlayerActionEvent {
     private static final long serialVersionUID = -1555283945398296364L;
 
     private UUID cardUUID;
-    private Resource[] baseProductionInput;
+    private List<Resource> baseProductionInput;
     private Resource baseProductionOutput;
 
     @Override
