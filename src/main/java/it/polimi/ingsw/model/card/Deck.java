@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.constant.DeckParser;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.DevelopmentDeckUpdate;
-import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.model.messages.DevelopmentDeckUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
 
 import java.util.*;
 

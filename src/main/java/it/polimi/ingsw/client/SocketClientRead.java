@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.event.ServerMessage;
-import it.polimi.ingsw.view.event.*;
+import it.polimi.ingsw.server.messages.ServerMessage;
+import it.polimi.ingsw.model.messages.*;
 
 import java.io.ObjectInputStream;
 
@@ -14,7 +14,6 @@ public class SocketClientRead extends Thread {
 
         this.client = client;
         this.socketIn = socketIn;
-
     }
 
     @Override

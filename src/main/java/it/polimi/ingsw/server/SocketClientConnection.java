@@ -2,9 +2,10 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.server.event.DirectServerMessage;
-import it.polimi.ingsw.server.event.ServerMessage;
-import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.server.messages.DirectServerMessage;
+import it.polimi.ingsw.server.messages.PlayerCrashMessage;
+import it.polimi.ingsw.server.messages.ServerMessage;
+import it.polimi.ingsw.server.messages.ServerMessages;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -71,8 +72,6 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
     }
 
     public synchronized void closeConnection() {
-        update(new DirectServerMessage(this, ServerMessages.DISCONNECT));
-
         try {
             socket.close();
         } catch (IOException e) {
@@ -121,6 +120,8 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
             DirectServerMessage dm = (DirectServerMessage) message;
             if(dm.getRecipient() == this)
                 asyncSend(dm);
+        } else if(message instanceof PlayerCrashMessage) {
+            send(message);
         } else
             asyncSend(message);
     }

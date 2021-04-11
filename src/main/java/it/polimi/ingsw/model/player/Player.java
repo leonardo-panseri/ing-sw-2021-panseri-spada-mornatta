@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.FaithUpdate;
-import it.polimi.ingsw.view.event.OwnedLeadersUpdate;
-import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.model.messages.FaithUpdate;
+import it.polimi.ingsw.model.messages.OwnedLeadersUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
 
 import java.util.*;
 

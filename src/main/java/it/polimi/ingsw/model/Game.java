@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.card.Deck;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.PropertyUpdate;
-import it.polimi.ingsw.view.event.TurnUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.model.messages.TurnUpdate;
 
 import java.util.ArrayList;
 import java.util.Collections;

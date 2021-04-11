@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.LorenzoUpdate;
-import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.model.messages.LorenzoUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
 
 import java.util.ArrayList;
 import java.util.Arrays;

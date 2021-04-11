@@ -4,9 +4,9 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.BoughtCardUpdate;
-import it.polimi.ingsw.view.event.MarketResultUpdate;
-import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.model.messages.BoughtCardUpdate;
+import it.polimi.ingsw.model.messages.MarketResultUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
 
 import java.util.*;
 

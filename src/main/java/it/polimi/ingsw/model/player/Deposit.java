@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.DepositStrongboxUpdate;
-import it.polimi.ingsw.view.event.DepositUpdate;
-import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.model.messages.DepositStrongboxUpdate;
+import it.polimi.ingsw.model.messages.DepositUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
