@@ -12,9 +12,8 @@ import java.util.Scanner;
 
 public class Client {
 
-    private String ip;
-    private int port;
-    private SocketClientRead readThread;
+    private final String ip;
+    private final int port;
     private SocketClientWrite writeThread;
 
     private View view;
@@ -56,14 +55,18 @@ public class Client {
                         "1) CLI");
                 chosen = stdin.nextInt();
             }
+
             if(chosen == 1) {
                 view = new CLI(this);
             } else view = new CLI(this);
-            readThread = new SocketClientRead(this, socketIn);
+
+            SocketClientRead readThread = new SocketClientRead(this, socketIn);
             writeThread = new SocketClientWrite(this, socketOut);
             readThread.start();
             writeThread.start();
+
             view.run();
+
             readThread.join();
             writeThread.join();
         } catch(InterruptedException | NoSuchElementException e){

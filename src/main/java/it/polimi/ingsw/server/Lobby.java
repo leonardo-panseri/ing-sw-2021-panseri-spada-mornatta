@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.server.event.DirectServerMessage;
-import it.polimi.ingsw.server.event.ServerMessage;
+import it.polimi.ingsw.server.messages.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,28 +42,28 @@ public class Lobby extends Observable<ServerMessage> {
         if(firstConnection == null)
             firstConnection = connection;
 
-        notify(new DirectServerMessage(connection, ServerMessages.INPUT_NAME));
+        notify(new ChooseNameMessage(connection));
     }
 
     public void setPlayerName(SocketClientConnection connection, String playerName) {
         if(playerName.trim().equals("")) {
-            notify(new DirectServerMessage(connection, ServerMessages.INVALID_INPUT));
+            notify(new ErrorMessage(connection, "Your username can't be empty"));
             return;
         }
 
         connection.setPlayerName(playerName);
 
         if(isFirstConnection(connection))
-            notify(new DirectServerMessage(connection, ServerMessages.CHOOSE_PLAYER_NUM));
+            notify(new ChoosePlayersToStartMessage(connection));
     }
 
     public void setPlayersToStart(SocketClientConnection connection, int playersToStart) {
         if(playersToStart < 1 || playersToStart > 4) {
-            notify(new DirectServerMessage(connection, ServerMessages.INVALID_INPUT));
+            notify(new ErrorMessage(connection, "This is not a number between 1 and 4"));
             return;
         }
         if(playersToStart < connections.size()) {
-            notify(new DirectServerMessage(connection, ServerMessages.TOO_MANY_CONNECTIONS));
+            notify(new ErrorMessage(connection, connections.size() + " players are already connected"));
             return;
         }
 
@@ -72,18 +71,18 @@ public class Lobby extends Observable<ServerMessage> {
     }
 
     public void startGame() {
-        notify(new ServerMessage(ServerMessages.GAME_START));
+        notify(new GameStartMessage());
     }
 
     public void disconnect(SocketClientConnection connection) {
-        //notify();
+        notify(new PlayerLeaveMessage(connection.getPlayerName()));
         connections.remove(connection);
     }
 
     public void disconnectAll(SocketClientConnection crashedConnection) {
         connections.remove(crashedConnection);
 
-        notify(new ServerMessage(ServerMessages.SOMEONE_CRASHED));
+        notify(new PlayerCrashMessage(crashedConnection.getPlayerName()));
         for(SocketClientConnection conn : connections) {
             if(conn != null) {
                 conn.closeConnection();

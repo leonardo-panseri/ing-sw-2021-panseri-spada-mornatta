@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.event.CreateMarketUpdate;
-import it.polimi.ingsw.view.event.MarketUpdate;
-import it.polimi.ingsw.view.event.PropertyUpdate;
+import it.polimi.ingsw.model.messages.CreateMarketUpdate;
+import it.polimi.ingsw.model.messages.MarketUpdate;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
 
 import java.util.ArrayList;
 import java.util.List;

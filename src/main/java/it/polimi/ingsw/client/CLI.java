@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.ServerMessages;
-import it.polimi.ingsw.server.event.PlayerNameMessage;
-import it.polimi.ingsw.server.event.PlayersToStartMessage;
-import it.polimi.ingsw.server.event.ServerMessage;
-import it.polimi.ingsw.view.GameState;
+import it.polimi.ingsw.server.messages.ServerMessages;
+import it.polimi.ingsw.client.messages.PlayerNameMessage;
+import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.view.View;
 
 import java.util.Scanner;
@@ -35,12 +33,12 @@ public class CLI extends View {
                     try {
                         playersToStart = Integer.parseInt(command);
                     } catch (NumberFormatException e) {
-                        System.out.println(ServerMessages.INVALID_INPUT);
+                        System.out.println("Please input a number");
                         break;
                     }
 
                     if(playersToStart < 1 || playersToStart > 4) {
-                        System.out.println(ServerMessages.INVALID_INPUT);
+                        System.out.println("This is not a number between 1 and 4");
                         break;
                     }
 

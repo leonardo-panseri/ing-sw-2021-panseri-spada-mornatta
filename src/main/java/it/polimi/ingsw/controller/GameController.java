@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.controller.event.PlayerActionEvent;
+import it.polimi.ingsw.view.messages.PlayerActionEvent;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
