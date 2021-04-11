@@ -6,7 +6,7 @@ import it.polimi.ingsw.view.View;
 
 public class ChooseNameMessage extends DirectServerMessage {
     public ChooseNameMessage(SocketClientConnection recipient) {
-        super(recipient, "Choose an username:");
+        super(recipient, "Choose a username:");
     }
 
     @Override

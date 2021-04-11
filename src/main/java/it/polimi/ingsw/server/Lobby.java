@@ -52,6 +52,7 @@ public class Lobby extends Observable<ServerMessage> {
         }
 
         connection.setPlayerName(playerName);
+        notify(new PlayerConnectMessage(playerName, connections.size(), playersToStart));
 
         if(isFirstConnection(connection))
             notify(new ChoosePlayersToStartMessage(connection));

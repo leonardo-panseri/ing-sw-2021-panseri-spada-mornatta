@@ -27,7 +27,10 @@ public class CLI extends View {
         while (client.isActive()) {
             command = scanner.nextLine();
             switch (getGameState()) {
-                case CHOOSING_NAME -> client.send(new PlayerNameMessage(command));
+                case CHOOSING_NAME -> {
+                    setPlayerName(command);
+                    client.send(new PlayerNameMessage(command));
+                }
                 case CHOOSING_PLAYERS -> {
                     int playersToStart = -1;
                     try {
@@ -43,6 +46,9 @@ public class CLI extends View {
                     }
 
                     client.send(new PlayersToStartMessage(playersToStart));
+                }
+                case WAITING_PLAYERS -> {
+                    System.out.println("Waiting for other players to join");
                 }
             }
         }

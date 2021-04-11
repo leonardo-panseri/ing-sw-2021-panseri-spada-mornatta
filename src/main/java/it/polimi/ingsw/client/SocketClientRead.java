@@ -23,9 +23,6 @@ public class SocketClientRead extends Thread {
                 Object inputObject = socketIn.readObject();
                 if(inputObject instanceof ServerMessage) {
                     ServerMessage message = (ServerMessage) inputObject;
-
-                    System.out.println("Received: " + message);
-
                     message.process(client.getView());
                 } else if(inputObject instanceof PropertyUpdate){
                     PropertyUpdate update = (PropertyUpdate) inputObject;
