@@ -16,11 +16,11 @@ import java.util.Map;
  * Rows are indexed starting from 1 and ending to 3, from top to bottom.
  */
 public class Deposit extends Observable<PropertyUpdate> {
-    private Player player;
+    private final Player player;
     private Resource topRow;
     private List<Resource> middleRow;
     private List<Resource> bottomRow;
-    private Map<Resource, Integer> strongBox;
+    private final Map<Resource, Integer> strongBox;
 
     /**
      * Getter: gets the requested row of resources.
@@ -310,6 +310,12 @@ public class Deposit extends Observable<PropertyUpdate> {
         notifyStrongboxUpdate();
     }
 
+    /**
+     * Adds the desired map of resources into the strongbox, modeled by a map of resources and integers.
+     * If the type of resource is already stored, it adds one to the current related counter.
+     *
+     * @param resources the map of resources to be added in the strongbox
+     */
     public void addMultipleToStrongbox(Map<Resource, Integer> resources){
         for (Resource res : resources.keySet()) {
             for (int i = 0; i < resources.get(res); i++) {

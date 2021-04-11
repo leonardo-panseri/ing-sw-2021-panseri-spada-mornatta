@@ -153,6 +153,24 @@ public class Player extends Observable<PropertyUpdate> {
         notify(new OwnedLeadersUpdate(getNick(), leaderCards));
     }
 
+    /**
+     * Keeps the given leader cards and removes the others from the player's hand.
+     *
+     * @param selected the leader cards that the player wants to keep
+     * @throws IllegalArgumentException if the selected cards contains one or more cards not possessed by the player
+     */
+    public void keepLeaders(List<LeaderCard> selected) throws IllegalArgumentException{
+        for (LeaderCard card : leaderCards.keySet()) {
+            if (!selected.contains(card)) {
+                discardLeader(card);
+                selected.remove(card);
+            }
+        }
+
+        if (selected.size() > 0)
+            throw new IllegalArgumentException("leadercard_not_possessed");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
