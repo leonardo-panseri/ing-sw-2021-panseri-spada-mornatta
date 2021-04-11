@@ -21,7 +21,9 @@ class PlayerTest {
     Map<CardColor, Integer> testCardColorRequirements = new HashMap<>();
     Map<CardColor, Integer> testCardLevelRequirements = new HashMap<>();
     LeaderCard testLeaderCard;
+    LeaderCard testLeaderCard2;
     Map<LeaderCard, Boolean> testListLeaderCards = new HashMap<>();
+    Map<LeaderCard, Boolean> testListLeaderCards2 = new HashMap<>();
 
 
     @BeforeEach
@@ -38,6 +40,8 @@ class PlayerTest {
                 new LeaderCardRequirement(testResourceRequirements, testCardColorRequirements, testCardLevelRequirements);
         testLeaderCard = new LeaderCard(1, testLeaderCardRequirement, testSpecialAbility);
         testListLeaderCards.put(testLeaderCard, false);
+
+
     }
 
     @Test
@@ -96,22 +100,36 @@ class PlayerTest {
 
     @Test
     void setLeaderActive() {
-        //System.out.println(testListLeaderCards);
-        //testListLeaderCards.put(testLeaderCard, true);
-        //System.out.println(testListLeaderCards);
         testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
         testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
         assert (testGame.getPlayerByName("Edoardo").getLeaderCards().get(testLeaderCard));
-        //System.out.println(testGame.getPlayerByName("Edoardo").getLeaderCards().toString());
-        //testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
-
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
         });
 
-      //  Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      //      testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard2);
-       // });
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+                });
+        String expectedMessage = "leadercard_already_active";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+
+        exception = assertThrows(IllegalArgumentException.class,
+                () -> {
+                    SpecialAbility testSpecialAbility = new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN);
+                    testCardLevelRequirements.put(CardColor.BLUE, 1);
+                    LeaderCardRequirement testLeaderCardRequirement1 =
+                            new LeaderCardRequirement(testResourceRequirements, testCardColorRequirements, testCardLevelRequirements);
+                    testLeaderCard = new LeaderCard(1, testLeaderCardRequirement1, testSpecialAbility);
+                    testListLeaderCards.put(testLeaderCard2, false);
+                    testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards2.keySet()));
+                    testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+                });
+        expectedMessage = "leadercard_not_present";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
 
     }
 
@@ -119,6 +137,8 @@ class PlayerTest {
     void setLeaderCards() {
         testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
         assert (testGame.getPlayerByName("Edoardo").getLeaderCards().containsKey(testLeaderCard));
+
+
     }
 
 
@@ -137,6 +157,30 @@ class PlayerTest {
 
     @Test
     void discardLeader() {
+        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
+        testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
+        assert (testGame.getPlayerByName("Edoardo").getLeaderCards().isEmpty());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
+        });
 
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
+                });
+        String expectedMessage = "leadercard_not_present";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        exception = assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
+                    testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+                    testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
+                    ;
+                });
+        expectedMessage = "leadercard_already_active";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

@@ -17,14 +17,9 @@ public class Player extends Observable<PropertyUpdate> {
     private String nick;
     private int faithPoints;
     private int popeFavours;
-
-
-    public Map<LeaderCard, Boolean> getLeaderCards() {
-        return leaderCards;
-    }
-
     private Map<LeaderCard, Boolean> leaderCards;
     private PlayerBoard board;
+
 
     /**
      * Constructor: creates a new Player with the given nick.
@@ -38,6 +33,16 @@ public class Player extends Observable<PropertyUpdate> {
         leaderCards = new HashMap<>();
         board = new PlayerBoard(this);
     }
+
+    /**
+     * Getter for Leadercards
+     *
+     * @return a Map containing the LeaderCards
+     */
+    public Map<LeaderCard, Boolean> getLeaderCards() {
+        return leaderCards;
+    }
+
 
     /**
      * Getter for the nickname of the player.
