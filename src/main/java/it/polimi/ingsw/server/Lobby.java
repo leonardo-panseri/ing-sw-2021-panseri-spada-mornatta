@@ -75,6 +75,11 @@ public class Lobby extends Observable<ServerMessage> {
         notify(new ServerMessage(ServerMessages.GAME_START));
     }
 
+    public void disconnect(SocketClientConnection connection) {
+        //notify();
+        connections.remove(connection);
+    }
+
     public void disconnectAll(SocketClientConnection crashedConnection) {
         connections.remove(crashedConnection);
 

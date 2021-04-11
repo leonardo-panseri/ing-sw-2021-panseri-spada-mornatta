@@ -15,10 +15,6 @@ public class Server {
 
     private final  LobbyController lobbyController = new LobbyController();
 
-    public LobbyController getLobbyController() {
-        return lobbyController;
-    }
-
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(PORT);
     }
@@ -35,9 +31,8 @@ public class Server {
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, lobbyController);
                 executor.submit(socketConnection);
             } catch (IOException e) {
-                System.out.println("Connection Error!");
+                System.err.println("Connection Error!");
             }
         }
     }
-
 }

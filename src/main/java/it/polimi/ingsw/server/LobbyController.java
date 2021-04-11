@@ -97,6 +97,8 @@ public class LobbyController {
         if(connection.getLobbyUUID() == null) {
             if(currentLobbyStarting)
                 currentLobby.disconnectAll(connection);
+            else
+                currentLobby.disconnect(connection);
         } else {
             Lobby lobby = playingLobbies.get(connection.getLobbyUUID());
             if(lobby != null) {
