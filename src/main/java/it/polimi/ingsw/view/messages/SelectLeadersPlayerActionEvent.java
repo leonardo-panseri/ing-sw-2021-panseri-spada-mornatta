@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.messages;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -12,18 +13,25 @@ public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
     @Serial
     private static final long serialVersionUID = -4349081220755030803L;
 
-    private List<UUID> selectedLeadersUUID;
+    private final List<UUID> selectedLeadersUUID;
 
-    public List<UUID> getSelectedLeaders() {
-        return selectedLeadersUUID;
+    public SelectLeadersPlayerActionEvent(String playerName, List<UUID> selectedLeadersUUID) {
+        super(playerName);
+        this.selectedLeadersUUID = selectedLeadersUUID;
     }
 
     @Override
     public void process(GameController controller) {
+        Player player = getPlayer(controller);
         List<LeaderCard> cards = new ArrayList<>();
         for(UUID uuid : selectedLeadersUUID) {
-            cards.add(controller.getGame().getDeck().getLeaderCardByUuid(uuid));
+            LeaderCard card = player.getLeaderCardByUuid(uuid);
+            if(card == null) {
+                System.err.println("SelectLeadersPlayerActionEvent: Can't find leader card");
+                break;
+            }
+            cards.add(card);
         }
-        controller.getPlayerController().selectInitialLeaders(getPlayer(controller), cards);
+        controller.getPlayerController().selectInitialLeaders(player, cards);
     }
 }

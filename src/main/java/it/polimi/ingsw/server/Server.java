@@ -32,6 +32,8 @@ public class Server {
                 executor.submit(socketConnection);
             } catch (IOException e) {
                 System.err.println("Connection Error!");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

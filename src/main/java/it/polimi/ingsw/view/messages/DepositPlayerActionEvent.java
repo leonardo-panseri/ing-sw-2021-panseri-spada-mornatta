@@ -13,7 +13,8 @@ public class DepositPlayerActionEvent extends PlayerActionEvent {
 
     private final Map<Integer, List<Resource>> changes;
 
-    public DepositPlayerActionEvent(Map<Integer, List<Resource>> changes) {
+    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes) {
+        super(playerName);
         this.changes = changes;
     }
 

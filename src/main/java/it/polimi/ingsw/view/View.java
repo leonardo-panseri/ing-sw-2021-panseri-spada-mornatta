@@ -1,8 +1,15 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.CardColor;
+import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.model.card.LeaderCard;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 public abstract class View implements Runnable {
     private GameState gameState;
@@ -11,6 +18,8 @@ public abstract class View implements Runnable {
     public View() {
         this.gameState = GameState.CONNECTING;
     }
+
+    public abstract void updateGamePhase(GamePhase gamePhase);
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
@@ -29,6 +38,12 @@ public abstract class View implements Runnable {
     }
 
     public abstract void showServerMessage(String message);
+
+    public abstract void createDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck);
+
+    public abstract void updateLeaderCards(Map<LeaderCard, Boolean> ownedLeaders);
+
+    public abstract void updateTurn(String playerName);
 
     public abstract void createMarket(List<List<Resource>> market);
 

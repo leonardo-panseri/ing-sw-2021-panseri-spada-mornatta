@@ -20,14 +20,7 @@ public class DevelopmentDeckUpdate extends PropertyUpdate {
     }
 
     @Override
-    public String toString() {
-        return "DevelopmentDeckUpdate{" +
-                "developmentCards=" + developmentCards +
-                '}';
-    }
-
-    @Override
     public void process(View view) {
-
+        view.createDevelopmentDeck(developmentCards);
     }
 }

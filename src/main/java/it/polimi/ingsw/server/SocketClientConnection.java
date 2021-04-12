@@ -109,6 +109,8 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());
+        } catch(Exception e) {
+            e.printStackTrace();
         } finally {
             close();
         }

@@ -12,6 +12,11 @@ public class MarketPlayerActionEvent extends PlayerActionEvent {
     private int selected;
     private Resource whiteConversion;
 
+    public MarketPlayerActionEvent(String playerName, int selected) {
+        super(playerName);
+        this.selected = selected;
+    }
+
     public int getSelected() {
         return selected;
     }

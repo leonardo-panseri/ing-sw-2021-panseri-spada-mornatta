@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.card.Deck;
+import it.polimi.ingsw.model.messages.GamePhaseUpdate;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
@@ -22,6 +23,8 @@ public class Game extends Observable<PropertyUpdate> {
     private Deck deck;
     private Player currentPlayer;
     private Lorenzo lorenzo;
+
+    private GamePhase gamePhase = GamePhase.SELECTING_LEADERS;
 
     /**
      * Constructs a new game, instantiating a new {@link Deck} and a new {@link Market}.
@@ -143,6 +146,25 @@ public class Game extends Observable<PropertyUpdate> {
     }
 
     /**
+     * Gets the current game phase.
+     *
+     * @return the current game phase
+     */
+    public GamePhase getGamePhase() {
+        return gamePhase;
+    }
+
+    /**
+     * Sets the current game phase.
+     *
+     * @param gamePhase the game phase to be set
+     */
+    public void setGamePhase(GamePhase gamePhase) {
+        this.gamePhase = gamePhase;
+        notify(new GamePhaseUpdate(getGamePhase()));
+    }
+
+    /**
      * Passes the turn to the next player, if the current player is the last in the players list restarts from the
      * first player.
      */
@@ -150,6 +172,15 @@ public class Game extends Observable<PropertyUpdate> {
         int nextIndex = players.indexOf(currentPlayer) + 1;
         if (nextIndex >= players.size()) nextIndex = 0;
         setCurrentPlayer(players.get(nextIndex));
+    }
+
+    /**
+     * Checks if it is the last player turn.
+     *
+     * @return true if it is the last player turn
+     */
+    public boolean isLastPlayerTurn() {
+        return players.indexOf(currentPlayer) == players.size() - 1;
     }
 
     /**

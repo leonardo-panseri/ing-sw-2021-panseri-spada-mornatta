@@ -20,6 +20,6 @@ public class OwnedLeadersUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-
+        view.updateLeaderCards(leaderCards);
     }
 }

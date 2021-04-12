@@ -101,6 +101,9 @@ public class Lobby extends Observable<ServerMessage> {
     }
 
     public boolean canStart() {
+        for(SocketClientConnection conn : connections)
+            if(conn.getPlayerName() == null)
+                return false;
         return playersToStart == connections.size();
     }
 }

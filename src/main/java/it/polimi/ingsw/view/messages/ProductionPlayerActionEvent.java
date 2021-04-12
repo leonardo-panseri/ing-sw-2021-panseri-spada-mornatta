@@ -19,6 +19,14 @@ public class ProductionPlayerActionEvent extends PlayerActionEvent {
     private List<Resource> baseProductionInput;
     private Resource baseProductionOutput;
 
+    public ProductionPlayerActionEvent(String playerName, UUID cardUUID, Resource leaderProductionDesiredResource, List<Resource> baseProductionInput, Resource baseProductionOutput) {
+        super(playerName);
+        this.cardUUID = cardUUID;
+        this.leaderProductionDesiredResource = leaderProductionDesiredResource;
+        this.baseProductionInput = baseProductionInput;
+        this.baseProductionOutput = baseProductionOutput;
+    }
+
     @Override
     public void process(GameController controller) {
         if(cardUUID == null) {

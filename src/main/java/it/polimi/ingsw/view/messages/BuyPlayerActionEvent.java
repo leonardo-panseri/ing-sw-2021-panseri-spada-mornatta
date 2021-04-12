@@ -12,6 +12,12 @@ public class BuyPlayerActionEvent extends PlayerActionEvent {
     private UUID developmentCardUuid;
     private int slot;
 
+    public BuyPlayerActionEvent(String playerName, UUID developmentCardUuid, int slot) {
+        super(playerName);
+        this.developmentCardUuid = developmentCardUuid;
+        this.slot = slot;
+    }
+
     @Override
     public void process(GameController controller) {
         controller.getPlayerController().buyDevelopmentCard(getPlayer(controller),

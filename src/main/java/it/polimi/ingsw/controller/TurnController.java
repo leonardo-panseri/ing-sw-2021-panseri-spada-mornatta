@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -14,11 +15,12 @@ public class TurnController {
 
     public void start() {
         gameController.getGame().randomSortPlayers();
+        gameController.getGame().setCurrentPlayer(gameController.getGame().getPlayerAt(0));
         for (int i = 0; i < gameController.getGame().getPlayerNum(); i++) {
             List<LeaderCard> draw = gameController.getGame().getDeck().initialDrawLeaders();
             gameController.getGame().getPlayerAt(i).setLeaderCards(draw);
         }
-        gameController.getGame().setCurrentPlayer(gameController.getGame().getPlayerAt(0));
+        gameController.getGame().setGamePhase(GamePhase.SELECTING_LEADERS);
     }
 
     public void endTurn(Player player) {

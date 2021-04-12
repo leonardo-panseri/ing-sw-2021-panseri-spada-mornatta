@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
@@ -218,5 +219,9 @@ public class PlayerController {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+
+        if(gameController.getGame().isLastPlayerTurn())
+            gameController.getGame().setGamePhase(GamePhase.PLAYING);
+        gameController.getGame().nextPlayer();
     }
 }

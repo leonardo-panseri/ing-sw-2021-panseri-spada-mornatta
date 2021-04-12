@@ -150,6 +150,7 @@ public class Player extends Observable<PropertyUpdate> {
             throw new IllegalArgumentException("leadercard_already_active");
 
         leaderCards.remove(card);
+
         notify(new OwnedLeadersUpdate(getNick(), leaderCards));
     }
 
@@ -159,16 +160,33 @@ public class Player extends Observable<PropertyUpdate> {
      * @param selected the leader cards that the player wants to keep
      * @throws IllegalArgumentException if the selected cards contains one or more cards not possessed by the player
      */
-    public void keepLeaders(List<LeaderCard> selected) throws IllegalArgumentException{
-        for (LeaderCard card : leaderCards.keySet()) {
-            if (!selected.contains(card)) {
-                discardLeader(card);
-                selected.remove(card);
-            }
+    public void keepLeaders(List<LeaderCard> selected) throws IllegalArgumentException {
+        Map<LeaderCard, Boolean> selectedLeaders = new HashMap<>();
+        for(LeaderCard card : selected) {
+            if(!leaderCards.containsKey(card))
+                throw new IllegalArgumentException("leadercard_not_found");
+            selectedLeaders.put(card, false);
         }
 
-        if (selected.size() > 0)
-            throw new IllegalArgumentException("leadercard_not_possessed");
+        leaderCards = selectedLeaders;
+        notify(new OwnedLeadersUpdate(getNick(), leaderCards));
+    }
+
+    /**
+     * Gets the LeaderCard with the given UUID.
+     *
+     * @param uuid the uuid of the card to search for
+     * @return the leader card with the given UUID or <code>null</code> if not found
+     */
+    public LeaderCard getLeaderCardByUuid(UUID uuid) {
+        LeaderCard result = null;
+        for(LeaderCard card : leaderCards.keySet()) {
+            if(uuid.equals(card.getUuid())) {
+                result = card;
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
