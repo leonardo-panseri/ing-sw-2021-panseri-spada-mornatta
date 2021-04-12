@@ -1,5 +1,9 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Resource;
+
+import java.util.List;
+
 public abstract class View implements Runnable {
     private GameState gameState;
     private String playerName;
@@ -25,4 +29,8 @@ public abstract class View implements Runnable {
     }
 
     public abstract void showServerMessage(String message);
+
+    public abstract void createMarket(List<List<Resource>> market);
+
+    public abstract void printMarket();
 }

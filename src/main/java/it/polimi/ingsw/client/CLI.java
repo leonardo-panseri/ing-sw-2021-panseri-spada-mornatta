@@ -1,15 +1,18 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.messages.ServerMessages;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
+import it.polimi.ingsw.constant.Constants;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.View;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CLI extends View {
 
     private final Client client;
+    private String market;
 
     public CLI(Client client) {
         this.client = client;
@@ -20,9 +23,19 @@ public class CLI extends View {
         System.out.println(message);
     }
 
+    public void createMarket(List<List<Resource>> market) {
+        this.market = Constants.buildMarket(market);
+        printMarket();
+    }
+
+    public void printMarket() {
+        System.out.println(market);
+    }
+
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println(Constants.ANSI_BLUE + Constants.MASTER + Constants.ANSI_RESET);
         String command;
         while (client.isActive()) {
             command = scanner.nextLine();
@@ -32,7 +45,7 @@ public class CLI extends View {
                     client.send(new PlayerNameMessage(command));
                 }
                 case CHOOSING_PLAYERS -> {
-                    int playersToStart = -1;
+                    int playersToStart;
                     try {
                         playersToStart = Integer.parseInt(command);
                     } catch (NumberFormatException e) {
@@ -47,9 +60,7 @@ public class CLI extends View {
 
                     client.send(new PlayersToStartMessage(playersToStart));
                 }
-                case WAITING_PLAYERS -> {
-                    System.out.println("Waiting for other players to join");
-                }
+                case WAITING_PLAYERS -> System.out.println("Waiting for other players to join");
             }
         }
     }

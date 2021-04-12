@@ -91,7 +91,8 @@ public class Market extends Observable<PropertyUpdate> {
 
         //Set the last remaining resource as the slide resource
         if (types.size() != 0) slideResource = types.get(0);
-        notify(new CreateMarketUpdate(grid));
+
+        notifyCreation();
     }
 
     /**
@@ -165,5 +166,14 @@ public class Market extends Observable<PropertyUpdate> {
      */
     public Resource getSlideResource() {
         return slideResource;
+    }
+
+    public void notifyCreation() {
+        List<List<Resource>> update = new ArrayList<>();
+        update.add(getRow(0));
+        update.add(getRow(1));
+        update.add(getRow(2));
+
+        notify(new CreateMarketUpdate(update));
     }
 }
