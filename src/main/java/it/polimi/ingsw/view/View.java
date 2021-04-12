@@ -48,4 +48,6 @@ public abstract class View implements Runnable {
     public abstract void createMarket(List<List<Resource>> market);
 
     public abstract void printMarket();
+
+    public abstract void printOwnLeaders();
 }

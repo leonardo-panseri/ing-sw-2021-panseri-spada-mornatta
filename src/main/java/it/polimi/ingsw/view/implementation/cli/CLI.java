@@ -91,6 +91,11 @@ public class CLI extends View {
     }
 
     @Override
+    public void printOwnLeaders() {
+        System.out.println(leaderCards);
+    }
+
+    @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(Constants.ANSI_BLUE + Constants.MASTER + Constants.ANSI_RESET);
