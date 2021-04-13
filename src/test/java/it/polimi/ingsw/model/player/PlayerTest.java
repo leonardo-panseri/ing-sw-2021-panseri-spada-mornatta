@@ -183,4 +183,10 @@ class PlayerTest {
         actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
+
+    @Test
+    public void keepLeaders(){
+        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
+        //testGame.getPlayerByName("Edoardo").keepLeaders();
+    }
 }

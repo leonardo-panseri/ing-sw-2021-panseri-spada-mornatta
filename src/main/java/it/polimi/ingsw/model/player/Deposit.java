@@ -42,6 +42,14 @@ public class Deposit extends Observable<PropertyUpdate> {
         return null;
     }
 
+    /**
+     * Gets the number representing the row where the resource is stored.
+     *
+     * @param res the resource to find.
+     *
+     * @return the int representing the row where the resource is stored.
+     */
+
     int findResource(Resource res) {
         if (topRow == res) return 1;
         if (middleRow.contains(res)) return 2;
