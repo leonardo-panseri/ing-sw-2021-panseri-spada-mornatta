@@ -5,6 +5,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.FaithUpdate;
 import it.polimi.ingsw.model.messages.OwnedLeadersUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ import java.util.*;
  * the amount of pope favours activated, a board and a map containing the possessed leaders and a boolean true if the
  * leader is active.
  */
-public class Player extends Observable<PropertyUpdate> {
+public class Player extends Observable<IServerPacket> {
     private String nick;
     private int faithPoints;
     private int popeFavours;

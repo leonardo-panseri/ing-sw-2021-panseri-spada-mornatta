@@ -7,6 +7,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.BoughtCardUpdate;
 import it.polimi.ingsw.model.messages.MarketResultUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ import java.util.*;
  * Models the player board of a player, composed by a reference to the owner, three stacks of development cards
  * and a deposit.
  */
-public class PlayerBoard extends Observable<PropertyUpdate> {
+public class PlayerBoard extends Observable<IServerPacket> {
     private Player player;
     private Stack<DevelopmentCard> cardSlotLeft;
     private Stack<DevelopmentCard> cardSlotCenter;

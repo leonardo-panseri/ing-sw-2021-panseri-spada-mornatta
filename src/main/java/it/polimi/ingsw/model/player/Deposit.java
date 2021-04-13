@@ -5,6 +5,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.DepositStrongboxUpdate;
 import it.polimi.ingsw.model.messages.DepositUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Models the deposit of a player board, comprehensive of the three rows of resources slots, adn the strongbox.
  * Rows are indexed starting from 1 and ending to 3, from top to bottom.
  */
-public class Deposit extends Observable<PropertyUpdate> {
+public class Deposit extends Observable<IServerPacket> {
     private final Player player;
     private Resource topRow;
     private List<Resource> middleRow;

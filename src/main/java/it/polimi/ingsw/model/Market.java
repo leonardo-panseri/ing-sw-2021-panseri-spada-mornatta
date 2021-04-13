@@ -4,6 +4,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.CreateMarketUpdate;
 import it.polimi.ingsw.model.messages.MarketUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Model class representing the game market. Notifies all registered observer of state updates.
  */
-public class Market extends Observable<PropertyUpdate> {
+public class Market extends Observable<IServerPacket> {
     private Box[][] grid;
     private Resource slideResource;
 

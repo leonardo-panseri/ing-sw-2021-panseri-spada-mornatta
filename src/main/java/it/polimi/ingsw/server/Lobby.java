@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Lobby extends Observable<ServerMessage> {
+public class Lobby extends Observable<IServerPacket> {
     private final UUID uuid;
 
     private SocketClientConnection firstConnection;

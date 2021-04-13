@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
 import it.polimi.ingsw.model.messages.TurnUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import java.util.List;
  * Model class representing the game state, contains references to all other game model objects. Notifies all registered
  * observer of state updates.
  */
-public class Game extends Observable<PropertyUpdate> {
+public class Game extends Observable<IServerPacket> {
     private static final int[] popeReports = {8, 16, 24};
     private static final int[] popeFavourValues = {2, 3, 4};
     private Market market;
