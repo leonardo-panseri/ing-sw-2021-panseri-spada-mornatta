@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.LorenzoUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Model class representing the singleplayer opponent. Notifies all registered observer of state updates.
  */
-public class Lorenzo extends Observable<PropertyUpdate> {
+public class Lorenzo extends Observable<IServerPacket> {
     private int faithPoints;
     private List<LorenzoAction> actions;
 

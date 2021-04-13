@@ -22,7 +22,7 @@ public class LobbyController {
             connection.closeConnection();
             return;
         }
-        currentLobby.addObserver(connection);
+        currentLobby.addObserver(connection.getRemoteView());
         try {
             currentLobby.addConnection(connection);
         } catch (IllegalStateException e) {
@@ -69,7 +69,7 @@ public class LobbyController {
             controller.addPlayer(player);
             RemoteView remoteView = conn.getRemoteView();
             remoteView.setPlayer(player);
-            remoteView.addObserver(controller);
+            remoteView.setGameController(controller);
             controller.getGame().addObserver(remoteView);
             controller.getGame().getDeck().addObserver(remoteView);
             controller.getGame().getMarket().addObserver(remoteView);

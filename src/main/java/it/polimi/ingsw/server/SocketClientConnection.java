@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-public class SocketClientConnection extends Observable<Object> implements Runnable, Observer<ServerMessage> {
+public class SocketClientConnection extends Observable<Object> implements Runnable {
     private final Socket socket;
     private ObjectOutputStream out;
 
@@ -114,17 +114,5 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
         } finally {
             close();
         }
-    }
-
-    @Override
-    public void update(ServerMessage message) {
-        if(message instanceof DirectServerMessage) {
-            DirectServerMessage dm = (DirectServerMessage) message;
-            if(dm.getRecipient() == this)
-                asyncSend(dm);
-        } else if(message instanceof PlayerCrashMessage) {
-            send(message);
-        } else
-            asyncSend(message);
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.constant.DeckParser;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.DevelopmentDeckUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
 
@@ -11,7 +12,7 @@ import java.util.*;
  * Represent the set of leader cards and the set of development cards,
  * divided in smaller decks as the game specifies.
  */
-public class Deck extends Observable<PropertyUpdate> {
+public class Deck extends Observable<IServerPacket> {
     private List<LeaderCard> leaderCards;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
