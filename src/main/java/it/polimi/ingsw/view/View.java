@@ -14,6 +14,7 @@ import java.util.Stack;
 public abstract class View implements Runnable {
     private GameState gameState;
     private String playerName;
+    private MockModel model;
 
     public View() {
         this.gameState = GameState.CONNECTING;
@@ -43,11 +44,21 @@ public abstract class View implements Runnable {
 
     public abstract void updateLeaderCards(Map<LeaderCard, Boolean> ownedLeaders);
 
+    public abstract void updateDevelopmentCards(DevelopmentCard card, int slot);
+
     public abstract void updateTurn(String playerName);
 
     public abstract void createMarket(List<List<Resource>> market);
 
+    public abstract void buyDevelopmentCard(String[] args);
+
     public abstract void printMarket();
 
     public abstract void printOwnLeaders();
+
+    public abstract void printOwnDevelopmentCards();
+
+    public abstract void printDevelopmentDeck();
+
+    public abstract void printDeposit();
 }

@@ -143,7 +143,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
         if (slot == 3) {
             pushDevelopmentCard(developmentCard, cardSlotRight);
         }
-        notify(new BoughtCardUpdate(player.getNick(), developmentCard.getUuid(), slot));
+        notify(new BoughtCardUpdate(player.getNick(), developmentCard, slot));
     }
 
     /**

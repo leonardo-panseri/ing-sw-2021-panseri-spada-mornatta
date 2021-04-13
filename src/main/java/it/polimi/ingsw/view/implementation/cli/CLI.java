@@ -10,7 +10,9 @@ import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.GameState;
+import it.polimi.ingsw.view.MockModel;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
 import it.polimi.ingsw.view.messages.SelectLeadersPlayerActionEvent;
 
 import java.util.*;
@@ -18,15 +20,14 @@ import java.util.*;
 public class CLI extends View {
     private final Client client;
     private final CommandHandler commandHandler;
+    private final MockModel model;
 
     private boolean ownTurn;
-
-    private Map<LeaderCard, Boolean> leaderCards;
-    private String market;
 
     public CLI(Client client) {
         this.client = client;
         this.commandHandler = new CommandHandler(this);
+        this.model = new MockModel();
         this.ownTurn = false;
     }
 
@@ -39,38 +40,41 @@ public class CLI extends View {
     public void updateGamePhase(GamePhase gamePhase) {
         switch (gamePhase) {
             case SELECTING_LEADERS -> {
-                if(ownTurn) {
+                if (ownTurn) {
                     setGameState(GameState.SELECT_LEADERS);
-                    System.out.println("Select the leader cards that you want to keep:\n" + leaderCards.keySet().toString());
+                    System.out.println("Select the leader cards that you want to keep:\n" + model.getLeaderCards().keySet());
                 } else {
                     setGameState(GameState.WAIT_SELECT_LEADERS);
                 }
             }
-            case PLAYING -> {
-                setGameState(GameState.PLAYING);
-            }
+            case PLAYING -> setGameState(GameState.PLAYING);
         }
     }
 
     @Override
     public void createDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck) {
-
+        model.setDevelopmentDeck(developmentDeck);
     }
 
     @Override
     public void updateLeaderCards(Map<LeaderCard, Boolean> ownedLeaders) {
-        this.leaderCards = ownedLeaders;
+        model.setLeaderCards(ownedLeaders);
+    }
+
+    @Override
+    public void updateDevelopmentCards(DevelopmentCard card, int slot) {
+        model.setNewDevelopmentCard(card, slot);
     }
 
     @Override
     public void updateTurn(String playerName) {
-        if(playerName.equals(getPlayerName())) {
+        if (playerName.equals(getPlayerName())) {
             ownTurn = true;
             System.out.println("It's your turn");
-            if(getGameState() == GameState.WAIT_SELECT_LEADERS) {
+            if (getGameState() == GameState.WAIT_SELECT_LEADERS) {
                 setGameState(GameState.SELECT_LEADERS);
-                System.out.println("Select the leader cards that you want to keep:\n" + leaderCards.keySet().toString());
-            } else if(getGameState() == GameState.PLAYING) {
+                System.out.println("Select the leader cards that you want to keep:\n" + model.getLeaderCards().keySet());
+            } else if (getGameState() == GameState.PLAYING) {
                 System.out.println("Choose an action:");
             }
         } else {
@@ -81,18 +85,51 @@ public class CLI extends View {
 
     @Override
     public void createMarket(List<List<Resource>> market) {
-        this.market = Constants.buildMarket(market);
+        model.setMarket(Constants.buildMarket(market));
         printMarket();
     }
 
     @Override
+    public void buyDevelopmentCard(String[] args) {
+        List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = model.getDevelopmentDeck();
+        int cardIndex = Integer.parseInt(args[0]);
+        int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
+        int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
+
+        ArrayList<Stack<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
+        client.send(new BuyPlayerActionEvent(getPlayerName(), stacks.get(stackIndex).peek().getUuid(), 1));
+    }
+
+    @Override
     public void printMarket() {
-        System.out.println(market);
+        System.out.println(model.getMarket());
     }
 
     @Override
     public void printOwnLeaders() {
-        System.out.println(leaderCards);
+        System.out.println(model.getLeaderCards());
+    }
+
+    @Override
+    public void printOwnDevelopmentCards() {
+        System.out.println(model.getDevelopmentCards());
+    }
+
+    @Override
+    public void printDevelopmentDeck() {
+        List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = model.getDevelopmentDeck();
+        int index = 1;
+        for (HashMap<CardColor, Stack<DevelopmentCard>> map : deck) {
+            for (Stack<DevelopmentCard> stack : map.values()) {
+                System.out.println(index + ") " + stack.peek());
+                index++;
+            }
+        }
+    }
+
+    @Override
+    public void printDeposit() {
+        System.out.println(model.getDeposit());
     }
 
     @Override
@@ -116,7 +153,7 @@ public class CLI extends View {
                         break;
                     }
 
-                    if(playersToStart < 1 || playersToStart > 4) {
+                    if (playersToStart < 1 || playersToStart > 4) {
                         System.out.println("This is not a number between 1 and 4");
                         break;
                     }
@@ -127,11 +164,11 @@ public class CLI extends View {
                 case SELECT_LEADERS -> {
                     String[] rawLeadersToKeep = command.split(",");
                     int[] leadersToKeep = new int[2];
-                    if(rawLeadersToKeep.length != 2) {
+                    if (rawLeadersToKeep.length != 2) {
                         System.out.println("You must select 2 leaders");
                         break;
                     }
-                    for(int i = 0; i < rawLeadersToKeep.length; i++) {
+                    for (int i = 0; i < rawLeadersToKeep.length; i++) {
                         try {
                             leadersToKeep[i] = Integer.parseInt(rawLeadersToKeep[i]);
                         } catch (NumberFormatException e) {
@@ -140,8 +177,8 @@ public class CLI extends View {
                         }
                     }
                     List<UUID> uuids = new ArrayList<>();
-                    List<LeaderCard> leaders = new ArrayList<>(leaderCards.keySet());
-                    for(int i : leadersToKeep) {
+                    List<LeaderCard> leaders = new ArrayList<>(model.getLeaderCards().keySet());
+                    for (int i : leadersToKeep) {
                         uuids.add(leaders.get(i - 1).getUuid());
                     }
 
@@ -149,7 +186,7 @@ public class CLI extends View {
                 }
                 case WAIT_SELECT_LEADERS -> System.out.println("It's not your turn");
                 case PLAYING -> {
-                    if(!ownTurn) {
+                    if (!ownTurn) {
                         System.out.println("It's not your turn");
                         break;
                     }

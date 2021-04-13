@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.messages;
 
+import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.view.View;
 
 import java.io.Serial;
@@ -10,17 +11,17 @@ public class BoughtCardUpdate extends PropertyUpdate{
     private static final long serialVersionUID = 5376131271721131000L;
 
     private final String playerName;
-    private final UUID developmentCardUUID;
+    private final DevelopmentCard developmentCard;
     private final int slot;
 
-    public BoughtCardUpdate(String playerName, UUID developmentCardUUID, int slot) {
+    public BoughtCardUpdate(String playerName, DevelopmentCard developmentCard, int slot) {
         this.playerName = playerName;
-        this.developmentCardUUID = developmentCardUUID;
+        this.developmentCard = developmentCard;
         this.slot = slot;
     }
 
     @Override
     public void process(View view) {
-
+        view.updateDevelopmentCards(developmentCard, slot);
     }
 }

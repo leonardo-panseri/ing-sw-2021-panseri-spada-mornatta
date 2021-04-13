@@ -50,6 +50,22 @@ public class CommandHandler {
         cli.printOwnLeaders();
     }
 
+    public void viewDevelopment() {
+        cli.printOwnDevelopmentCards();
+    }
+
+    public void viewDeck() {
+        cli.printDevelopmentDeck();
+    }
+
+    public void viewDeposit() {
+        cli.printDeposit();
+    }
+
+    public void buy(String[] args) {
+        cli.buyDevelopmentCard(args);
+    }
+
     public void test(String[] args) {
         System.out.println("Received cmd Test with args: " + Arrays.toString(args));
     }
