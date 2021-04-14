@@ -46,13 +46,16 @@ public abstract class View implements Runnable {
     }
 
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
-        if(playerName.equals(getPlayerName()))
-            setGameState(GameState.WAITING_PLAYERS);
         boolean playersToStartSet = playersToStart != -1;
         showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
                 ViewString.PLAYER_CONNECTED.formatted(playerName));
-        if(playerName.equals(getPlayerName()) && isLobbyMaster())
-            showDirectMessage(ViewString.CHOOSE_PLAYERS_TO_START);
+
+        if(playerName.equals(getPlayerName()))
+            if(isLobbyMaster()) {
+                setGameState(GameState.CHOOSING_PLAYERS);
+                showDirectMessage(ViewString.CHOOSE_PLAYERS_TO_START);
+            } else
+                setGameState(GameState.WAITING_PLAYERS);
     }
 
     public void handleSetPlayersToStart() {

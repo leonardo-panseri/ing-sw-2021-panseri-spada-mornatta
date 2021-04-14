@@ -119,7 +119,7 @@ public class CLI extends View {
 
     @Override
     public void draw(int marketIndex, Resource whiteConversion) {
-        client.send(new MarketPlayerActionEvent(getPlayerName(), marketIndex - 1, whiteConversion));
+        getClient().send(new MarketPlayerActionEvent(getPlayerName(), marketIndex - 1, whiteConversion));
     }
 
     @Override
