@@ -13,13 +13,14 @@ public class RemoteView implements Observer<IServerPacket> {
 
     private Player player;
     private final SocketClientConnection clientConnection;
+    private final LobbyController lobbyController;
     private GameController gameController;
 
-    public RemoteView(SocketClientConnection c) {
+    public RemoteView(SocketClientConnection c, LobbyController lobbyController) {
         this.player = null;
         this.clientConnection = c;
+        this.lobbyController = lobbyController;
         this.gameController = null;
-        c.addObserver(new ClientPacketReceiver(this));
     }
 
     public Player getPlayer() {
@@ -32,6 +33,10 @@ public class RemoteView implements Observer<IServerPacket> {
 
     public SocketClientConnection getClientConnection() {
         return clientConnection;
+    }
+
+    public LobbyController getLobbyController() {
+        return lobbyController;
     }
 
     void setGameController(GameController gameController) {
@@ -47,7 +52,7 @@ public class RemoteView implements Observer<IServerPacket> {
 
     void notifyClientMessage(ClientMessage message) {
         message.setClientConnection(getClientConnection());
-        clientConnection.getLobbyController().update(message);
+        lobbyController.update(message);
     }
 
     @Override
@@ -55,10 +60,26 @@ public class RemoteView implements Observer<IServerPacket> {
         if(packet instanceof DirectServerMessage) {
             DirectServerMessage dm = (DirectServerMessage) packet;
             if(dm.getRecipient() == clientConnection)
-                clientConnection.asyncSend(dm);
-        } else if(packet instanceof PlayerCrashMessage) {
-            clientConnection.send(packet);
+                clientConnection.send(dm);
         } else
-            clientConnection.asyncSend(packet);
+            clientConnection.send(packet);
+    }
+
+    void handlePacket(Object packet) {
+        System.out.println("Received: " + packet);
+
+        if(packet instanceof ClientMessage) {
+            System.out.println("Processing client message");
+
+            ClientMessage clientMessage = (ClientMessage) packet;
+            notifyClientMessage(clientMessage);
+        } else if(packet instanceof PlayerActionEvent) {
+            System.out.println("Processing player action");
+
+            PlayerActionEvent actionEvent = (PlayerActionEvent) packet;
+            notifyActionEvent(actionEvent);
+        } else {
+            System.err.println("Received object is of unknown type");
+        }
     }
 }

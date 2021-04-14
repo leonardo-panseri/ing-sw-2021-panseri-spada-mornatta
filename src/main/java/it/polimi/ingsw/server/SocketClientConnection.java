@@ -1,24 +1,18 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.server.messages.DirectServerMessage;
-import it.polimi.ingsw.server.messages.PlayerCrashMessage;
-import it.polimi.ingsw.server.messages.ServerMessage;
-import it.polimi.ingsw.server.messages.ServerMessages;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.UUID;
+import java.util.concurrent.ArrayBlockingQueue;
 
-public class SocketClientConnection extends Observable<Object> implements Runnable {
+public class SocketClientConnection implements Runnable {
     private final Socket socket;
-    private ObjectOutputStream out;
+    private WriteThread writeThread;
 
-    private final LobbyController lobbyController;
     private String playerName;
     private final RemoteView remoteView;
     private UUID lobbyUUID;
@@ -27,14 +21,17 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
 
     public SocketClientConnection(Socket socket, LobbyController lobbyController) {
         this.socket = socket;
-        this.lobbyController = lobbyController;
         this.playerName = null;
-        this.remoteView = new RemoteView(this);
+        this.remoteView = new RemoteView(this, lobbyController);
         this.lobbyUUID = null;
     }
 
-    private synchronized boolean isActive(){
+    synchronized boolean isActive(){
         return active;
+    }
+
+    synchronized void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getPlayerName() {
@@ -49,10 +46,6 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
         return remoteView;
     }
 
-    public LobbyController getLobbyController() {
-        return lobbyController;
-    }
-
     public UUID getLobbyUUID() {
         return lobbyUUID;
     }
@@ -62,13 +55,7 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
     }
 
     synchronized void send(Object message) {
-        try {
-            out.reset();
-            out.writeObject(message);
-            out.flush();
-        } catch(IOException e){
-            System.err.println(e.getMessage());
-        }
+        writeThread.send(message);
     }
 
     public synchronized void closeConnection() {
@@ -84,35 +71,79 @@ public class SocketClientConnection extends Observable<Object> implements Runnab
         closeConnection();
 
         System.out.println("Deregistering client...");
-        lobbyController.deregisterConnection(this);
+        remoteView.getLobbyController().deregisterConnection(this);
         System.out.println("Done!");
-    }
-
-    public void asyncSend(final Object message){
-        new Thread(() -> send(message)).start();
     }
 
     @Override
     public void run() {
         ObjectInputStream in;
         try{
-            out = new ObjectOutputStream(socket.getOutputStream());
+            writeThread = new WriteThread(this, socket);
+            writeThread.start();
             in = new ObjectInputStream(socket.getInputStream());
 
-            lobbyController.addToLobby(this);
+
+
+            remoteView.getLobbyController().addToLobby(this);
 
             Object read;
             while(isActive()){
                 read = in.readObject();
 
-                notify(read);
+                remoteView.handlePacket(read);
             }
+
+            writeThread.join();
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             close();
+        }
+    }
+}
+
+class WriteThread extends Thread {
+    private static final int BUFFER_CAPACITY = 20;
+
+    private final SocketClientConnection clientConnection;
+    private final ObjectOutputStream out;
+    private final ArrayBlockingQueue<Object> bufferOut;
+    private final Scanner stdin = new Scanner(System.in);
+
+    WriteThread(SocketClientConnection clientConnection, Socket socket) throws IOException {
+        super();
+
+        this.clientConnection = clientConnection;
+        this.out = new ObjectOutputStream(socket.getOutputStream());
+        bufferOut = new ArrayBlockingQueue<>(BUFFER_CAPACITY);
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (clientConnection.isActive()) {
+                while (bufferOut.size() > 0) {
+                    Object object = bufferOut.remove();
+
+                    out.reset();
+                    out.writeObject(object);
+                    out.flush();
+                }
+            }
+        } catch(Exception e) {
+            System.err.println("Error in SocketClientConnection WriteThread");
+            clientConnection.setActive(false);
+        }
+    }
+
+    public synchronized void send(Object message) {
+        if(bufferOut.remainingCapacity() > 0) {
+            bufferOut.add(message);
+        } else {
+            System.err.println("WRITE_THREAD: Trying to send too many messages at once!");
         }
     }
 }
