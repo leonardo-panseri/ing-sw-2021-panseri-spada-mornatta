@@ -140,7 +140,7 @@ public class Market extends Observable<IServerPacket> {
         }
         grid[row][3].setResource(slideResource);
         slideResource = temp;
-        notify(new MarketUpdate(row, getRow(row), slideResource));
+        notify(new MarketUpdate(row + 4, getRow(row), slideResource));
     }
 
     /**
@@ -157,7 +157,7 @@ public class Market extends Observable<IServerPacket> {
         }
         grid[2][column].setResource(slideResource);
         slideResource = temp;
-        notify(new MarketUpdate(column + 3, getColumn(column), slideResource));
+        notify(new MarketUpdate(column, getColumn(column), slideResource));
     }
 
     /**

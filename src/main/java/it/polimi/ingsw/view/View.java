@@ -115,7 +115,13 @@ public abstract class View implements Runnable {
 
     public abstract void createMarket(List<List<Resource>> market);
 
-    public abstract void buyDevelopmentCard(String[] args);
+    public abstract void updateMarket(int index, List<Resource> changes);
+
+    public abstract void buyDevelopmentCard(int cardIndex);
+
+    public abstract void draw(int marketIndex, Resource whiteConversion);
+
+    public abstract void insertDrawnResources();
 
     public abstract void printMarket();
 
@@ -126,4 +132,6 @@ public abstract class View implements Runnable {
     public abstract void printDevelopmentDeck();
 
     public abstract void printDeposit();
+
+    public abstract void renderCard(DevelopmentCard card);
 }

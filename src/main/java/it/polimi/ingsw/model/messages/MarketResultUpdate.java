@@ -20,6 +20,6 @@ public class MarketResultUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-
+        view.insertDrawnResources();
     }
 }
