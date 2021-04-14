@@ -1,21 +1,25 @@
 package it.polimi.ingsw.server.messages;
 
-import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
 
-public class PlayerConnectMessage extends ServerMessage {
-    private final String playerName;
+import java.io.Serial;
 
-    public PlayerConnectMessage(String playerName, int current, int total) {
-        super(total == -1 ? "Player " + playerName + " connected" :
-                            "Player " + playerName + " connected (" + current + "/" + total + ")");
+public class PlayerConnectMessage extends ServerMessage {
+    @Serial
+    private static final long serialVersionUID = -8678594154824429984L;
+
+    private final String playerName;
+    private final int currentPlayers;
+    private final int playersToStart;
+
+    public PlayerConnectMessage(String playerName, int currentPlayers, int playersToStart) {
         this.playerName = playerName;
+        this.currentPlayers = currentPlayers;
+        this.playersToStart = playersToStart;
     }
 
     @Override
     public void process(View view) {
-        super.process(view);
-        if(playerName.equals(view.getPlayerName()))
-            view.setGameState(GameState.WAITING_PLAYERS);
+        view.handlePlayerConnect(playerName, currentPlayers, playersToStart);
     }
 }

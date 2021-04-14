@@ -42,7 +42,7 @@ public class Lobby extends Observable<IServerPacket> {
         if(firstConnection == null)
             firstConnection = connection;
 
-        notify(new ChooseNameMessage(connection));
+        notify(new AddToLobbyMessage(connection, firstConnection == connection));
     }
 
     public void setPlayerName(SocketClientConnection connection, String playerName) {
@@ -53,9 +53,6 @@ public class Lobby extends Observable<IServerPacket> {
 
         connection.setPlayerName(playerName);
         notify(new PlayerConnectMessage(playerName, connections.size(), playersToStart));
-
-        if(isFirstConnection(connection))
-            notify(new ChoosePlayersToStartMessage(connection));
     }
 
     public void setPlayersToStart(SocketClientConnection connection, int playersToStart) {
@@ -69,6 +66,7 @@ public class Lobby extends Observable<IServerPacket> {
         }
 
         this.playersToStart = playersToStart;
+        notify(new PlayersToStartSetMessage(connection));
     }
 
     public void startGame() {
@@ -90,10 +88,6 @@ public class Lobby extends Observable<IServerPacket> {
             }
             connections.remove(conn);
         }
-    }
-
-    public boolean isFirstConnection(SocketClientConnection connection) {
-        return connection == firstConnection;
     }
 
     public boolean isPlayersToStartSet() {

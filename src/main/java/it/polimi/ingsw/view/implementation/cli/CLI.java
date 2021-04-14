@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.implementation.cli;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
+import it.polimi.ingsw.constant.AnsiColor;
 import it.polimi.ingsw.constant.Constants;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
@@ -18,22 +19,31 @@ import it.polimi.ingsw.view.messages.SelectLeadersPlayerActionEvent;
 import java.util.*;
 
 public class CLI extends View {
-    private final Client client;
     private final CommandHandler commandHandler;
     private final MockModel model;
 
     private boolean ownTurn;
 
     public CLI(Client client) {
-        this.client = client;
+        super(client);
         this.commandHandler = new CommandHandler(this);
         this.model = new MockModel();
         this.ownTurn = false;
     }
 
     @Override
-    public void showServerMessage(String message) {
-        System.out.println(message);
+    public void showDirectMessage(String message) {
+        System.out.println(AnsiColor.BLUE + "Server -> You: " + message + AnsiColor.RESET);
+    }
+
+    @Override
+    public void showLobbyMessage(String message) {
+        System.out.println(AnsiColor.GREEN + "Server -> Lobby: " + message + AnsiColor.RESET);
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        System.err.println(message);
     }
 
     @Override
@@ -97,7 +107,7 @@ public class CLI extends View {
         int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
 
         ArrayList<Stack<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        client.send(new BuyPlayerActionEvent(getPlayerName(), stacks.get(stackIndex).peek().getUuid(), 1));
+        getClient().send(new BuyPlayerActionEvent(getPlayerName(), stacks.get(stackIndex).peek().getUuid(), 1));
     }
 
     @Override
@@ -137,12 +147,12 @@ public class CLI extends View {
         Scanner scanner = new Scanner(System.in);
         System.out.println(Constants.ANSI_BLUE + Constants.MASTER + Constants.ANSI_RESET);
         String command;
-        while (client.isActive()) {
+        while (getClient().isActive()) {
             command = scanner.nextLine();
             switch (getGameState()) {
                 case CHOOSING_NAME -> {
                     setPlayerName(command);
-                    client.send(new PlayerNameMessage(command));
+                    getClient().send(new PlayerNameMessage(command));
                 }
                 case CHOOSING_PLAYERS -> {
                     int playersToStart;
@@ -158,7 +168,7 @@ public class CLI extends View {
                         break;
                     }
 
-                    client.send(new PlayersToStartMessage(playersToStart));
+                    getClient().send(new PlayersToStartMessage(playersToStart));
                 }
                 case WAITING_PLAYERS -> System.out.println("Waiting for other players to join");
                 case SELECT_LEADERS -> {
@@ -182,7 +192,7 @@ public class CLI extends View {
                         uuids.add(leaders.get(i - 1).getUuid());
                     }
 
-                    client.send(new SelectLeadersPlayerActionEvent(getPlayerName(), uuids));
+                    getClient().send(new SelectLeadersPlayerActionEvent(getPlayerName(), uuids));
                 }
                 case WAIT_SELECT_LEADERS -> System.out.println("It's not your turn");
                 case PLAYING -> {
