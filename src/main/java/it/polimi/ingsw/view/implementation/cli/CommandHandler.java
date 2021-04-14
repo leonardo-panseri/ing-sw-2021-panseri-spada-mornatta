@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.implementation.cli;
 
+import it.polimi.ingsw.model.Resource;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -62,8 +64,35 @@ public class CommandHandler {
         cli.printDeposit();
     }
 
+    public void viewMarket() {
+        cli.printMarket();
+    }
+
     public void buy(String[] args) {
-        cli.buyDevelopmentCard(args);
+        int cardIndex;
+        try{
+            cardIndex = Integer.parseInt(args[0]);
+        }catch (NumberFormatException e){
+            System.out.println("Incorrect format: please input \"buy\" <cardNum>");
+            return;
+        }
+        cli.buyDevelopmentCard(cardIndex);
+    }
+
+    public void draw(String[] args) {
+        int marketIndex;
+        Resource whiteConversion = null;
+        try{
+            marketIndex = Integer.parseInt(args[0]);
+            if (marketIndex< 1 || marketIndex > 7) throw new IllegalArgumentException("incorrect_format");
+            if(args.length>1) {
+                whiteConversion = Resource.valueOf(args[1]);
+            }
+        }catch (IllegalArgumentException e){
+            System.out.println("Incorrect format: please input \"draw\" <rowNum or columnNum> <resource to take instead of white spheres>");
+            return;
+        }
+        cli.draw(marketIndex, whiteConversion);
     }
 
     public void test(String[] args) {

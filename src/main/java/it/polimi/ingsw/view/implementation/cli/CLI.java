@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.MockModel;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
+import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
 import it.polimi.ingsw.view.messages.SelectLeadersPlayerActionEvent;
 
 import java.util.*;
@@ -85,14 +86,20 @@ public class CLI extends View {
 
     @Override
     public void createMarket(List<List<Resource>> market) {
-        model.setMarket(Constants.buildMarket(market));
-        printMarket();
+        model.setMarket(market);
     }
 
     @Override
-    public void buyDevelopmentCard(String[] args) {
+    public void updateMarket(int index, List<Resource> changes) {
+        if (index >= 4) {
+            model.updateMarketRow(index - 4, changes);
+        }
+        else model.updateMarketColumn(index, changes);
+    }
+
+    @Override
+    public void buyDevelopmentCard(int cardIndex) {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = model.getDevelopmentDeck();
-        int cardIndex = Integer.parseInt(args[0]);
         int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
         int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
 
@@ -101,8 +108,19 @@ public class CLI extends View {
     }
 
     @Override
+    public void draw(int marketIndex, Resource whiteConversion) {
+        client.send(new MarketPlayerActionEvent(getPlayerName(), marketIndex - 1, whiteConversion));
+    }
+
+    @Override
+    public void insertDrawnResources() {
+        System.out.println("OK");
+        System.out.flush();
+    }
+
+    @Override
     public void printMarket() {
-        System.out.println(model.getMarket());
+        System.out.println(Constants.buildMarket(model.getMarket()));
     }
 
     @Override
@@ -121,7 +139,7 @@ public class CLI extends View {
         int index = 1;
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : deck) {
             for (Stack<DevelopmentCard> stack : map.values()) {
-                System.out.println(index + ") " + stack.peek());
+                renderCard(stack.peek(), index);
                 index++;
             }
         }
@@ -130,6 +148,48 @@ public class CLI extends View {
     @Override
     public void printDeposit() {
         System.out.println(model.getDeposit());
+    }
+
+    @Override
+    public void renderCard(DevelopmentCard card) {
+
+    }
+
+    public void renderCard(DevelopmentCard card, int label) {
+        ArrayList<Resource> keys = new ArrayList<>(card.getCost().keySet());
+        ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());
+        ArrayList<Resource> output = new ArrayList<>(card.getProductionOutput().keySet());
+
+        String prettyCard = label + ") Color: " + card.getColor() + "\n" +
+                "Level: " + card.getLevel() + "\n" +
+                "Cost: " + card.getCost().get(keys.get(0)) + " " + keys.get(0) + "\n";
+
+        if(keys.size() > 1){
+            for (int i = 1; i < keys.size(); i++) {
+                Resource key = keys.get(i);
+                prettyCard = prettyCard.concat( "      "+ key + " " + card.getCost().get(key) +"\n");
+            }
+        }
+
+        prettyCard = prettyCard.concat("Production input: " + card.getProductionInput().get(input.get(0)) + " " + input.get(0) + "\n");
+
+        if(input.size() > 1){
+            for (int i = 1; i < input.size(); i++) {
+                Resource res = input.get(i);
+                prettyCard = prettyCard.concat( "      "+ res + " " + card.getProductionInput().get(res) +"\n");
+            }
+        }
+
+        prettyCard = prettyCard.concat("Production output: " + card.getProductionOutput().get(output.get(0)) + " " + output.get(0) + "\n");
+
+        if(output.size() > 1){
+            for (int i = 1; i < output.size(); i++) {
+                Resource res = output.get(i);
+                prettyCard = prettyCard.concat( "      "+ res + " " + card.getProductionOutput().get(res) +"\n");
+            }
+        }
+
+        System.out.println(prettyCard);
     }
 
     @Override

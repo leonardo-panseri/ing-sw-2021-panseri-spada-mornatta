@@ -13,7 +13,7 @@ public class MockModel {
     private List<Stack<DevelopmentCard>> developmentCards;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
     private List<List<Resource>> deposit;
-    private String market;
+    private List<List<Resource>> market;
 
     public MockModel() {
         developmentCards = new ArrayList<>();
@@ -56,11 +56,23 @@ public class MockModel {
         developmentCards.get(slot - 1).push(card);
     }
 
-    public String getMarket() {
+    public List<List<Resource>> getMarket() {
         return market;
     }
 
-    public void setMarket(String market) {
+    public void setMarket(List<List<Resource>> market) {
         this.market = market;
+    }
+
+    public void updateMarketRow(int index, List<Resource> changes) {
+        getMarket().get(index).clear();
+        getMarket().get(index).addAll(changes);
+    }
+
+    public void updateMarketColumn(int index, List<Resource> changes) {
+        for (List<Resource> row : getMarket()) {
+            row.remove(index);
+            row.add(index, changes.get(getMarket().indexOf(row)));
+        }
     }
 }
