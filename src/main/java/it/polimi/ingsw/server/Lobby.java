@@ -69,7 +69,7 @@ public class Lobby extends Observable<IServerPacket> {
         notify(new PlayersToStartSetMessage(connection));
     }
 
-    public void startGame() {
+    public synchronized void startGame() {
         notify(new GameStartMessage());
     }
 
@@ -94,7 +94,7 @@ public class Lobby extends Observable<IServerPacket> {
         return playersToStart > 0 && playersToStart < 5;
     }
 
-    public boolean canStart() {
+    public synchronized boolean canStart() {
         for(SocketClientConnection conn : connections)
             if(conn.getPlayerName() == null)
                 return false;

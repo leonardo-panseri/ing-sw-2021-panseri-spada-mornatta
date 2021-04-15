@@ -16,15 +16,15 @@ public class GameController implements Observer<PlayerActionEvent> {
         playerController = new PlayerController(this);
     }
 
-    public Game getGame() {
+    public synchronized Game getGame() {
         return game;
     }
 
-    public TurnController getTurnController() {
+    public synchronized TurnController getTurnController() {
         return turnController;
     }
 
-    public PlayerController getPlayerController() {
+    public synchronized PlayerController getPlayerController() {
         return playerController;
     }
 
@@ -32,24 +32,24 @@ public class GameController implements Observer<PlayerActionEvent> {
         game.addPlayer(player);
     }
 
-    public void endGame() {
+    void endGame() {
 
     }
 
-    public int calculateScore(Player player) {
+    int calculateScore(Player player) {
         return 0;
     }
 
-    public void exit() {
+    void exit() {
 
     }
 
-    private void exitGame() {
+    void exitGame() {
 
     }
 
     @Override
-    public void update(PlayerActionEvent event) {
+    public synchronized void update(PlayerActionEvent event) {
         event.process(this);
     }
 

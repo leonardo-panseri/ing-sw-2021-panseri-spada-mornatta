@@ -33,7 +33,7 @@ public class Deck extends Observable<IServerPacket> {
      * @param uuid the uuid of the card to search for
      * @return the leader card with the given UUID or <code>null</code> if not found
      */
-    public LeaderCard getLeaderCardByUuid(UUID uuid) {
+    public synchronized LeaderCard getLeaderCardByUuid(UUID uuid) {
         LeaderCard result = null;
         for(LeaderCard card : leaderCards) {
             if(uuid.equals(card.getUuid())) {
@@ -50,7 +50,7 @@ public class Deck extends Observable<IServerPacket> {
      * @param uuid the uuid of the card to search for
      * @return the development card with the given UUID or <code>null</code> if not found
      */
-    public DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
+    public synchronized DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
         DevelopmentCard result = null;
         outerLoop:
         for(HashMap<CardColor, Stack<DevelopmentCard>> color : developmentCards) {
@@ -71,7 +71,7 @@ public class Deck extends Observable<IServerPacket> {
      *
      * @return the development cards
      */
-    public List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentCards() {
+    List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentCards() {
         return developmentCards;
     }
 
@@ -108,7 +108,7 @@ public class Deck extends Observable<IServerPacket> {
      *
      * @param card the bought development card to remove.
      */
-    public void removeBoughtCard(DevelopmentCard card) {
+    public synchronized void removeBoughtCard(DevelopmentCard card) {
         developmentCards
                 .get(card.getLevel() - 1)
                 .get(card.getColor())

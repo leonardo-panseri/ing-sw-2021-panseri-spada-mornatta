@@ -36,17 +36,8 @@ public class LeaderCard extends Card {
     }
 
     @Override
-    public boolean canPlayerAfford(Player player) {
+    public synchronized boolean canPlayerAfford(Player player) {
         return cardRequirements.canPlayerAfford(player);
-    }
-
-    /**
-     * Getter for the requirements.
-     *
-     * @return the card requirements.
-     */
-    public LeaderCardRequirement getCardRequirements() {
-        return cardRequirements;
     }
 
     /**

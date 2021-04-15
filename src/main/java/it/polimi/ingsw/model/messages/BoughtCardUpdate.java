@@ -6,16 +6,15 @@ import it.polimi.ingsw.view.View;
 import java.io.Serial;
 import java.util.UUID;
 
-public class BoughtCardUpdate extends PropertyUpdate{
+public class BoughtCardUpdate extends PlayerPropertyUpdate {
     @Serial
     private static final long serialVersionUID = 5376131271721131000L;
 
-    private final String playerName;
     private final DevelopmentCard developmentCard;
     private final int slot;
 
     public BoughtCardUpdate(String playerName, DevelopmentCard developmentCard, int slot) {
-        this.playerName = playerName;
+        super(playerName);
         this.developmentCard = developmentCard;
         this.slot = slot;
     }
@@ -23,5 +22,6 @@ public class BoughtCardUpdate extends PropertyUpdate{
     @Override
     public void process(View view) {
         view.updateDevelopmentCards(developmentCard, slot);
+        //TODO Gestire correttamente se è l'update relativo a questo player o no
     }
 }

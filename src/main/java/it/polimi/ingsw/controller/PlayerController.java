@@ -19,7 +19,7 @@ public class PlayerController {
         this.gameController = gameController;
     }
 
-    public void activateLeaderCard(Player player, LeaderCard leader) {
+    public synchronized void activateLeaderCard(Player player, LeaderCard leader) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -36,7 +36,7 @@ public class PlayerController {
         }
     }
 
-    public void buyDevelopmentCard(Player player, DevelopmentCard developmentCard, int slot) {
+    public synchronized void buyDevelopmentCard(Player player, DevelopmentCard developmentCard, int slot) {
         if (gameController.getGame().getDeck().getDevelopmentCardByUuid(developmentCard.getUuid()) == null) {
             System.out.println("The requested card is not in the deck!");
             return;
@@ -60,7 +60,7 @@ public class PlayerController {
             gameController.endGame();
     }
 
-    public void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes) {
+    public synchronized void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -74,7 +74,7 @@ public class PlayerController {
 
     }
 
-    public void discardLeader(Player player, LeaderCard card) {
+    public synchronized void discardLeader(Player player, LeaderCard card) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -87,7 +87,7 @@ public class PlayerController {
         }
     }
 
-    public void useMarket(Player player, int selection, Resource whiteConversion) {
+    public synchronized void useMarket(Player player, int selection, Resource whiteConversion) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -115,7 +115,7 @@ public class PlayerController {
         player.getBoard().setMarketResults(marketResults);
     }
 
-    public void useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {
+    public synchronized void useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -154,7 +154,7 @@ public class PlayerController {
         player.getBoard().getDeposit().addToStrongbox(baseProductionOutput);
     }
 
-    public void useDevelopmentProduction(Player player, DevelopmentCard card) {
+    public synchronized void useDevelopmentProduction(Player player, DevelopmentCard card) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -181,7 +181,7 @@ public class PlayerController {
         player.getBoard().getDeposit().addMultipleToStrongbox(output);
     }
 
-    public void useLeaderProduction(Player player, LeaderCard card, Resource output) {
+    public synchronized void useLeaderProduction(Player player, LeaderCard card, Resource output) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
@@ -209,7 +209,7 @@ public class PlayerController {
         player.getBoard().getDeposit().addToStrongbox(output);
     }
 
-    public void selectInitialLeaders(Player player, List<LeaderCard> cards) {
+    public synchronized void selectInitialLeaders(Player player, List<LeaderCard> cards) {
         if (cards.size() != 2) {
             System.out.println("Wrong amount of selected leaders!");
         }

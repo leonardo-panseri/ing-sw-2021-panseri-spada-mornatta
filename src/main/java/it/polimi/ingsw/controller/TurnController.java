@@ -13,7 +13,7 @@ public class TurnController {
         this.gameController = gameController;
     }
 
-    public void start() {
+    public synchronized void start() {
         gameController.getGame().randomSortPlayers();
         gameController.getGame().setCurrentPlayer(gameController.getGame().getPlayerAt(0));
         for (int i = 0; i < gameController.getGame().getPlayerNum(); i++) {
@@ -23,9 +23,8 @@ public class TurnController {
         gameController.getGame().setGamePhase(GamePhase.SELECTING_LEADERS);
     }
 
-    public void endTurn(Player player) {
+    public synchronized void endTurn(Player player) {
         if(!gameController.isPlaying(player)) {
-            //TODO Send error
             return;
         }
 

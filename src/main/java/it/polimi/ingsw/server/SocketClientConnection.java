@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -34,11 +33,11 @@ public class SocketClientConnection implements Runnable {
         this.active = active;
     }
 
-    public String getPlayerName() {
+    public synchronized String getPlayerName() {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
+    public synchronized void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
@@ -46,11 +45,11 @@ public class SocketClientConnection implements Runnable {
         return remoteView;
     }
 
-    public UUID getLobbyUUID() {
+    public synchronized UUID getLobbyUUID() {
         return lobbyUUID;
     }
 
-    public void setLobbyUUID(UUID lobbyUUID) {
+    public synchronized void setLobbyUUID(UUID lobbyUUID) {
         this.lobbyUUID = lobbyUUID;
     }
 
@@ -111,7 +110,6 @@ class WriteThread extends Thread {
     private final SocketClientConnection clientConnection;
     private final ObjectOutputStream out;
     private final ArrayBlockingQueue<Object> bufferOut;
-    private final Scanner stdin = new Scanner(System.in);
 
     WriteThread(SocketClientConnection clientConnection, Socket socket) throws IOException {
         super();

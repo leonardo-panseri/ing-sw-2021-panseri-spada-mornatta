@@ -1,21 +1,24 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.client.messages.ClientMessage;
 
 import java.util.*;
 
 public class LobbyController {
+    private final Server server;
     private final Map<UUID, Lobby> playingLobbies = new HashMap<>();
     private Lobby currentLobby = new Lobby();
     private boolean currentLobbyStarting = false;
 
-    public void update(ClientMessage message) {
+    LobbyController(Server server) {
+        this.server = server;
+    }
+
+    public synchronized void update(ClientMessage message) {
         message.process(this);
     }
 
-    public void addToLobby(SocketClientConnection connection) {
+    public synchronized void addToLobby(SocketClientConnection connection) {
         if(currentLobbyStarting) {
             System.err.println("Trying to connect whilst game is starting, closing");
 
@@ -32,7 +35,7 @@ public class LobbyController {
         }
     }
 
-    public void setPlayerName(SocketClientConnection connection, String playerName) {
+    public synchronized void setPlayerName(SocketClientConnection connection, String playerName) {
         if(connection.getPlayerName() != null) {
             return;
         }
@@ -44,7 +47,7 @@ public class LobbyController {
             startGame();
     }
 
-    public void setPlayersToStart(SocketClientConnection connection, int playersToStart) {
+    public synchronized void setPlayersToStart(SocketClientConnection connection, int playersToStart) {
         if(currentLobby.isPlayersToStartSet()) {
             return;
         }
@@ -54,38 +57,13 @@ public class LobbyController {
             startGame();
     }
 
-    private void startGame() {
+    private synchronized void startGame() {
         currentLobbyStarting = true;
 
-        System.out.println("Starting game!");
         Lobby lobbyToStart = currentLobby;
         playingLobbies.put(currentLobby.getUuid(), lobbyToStart);
 
-        GameController controller = new GameController();
-        for(SocketClientConnection conn : lobbyToStart.getConnections()) {
-            conn.setLobbyUUID(lobbyToStart.getUuid());
-
-            Player player = new Player(conn.getPlayerName());
-            controller.addPlayer(player);
-            RemoteView remoteView = conn.getRemoteView();
-            remoteView.setPlayer(player);
-            remoteView.setGameController(controller);
-            controller.getGame().addObserver(remoteView);
-            controller.getGame().getDeck().addObserver(remoteView);
-            controller.getGame().getMarket().addObserver(remoteView);
-            player.addObserver(remoteView);
-            player.getBoard().addObserver(remoteView);
-            player.getBoard().getDeposit().addObserver(remoteView);
-
-            if(lobbyToStart.isSinglePlayer())
-                controller.getGame().createLorenzo().addObserver(remoteView);
-        }
-
-        lobbyToStart.startGame();
-
-        controller.getGame().getMarket().initializeMarket();
-        controller.getGame().getDeck().shuffleDevelopmentDeck();
-        controller.getTurnController().start();
+        server.getExecutor().submit(new GameInstance(lobbyToStart));
 
         currentLobby = new Lobby();
 

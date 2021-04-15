@@ -36,7 +36,7 @@ public class DevelopmentCard extends Card {
      * @param productionOutput a map of resources produced by the production power
      * @param color the color of the card
      */
-    public DevelopmentCard(int victoryPoints, Map<Resource, Integer> cost, int level, Map<Resource, Integer> productionInput,
+    DevelopmentCard(int victoryPoints, Map<Resource, Integer> cost, int level, Map<Resource, Integer> productionInput,
                            Map<Resource, Integer> productionOutput, CardColor color) {
         super(victoryPoints);
         this.cost = cost;
@@ -47,7 +47,7 @@ public class DevelopmentCard extends Card {
     }
 
     @Override
-    public boolean canPlayerAfford(Player player) {
+    public synchronized boolean canPlayerAfford(Player player) {
         return canPlayerAffordResources(player, cost);
     }
 
@@ -83,7 +83,7 @@ public class DevelopmentCard extends Card {
      *
      * @return the level of the card
      */
-    public int getLevel() {
+    public synchronized int getLevel() {
         return level;
     }
 
@@ -92,7 +92,7 @@ public class DevelopmentCard extends Card {
      *
      * @return the color of the card
      */
-    public CardColor getColor() {
+    public synchronized CardColor getColor() {
         return color;
     }
 

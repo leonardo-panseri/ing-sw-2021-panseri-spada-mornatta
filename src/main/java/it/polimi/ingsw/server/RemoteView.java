@@ -23,15 +23,11 @@ public class RemoteView implements Observer<IServerPacket> {
         this.gameController = null;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
+    public synchronized void setPlayer(Player player) {
         this.player = player;
     }
 
-    public SocketClientConnection getClientConnection() {
+    private SocketClientConnection getClientConnection() {
         return clientConnection;
     }
 
@@ -39,24 +35,24 @@ public class RemoteView implements Observer<IServerPacket> {
         return lobbyController;
     }
 
-    void setGameController(GameController gameController) {
+    synchronized void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
 
-    void notifyActionEvent(PlayerActionEvent event) {
+    private void notifyActionEvent(PlayerActionEvent event) {
         if(gameController != null)
             gameController.update(event);
         else
             System.err.println("Received PlayerActionEvent, but game is not started yet");
     }
 
-    void notifyClientMessage(ClientMessage message) {
+    private void notifyClientMessage(ClientMessage message) {
         message.setClientConnection(getClientConnection());
         lobbyController.update(message);
     }
 
     @Override
-    public void update(IServerPacket packet) {
+    public synchronized void update(IServerPacket packet) {
         if(packet instanceof DirectServerMessage) {
             DirectServerMessage dm = (DirectServerMessage) packet;
             if(dm.getRecipient() == clientConnection)
@@ -77,6 +73,11 @@ public class RemoteView implements Observer<IServerPacket> {
             System.out.println("Processing player action");
 
             PlayerActionEvent actionEvent = (PlayerActionEvent) packet;
+            if(!actionEvent.getPlayerName().equals(player.getNick())) {
+                System.err.println("Player tried to send packet with different nick (got '" + actionEvent.getPlayerName()
+                        + "', expected '" + player.getNick() + "'");
+                return;
+            }
             notifyActionEvent(actionEvent);
         } else {
             System.err.println("Received object is of unknown type");

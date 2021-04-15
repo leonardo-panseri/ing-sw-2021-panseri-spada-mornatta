@@ -6,15 +6,14 @@ import it.polimi.ingsw.view.View;
 import java.io.Serial;
 import java.util.Map;
 
-public class OwnedLeadersUpdate extends PropertyUpdate {
+public class OwnedLeadersUpdate extends PlayerPropertyUpdate {
     @Serial
     private static final long serialVersionUID = -1261070615297828486L;
 
-    private final String playerName;
     private final Map<LeaderCard, Boolean> leaderCards;
 
     public OwnedLeadersUpdate(String playerName, Map<LeaderCard, Boolean> leaderCards) {
-        this.playerName = playerName;
+        super(playerName);
         this.leaderCards = leaderCards;
     }
 

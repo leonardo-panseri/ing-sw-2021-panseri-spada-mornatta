@@ -13,8 +13,8 @@ public class SpecialAbility implements Serializable {
     @Serial
     private static final long serialVersionUID = -6196877805986709485L;
 
-    private SpecialAbilityType type;
-    private Resource targetResource;
+    private final SpecialAbilityType type;
+    private final Resource targetResource;
 
     /**
      * Constructor for a new SpecialAbility.

@@ -71,7 +71,7 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param player the player owner of the board.
      */
-    public Deposit(Player player) {
+    Deposit(Player player) {
         middleRow = new ArrayList<>();
         bottomRow = new ArrayList<>();
         strongBox = new HashMap<>();
@@ -84,7 +84,7 @@ public class Deposit extends Observable<IServerPacket> {
      * @param resource the resource to count
      * @return the total amount of the given resource
      */
-    public int getAmountOfResource(Resource resource) {
+    public synchronized int getAmountOfResource(Resource resource) {
         int amount = 0;
         if (topRow == resource)
             amount++;
