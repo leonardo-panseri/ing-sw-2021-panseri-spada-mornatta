@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.CreateMarketUpdate;
 import it.polimi.ingsw.model.messages.MarketUpdate;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
  * Model class representing the game market. Notifies all registered observer of state updates.
  */
 public class Market extends Observable<IServerPacket> {
-    private Box[][] grid;
+    private final Box[][] grid;
     private Resource slideResource;
 
     /**
@@ -140,7 +139,7 @@ public class Market extends Observable<IServerPacket> {
         }
         grid[row][3].setResource(slideResource);
         slideResource = temp;
-        notify(new MarketUpdate(row + 4, getRow(row), slideResource));
+        notify(new MarketUpdate(row + 4, getRow(row), getSlideResource()));
     }
 
     /**
@@ -157,7 +156,7 @@ public class Market extends Observable<IServerPacket> {
         }
         grid[2][column].setResource(slideResource);
         slideResource = temp;
-        notify(new MarketUpdate(column, getColumn(column), slideResource));
+        notify(new MarketUpdate(column, getColumn(column), getSlideResource()));
     }
 
     /**
@@ -165,7 +164,7 @@ public class Market extends Observable<IServerPacket> {
      *
      * @return the resource corresponding to the marble in the slide
      */
-    public Resource getSlideResource() {
+    synchronized Resource getSlideResource() {
         return slideResource;
     }
 

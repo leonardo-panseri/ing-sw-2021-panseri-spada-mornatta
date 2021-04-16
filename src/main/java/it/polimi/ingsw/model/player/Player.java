@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.LeaderCard;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.FaithUpdate;
 import it.polimi.ingsw.model.messages.OwnedLeadersUpdate;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
@@ -15,11 +14,11 @@ import java.util.*;
  * leader is active.
  */
 public class Player extends Observable<IServerPacket> {
-    private String nick;
+    private final String nick;
     private int faithPoints;
     private int popeFavours;
     private Map<LeaderCard, Boolean> leaderCards;
-    private PlayerBoard board;
+    private final PlayerBoard board;
 
 
     /**
@@ -40,7 +39,7 @@ public class Player extends Observable<IServerPacket> {
      *
      * @return a Map containing the LeaderCards
      */
-    public Map<LeaderCard, Boolean> getLeaderCards() {
+    Map<LeaderCard, Boolean> getLeaderCards() {
         return leaderCards;
     }
 
@@ -50,11 +49,11 @@ public class Player extends Observable<IServerPacket> {
      *
      * @return a string with the nick
      */
-    public String getNick() {
+    public synchronized String getNick() {
         return nick;
     }
 
-    public int getFaithPoints() {
+    int getFaithPoints() {
         return faithPoints;
     }
 
@@ -72,7 +71,7 @@ public class Player extends Observable<IServerPacket> {
      *
      * @param faithPoints the position in the faith track
      */
-    public void setFaithPoints(int faithPoints) {
+    void setFaithPoints(int faithPoints) {
 
         this.faithPoints = faithPoints;
         notify(new FaithUpdate(this.nick, this.faithPoints, this.popeFavours));
@@ -83,7 +82,7 @@ public class Player extends Observable<IServerPacket> {
      *
      * @return the amount of pope favours activated
      */
-    public int getPopeFavours() {
+    int getPopeFavours() {
         return popeFavours;
     }
 
@@ -92,7 +91,7 @@ public class Player extends Observable<IServerPacket> {
      *
      * @param popeFavours the new amount of pope favours
      */
-    public void setPopeFavours(int popeFavours) {
+    void setPopeFavours(int popeFavours) {
 
         this.popeFavours = popeFavours;
         notify(new FaithUpdate(this.nick, this.faithPoints, this.popeFavours));
@@ -132,7 +131,7 @@ public class Player extends Observable<IServerPacket> {
      *
      * @param faithPoints the amount of faith points to add
      */
-    public void addFaithPoints(int faithPoints) {
+    public synchronized void addFaithPoints(int faithPoints) {
         this.faithPoints += faithPoints;
         notify(new FaithUpdate(getNick(), faithPoints, popeFavours));
     }
