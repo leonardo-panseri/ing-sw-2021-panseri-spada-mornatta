@@ -68,6 +68,8 @@ public class CommandHandler {
         cli.printMarket();
     }
 
+    public void viewFaith(){};
+
     public void buy(String[] args) {
         int cardIndex;
         try{
