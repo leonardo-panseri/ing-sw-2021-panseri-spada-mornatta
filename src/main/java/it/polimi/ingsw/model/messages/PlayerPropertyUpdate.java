@@ -17,4 +17,8 @@ public abstract class PlayerPropertyUpdate extends PropertyUpdate {
     protected boolean isCurrentPlayer(View view) {
         return view.getPlayerName().equals(playerName);
     }
+
+    protected String getPlayerName() {
+        return this.playerName;
+    }
 }

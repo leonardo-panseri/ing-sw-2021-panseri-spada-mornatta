@@ -53,7 +53,12 @@ public class CLI extends View {
             case SELECTING_LEADERS -> {
                 if (ownTurn) {
                     setGameState(GameState.SELECT_LEADERS);
-                    System.out.println("Select the leader cards that you want to keep:\n" + model.getLeaderCards().keySet());
+                    System.out.println("Select the leader cards that you want to keep:\n");
+                    int index = 1;
+                    for (LeaderCard card : model.getLeaderCards().keySet()) {
+                        renderLeaderCard(card, index);
+                        index++;
+                    }
                 } else {
                     setGameState(GameState.WAIT_SELECT_LEADERS);
                 }
@@ -68,8 +73,10 @@ public class CLI extends View {
     }
 
     @Override
-    public void updateLeaderCards(Map<LeaderCard, Boolean> ownedLeaders) {
-        model.setLeaderCards(ownedLeaders);
+    public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
+        if (playerName.equals(getPlayerName())) {
+            model.setLeaderCards(ownedLeaders);
+        } else model.setOthersLeaderCards(playerName, ownedLeaders);
     }
 
     @Override
@@ -84,7 +91,12 @@ public class CLI extends View {
             System.out.println("It's your turn");
             if (getGameState() == GameState.WAIT_SELECT_LEADERS) {
                 setGameState(GameState.SELECT_LEADERS);
-                System.out.println("Select the leader cards that you want to keep:\n" + model.getLeaderCards().keySet());
+                System.out.println("Select the leader cards that you want to keep:\n");
+                int index = 1;
+                for (LeaderCard card : model.getLeaderCards().keySet()) {
+                    renderLeaderCard(card, index);
+                    index++;
+                }
             } else if (getGameState() == GameState.PLAYING) {
                 System.out.println("Choose an action:");
             }
@@ -124,6 +136,7 @@ public class CLI extends View {
 
     @Override
     public void insertDrawnResources() {
+        //TODO implementa metodo
         System.out.println("OK");
         System.out.flush();
     }
@@ -144,12 +157,30 @@ public class CLI extends View {
     }
 
     @Override
+    public void printOthersDevelopmentCards(String playerName) {
+        if (!model.getOtherLeaderCards().containsKey(playerName)) {
+            System.out.println("Player does not have active cards!");
+            return;
+        }
+
+        int numActive = 0;
+        Map<LeaderCard, Boolean> targetCards = model.getOtherLeaderCards().get(playerName);
+        for (LeaderCard card : targetCards.keySet()) {
+            if (targetCards.get(card)) {
+                numActive++;
+                renderLeaderCard(card, -1);
+            }
+        }
+        if(numActive == 0) System.out.println("Player does not have active cards!");
+    }
+
+    @Override
     public void printDevelopmentDeck() {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = model.getDevelopmentDeck();
         int index = 1;
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : deck) {
             for (Stack<DevelopmentCard> stack : map.values()) {
-                renderCard(stack.peek(), index);
+                renderDevelopmentCard(stack.peek(), index);
                 index++;
             }
         }
@@ -161,23 +192,26 @@ public class CLI extends View {
     }
 
     @Override
-    public void renderCard(DevelopmentCard card) {
-
-    }
-
-    public void renderCard(DevelopmentCard card, int label) {
-        ArrayList<Resource> keys = new ArrayList<>(card.getCost().keySet());
+    public void renderDevelopmentCard(DevelopmentCard card, int label) {
+        ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
         ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());
         ArrayList<Resource> output = new ArrayList<>(card.getProductionOutput().keySet());
 
-        String prettyCard = label + ") Color: " + card.getColor() + "\n" +
-                "Level: " + card.getLevel() + "\n" +
-                "Cost: " + card.getCost().get(keys.get(0)) + " " + keys.get(0) + "\n";
+        String prettyCard = "";
 
-        if(keys.size() > 1){
-            for (int i = 1; i < keys.size(); i++) {
-                Resource key = keys.get(i);
-                prettyCard = prettyCard.concat( "      "+ key + " " + card.getCost().get(key) +"\n");
+        if(label > 0) {
+            prettyCard = prettyCard.concat(label + ") ");
+        }
+
+        prettyCard = prettyCard.concat("Color: " + card.getColor() + "\n" +
+                "Points: " + card.getVictoryPoints() + "\n" +
+                "Level: " + card.getLevel() + "\n" +
+                "Cost: " + card.getCost().get(cost.get(0)) + " " + cost.get(0) + "\n");
+
+        if(cost.size() > 1){
+            for (int i = 1; i < cost.size(); i++) {
+                Resource res = cost.get(i);
+                prettyCard = prettyCard.concat( "      "+ card.getCost().get(res) + " " + res +"\n");
             }
         }
 
@@ -186,7 +220,7 @@ public class CLI extends View {
         if(input.size() > 1){
             for (int i = 1; i < input.size(); i++) {
                 Resource res = input.get(i);
-                prettyCard = prettyCard.concat( "      "+ res + " " + card.getProductionInput().get(res) +"\n");
+                prettyCard = prettyCard.concat( "      "+ card.getProductionInput().get(res) + " " + res +"\n");
             }
         }
 
@@ -195,9 +229,48 @@ public class CLI extends View {
         if(output.size() > 1){
             for (int i = 1; i < output.size(); i++) {
                 Resource res = output.get(i);
-                prettyCard = prettyCard.concat( "      "+ res + " " + card.getProductionOutput().get(res) +"\n");
+                prettyCard = prettyCard.concat( "      "+ card.getProductionOutput().get(res) + " " + res +"\n");
             }
         }
+
+        System.out.println(prettyCard);
+    }
+
+    @Override
+    public void renderLeaderCard(LeaderCard card, int label) {
+        Map<Resource, Integer> costRes = card.getCardRequirements().getResourceRequirements();
+        Map<CardColor, Integer> costCol = card.getCardRequirements().getCardColorRequirements();
+        Map<CardColor, Integer> costLev = card.getCardRequirements().getCardLevelRequirements();
+
+        String prettyCard = "";
+
+        if(label > 0) {
+            prettyCard = prettyCard.concat(label + ") ");
+        }
+
+        prettyCard = prettyCard.concat("Points: " + card.getVictoryPoints() + "\n");
+
+        if(costRes != null){
+            for (Resource res : costRes.keySet()) {
+                prettyCard = prettyCard.concat("Resource needed: " + costRes.get(res) + " " + res + "\n");
+            }
+        }
+
+        if(costCol != null){
+            for (CardColor color : costCol.keySet()) {
+                prettyCard = prettyCard.concat("Card color needed: " + costCol.get(color) + " " + color + "\n");
+            }
+        }
+
+        if(costLev != null){
+            for (CardColor color : costLev.keySet()) {
+                prettyCard = prettyCard.concat("Card level needed: " + costLev.get(color) + " " + color + "\n");
+            }
+        }
+
+        prettyCard = prettyCard.concat("Special ability: " + card.getSpecialAbility().getType() + "\n");
+
+        prettyCard = prettyCard.concat("Targeted resource: " + card.getSpecialAbility().getTargetResource() + "\n");
 
         System.out.println(prettyCard);
     }

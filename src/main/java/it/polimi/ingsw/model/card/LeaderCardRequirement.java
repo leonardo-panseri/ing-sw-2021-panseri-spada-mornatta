@@ -26,6 +26,33 @@ public class LeaderCardRequirement implements Serializable {
     }
 
     /**
+     * Getter for the resource requirements.
+     *
+     * @return the resource requirements
+     */
+    public Map<Resource, Integer> getResourceRequirements() {
+        return resourceRequirements;
+    }
+
+    /**
+     * Getter for the color requirements.
+     *
+     * @return the color requirements
+     */
+    public Map<CardColor, Integer> getCardColorRequirements() {
+        return cardColorRequirements;
+    }
+
+    /**
+     * Getter for the level requirements.
+     *
+     * @return the level requirements
+     */
+    public Map<CardColor, Integer> getCardLevelRequirements() {
+        return cardLevelRequirements;
+    }
+
+    /**
      * Checks if the given Player can afford the card with this requirements.
      *
      * @param player the player that will be checked

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.constant.DeckParser;
+import it.polimi.ingsw.constant.GsonParser;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.DevelopmentDeckUpdate;
 import it.polimi.ingsw.model.messages.PropertyUpdate;
@@ -113,5 +115,24 @@ public class Deck extends Observable<IServerPacket> {
                 .get(card.getLevel() - 1)
                 .get(card.getColor())
                 .pop();
+    }
+
+    public static void main(String[] args) {
+        Map<Resource, Integer> rReq = new HashMap<>();
+        Map<CardColor, Integer> cReq = new HashMap<>();
+        Map<CardColor, Integer> lReq = new HashMap<>();
+
+        rReq.put(Resource.STONE, 2);
+        cReq.put(CardColor.GREEN, 3);
+        lReq.put(CardColor.PURPLE, 1);
+        LeaderCardRequirement req = new LeaderCardRequirement(rReq, cReq, lReq);
+
+        SpecialAbility sp = new SpecialAbility(SpecialAbilityType.DISCOUNT, Resource.STONE);
+
+        LeaderCard card = new LeaderCard(4, req, sp);
+
+        GsonParser g = GsonParser.instance();
+
+        System.out.println(g.getGson().toJson(card));
     }
 }
