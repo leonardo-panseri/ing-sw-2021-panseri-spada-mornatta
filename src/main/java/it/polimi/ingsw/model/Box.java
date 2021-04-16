@@ -17,7 +17,7 @@ public class Box implements Serializable {
      *
      * @return the resource
      */
-    public Resource getResource() {
+    synchronized Resource getResource() {
         return resource;
     }
 
@@ -26,7 +26,7 @@ public class Box implements Serializable {
      *
      * @param resource the resource to be set
      */
-    public void setResource(Resource resource) {
+    synchronized void setResource(Resource resource) {
         this.resource = resource;
     }
 

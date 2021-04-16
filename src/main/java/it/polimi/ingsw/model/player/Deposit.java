@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.DepositStrongboxUpdate;
 import it.polimi.ingsw.model.messages.DepositUpdate;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
@@ -123,7 +122,7 @@ public class Deposit extends Observable<IServerPacket> {
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
      * @throws IllegalArgumentException if the changes are not legal
      */
-    public void checkDepositMove(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
+    private void checkDepositMove(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
         List<Integer> untouchedRows = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             if (!changes.containsKey(i)) untouchedRows.add(i);
@@ -163,7 +162,7 @@ public class Deposit extends Observable<IServerPacket> {
      * @param row      the row where to insert the resource in, 1 is the top row, 2 is the middle row and 3 is the bottom row
      * @param resource the resource to insert
      */
-    public void addResource(int row, Resource resource) {
+    void addResource(int row, Resource resource) {
         if (row == 1 && topRow == null) {
             topRow = resource;
         } else if (row == 2 && middleRow.size() < 2) {
@@ -180,7 +179,7 @@ public class Deposit extends Observable<IServerPacket> {
      * @param row      the row where to delete the resource from
      * @param resource the resource to delete
      */
-    public void removeResource(int row, Resource resource) {
+    void removeResource(int row, Resource resource) {
         if (row == 1 && topRow != null) {
             topRow = null;
         } else if (row == 2 && middleRow.size() > 0) {
@@ -196,7 +195,7 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param resources a map that associates resource to quantity
      */
-    public void removeResources(Map<Resource, Integer> resources) {
+    public synchronized void removeResources(Map<Resource, Integer> resources) {
         for (Resource res : resources.keySet()) {
             int row = findResource(res);
             for (int i = 0; i < resources.get(res); i++) {
@@ -211,7 +210,7 @@ public class Deposit extends Observable<IServerPacket> {
      * @param toMove      row to move
      * @param destination row to be switched with the previous one
      */
-    public void moveRow(int toMove, int destination) {
+    void moveRow(int toMove, int destination) {
         List<Resource> switchedResources = new ArrayList<>();
         int movedTo = -1;
         switch (toMove) {
@@ -310,7 +309,7 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param resource the resource to be added into the strongbox
      */
-    public void addToStrongbox(Resource resource) {
+    public synchronized void addToStrongbox(Resource resource) {
         int counter = 1;
         if (strongBox.containsKey(resource)) {
             counter = strongBox.get(resource) + 1;
@@ -339,7 +338,7 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param resource the resource to be removed
      */
-    public void removeFromStrongbox(Resource resource) {
+    void removeFromStrongbox(Resource resource) {
         int counter;
         if (strongBox.containsKey(resource) && strongBox.get(resource) > 0) {
             counter = strongBox.get(resource) - 1;
@@ -351,7 +350,7 @@ public class Deposit extends Observable<IServerPacket> {
     /**
      * Notifies observers of strongbox update.
      */
-    private void notifyStrongboxUpdate() {
+    private synchronized void notifyStrongboxUpdate() {
         notify(new DepositStrongboxUpdate(player.getNick(), strongBox));
     }
 }
