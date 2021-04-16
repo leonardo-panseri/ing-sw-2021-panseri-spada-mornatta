@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.constant.AnsiColor;
+import it.polimi.ingsw.constant.AnsiSymbol;
 import it.polimi.ingsw.constant.Constants;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
@@ -115,8 +116,7 @@ public class CLI extends View {
     public void updateMarket(int index, List<Resource> changes) {
         if (index >= 4) {
             model.updateMarketRow(index - 4, changes);
-        }
-        else model.updateMarketColumn(index, changes);
+        } else model.updateMarketColumn(index, changes);
     }
 
     @Override
@@ -188,10 +188,51 @@ public class CLI extends View {
 
     @Override
     public void printDeposit() {
-        System.out.println(model.getDeposit());
+        System.out.println("----------");
+
+        if (model.getDeposit().get(0).contains(Resource.COIN)) {
+            System.out.println(AnsiSymbol.COIN);
+            System.out.println("----------");
+        }
+
+        if (model.getDeposit().get(1).contains(Resource.STONE)) {
+            for (int i = 0; i < model.getDeposit().get(1).size(); i++) System.out.println(AnsiSymbol.STONE);
+            System.out.println("----------");
+        }
+
+        if (model.getDeposit().get(2).contains(Resource.FAITH)) {
+            for (int i = 0; i < model.getDeposit().get(2).size(); i++) {
+                System.out.println(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
+            }
+        }
+        System.out.println("----------");
+
     }
 
     @Override
+    public void printFaith() {
+        StringBuilder str = new StringBuilder("[ ");
+        int faithPoints = model.getFaithPoints();
+        int pointsToWin = 24 - faithPoints;
+        float percentage = (float) faithPoints / 24 * 100;
+
+        for (int i = 0; i < faithPoints; i++) {
+            str.append(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
+            str.append(" ");
+        }
+        for (int i = 0; i < pointsToWin; i++) {
+            str.append(AnsiColor.RED + "-" + Constants.ANSI_RESET);
+            str.append(" ");
+        }
+        str.append("] ");
+        System.out.println("You have " + faithPoints + " faith points.");
+        System.out.println(str);
+        System.out.printf(("Completion %.2f%% %n"), percentage);
+        System.out.println("You need " + pointsToWin + " to win.");
+
+
+    }
+
     public void renderDevelopmentCard(DevelopmentCard card, int label) {
         ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
         ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());
@@ -217,7 +258,7 @@ public class CLI extends View {
 
         prettyCard = prettyCard.concat("Production input: " + card.getProductionInput().get(input.get(0)) + " " + input.get(0) + "\n");
 
-        if(input.size() > 1){
+        if (input.size() > 1) {
             for (int i = 1; i < input.size(); i++) {
                 Resource res = input.get(i);
                 prettyCard = prettyCard.concat( "      "+ card.getProductionInput().get(res) + " " + res +"\n");
@@ -226,7 +267,7 @@ public class CLI extends View {
 
         prettyCard = prettyCard.concat("Production output: " + card.getProductionOutput().get(output.get(0)) + " " + output.get(0) + "\n");
 
-        if(output.size() > 1){
+        if (output.size() > 1) {
             for (int i = 1; i < output.size(); i++) {
                 Resource res = output.get(i);
                 prettyCard = prettyCard.concat( "      "+ card.getProductionOutput().get(res) + " " + res +"\n");

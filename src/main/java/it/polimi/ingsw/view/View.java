@@ -138,6 +138,8 @@ public abstract class View implements Runnable {
 
     public abstract void printDeposit();
 
+    public abstract void printFaith();
+
     public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
 
     public abstract void renderLeaderCard(LeaderCard card, int label);
