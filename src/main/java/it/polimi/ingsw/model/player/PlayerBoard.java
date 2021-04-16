@@ -16,12 +16,12 @@ import java.util.*;
  * and a deposit.
  */
 public class PlayerBoard extends Observable<IServerPacket> {
-    private Player player;
-    private Stack<DevelopmentCard> cardSlotLeft;
-    private Stack<DevelopmentCard> cardSlotCenter;
-    private Stack<DevelopmentCard> cardSlotRight;
-    private Deposit deposit;
-    private List<Resource> marketResults;
+    private final Player player;
+    private final Stack<DevelopmentCard> cardSlotLeft;
+    private final Stack<DevelopmentCard> cardSlotCenter;
+    private final Stack<DevelopmentCard> cardSlotRight;
+    private final Deposit deposit;
+    private final List<Resource> marketResults;
 
     /**
      * Constructor: instantiates the slots, the deposit and the player reference.
@@ -51,7 +51,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
      *
      * @return an arraylist containing all card slots
      */
-    private List<Stack<DevelopmentCard>> getAllCardSlots() {
+    private synchronized List<Stack<DevelopmentCard>> getAllCardSlots() {
         return new ArrayList<>(Arrays.asList(cardSlotLeft, cardSlotCenter, cardSlotRight));
     }
 
@@ -130,7 +130,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
      * @param slot the slot where to push the card
      * @param developmentCard the bought development card
      */
-    public void addCard(int slot, DevelopmentCard developmentCard) {
+    public synchronized void addCard(int slot, DevelopmentCard developmentCard) {
         //slot 1 == cardSlotLeft
         //slot 2 == cardSlotCenter
         //slot 3 == cardSlotRight

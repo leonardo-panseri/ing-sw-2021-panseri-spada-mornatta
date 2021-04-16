@@ -97,6 +97,18 @@ public class CommandHandler {
         cli.draw(marketIndex, whiteConversion);
     }
 
+    public void spy(String[] args) {
+        if(args.length < 2) {
+            System.out.println("Incorrect format: please input \"spy\" <player name> <objects you want to see>");
+        }
+        String playerName = args[0];
+        String object = args[1];
+
+        switch (object) {
+            case "leaders" -> cli.printOthersDevelopmentCards(playerName);
+        }
+    }
+
     public void test(String[] args) {
         System.out.println("Received cmd Test with args: " + Arrays.toString(args));
     }

@@ -10,6 +10,7 @@ import java.util.*;
 public class MockModel {
 
     private Map<LeaderCard, Boolean> leaderCards;
+    private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
     private List<Stack<DevelopmentCard>> developmentCards;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
     private List<List<Resource>> deposit;
@@ -17,6 +18,7 @@ public class MockModel {
     int faithPoints = 15;
 
     public MockModel() {
+        otherLeaderCards = new HashMap<>();
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
         for (int i = 0; i<3; i++) {
@@ -46,6 +48,14 @@ public class MockModel {
 
     public void setLeaderCards(Map<LeaderCard, Boolean> leaderCards) {
         this.leaderCards = leaderCards;
+    }
+
+    public Map<String, Map<LeaderCard, Boolean>> getOtherLeaderCards() {
+        return otherLeaderCards;
+    }
+
+    public void setOthersLeaderCards(String playerName, Map<LeaderCard, Boolean> leaderCards) {
+        otherLeaderCards.put(playerName, leaderCards);
     }
 
     public List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentDeck() {

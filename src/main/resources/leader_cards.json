@@ -2,8 +2,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -13,19 +20,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -35,19 +38,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -57,19 +56,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -79,19 +74,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -101,19 +92,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -123,19 +110,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -145,19 +128,15 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
-    },
-    "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "BLUE": 2,
-      "STONE": 4
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
       "type": "DISCOUNT",
@@ -167,12 +146,145 @@
   {
     "victoryPoints": 0,
     "cardRequirements": {
-      "PURPLE": 3,
-      "COIN": 2
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
     },
     "specialAbility": {
-      "type": "DEPOT",
-      "targetResource": "COIN"
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE" : 2
+      },
+      "cardColorRequirements": {
+        "GREEN" : 1
+      },
+      "cardLevelRequirements": {
+        "PURPLE" : 3
+      }
+    },
+    "specialAbility": {
+      "type": "DISCOUNT",
+      "targetResource": "SERVANT"
     }
   }
 ]

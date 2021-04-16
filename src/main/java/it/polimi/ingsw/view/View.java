@@ -110,7 +110,7 @@ public abstract class View implements Runnable {
 
     public abstract void createDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck);
 
-    public abstract void updateLeaderCards(Map<LeaderCard, Boolean> ownedLeaders);
+    public abstract void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders);
 
     public abstract void updateDevelopmentCards(DevelopmentCard card, int slot);
 
@@ -132,11 +132,16 @@ public abstract class View implements Runnable {
 
     public abstract void printOwnDevelopmentCards();
 
+    public abstract void printOthersDevelopmentCards(String playerName);
+
     public abstract void printDevelopmentDeck();
 
     public abstract void printDeposit();
 
-    public abstract void renderCard(DevelopmentCard card);
-
     public abstract void printFaith();
+
+    public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
+
+    public abstract void renderLeaderCard(LeaderCard card, int label);
 }
+

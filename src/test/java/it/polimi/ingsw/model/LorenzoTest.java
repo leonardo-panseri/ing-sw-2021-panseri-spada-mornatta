@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,12 +18,12 @@ class LorenzoTest {
 
         testGame = new Game();
         testLorenzo = testGame.createLorenzo();
-        testActions.add(LorenzoAction.YELLOWDEVELOPMENT);
-        testActions.add(LorenzoAction.REDDEVELOPMENT);
-        testActions.add(LorenzoAction.GREENDEVELOPMENT);
-        testActions.add(LorenzoAction.BLUEDEVELOPMENT);
+        testActions.add(LorenzoAction.YELLOW_DEVELOPMENT);
+        testActions.add(LorenzoAction.RED_DEVELOPMENT);
+        testActions.add(LorenzoAction.GREEN_DEVELOPMENT);
+        testActions.add(LorenzoAction.BLUE_DEVELOPMENT);
         testActions.add(LorenzoAction.MOVE);
-        testActions.add(LorenzoAction.MOVESHUFFLE);
+        testActions.add(LorenzoAction.MOVE_SHUFFLE);
     }
 
     @Test
@@ -65,11 +62,11 @@ class LorenzoTest {
     public void shuffleActionsTest(){
         testLorenzo.shuffleActions();
         assertEquals(6,testLorenzo.getActions().size());
-        assert(testLorenzo.getActions().contains(LorenzoAction.BLUEDEVELOPMENT));
-        assert(testLorenzo.getActions().contains(LorenzoAction.REDDEVELOPMENT));
-        assert(testLorenzo.getActions().contains(LorenzoAction.GREENDEVELOPMENT));
-        assert(testLorenzo.getActions().contains(LorenzoAction.YELLOWDEVELOPMENT));
-        assert(testLorenzo.getActions().contains(LorenzoAction.MOVESHUFFLE));
+        assert(testLorenzo.getActions().contains(LorenzoAction.BLUE_DEVELOPMENT));
+        assert(testLorenzo.getActions().contains(LorenzoAction.RED_DEVELOPMENT));
+        assert(testLorenzo.getActions().contains(LorenzoAction.GREEN_DEVELOPMENT));
+        assert(testLorenzo.getActions().contains(LorenzoAction.YELLOW_DEVELOPMENT));
+        assert(testLorenzo.getActions().contains(LorenzoAction.MOVE_SHUFFLE));
         assert(testLorenzo.getActions().contains(LorenzoAction.MOVE));
     }
     

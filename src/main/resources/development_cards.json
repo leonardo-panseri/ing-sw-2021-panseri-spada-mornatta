@@ -19,7 +19,8 @@
       {
         "victoryPoints": 0,
         "cost": {
-          "STONE": 3
+          "STONE": 3,
+          "COIN": 2
         },
         "level": 1,
         "productionInput": {

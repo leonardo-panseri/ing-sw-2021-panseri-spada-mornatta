@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.LorenzoUpdate;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 public class Lorenzo extends Observable<IServerPacket> {
     private int faithPoints;
-    private List<LorenzoAction> actions;
+    private final List<LorenzoAction> actions;
 
     /**
      * Constructs a new singleplayer opponent with 0 faith points and a randomized set of actions.
@@ -40,7 +39,7 @@ public class Lorenzo extends Observable<IServerPacket> {
      *
      * @return the amount of faith points.
      */
-    public int getFaithPoints() {
+    int getFaithPoints() {
         return faithPoints;
     }
 

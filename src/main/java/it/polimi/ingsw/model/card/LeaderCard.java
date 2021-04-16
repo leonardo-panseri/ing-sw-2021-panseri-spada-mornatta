@@ -35,6 +35,15 @@ public class LeaderCard extends Card {
         this.specialAbility = specialAbility;
     }
 
+    /**
+     * Getter for the card requirements.
+     *
+     * @return the card requirements
+     */
+    public LeaderCardRequirement getCardRequirements() {
+        return cardRequirements;
+    }
+
     @Override
     public synchronized boolean canPlayerAfford(Player player) {
         return cardRequirements.canPlayerAfford(player);
