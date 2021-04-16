@@ -14,6 +14,7 @@ public class MockModel {
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
     private List<List<Resource>> deposit;
     private List<List<Resource>> market;
+    int faithPoints = 15;
 
     public MockModel() {
         developmentCards = new ArrayList<>();
@@ -22,6 +23,21 @@ public class MockModel {
             developmentCards.add(new Stack<>());
             deposit.add(new ArrayList<>());
         }
+        List<List<Resource>> testList = new ArrayList<>();
+        List<Resource> topRow = new ArrayList<>();
+        List<Resource> middleRow = new ArrayList<>();
+        List<Resource> bottomRow = new ArrayList<>();
+        topRow.add(Resource.COIN);
+        middleRow.add(Resource.STONE);
+        middleRow.add(Resource.STONE);
+        bottomRow.add(Resource.FAITH);
+        bottomRow.add(Resource.FAITH);
+        bottomRow.add(Resource.FAITH);
+        testList.add(topRow);
+        testList.add(middleRow);
+        testList.add(bottomRow);
+        this.setDeposit(testList);
+
     }
 
     public Map<LeaderCard, Boolean> getLeaderCards() {
@@ -67,6 +83,10 @@ public class MockModel {
     public void updateMarketRow(int index, List<Resource> changes) {
         getMarket().get(index).clear();
         getMarket().get(index).addAll(changes);
+    }
+
+    public int getFaithPoints(){
+        return this.faithPoints;
     }
 
     public void updateMarketColumn(int index, List<Resource> changes) {

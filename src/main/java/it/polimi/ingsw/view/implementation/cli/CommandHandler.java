@@ -68,7 +68,7 @@ public class CommandHandler {
         cli.printMarket();
     }
 
-    public void viewFaith(){};
+    public void viewFaith(){cli.printFaith();};
 
     public void buy(String[] args) {
         int cardIndex;
