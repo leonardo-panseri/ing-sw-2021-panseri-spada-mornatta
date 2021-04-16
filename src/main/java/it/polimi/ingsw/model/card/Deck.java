@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.card;
 import it.polimi.ingsw.constant.DeckParser;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.DevelopmentDeckUpdate;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
@@ -13,8 +12,8 @@ import java.util.*;
  * divided in smaller decks as the game specifies.
  */
 public class Deck extends Observable<IServerPacket> {
-    private List<LeaderCard> leaderCards;
-    private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
+    private final List<LeaderCard> leaderCards;
+    private final List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
     /**
      * Constructs a new Deck. It loads leader cards from a JSON file utilizing the DeckParser.
