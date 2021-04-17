@@ -29,5 +29,7 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updateMarket(int index, List<Resource> changes);
 
-    public abstract void insertDrawnResources();
+    public abstract void updateFaith(String playerName, int faithPoints, int popeFavours);
+
+    public abstract void insertDrawnResources(String playerName, List<Resource> result);
 }

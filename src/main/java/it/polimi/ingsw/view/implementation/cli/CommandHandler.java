@@ -68,6 +68,10 @@ public class CommandHandler {
         cli.getRenderer().printMarket();
     }
 
+    public void viewResult() {
+        cli.getRenderer().printMarketResult();
+    }
+
     public void viewFaith(){cli.getRenderer().printFaith();}
 
     public void buy(String[] args) {
@@ -105,7 +109,10 @@ public class CommandHandler {
         String object = args[1];
 
         switch (object) {
-            case "leaders" -> cli.getRenderer().printOthersDevelopmentCards(playerName);
+            case "leaders" -> cli.getRenderer().printOthersLeaderCards(playerName);
+            case "development" -> cli.getRenderer().printOthersDevelopmentCards(playerName);
+            case "deposit" -> cli.getRenderer().printOthersDeposit(playerName);
+            case "faith" -> cli.getRenderer().printOthersFaith(playerName);
         }
     }
 

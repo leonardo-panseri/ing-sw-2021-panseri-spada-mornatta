@@ -26,13 +26,21 @@ public abstract class Renderer {
 
     public abstract void printOwnDevelopmentCards();
 
+    public abstract void printOthersLeaderCards(String playerName);
+
     public abstract void printOthersDevelopmentCards(String playerName);
+
+    public abstract void printOthersDeposit(String playerName);
+
+    public abstract void printOthersFaith(String playerName);
 
     public abstract void printDevelopmentDeck();
 
     public abstract void printDeposit();
 
     public abstract void printFaith();
+
+    public abstract void printMarketResult();
 
     public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
 

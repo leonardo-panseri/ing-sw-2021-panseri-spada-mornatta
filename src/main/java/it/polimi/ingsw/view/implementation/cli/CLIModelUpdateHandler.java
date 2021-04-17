@@ -73,9 +73,22 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void insertDrawnResources() {
-        //TODO implementa metodo
-        System.out.println("OK");
-        System.out.flush();
+    public void updateFaith(String playerName, int faithPoints, int popeFavours) {
+        if (playerName.equals(getView().getPlayerName())) {
+            getView().getModel().setFaithPoints(faithPoints);
+            getView().getModel().setPopeFavours(popeFavours);
+        }
+        else {
+            getView().getModel().setOtherFaith(playerName, faithPoints);
+            getView().getModel().setOtherFavours(playerName, popeFavours);
+        }
+    }
+
+    @Override
+    public void insertDrawnResources(String playerName, List<Resource> result) {
+        if (playerName.equals((getView().getPlayerName()))) {
+            getView().getModel().setMarketResult(result);
+            getView().getRenderer().printMarketResult();
+        }
     }
 }
