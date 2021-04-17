@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.constant.Constants;
+import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.messages.SelectLeadersPlayerActionEvent;
@@ -38,30 +39,30 @@ public class CLI extends View {
                     try {
                         playersToStart = Integer.parseInt(command);
                     } catch (NumberFormatException e) {
-                        System.out.println("Please input a number");
+                        getRenderer().showErrorMessage(ViewString.NOT_A_NUMBER);
                         break;
                     }
 
                     if (playersToStart < 1 || playersToStart > 4) {
-                        System.out.println("This is not a number between 1 and 4");
+                        getRenderer().showErrorMessage(ViewString.NOT_IN_RANGE);
                         break;
                     }
 
                     getClient().send(new PlayersToStartMessage(playersToStart));
                 }
-                case WAITING_PLAYERS -> System.out.println("Waiting for other players to join");
+                case WAITING_PLAYERS -> getRenderer().showGameMessage(ViewString.WAITING_PLAYERS);
                 case SELECT_LEADERS -> {
                     String[] rawLeadersToKeep = command.split(",");
                     int[] leadersToKeep = new int[2];
                     if (rawLeadersToKeep.length != 2) {
-                        System.out.println("You must select 2 leaders");
+                        getRenderer().showErrorMessage(ViewString.LEADERS_SELECT_ERROR);
                         break;
                     }
                     for (int i = 0; i < rawLeadersToKeep.length; i++) {
                         try {
                             leadersToKeep[i] = Integer.parseInt(rawLeadersToKeep[i]);
                         } catch (NumberFormatException e) {
-                            System.out.println("Input 2 numbers");
+                            getRenderer().showErrorMessage(ViewString.LEADERS_SELECT_NUMBER_ERROR);
                             break;
                         }
                     }
@@ -73,17 +74,17 @@ public class CLI extends View {
 
                     getClient().send(new SelectLeadersPlayerActionEvent(getPlayerName(), uuids));
                 }
-                case WAIT_SELECT_LEADERS -> System.out.println("It's not your turn");
+                case WAIT_SELECT_LEADERS -> getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
                 case PLAYING -> {
                     if (!isOwnTurn()) {
-                        System.out.println("It's not your turn");
+                        getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
                         break;
                     }
 
                     try {
                         commandHandler.handle(command);
                     } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
+                        getRenderer().showErrorMessage(ViewString.COMMAND_NOT_FOUND);
                     }
                 }
             }

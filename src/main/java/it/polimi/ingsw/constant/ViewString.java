@@ -11,16 +11,26 @@ public class ViewString {
     public static final String PLAYER_DISCONNECT = "Someone disconnected";
     public static final String PLAYER_DISCONNECT_WITH_NAME = "Player %s disconnected";
     public static final String PLAYER_CONNECTED_WITH_COUNT = "Player %s connected (%d/%d)";
+    public static final String WAITING_PLAYERS = "Waiting for other players to join";
     public static final String GAME_STARTING = "The game is starting";
 
     /*
     Error messages
      */
+    public static final String NOT_YOUR_TURN = "It's not your turn";
+    public static final String COMMAND_NOT_FOUND = "This command does not exists";
+    public static final String NOT_A_NUMBER = "Please input a number";
+    public static final String NOT_IN_RANGE = "This is not a number between 1 and 4";
+    public static final String LEADERS_SELECT_ERROR = "You must select 2 leader cards";
+    public static final String LEADERS_SELECT_NUMBER_ERROR = "You must input 2 numbers";
     public static final String PLAYER_CRASH = "Someone crashed, terminating the game";
     public static final String PLAYER_CRASH_WITH_NAME = "Player %s crashed, terminating the game";
 
     /*
-
+    Game messages
      */
+    public static final String OWN_TURN = "It's your turn";
+    public static final String OTHER_TURN = "It's %s turn";
+    public static final String CHOOSE_ACTION = "Choose an action:";
     public static final String SELECT_LEADERS = "Select the leader cards that you want to keep:";
 }

@@ -40,7 +40,11 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOwnLeaders() {
-        System.out.println(getView().getModel().getLeaderCards());
+        int index = 1;
+        for (LeaderCard card : getView().getModel().getLeaderCards().keySet()) {
+            getView().getRenderer().renderLeaderCard(card, index);
+            index++;
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.implementation.cli;
 
+import it.polimi.ingsw.constant.AnsiColor;
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
@@ -24,11 +25,7 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
                 if (getView().isOwnTurn()) {
                     getView().setGameState(GameState.SELECT_LEADERS);
                     getView().getRenderer().showGameMessage(ViewString.SELECT_LEADERS);
-                    int index = 1;
-                    for (LeaderCard card : getView().getModel().getLeaderCards().keySet()) {
-                        getView().getRenderer().renderLeaderCard(card, index);
-                        index++;
-                    }
+                    getView().getRenderer().printOwnLeaders();
                 } else {
                     getView().setGameState(GameState.WAIT_SELECT_LEADERS);
                 }
@@ -53,21 +50,18 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     public void updateTurn(String playerName) {
         if (playerName.equals(getView().getPlayerName())) {
             getView().setOwnTurn(true);
-            System.out.println("It's your turn");
+            getView().getRenderer().showGameMessage(ViewString.OWN_TURN);
             if (getView().getGameState() == GameState.WAIT_SELECT_LEADERS) {
                 getView().setGameState(GameState.SELECT_LEADERS);
-                System.out.println("Select the leader cards that you want to keep:\n");
-                int index = 1;
-                for (LeaderCard card : getView().getModel().getLeaderCards().keySet()) {
-                    getView().getRenderer().renderLeaderCard(card, index);
-                    index++;
-                }
+                getView().getRenderer().showGameMessage(ViewString.SELECT_LEADERS);
+                getView().getRenderer().printOwnLeaders();
             } else if (getView().getGameState() == GameState.PLAYING) {
-                System.out.println("Choose an action:");
+                getView().getRenderer().showGameMessage(ViewString.CHOOSE_ACTION);
             }
         } else {
             getView().setOwnTurn(false);
-            System.out.println("It's " + playerName + " turn");
+            String italicizedPlayerName = AnsiColor.italicize(playerName) + AnsiColor.BLUE;
+            getView().getRenderer().showGameMessage(ViewString.OTHER_TURN.formatted(italicizedPlayerName));
         }
     }
 
