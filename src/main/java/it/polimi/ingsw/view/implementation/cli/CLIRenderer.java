@@ -20,17 +20,17 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void showGameMessage(String message) {
-        System.out.println(AnsiColor.BLUE + "[" + AnsiColor.italicize("TO:You") + "]: " + message + AnsiColor.RESET);
+        System.out.println(AnsiColor.BLUE + "[" + AnsiColor.italicize("TO:You") + AnsiColor.BLUE + "] " + message + AnsiColor.RESET);
     }
 
     @Override
     public void showLobbyMessage(String message) {
-        System.out.println(AnsiColor.GREEN + "[" + AnsiColor.italicize("TO:Lobby") + "]: " + message + AnsiColor.RESET);
+        System.out.println(AnsiColor.GREEN + "[" + AnsiColor.italicize("TO:Lobby") +  AnsiColor.GREEN + "] " + message + AnsiColor.RESET);
     }
 
     @Override
     public void showErrorMessage(String message) {
-        System.out.println(AnsiColor.RED + "[" + AnsiColor.italicize("ERROR") + "]: " + message + AnsiColor.RESET);
+        System.out.println(AnsiColor.RED + "[" + AnsiColor.italicize("ERROR") +  AnsiColor.RED + "] " + message + AnsiColor.RESET);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void printOthersDevelopmentCards(String playerName) {
+    public void printOthersLeaderCards(String playerName) {
         if (!getView().getModel().getOtherLeaderCards().containsKey(playerName)) {
             System.out.println("Player does not have active cards!");
             return;
@@ -64,6 +64,21 @@ public class CLIRenderer extends Renderer {
             }
         }
         if(numActive == 0) System.out.println("Player does not have active cards!");
+    }
+
+    @Override
+    public void printOthersDevelopmentCards(String playerName) {
+
+    }
+
+    @Override
+    public void printOthersDeposit(String playerName) {
+
+    }
+
+    @Override
+    public void printOthersFaith(String playerName) {
+
     }
 
     @Override
@@ -123,6 +138,18 @@ public class CLIRenderer extends Renderer {
         System.out.println("You need " + pointsToWin + " to win.");
 
 
+    }
+
+    @Override
+    public void printMarketResult() {
+        String printedResult = "";
+        printedResult = printedResult.concat("The following resources are waiting to be stored: - ");
+
+        for (Resource res : getView().getModel().getMarketResult()) {
+            printedResult = printedResult.concat(Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
+        }
+
+        System.out.println(printedResult);
     }
 
     @Override

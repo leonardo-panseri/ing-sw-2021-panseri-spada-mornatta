@@ -20,6 +20,6 @@ public class FaithUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-
+        view.getModelUpdateHandler().updateFaith(getPlayerName(), faithPoints, popeFavours);
     }
 }

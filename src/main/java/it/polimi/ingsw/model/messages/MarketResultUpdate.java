@@ -19,6 +19,6 @@ public class MarketResultUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.getModelUpdateHandler().insertDrawnResources();
+        view.getModelUpdateHandler().insertDrawnResources(getPlayerName(), result);
     }
 }

@@ -10,12 +10,19 @@ import java.util.*;
 public class MockModel {
 
     private Map<LeaderCard, Boolean> leaderCards;
-    private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
     private List<Stack<DevelopmentCard>> developmentCards;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
     private List<List<Resource>> deposit;
     private List<List<Resource>> market;
+    private List<Resource> marketResult;
     int faithPoints = 15;
+    int popeFavours = 2;
+
+    private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
+    private Map<String, DevelopmentCard> otherDevelopmentCards;
+    private Map<String, List<Resource>> otherDeposit;
+    private Map<String, Integer> otherFaith;
+    private Map<String, Integer> otherFavours;
 
     public MockModel() {
         otherLeaderCards = new HashMap<>();
@@ -56,6 +63,14 @@ public class MockModel {
 
     public void setOthersLeaderCards(String playerName, Map<LeaderCard, Boolean> leaderCards) {
         otherLeaderCards.put(playerName, leaderCards);
+    }
+
+    public void setOtherFaith(String playerName, int faithPoints) {
+        otherFaith.put(playerName, faithPoints);
+    }
+
+    public void setOtherFavours(String playerName, int popeFavours) {
+        otherFavours.put(playerName, popeFavours);
     }
 
     public List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentDeck() {
@@ -99,10 +114,30 @@ public class MockModel {
         return this.faithPoints;
     }
 
+    public void setFaithPoints(int faithPoints) {
+        this.faithPoints = faithPoints;
+    }
+
+    public int getPopeFavours() {
+        return popeFavours;
+    }
+
+    public void setPopeFavours(int popeFavours) {
+        this.popeFavours = popeFavours;
+    }
+
     public void updateMarketColumn(int index, List<Resource> changes) {
         for (List<Resource> row : getMarket()) {
             row.remove(index);
             row.add(index, changes.get(getMarket().indexOf(row)));
         }
+    }
+
+    public List<Resource> getMarketResult() {
+        return marketResult;
+    }
+
+    public void setMarketResult(List<Resource> marketResult) {
+        this.marketResult = marketResult;
     }
 }
