@@ -21,7 +21,7 @@ public class BoughtCardUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.updateDevelopmentCards(developmentCard, slot);
+        view.getModelUpdateHandler().updateDevelopmentCards(developmentCard, slot);
         //TODO Gestire correttamente se è l'update relativo a questo player o no
     }
 }

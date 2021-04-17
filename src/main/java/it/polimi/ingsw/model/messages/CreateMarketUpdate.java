@@ -25,6 +25,6 @@ public class CreateMarketUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.createMarket(market);
+        view.getModel().setMarket(market);
     }
 }

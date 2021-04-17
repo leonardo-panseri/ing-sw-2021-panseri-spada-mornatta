@@ -3,317 +3,22 @@ package it.polimi.ingsw.view.implementation.cli;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
-import it.polimi.ingsw.constant.AnsiColor;
-import it.polimi.ingsw.constant.AnsiSymbol;
 import it.polimi.ingsw.constant.Constants;
-import it.polimi.ingsw.model.GamePhase;
-import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.card.CardColor;
-import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
-import it.polimi.ingsw.view.GameState;
-import it.polimi.ingsw.view.MockModel;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
-import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
 import it.polimi.ingsw.view.messages.SelectLeadersPlayerActionEvent;
 
 import java.util.*;
 
 public class CLI extends View {
     private final CommandHandler commandHandler;
-    private final MockModel model;
-
-    private boolean ownTurn;
 
     public CLI(Client client) {
         super(client);
+        this.setModelUpdateHandler(new CLIModelUpdateHandler(this));
+        this.setRenderer(new CLIRenderer(this));
+        this.setActionSender(new CLIActionSender(this));
         this.commandHandler = new CommandHandler(this);
-        this.model = new MockModel();
-        this.ownTurn = false;
-    }
-
-    @Override
-    public void showDirectMessage(String message) {
-        System.out.println(AnsiColor.BLUE + "Server -> You: " + message + AnsiColor.RESET);
-    }
-
-    @Override
-    public void showLobbyMessage(String message) {
-        System.out.println(AnsiColor.GREEN + "Server -> Lobby: " + message + AnsiColor.RESET);
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-        System.err.println(message);
-    }
-
-    @Override
-    public void updateGamePhase(GamePhase gamePhase) {
-        switch (gamePhase) {
-            case SELECTING_LEADERS -> {
-                if (ownTurn) {
-                    setGameState(GameState.SELECT_LEADERS);
-                    System.out.println("Select the leader cards that you want to keep:\n");
-                    int index = 1;
-                    for (LeaderCard card : model.getLeaderCards().keySet()) {
-                        renderLeaderCard(card, index);
-                        index++;
-                    }
-                } else {
-                    setGameState(GameState.WAIT_SELECT_LEADERS);
-                }
-            }
-            case PLAYING -> setGameState(GameState.PLAYING);
-        }
-    }
-
-    @Override
-    public void createDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck) {
-        model.setDevelopmentDeck(developmentDeck);
-    }
-
-    @Override
-    public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
-        if (playerName.equals(getPlayerName())) {
-            model.setLeaderCards(ownedLeaders);
-        } else model.setOthersLeaderCards(playerName, ownedLeaders);
-    }
-
-    @Override
-    public void updateDevelopmentCards(DevelopmentCard card, int slot) {
-        model.setNewDevelopmentCard(card, slot);
-    }
-
-    @Override
-    public void updateTurn(String playerName) {
-        if (playerName.equals(getPlayerName())) {
-            ownTurn = true;
-            System.out.println("It's your turn");
-            if (getGameState() == GameState.WAIT_SELECT_LEADERS) {
-                setGameState(GameState.SELECT_LEADERS);
-                System.out.println("Select the leader cards that you want to keep:\n");
-                int index = 1;
-                for (LeaderCard card : model.getLeaderCards().keySet()) {
-                    renderLeaderCard(card, index);
-                    index++;
-                }
-            } else if (getGameState() == GameState.PLAYING) {
-                System.out.println("Choose an action:");
-            }
-        } else {
-            ownTurn = false;
-            System.out.println("It's " + playerName + " turn");
-        }
-    }
-
-    @Override
-    public void createMarket(List<List<Resource>> market) {
-        model.setMarket(market);
-    }
-
-    @Override
-    public void updateMarket(int index, List<Resource> changes) {
-        if (index >= 4) {
-            model.updateMarketRow(index - 4, changes);
-        } else model.updateMarketColumn(index, changes);
-    }
-
-    @Override
-    public void buyDevelopmentCard(int cardIndex) {
-        List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = model.getDevelopmentDeck();
-        int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
-        int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
-
-        ArrayList<Stack<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        getClient().send(new BuyPlayerActionEvent(getPlayerName(), stacks.get(stackIndex).peek().getUuid(), 1));
-    }
-
-    @Override
-    public void draw(int marketIndex, Resource whiteConversion) {
-        getClient().send(new MarketPlayerActionEvent(getPlayerName(), marketIndex - 1, whiteConversion));
-    }
-
-    @Override
-    public void insertDrawnResources() {
-        //TODO implementa metodo
-        System.out.println("OK");
-        System.out.flush();
-    }
-
-    @Override
-    public void printMarket() {
-        System.out.println(Constants.buildMarket(model.getMarket()));
-    }
-
-    @Override
-    public void printOwnLeaders() {
-        System.out.println(model.getLeaderCards());
-    }
-
-    @Override
-    public void printOwnDevelopmentCards() {
-        System.out.println(model.getDevelopmentCards());
-    }
-
-    @Override
-    public void printOthersDevelopmentCards(String playerName) {
-        if (!model.getOtherLeaderCards().containsKey(playerName)) {
-            System.out.println("Player does not have active cards!");
-            return;
-        }
-
-        int numActive = 0;
-        Map<LeaderCard, Boolean> targetCards = model.getOtherLeaderCards().get(playerName);
-        for (LeaderCard card : targetCards.keySet()) {
-            if (targetCards.get(card)) {
-                numActive++;
-                renderLeaderCard(card, -1);
-            }
-        }
-        if(numActive == 0) System.out.println("Player does not have active cards!");
-    }
-
-    @Override
-    public void printDevelopmentDeck() {
-        List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = model.getDevelopmentDeck();
-        int index = 1;
-        for (HashMap<CardColor, Stack<DevelopmentCard>> map : deck) {
-            for (Stack<DevelopmentCard> stack : map.values()) {
-                renderDevelopmentCard(stack.peek(), index);
-                index++;
-            }
-        }
-    }
-
-    @Override
-    public void printDeposit() {
-        System.out.println("----------");
-
-        if (model.getDeposit().get(0).contains(Resource.COIN)) {
-            System.out.println(AnsiSymbol.COIN);
-            System.out.println("----------");
-        }
-
-        if (model.getDeposit().get(1).contains(Resource.STONE)) {
-            for (int i = 0; i < model.getDeposit().get(1).size(); i++) System.out.println(AnsiSymbol.STONE);
-            System.out.println("----------");
-        }
-
-        if (model.getDeposit().get(2).contains(Resource.FAITH)) {
-            for (int i = 0; i < model.getDeposit().get(2).size(); i++) {
-                System.out.println(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
-            }
-        }
-        System.out.println("----------");
-
-    }
-
-    @Override
-    public void printFaith() {
-        StringBuilder str = new StringBuilder("[ ");
-        int faithPoints = model.getFaithPoints();
-        int pointsToWin = 24 - faithPoints;
-        float percentage = (float) faithPoints / 24 * 100;
-
-        for (int i = 0; i < faithPoints; i++) {
-            str.append(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
-            str.append(" ");
-        }
-        for (int i = 0; i < pointsToWin; i++) {
-            str.append(AnsiColor.RED + "-" + Constants.ANSI_RESET);
-            str.append(" ");
-        }
-        str.append("] ");
-        System.out.println("You have " + faithPoints + " faith points.");
-        System.out.println(str);
-        System.out.printf(("Completion %.2f%% %n"), percentage);
-        System.out.println("You need " + pointsToWin + " to win.");
-
-
-    }
-
-    public void renderDevelopmentCard(DevelopmentCard card, int label) {
-        ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
-        ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());
-        ArrayList<Resource> output = new ArrayList<>(card.getProductionOutput().keySet());
-
-        String prettyCard = "";
-
-        if(label > 0) {
-            prettyCard = prettyCard.concat(label + ") ");
-        }
-
-        prettyCard = prettyCard.concat("Color: " + card.getColor() + "\n" +
-                "Points: " + card.getVictoryPoints() + "\n" +
-                "Level: " + card.getLevel() + "\n" +
-                "Cost: " + card.getCost().get(cost.get(0)) + " " + cost.get(0) + "\n");
-
-        if(cost.size() > 1){
-            for (int i = 1; i < cost.size(); i++) {
-                Resource res = cost.get(i);
-                prettyCard = prettyCard.concat( "      "+ card.getCost().get(res) + " " + res +"\n");
-            }
-        }
-
-        prettyCard = prettyCard.concat("Production input: " + card.getProductionInput().get(input.get(0)) + " " + input.get(0) + "\n");
-
-        if (input.size() > 1) {
-            for (int i = 1; i < input.size(); i++) {
-                Resource res = input.get(i);
-                prettyCard = prettyCard.concat( "      "+ card.getProductionInput().get(res) + " " + res +"\n");
-            }
-        }
-
-        prettyCard = prettyCard.concat("Production output: " + card.getProductionOutput().get(output.get(0)) + " " + output.get(0) + "\n");
-
-        if (output.size() > 1) {
-            for (int i = 1; i < output.size(); i++) {
-                Resource res = output.get(i);
-                prettyCard = prettyCard.concat( "      "+ card.getProductionOutput().get(res) + " " + res +"\n");
-            }
-        }
-
-        System.out.println(prettyCard);
-    }
-
-    @Override
-    public void renderLeaderCard(LeaderCard card, int label) {
-        Map<Resource, Integer> costRes = card.getCardRequirements().getResourceRequirements();
-        Map<CardColor, Integer> costCol = card.getCardRequirements().getCardColorRequirements();
-        Map<CardColor, Integer> costLev = card.getCardRequirements().getCardLevelRequirements();
-
-        String prettyCard = "";
-
-        if(label > 0) {
-            prettyCard = prettyCard.concat(label + ") ");
-        }
-
-        prettyCard = prettyCard.concat("Points: " + card.getVictoryPoints() + "\n");
-
-        if(costRes != null){
-            for (Resource res : costRes.keySet()) {
-                prettyCard = prettyCard.concat("Resource needed: " + costRes.get(res) + " " + res + "\n");
-            }
-        }
-
-        if(costCol != null){
-            for (CardColor color : costCol.keySet()) {
-                prettyCard = prettyCard.concat("Card color needed: " + costCol.get(color) + " " + color + "\n");
-            }
-        }
-
-        if(costLev != null){
-            for (CardColor color : costLev.keySet()) {
-                prettyCard = prettyCard.concat("Card level needed: " + costLev.get(color) + " " + color + "\n");
-            }
-        }
-
-        prettyCard = prettyCard.concat("Special ability: " + card.getSpecialAbility().getType() + "\n");
-
-        prettyCard = prettyCard.concat("Targeted resource: " + card.getSpecialAbility().getTargetResource() + "\n");
-
-        System.out.println(prettyCard);
     }
 
     @Override
@@ -361,7 +66,7 @@ public class CLI extends View {
                         }
                     }
                     List<UUID> uuids = new ArrayList<>();
-                    List<LeaderCard> leaders = new ArrayList<>(model.getLeaderCards().keySet());
+                    List<LeaderCard> leaders = new ArrayList<>(getModel().getLeaderCards().keySet());
                     for (int i : leadersToKeep) {
                         uuids.add(leaders.get(i - 1).getUuid());
                     }
@@ -370,7 +75,7 @@ public class CLI extends View {
                 }
                 case WAIT_SELECT_LEADERS -> System.out.println("It's not your turn");
                 case PLAYING -> {
-                    if (!ownTurn) {
+                    if (!isOwnTurn()) {
                         System.out.println("It's not your turn");
                         break;
                     }

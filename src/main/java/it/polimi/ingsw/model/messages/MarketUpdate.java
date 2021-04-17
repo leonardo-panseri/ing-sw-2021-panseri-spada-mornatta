@@ -22,6 +22,6 @@ public class MarketUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.updateMarket(index, changedList);
+        view.getModelUpdateHandler().updateMarket(index, changedList);
     }
 }

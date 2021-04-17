@@ -21,6 +21,6 @@ public class DevelopmentDeckUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.createDevelopmentDeck(developmentCards);
+        view.getModel().setDevelopmentDeck(developmentCards);
     }
 }

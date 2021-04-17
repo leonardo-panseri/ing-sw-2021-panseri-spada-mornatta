@@ -19,6 +19,6 @@ public class OwnedLeadersUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.updateLeaderCards(getPlayerName(), leaderCards);
+        view.getModelUpdateHandler().updateLeaderCards(getPlayerName(), leaderCards);
     }
 }

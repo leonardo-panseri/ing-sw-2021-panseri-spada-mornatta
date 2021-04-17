@@ -49,26 +49,26 @@ public class CommandHandler {
     }
 
     public void viewLeaders() {
-        cli.printOwnLeaders();
+        cli.getRenderer().printOwnLeaders();
     }
 
     public void viewDevelopment() {
-        cli.printOwnDevelopmentCards();
+        cli.getRenderer().printOwnDevelopmentCards();
     }
 
     public void viewDeck() {
-        cli.printDevelopmentDeck();
+        cli.getRenderer().printDevelopmentDeck();
     }
 
     public void viewDeposit() {
-        cli.printDeposit();
+        cli.getRenderer().printDeposit();
     }
 
     public void viewMarket() {
-        cli.printMarket();
+        cli.getRenderer().printMarket();
     }
 
-    public void viewFaith(){cli.printFaith();};
+    public void viewFaith(){cli.getRenderer().printFaith();}
 
     public void buy(String[] args) {
         int cardIndex;
@@ -78,7 +78,7 @@ public class CommandHandler {
             System.out.println("Incorrect format: please input \"buy\" <cardNum>");
             return;
         }
-        cli.buyDevelopmentCard(cardIndex);
+        cli.getActionSender().buyDevelopmentCard(cardIndex);
     }
 
     public void draw(String[] args) {
@@ -94,7 +94,7 @@ public class CommandHandler {
             System.out.println("Incorrect format: please input \"draw\" <rowNum or columnNum> <resource to take instead of white spheres>");
             return;
         }
-        cli.draw(marketIndex, whiteConversion);
+        cli.getActionSender().draw(marketIndex, whiteConversion);
     }
 
     public void spy(String[] args) {
@@ -105,7 +105,7 @@ public class CommandHandler {
         String object = args[1];
 
         switch (object) {
-            case "leaders" -> cli.printOthersDevelopmentCards(playerName);
+            case "leaders" -> cli.getRenderer().printOthersDevelopmentCards(playerName);
         }
     }
 

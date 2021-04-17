@@ -16,6 +16,6 @@ public class TurnUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.updateTurn(currentPlayerName);
+        view.getModelUpdateHandler().updateTurn(currentPlayerName);
     }
 }

@@ -2,94 +2,45 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.constant.ViewString;
-import it.polimi.ingsw.model.GamePhase;
-import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.card.CardColor;
-import it.polimi.ingsw.model.card.DevelopmentCard;
-import it.polimi.ingsw.model.card.LeaderCard;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 
 public abstract class View implements Runnable {
     private final Client client;
 
+    private ModelUpdateHandler modelUpdateHandler;
+    private Renderer renderer;
+    private ActionSender actionSender;
+    private final MockModel model;
+
     private GameState gameState;
     private String playerName;
     private boolean lobbyMaster;
-    private MockModel model;
+    private boolean ownTurn;
+
 
     public View(Client client) {
         this.client = client;
         this.gameState = GameState.CONNECTING;
+        this.ownTurn = false;
+        this.model = new MockModel();
     }
 
     /*
-    Show Messages
+    Getters & Setters
      */
-    public abstract void showDirectMessage(String message);
-
-    public abstract void showLobbyMessage(String message);
-
-    public abstract void showErrorMessage(String message);
-
-    /*
-    Handle ServerMessages
-     */
-    public void addToLobby(boolean isFirstConnection) {
-        setGameState(GameState.CHOOSING_NAME);
-        if(isFirstConnection)
-            lobbyMaster = true;
-        showDirectMessage(ViewString.CHOOSE_NAME);
-    }
-
-    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
-        boolean playersToStartSet = playersToStart != -1;
-        showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
-                ViewString.PLAYER_CONNECTED.formatted(playerName));
-
-        if(playerName.equals(getPlayerName()))
-            if(isLobbyMaster()) {
-                setGameState(GameState.CHOOSING_PLAYERS);
-                showDirectMessage(ViewString.CHOOSE_PLAYERS_TO_START);
-            } else
-                setGameState(GameState.WAITING_PLAYERS);
-    }
-
-    public void handleSetPlayersToStart() {
-        setGameState(GameState.WAITING_PLAYERS);
-        showDirectMessage(ViewString.PLAYERS_TO_START_SET);
-    }
-
-    public void handlePlayerDisconnect(String playerName) {
-        showLobbyMessage(playerName == null ? ViewString.PLAYER_DISCONNECT :
-                                              ViewString.PLAYER_DISCONNECT_WITH_NAME.formatted(playerName));
-    }
-
-    public void handleGameStart() {
-        setGameState(GameState.STARTING);
-        showLobbyMessage(ViewString.GAME_STARTING);
-    }
-
-    public void handlePlayerCrash(String playerName) {
-        showLobbyMessage(playerName == null ? ViewString.PLAYER_CRASH :
-                                              ViewString.PLAYER_CRASH_WITH_NAME.formatted(playerName));
-        client.setActive(false);
-    }
-
-    /*
-    ...
-     */
-    public abstract void updateGamePhase(GamePhase gamePhase);
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
     public Client getClient() {
         return client;
+    }
+
+    public ModelUpdateHandler getModelUpdateHandler() {
+        return modelUpdateHandler;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    public ActionSender getActionSender() {
+        return actionSender;
     }
 
     public GameState getGameState() {
@@ -104,44 +55,80 @@ public abstract class View implements Runnable {
         return lobbyMaster;
     }
 
+    public boolean isOwnTurn() {
+        return ownTurn;
+    }
+
+    public MockModel getModel() {
+        return model;
+    }
+
+    public void setModelUpdateHandler(ModelUpdateHandler modelUpdateHandler) {
+        this.modelUpdateHandler = modelUpdateHandler;
+    }
+
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+    }
+
+    public void setActionSender(ActionSender actionSender) {
+        this.actionSender = actionSender;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public abstract void createDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck);
+    public void setOwnTurn(boolean ownTurn) {
+        this.ownTurn = ownTurn;
+    }
 
-    public abstract void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders);
+    /*
+    Handle ServerMessages
+     */
+    public void addToLobby(boolean isFirstConnection) {
+        setGameState(GameState.CHOOSING_NAME);
+        if(isFirstConnection)
+            lobbyMaster = true;
+        getRenderer().showGameMessage(ViewString.CHOOSE_NAME);
+    }
 
-    public abstract void updateDevelopmentCards(DevelopmentCard card, int slot);
+    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
+        boolean playersToStartSet = playersToStart != -1;
+        getRenderer().showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
+                ViewString.PLAYER_CONNECTED.formatted(playerName));
 
-    public abstract void updateTurn(String playerName);
+        if(playerName.equals(getPlayerName()))
+            if(isLobbyMaster()) {
+                setGameState(GameState.CHOOSING_PLAYERS);
+                getRenderer().showGameMessage(ViewString.CHOOSE_PLAYERS_TO_START);
+            } else
+                setGameState(GameState.WAITING_PLAYERS);
+    }
 
-    public abstract void createMarket(List<List<Resource>> market);
+    public void handleSetPlayersToStart() {
+        setGameState(GameState.WAITING_PLAYERS);
+        getRenderer().showGameMessage(ViewString.PLAYERS_TO_START_SET);
+    }
 
-    public abstract void updateMarket(int index, List<Resource> changes);
+    public void handlePlayerDisconnect(String playerName) {
+        getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_DISCONNECT :
+                                              ViewString.PLAYER_DISCONNECT_WITH_NAME.formatted(playerName));
+    }
 
-    public abstract void buyDevelopmentCard(int cardIndex);
+    public void handleGameStart() {
+        setGameState(GameState.STARTING);
+        getRenderer().showLobbyMessage(ViewString.GAME_STARTING);
+    }
 
-    public abstract void draw(int marketIndex, Resource whiteConversion);
-
-    public abstract void insertDrawnResources();
-
-    public abstract void printMarket();
-
-    public abstract void printOwnLeaders();
-
-    public abstract void printOwnDevelopmentCards();
-
-    public abstract void printOthersDevelopmentCards(String playerName);
-
-    public abstract void printDevelopmentDeck();
-
-    public abstract void printDeposit();
-
-    public abstract void printFaith();
-
-    public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
-
-    public abstract void renderLeaderCard(LeaderCard card, int label);
+    public void handlePlayerCrash(String playerName) {
+        getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_CRASH :
+                                              ViewString.PLAYER_CRASH_WITH_NAME.formatted(playerName));
+        client.setActive(false);
+    }
 }
 
