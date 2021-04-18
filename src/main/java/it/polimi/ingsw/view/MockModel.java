@@ -38,9 +38,6 @@ public class MockModel {
         List<Resource> bottomRow = new ArrayList<>();
         topRow.add(Resource.COIN);
         middleRow.add(Resource.STONE);
-        middleRow.add(Resource.STONE);
-        bottomRow.add(Resource.FAITH);
-        bottomRow.add(Resource.FAITH);
         bottomRow.add(Resource.FAITH);
         testList.add(topRow);
         testList.add(middleRow);

@@ -25,12 +25,12 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void showLobbyMessage(String message) {
-        System.out.println(AnsiColor.GREEN + "[" + AnsiColor.italicize("TO:Lobby") +  AnsiColor.GREEN + "] " + message + AnsiColor.RESET);
+        System.out.println(AnsiColor.GREEN + "[" + AnsiColor.italicize("TO:Lobby") + AnsiColor.GREEN + "] " + message + AnsiColor.RESET);
     }
 
     @Override
     public void showErrorMessage(String message) {
-        System.out.println(AnsiColor.RED + "[" + AnsiColor.italicize("ERROR") +  AnsiColor.RED + "] " + message + AnsiColor.RESET);
+        System.out.println(AnsiColor.RED + "[" + AnsiColor.italicize("ERROR") + AnsiColor.RED + "] " + message + AnsiColor.RESET);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CLIRenderer extends Renderer {
                 renderLeaderCard(card, -1);
             }
         }
-        if(numActive == 0) System.out.println("Player does not have active cards!");
+        if (numActive == 0) System.out.println("Player does not have active cards!");
     }
 
     @Override
@@ -99,25 +99,47 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printDeposit() {
-        System.out.println("----------");
-
-        if (getView().getModel().getDeposit().get(0).contains(Resource.COIN)) {
-            System.out.println(AnsiSymbol.COIN);
-            System.out.println("----------");
-        }
-
-        if (getView().getModel().getDeposit().get(1).contains(Resource.STONE)) {
-            for (int i = 0; i < getView().getModel().getDeposit().get(1).size(); i++) System.out.println(AnsiSymbol.STONE);
-            System.out.println("----------");
-        }
-
-        if (getView().getModel().getDeposit().get(2).contains(Resource.FAITH)) {
-            for (int i = 0; i < getView().getModel().getDeposit().get(2).size(); i++) {
-                System.out.println(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
+        Resource res;
+        System.out.print("    ");
+        for (int i = 0; i < getView().getModel().getDeposit().size(); i++) {
+            for (int j = 0; j < getView().getModel().getDeposit().get(i).size(); j++) {
+                res = getView().getModel().getDeposit().get(i).get(0);
+                switch (res) {
+                    case COIN -> {
+                        System.out.print("|");
+                        System.out.print(AnsiSymbol.COIN);
+                        System.out.print("|");
+                    }
+                    case SERVANT -> {
+                        System.out.print("|");
+                        System.out.print(AnsiSymbol.SERVANT);
+                        System.out.print("|");
+                    }
+                    case FAITH -> {
+                        System.out.print("|");
+                        System.out.print(AnsiSymbol.FAITH);
+                        System.out.print("|");
+                    }
+                    case SHIELD -> {
+                        System.out.print("|");
+                        System.out.print(AnsiSymbol.SHIELD);
+                        System.out.print("|");
+                    }
+                    case STONE -> {
+                        System.out.print("|");
+                        System.out.print(AnsiSymbol.STONE);
+                        System.out.print("|");
+                    }
+                }
             }
+            for(int k = 0 ; k < i + 1 - getView().getModel().getDeposit().get(i).size()  ; k++){
+                System.out.print("|");
+                System.out.print(AnsiSymbol.EMPTY);
+                System.out.print("|");
+            }
+            System.out.println("");
+            if (i == 0) System.out.print("  ");
         }
-        System.out.println("----------");
-
     }
 
     @Override
@@ -164,7 +186,7 @@ public class CLIRenderer extends Renderer {
 
         String prettyCard = "";
 
-        if(label > 0) {
+        if (label > 0) {
             prettyCard = prettyCard.concat(label + ") ");
         }
 
@@ -173,10 +195,10 @@ public class CLIRenderer extends Renderer {
                 "Level: " + card.getLevel() + "\n" +
                 "Cost: " + card.getCost().get(cost.get(0)) + " " + cost.get(0) + "\n");
 
-        if(cost.size() > 1){
+        if (cost.size() > 1) {
             for (int i = 1; i < cost.size(); i++) {
                 Resource res = cost.get(i);
-                prettyCard = prettyCard.concat( "      "+ card.getCost().get(res) + " " + res +"\n");
+                prettyCard = prettyCard.concat("      " + card.getCost().get(res) + " " + res + "\n");
             }
         }
 
@@ -185,7 +207,7 @@ public class CLIRenderer extends Renderer {
         if (input.size() > 1) {
             for (int i = 1; i < input.size(); i++) {
                 Resource res = input.get(i);
-                prettyCard = prettyCard.concat( "      "+ card.getProductionInput().get(res) + " " + res +"\n");
+                prettyCard = prettyCard.concat("      " + card.getProductionInput().get(res) + " " + res + "\n");
             }
         }
 
@@ -194,7 +216,7 @@ public class CLIRenderer extends Renderer {
         if (output.size() > 1) {
             for (int i = 1; i < output.size(); i++) {
                 Resource res = output.get(i);
-                prettyCard = prettyCard.concat( "      "+ card.getProductionOutput().get(res) + " " + res +"\n");
+                prettyCard = prettyCard.concat("      " + card.getProductionOutput().get(res) + " " + res + "\n");
             }
         }
 
@@ -209,25 +231,25 @@ public class CLIRenderer extends Renderer {
 
         String prettyCard = "";
 
-        if(label > 0) {
+        if (label > 0) {
             prettyCard = prettyCard.concat(label + ") ");
         }
 
         prettyCard = prettyCard.concat("Points: " + card.getVictoryPoints() + "\n");
 
-        if(costRes != null){
+        if (costRes != null) {
             for (Resource res : costRes.keySet()) {
                 prettyCard = prettyCard.concat("Resource needed: " + costRes.get(res) + " " + res + "\n");
             }
         }
 
-        if(costCol != null){
+        if (costCol != null) {
             for (CardColor color : costCol.keySet()) {
                 prettyCard = prettyCard.concat("Card color needed: " + costCol.get(color) + " " + color + "\n");
             }
         }
 
-        if(costLev != null){
+        if (costLev != null) {
             for (CardColor color : costLev.keySet()) {
                 prettyCard = prettyCard.concat("Card level needed: " + costLev.get(color) + " " + color + "\n");
             }

@@ -7,4 +7,5 @@ public abstract class AnsiSymbol {
     public static final String STONE = "\ud83d\uddff";
     public static final String SERVANT = "\ud83d\ude47";
     public static final String FAITH = "\u271D\uFE0F";
+    public static final String EMPTY = "\uD83D\uDEAB";
 }
