@@ -72,7 +72,7 @@ public class CommandHandler {
         cli.getRenderer().printMarketResult();
     }
 
-    public void viewFaith(){cli.getRenderer().printFaith();}
+    public void viewFaith(){cli.getRenderer().printFaith(cli.getModel().getFaithPoints());}
 
     public void buy(String[] args) {
         int cardIndex;

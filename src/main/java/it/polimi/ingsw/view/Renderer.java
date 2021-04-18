@@ -38,7 +38,7 @@ public abstract class Renderer {
 
     public abstract void printDeposit();
 
-    public abstract void printFaith();
+    public abstract void printFaith(int faith);
 
     public abstract void printMarketResult();
 

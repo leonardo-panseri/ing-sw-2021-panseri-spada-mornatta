@@ -49,13 +49,27 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOwnDevelopmentCards() {
-        System.out.println(getView().getModel().getDevelopmentCards());
+        if(!getView().getModel().hasOwnDevelopmentCard()) {
+            System.out.println("You don't have any development card");
+            return;
+        }
+        List<Stack<DevelopmentCard>> targetCards = getView().getModel().getDevelopmentCards();
+        int index = 1;
+        for(Stack<DevelopmentCard> stack : targetCards) {
+            for (DevelopmentCard card : stack) {
+                if(stack.peek() == card) {
+                    System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
+                }
+                renderDevelopmentCard(card, index);
+                index++;
+            }
+        }
     }
 
     @Override
     public void printOthersLeaderCards(String playerName) {
         if (!getView().getModel().getOtherLeaderCards().containsKey(playerName)) {
-            System.out.println("Player does not have active cards!");
+            System.out.println(playerName + " does not have active cards!");
             return;
         }
 
@@ -72,7 +86,20 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOthersDevelopmentCards(String playerName) {
+        if (!getView().getModel().getOtherDevelopmentCards().containsKey(playerName)) {
+            System.out.println("Player does not have development cards!");
+            return;
+        }
 
+        List<Stack<DevelopmentCard>> targetCards = getView().getModel().getOtherDevelopmentCards().get(playerName);
+        for(Stack<DevelopmentCard> stack : targetCards) {
+            for (DevelopmentCard card : stack) {
+                if(stack.peek() == card) {
+                    System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
+                }
+                renderDevelopmentCard(card, -1);
+            }
+        }
     }
 
     @Override
@@ -82,7 +109,7 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOthersFaith(String playerName) {
-
+        printFaith(getView().getModel().getOtherFaith(playerName));
     }
 
     @Override
@@ -121,13 +148,12 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void printFaith() {
+    public void printFaith(int faith) {
         StringBuilder str = new StringBuilder("[ ");
-        int faithPoints = getView().getModel().getFaithPoints();
-        int pointsToWin = 24 - faithPoints;
-        float percentage = (float) faithPoints / 24 * 100;
+        int pointsToWin = 24 - faith;
+        float percentage = (float) faith / 24 * 100;
 
-        for (int i = 0; i < faithPoints; i++) {
+        for (int i = 0; i < faith; i++) {
             str.append(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
             str.append(" ");
         }
@@ -136,10 +162,10 @@ public class CLIRenderer extends Renderer {
             str.append(" ");
         }
         str.append("] ");
-        System.out.println("You have " + faithPoints + " faith points.");
+        System.out.println("Collected " + faith + " faith points.");
         System.out.println(str);
         System.out.printf(("Completion %.2f%% %n"), percentage);
-        System.out.println("You need " + pointsToWin + " to win.");
+        System.out.println("Other " + pointsToWin + " needed to win.");
 
 
     }

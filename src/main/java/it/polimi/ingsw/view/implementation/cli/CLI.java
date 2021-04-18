@@ -62,9 +62,13 @@ public class CLI extends View {
                         try {
                             leadersToKeep[i] = Integer.parseInt(rawLeadersToKeep[i]);
                         } catch (NumberFormatException e) {
-                            getRenderer().showErrorMessage(ViewString.LEADERS_SELECT_NUMBER_ERROR);
+                            getRenderer().showErrorMessage(ViewString.LEADERS_SELECT_NUMBER_FORMAT_ERROR);
                             break;
                         }
+                    }
+                    if (leadersToKeep[0] < 1 || leadersToKeep[0] > 4 || leadersToKeep[1] < 1 || leadersToKeep[1] > 4) {
+                        getRenderer().showErrorMessage(ViewString.LEADERS_SELECT_NUMBER_ERROR);
+                        break;
                     }
                     List<UUID> uuids = new ArrayList<>();
                     List<LeaderCard> leaders = new ArrayList<>(getModel().getLeaderCards().keySet());
