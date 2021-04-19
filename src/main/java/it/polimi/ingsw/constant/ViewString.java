@@ -24,6 +24,7 @@ public class ViewString {
     public static final String LEADERS_SELECT_ERROR = "You must select 2 leader cards";
     public static final String LEADERS_SELECT_NUMBER_ERROR = "You must input 2 numbers between 1 and 4";
     public static final String LEADERS_SELECT_NUMBER_FORMAT_ERROR = "Please input numbers";
+    public static final String NOT_ALREADY_PLAYED = "You must perform at least an action before ending your turn";
     public static final String PLAYER_CRASH = "Someone crashed, terminating the game";
     public static final String PLAYER_CRASH_WITH_NAME = "Player %s crashed, terminating the game";
 

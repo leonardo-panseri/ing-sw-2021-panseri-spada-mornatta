@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.implementation.cli;
 
+import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
 
 import java.lang.reflect.InvocationTargetException;
@@ -114,6 +115,10 @@ public class CommandHandler {
             case "deposit" -> cli.getRenderer().printOthersDeposit(playerName);
             case "faith" -> cli.getRenderer().printOthersFaith(playerName);
         }
+    }
+
+    public void endturn(String[] args) {
+        cli.getActionSender().endTurn();
     }
 
     public void test(String[] args) {

@@ -15,12 +15,14 @@ public abstract class View implements Runnable {
     private String playerName;
     private boolean lobbyMaster;
     private boolean ownTurn;
+    private boolean alreadyPlayed;
 
 
     public View(Client client) {
         this.client = client;
         this.gameState = GameState.CONNECTING;
         this.ownTurn = false;
+        this.alreadyPlayed = false;
         this.model = new MockModel();
     }
 
@@ -59,6 +61,10 @@ public abstract class View implements Runnable {
         return ownTurn;
     }
 
+    public boolean hasAlreadyPlayer() {
+        return alreadyPlayed;
+    }
+
     public MockModel getModel() {
         return model;
     }
@@ -85,6 +91,10 @@ public abstract class View implements Runnable {
 
     public void setOwnTurn(boolean ownTurn) {
         this.ownTurn = ownTurn;
+    }
+
+    public void setAlreadyPlayed(boolean alreadyPlayed) {
+        this.alreadyPlayed = alreadyPlayed;
     }
 
     /*
