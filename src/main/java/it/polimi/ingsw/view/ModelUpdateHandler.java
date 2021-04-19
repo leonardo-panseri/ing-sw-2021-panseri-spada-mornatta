@@ -23,7 +23,7 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders);
 
-    public abstract void updateDevelopmentCards(DevelopmentCard card, int slot);
+    public abstract void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot);
 
     public abstract void updateTurn(String playerName);
 

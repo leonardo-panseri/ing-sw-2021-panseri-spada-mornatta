@@ -67,6 +67,11 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
+    public void printOwnDeposit() {
+        renderDeposit(getView().getModel().getDeposit());
+    }
+
+    @Override
     public void printOthersLeaderCards(String playerName) {
         if (!getView().getModel().getOtherLeaderCards().containsKey(playerName)) {
             System.out.println(playerName + " does not have active cards!");
@@ -104,7 +109,11 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOthersDeposit(String playerName) {
-
+        if (!getView().getModel().getOtherDeposit().containsKey(playerName)) {
+            showErrorMessage(playerName + " does not have a deposit or it's empty");
+            return;
+        }
+        renderDeposit(getView().getModel().getOtherDeposit().get(playerName));
     }
 
     @Override
@@ -125,12 +134,12 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void printDeposit() {
+    public void renderDeposit(List<List<Resource>> deposit) {
         Resource res;
         System.out.print("    ");
-        for (int i = 0; i < getView().getModel().getDeposit().size(); i++) {
-            for (int j = 0; j < getView().getModel().getDeposit().get(i).size(); j++) {
-                res = getView().getModel().getDeposit().get(i).get(0);
+        for (int i = 0; i < deposit.size(); i++) {
+            for (int j = 0; j < deposit.get(i).size(); j++) {
+                res = deposit.get(i).get(0);
                 switch (res) {
                     case COIN -> {
                         System.out.print("|");
@@ -159,12 +168,12 @@ public class CLIRenderer extends Renderer {
                     }
                 }
             }
-            for(int k = 0 ; k < i + 1 - getView().getModel().getDeposit().get(i).size()  ; k++){
+            for(int k = 0 ; k < i + 1 - deposit.get(i).size()  ; k++){
                 System.out.print("|");
                 System.out.print(AnsiSymbol.EMPTY);
                 System.out.print("|");
             }
-            System.out.println("");
+            System.out.println();
             if (i == 0) System.out.print("  ");
         }
     }

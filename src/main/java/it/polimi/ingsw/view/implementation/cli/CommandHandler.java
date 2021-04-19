@@ -61,7 +61,7 @@ public class CommandHandler {
     }
 
     public void viewDeposit() {
-        cli.getRenderer().printDeposit();
+        cli.getRenderer().printOwnDeposit();
     }
 
     public void viewMarket() {
