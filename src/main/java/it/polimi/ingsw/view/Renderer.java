@@ -1,7 +1,10 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+
+import java.util.List;
 
 public abstract class Renderer {
     private final View view;
@@ -26,6 +29,8 @@ public abstract class Renderer {
 
     public abstract void printOwnDevelopmentCards();
 
+    public abstract void printOwnDeposit();
+
     public abstract void printOthersLeaderCards(String playerName);
 
     public abstract void printOthersDevelopmentCards(String playerName);
@@ -36,8 +41,6 @@ public abstract class Renderer {
 
     public abstract void printDevelopmentDeck();
 
-    public abstract void printDeposit();
-
     public abstract void printFaith(int faith);
 
     public abstract void printMarketResult();
@@ -45,4 +48,6 @@ public abstract class Renderer {
     public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
 
     public abstract void renderLeaderCard(LeaderCard card, int label);
+
+    public abstract void renderDeposit(List<List<Resource>> deposit);
 }

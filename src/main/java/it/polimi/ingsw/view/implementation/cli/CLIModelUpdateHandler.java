@@ -42,8 +42,15 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void updateDevelopmentCards(DevelopmentCard card, int slot) {
-        getView().getModel().setNewDevelopmentCard(card, slot);
+    public void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot) {
+        if (playerName.equals(getView().getPlayerName())) {
+            getView().getModel().setNewDevelopmentCard(card, slot);
+        } else {
+            if (!getView().getModel().getOtherDevelopmentCards().containsKey(playerName)) {
+                getView().getRenderer().showErrorMessage("Error updating someone else's cards: player not found");
+            }
+            getView().getModel().setOtherNewDevelopment(playerName, card, slot);
+        }
     }
 
     @Override

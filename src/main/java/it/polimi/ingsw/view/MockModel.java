@@ -20,12 +20,14 @@ public class MockModel {
 
     private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
     private Map<String, List<Stack<DevelopmentCard>>> otherDevelopmentCards;
-    private Map<String, List<Resource>> otherDeposit;
+    private Map<String, List<List<Resource>>> otherDeposit;
     private Map<String, Integer> otherFaith;
     private Map<String, Integer> otherFavours;
 
     public MockModel() {
         otherLeaderCards = new HashMap<>();
+        otherDevelopmentCards = new HashMap<>();
+        otherDeposit = new HashMap<>();
         otherFaith = new HashMap<>();
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
@@ -67,12 +69,20 @@ public class MockModel {
         return otherDevelopmentCards;
     }
 
+    public void setOtherNewDevelopment(String playerName, DevelopmentCard card, int slot) {
+        otherDevelopmentCards.get(playerName).get(slot - 1).push(card);
+    }
+
     public void setOtherFaith(String playerName, int faithPoints) {
         otherFaith.put(playerName, faithPoints);
     }
 
     public int getOtherFaith(String playerName) {
         return this.otherFaith.containsKey(playerName) ? otherFaith.get(playerName) : 0;
+    }
+
+    public Map<String, List<List<Resource>>> getOtherDeposit() {
+        return otherDeposit;
     }
 
     public void setOtherFavours(String playerName, int popeFavours) {
