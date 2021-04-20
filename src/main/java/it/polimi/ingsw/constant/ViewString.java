@@ -27,6 +27,8 @@ public class ViewString {
     public static final String NOT_ALREADY_PLAYED = "You must perform at least an action before ending your turn";
     public static final String PLAYER_CRASH = "Someone crashed, terminating the game";
     public static final String PLAYER_CRASH_WITH_NAME = "Player %s crashed, terminating the game";
+    public static final String ALREADY_PLAYED = "You have already done one of the three major actions!";
+    public static final String ALREADY_ACTIVE = "The selected leader card is already active";
 
     /*
     Game messages

@@ -61,7 +61,7 @@ public abstract class View implements Runnable {
         return ownTurn;
     }
 
-    public boolean hasAlreadyPlayer() {
+    public boolean hasAlreadyPlayed() {
         return alreadyPlayed;
     }
 

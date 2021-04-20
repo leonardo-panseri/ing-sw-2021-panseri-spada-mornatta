@@ -9,7 +9,7 @@ public class DiscardLeaderPlayerActionEvent extends PlayerActionEvent {
     @Serial
     private static final long serialVersionUID = -5694009025273413874L;
 
-    private UUID leaderCardUUID;
+    private final UUID leaderCardUUID;
 
     public DiscardLeaderPlayerActionEvent(String playerName, UUID leaderCardUUID) {
         super(playerName);
@@ -18,6 +18,6 @@ public class DiscardLeaderPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().discardLeader(getPlayer(controller), controller.getGame().getDeck().getLeaderCardByUuid(leaderCardUUID));
+        controller.getPlayerController().discardLeader(getPlayer(controller), controller.getGame().getPlayerByName(getPlayerName()).getLeaderCardByUuid(leaderCardUUID));
     }
 }

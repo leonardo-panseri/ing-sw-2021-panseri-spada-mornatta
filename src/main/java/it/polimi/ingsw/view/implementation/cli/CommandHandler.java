@@ -76,6 +76,10 @@ public class CommandHandler {
     public void viewFaith(){cli.getRenderer().printFaith(cli.getModel().getFaithPoints());}
 
     public void buy(String[] args) {
+        if(cli.hasAlreadyPlayed()) {
+            cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
+            return;
+        }
         int cardIndex;
         try{
             cardIndex = Integer.parseInt(args[0]);
@@ -87,6 +91,10 @@ public class CommandHandler {
     }
 
     public void draw(String[] args) {
+        if(cli.hasAlreadyPlayed()) {
+            cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
+            return;
+        }
         int marketIndex;
         Resource whiteConversion = null;
         try{
@@ -115,6 +123,24 @@ public class CommandHandler {
             case "deposit" -> cli.getRenderer().printOthersDeposit(playerName);
             case "faith" -> cli.getRenderer().printOthersFaith(playerName);
         }
+    }
+
+    public void discard(String[] args) {
+        if(args.length < 1) {
+            System.out.println("Incorrect format: please input \"discard\" <leader card index>");
+        }
+        int index = 0;
+        try{
+            index = Integer.parseInt(args[0]);
+        }catch (NumberFormatException e){
+            System.out.println("Incorrect format: please input \"discard\" <leader card index>");
+            return;
+        }
+        if(index > cli.getModel().getLeaderCards().size()) {
+            cli.getRenderer().showErrorMessage("Index out of bound");
+            return;
+        }
+        cli.getActionSender().discard(index);
     }
 
     public void endturn(String[] args) {

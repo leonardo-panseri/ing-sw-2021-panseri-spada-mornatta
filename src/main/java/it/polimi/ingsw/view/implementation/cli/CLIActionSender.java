@@ -1,11 +1,14 @@
 package it.polimi.ingsw.view.implementation.cli;
 
+import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.ActionSender;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
+import it.polimi.ingsw.view.messages.DiscardLeaderPlayerActionEvent;
 import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
 
 import java.util.ArrayList;
@@ -31,5 +34,17 @@ public class CLIActionSender extends ActionSender {
     @Override
     public void draw(int marketIndex, Resource whiteConversion) {
         getView().getClient().send(new MarketPlayerActionEvent(getView().getPlayerName(), marketIndex - 1, whiteConversion));
+    }
+
+    @Override
+    public void discard(int cardIndex) {
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>(getView().getModel().getLeaderCards().keySet());
+        LeaderCard cardToDiscard = leaderCards.get(cardIndex - 1);
+        if (getView().getModel().getLeaderCards().get(cardToDiscard)) {
+            getView().getRenderer().showErrorMessage(ViewString.ALREADY_ACTIVE);
+            return;
+        }
+
+        getView().getClient().send(new DiscardLeaderPlayerActionEvent(getView().getPlayerName(), cardToDiscard.getUuid()));
     }
 }

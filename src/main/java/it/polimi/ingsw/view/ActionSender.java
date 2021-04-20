@@ -19,12 +19,14 @@ public abstract class ActionSender {
 
     public abstract void draw(int marketIndex, Resource whiteConversion);
 
+    public abstract void discard(int cardIndex);
+
     public void endTurn() {
         if(!view.isOwnTurn()) {
             view.getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
             return;
         }
-        if(!view.hasAlreadyPlayer()) {
+        if(!view.hasAlreadyPlayed()) {
             view.getRenderer().showErrorMessage(ViewString.NOT_ALREADY_PLAYED);
             return;
         }

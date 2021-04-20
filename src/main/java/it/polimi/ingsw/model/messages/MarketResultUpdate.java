@@ -10,7 +10,7 @@ public class MarketResultUpdate extends PlayerPropertyUpdate {
     @Serial
     private static final long serialVersionUID = 5345288716406897205L;
 
-    private List<Resource> result;
+    private final List<Resource> result;
 
     public MarketResultUpdate(String playerName, List<Resource> result) {
         super(playerName);
@@ -20,5 +20,6 @@ public class MarketResultUpdate extends PlayerPropertyUpdate {
     @Override
     public void process(View view) {
         view.getModelUpdateHandler().insertDrawnResources(getPlayerName(), result);
+        view.setAlreadyPlayed(true);
     }
 }
