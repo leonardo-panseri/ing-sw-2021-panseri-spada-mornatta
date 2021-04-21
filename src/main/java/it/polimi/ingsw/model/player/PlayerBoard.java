@@ -21,7 +21,6 @@ public class PlayerBoard extends Observable<IServerPacket> {
     private final Stack<DevelopmentCard> cardSlotCenter;
     private final Stack<DevelopmentCard> cardSlotRight;
     private final Deposit deposit;
-    private final List<Resource> marketResults;
 
     /**
      * Constructor: instantiates the slots, the deposit and the player reference.
@@ -33,7 +32,6 @@ public class PlayerBoard extends Observable<IServerPacket> {
         cardSlotCenter = new Stack<>();
         cardSlotRight = new Stack<>();
         deposit = new Deposit(player);
-        marketResults = new ArrayList<>();
         this.player = player;
     }
 
@@ -164,43 +162,6 @@ public class PlayerBoard extends Observable<IServerPacket> {
                 cardSlot.push(developmentCard);
             }
         }
-    }
-
-    /**
-     * Sets the market results of this {@link Player} PlayerBoard.
-     *
-     * @param marketResults an arraylist containing the market results
-     */
-    public void setMarketResults(List<Resource> marketResults) {
-        this.marketResults.clear();
-        this.marketResults.addAll(marketResults);
-        notify(new MarketResultUpdate(player.getNick(), this.marketResults));
-    }
-
-    /**
-     * Getter for the market result.
-     *
-     * @return a list of resources drawn from the market
-     */
-    public List<Resource> getMarketResults() {
-        return marketResults;
-    }
-
-    /**
-     * Gets the amount of resources in the market result slots.
-     *
-     * @return the amount of resources stored in the market result slots
-     */
-    public int getUnusedMarketResults() {
-        return marketResults.size();
-    }
-
-    /**
-     * Clears the market result slots.
-     */
-    public void clearMarketResults() {
-        marketResults.clear();
-        notify(new MarketResultUpdate(player.getNick(), marketResults));
     }
 }
 

@@ -206,8 +206,10 @@ public class CLIRenderer extends Renderer {
         String printedResult = "";
         printedResult = printedResult.concat("The following resources are waiting to be stored: - ");
 
+        int index = 1;
         for (Resource res : getView().getModel().getMarketResult()) {
-            printedResult = printedResult.concat(Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
+            printedResult = printedResult.concat(" " + index +") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
+            index++;
         }
 
         System.out.println(printedResult);

@@ -58,4 +58,17 @@ public class CLIActionSender extends ActionSender {
 
         getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult()));
     }
+
+    @Override
+    public void storeMarketResult(int resourceIndex, int rowIndex) {
+        Map<Integer, List<Resource>> changes = new HashMap<>();
+        List<Resource> toBeStored = new ArrayList<>(getView().getModel().getMarketResult());
+        Resource movedResource = toBeStored.get(resourceIndex - 1);
+        toBeStored.remove(movedResource);
+
+        changes.put(rowIndex, new ArrayList<>(getView().getModel().getDeposit().get(rowIndex-1)));
+        changes.get(rowIndex).add(movedResource);
+
+        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, toBeStored));
+    }
 }

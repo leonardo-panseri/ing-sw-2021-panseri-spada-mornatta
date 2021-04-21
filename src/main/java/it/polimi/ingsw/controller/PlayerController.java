@@ -72,7 +72,7 @@ public class PlayerController {
             System.out.println(e.getMessage());
         }
 
-        player.getBoard().setMarketResults(toBeStored);
+        player.getBoard().getDeposit().setMarketResults(toBeStored);
 
     }
 
@@ -114,7 +114,7 @@ public class PlayerController {
             }
         }
 
-        player.getBoard().setMarketResults(marketResults);
+        player.getBoard().getDeposit().setMarketResults(marketResults);
     }
 
     public synchronized void useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {

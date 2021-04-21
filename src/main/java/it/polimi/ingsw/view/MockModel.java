@@ -36,17 +36,6 @@ public class MockModel {
             developmentCards.add(new Stack<>());
             deposit.add(new ArrayList<>());
         }
-        List<List<Resource>> testList = new ArrayList<>();
-        List<Resource> topRow = new ArrayList<>();
-        List<Resource> middleRow = new ArrayList<>();
-        List<Resource> bottomRow = new ArrayList<>();
-        topRow.add(Resource.COIN);
-        middleRow.add(Resource.STONE);
-        bottomRow.add(Resource.FAITH);
-        testList.add(topRow);
-        testList.add(middleRow);
-        testList.add(bottomRow);
-        this.setDeposit(testList);
 
     }
 

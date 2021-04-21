@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.ModelUpdateHandler;
 import it.polimi.ingsw.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +78,15 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         if (index >= 4) {
             getView().getModel().updateMarketRow(index - 4, changes);
         } else getView().getModel().updateMarketColumn(index, changes);
+    }
+
+    @Override
+    public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes) {
+        List<List<Resource>> deposit = getView().getModel().getDeposit();
+
+        for (Integer i : changes.keySet()) {
+            deposit.set(i - 1, changes.get(i));
+        }
     }
 
     @Override

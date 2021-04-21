@@ -20,6 +20,6 @@ public class DepositUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-
+        view.getModelUpdateHandler().updateDeposit(getPlayerName(), changes);
     }
 }

@@ -4,7 +4,6 @@
       {
         "victoryPoints": 0,
         "cost": {
-          "SERVANT": 3,
           "STONE": 1
         },
         "level": 1,
@@ -19,8 +18,7 @@
       {
         "victoryPoints": 0,
         "cost": {
-          "STONE": 3,
-          "COIN": 2
+          "STONE": 1
         },
         "level": 1,
         "productionInput": {

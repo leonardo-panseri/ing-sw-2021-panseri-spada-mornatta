@@ -163,6 +163,31 @@ public class CommandHandler {
         cli.getActionSender().move(index[0], index[1]);
     }
 
+    public void store(String[] args) {
+        if(args.length < 2) {
+            System.out.println("Incorrect format: please input \"store\" <market result index> <row>");
+        }
+        int[] index = new int[2] ;
+        for(int j = 0; j < 2; j++){
+            try{
+                index[j] = Integer.parseInt(args[j]);
+            }catch (NumberFormatException e){
+                System.out.println("Incorrect format: please input \"store\" <market result index> <row>");
+                return;
+            }
+        }
+        if(index[0] < 1 || index[0] > cli.getModel().getMarketResult().size() ) {
+            cli.getRenderer().showErrorMessage("Market index out of bound");
+            return;
+        }
+        if(index[1] < 1 || index[1] > 3 ) {
+            cli.getRenderer().showErrorMessage("Row index out of bound");
+            return;
+        }
+
+        cli.getActionSender().storeMarketResult(index[0], index[1]);
+    }
+
     public void endturn(String[] args) {
         cli.getActionSender().endTurn();
     }

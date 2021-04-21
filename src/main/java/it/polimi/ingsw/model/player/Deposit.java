@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.messages.DepositStrongboxUpdate;
 import it.polimi.ingsw.model.messages.DepositUpdate;
+import it.polimi.ingsw.model.messages.MarketResultUpdate;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
@@ -21,6 +22,7 @@ public class Deposit extends Observable<IServerPacket> {
     private List<Resource> middleRow;
     private List<Resource> bottomRow;
     private final Map<Resource, Integer> strongBox;
+    private final List<Resource> marketResults;
 
     /**
      * Getter: gets the requested row of resources.
@@ -74,6 +76,7 @@ public class Deposit extends Observable<IServerPacket> {
         middleRow = new ArrayList<>();
         bottomRow = new ArrayList<>();
         strongBox = new HashMap<>();
+        marketResults = new ArrayList<>();
         this.player = player;
     }
 
@@ -94,7 +97,7 @@ public class Deposit extends Observable<IServerPacket> {
             if (res == resource)
                 amount++;
         amount += strongBox.getOrDefault(resource, 0);
-        for (Resource res : player.getBoard().getMarketResults())
+        for (Resource res : getMarketResults())
             if (res == resource)
                 amount++;
         return amount;
@@ -110,13 +113,20 @@ public class Deposit extends Observable<IServerPacket> {
      */
     public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
         checkDepositMove(changes, marketResult);
+        int modifiedLength = changes.keySet().size();
+        int[] modifiedRows = new int[modifiedLength];
+        int index = 0;
         for (int i = 1; i < 4; i++) {
             if (changes.containsKey(i)) {
                 if (i == 1) topRow = changes.get(i).get(0);
                 else if (i == 2) middleRow = changes.get(i);
                 else bottomRow = changes.get(i);
+                modifiedRows[index] = i;
+                index++;
             }
         }
+
+        notifyDepositUpdate(modifiedRows);
     }
 
     /**
@@ -176,7 +186,6 @@ public class Deposit extends Observable<IServerPacket> {
         }
 
         //At this point, if the move is legal, the two maps should be the same
-
         for (Resource res : Resource.values()) {
             if (!oldResources.get(res).equals(newResources.get(res)))
                 throw new IllegalArgumentException("illegal_deposit_move");
@@ -379,5 +388,42 @@ public class Deposit extends Observable<IServerPacket> {
      */
     private synchronized void notifyStrongboxUpdate() {
         notify(new DepositStrongboxUpdate(player.getNick(), strongBox));
+    }
+
+    /**
+     * Sets the market results of this {@link Player} PlayerBoard.
+     *
+     * @param marketResults an arraylist containing the market results
+     */
+    public void setMarketResults(List<Resource> marketResults) {
+        this.marketResults.clear();
+        this.marketResults.addAll(marketResults);
+        notify(new MarketResultUpdate(player.getNick(), this.marketResults));
+    }
+
+    /**
+     * Getter for the market result.
+     *
+     * @return a list of resources drawn from the market
+     */
+    public List<Resource> getMarketResults() {
+        return marketResults;
+    }
+
+    /**
+     * Gets the amount of resources in the market result slots.
+     *
+     * @return the amount of resources stored in the market result slots
+     */
+    public int getUnusedMarketResults() {
+        return marketResults.size();
+    }
+
+    /**
+     * Clears the market result slots.
+     */
+    public void clearMarketResults() {
+        marketResults.clear();
+        notify(new MarketResultUpdate(player.getNick(), marketResults));
     }
 }

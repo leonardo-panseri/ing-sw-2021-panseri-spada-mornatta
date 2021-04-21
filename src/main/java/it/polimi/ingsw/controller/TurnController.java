@@ -28,7 +28,7 @@ public class TurnController {
             return;
         }
 
-        int discardedMarketResults = player.getBoard().getUnusedMarketResults();
+        int discardedMarketResults = player.getBoard().getDeposit().getUnusedMarketResults();
         if(discardedMarketResults > 0) {
             for(Player p : gameController.getGame().getPlayers())
                 if(!p.equals(player))
