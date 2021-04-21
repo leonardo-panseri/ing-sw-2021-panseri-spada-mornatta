@@ -178,6 +178,15 @@ public class PlayerBoard extends Observable<IServerPacket> {
     }
 
     /**
+     * Getter for the market result.
+     *
+     * @return a list of resources drawn from the market
+     */
+    public List<Resource> getMarketResults() {
+        return marketResults;
+    }
+
+    /**
      * Gets the amount of resources in the market result slots.
      *
      * @return the amount of resources stored in the market result slots

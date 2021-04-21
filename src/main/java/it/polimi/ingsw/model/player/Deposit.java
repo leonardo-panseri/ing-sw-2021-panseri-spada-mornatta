@@ -94,6 +94,9 @@ public class Deposit extends Observable<IServerPacket> {
             if (res == resource)
                 amount++;
         amount += strongBox.getOrDefault(resource, 0);
+        for (Resource res : player.getBoard().getMarketResults())
+            if (res == resource)
+                amount++;
         return amount;
     }
 
@@ -102,10 +105,11 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
-    public void applyChanges(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
-        checkDepositMove(changes);
+    public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
+        checkDepositMove(changes, marketResult);
         for (int i = 1; i < 4; i++) {
             if (changes.containsKey(i)) {
                 if (i == 1) topRow = changes.get(i).get(0);
@@ -120,19 +124,23 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
-    private void checkDepositMove(Map<Integer, List<Resource>> changes) throws IllegalArgumentException {
+    private void checkDepositMove(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
         List<Integer> untouchedRows = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             if (!changes.containsKey(i)) untouchedRows.add(i);
         }
 
+        //Mapping the old quantities of resources in deposit, strongbox and market result
         Map<Resource, Integer> oldResources = new HashMap<>();
         for (Resource res : Resource.values()) {
             oldResources.put(res, getAmountOfResource(res));
         }
 
+        //Mapping the new quantities of resources in deposit, strongbox and market result
+            //Assembly the new deposit adding the untouched rows
         Map<Resource, Integer> newResources = new HashMap<>();
         for (int missingRow : untouchedRows) {
             changes.put(missingRow, getRow(missingRow));
@@ -146,9 +154,28 @@ public class Deposit extends Observable<IServerPacket> {
                 }
             }
         }
+            //Add quantities from the strongbox (not modified by the action)
+        for (Resource res : getStrongBox().keySet()) {
+            if (newResources.containsKey(res)) {
+                newResources.put(res, newResources.get(res) + getStrongBox().get(res));
+            } else {
+                newResources.put(res, getStrongBox().get(res));
+            }
+        }
+            //Add quantities from the market result list
+        for (Resource res : marketResult) {
+            if (newResources.containsKey(res)) {
+                newResources.put(res, newResources.get(res) + 1);
+            } else {
+                newResources.put(res, 1);
+            }
+        }
+
         for (Resource res : Resource.values()) {
             if (!newResources.containsKey(res)) newResources.put(res, 0);
         }
+
+        //At this point, if the move is legal, the two maps should be the same
 
         for (Resource res : Resource.values()) {
             if (!oldResources.get(res).equals(newResources.get(res)))

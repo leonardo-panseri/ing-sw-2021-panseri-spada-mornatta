@@ -31,6 +31,7 @@ public class MockModel {
         otherFaith = new HashMap<>();
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
+        marketResult = new ArrayList<>();
         for (int i = 0; i<3; i++) {
             developmentCards.add(new Stack<>());
             deposit.add(new ArrayList<>());

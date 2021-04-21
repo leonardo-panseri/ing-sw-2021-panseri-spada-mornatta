@@ -5,16 +5,15 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.messages.DepositUpdate;
 import it.polimi.ingsw.view.ActionSender;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
+import it.polimi.ingsw.view.messages.DepositPlayerActionEvent;
 import it.polimi.ingsw.view.messages.DiscardLeaderPlayerActionEvent;
 import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class CLIActionSender extends ActionSender {
     public CLIActionSender(View view) {
@@ -46,5 +45,17 @@ public class CLIActionSender extends ActionSender {
         }
 
         getView().getClient().send(new DiscardLeaderPlayerActionEvent(getView().getPlayerName(), cardToDiscard.getUuid()));
+    }
+
+    @Override
+    public void move(int row1, int row2) {
+        List<Resource> newRow1 = getView().getModel().getDeposit().get(row2 - 1);
+        List<Resource> newRow2 = getView().getModel().getDeposit().get(row1 - 1);
+
+        Map<Integer, List<Resource>> changes = new HashMap<>();
+        changes.put(row1, newRow1);
+        changes.put(row2, newRow2);
+
+        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult()));
     }
 }

@@ -12,14 +12,16 @@ public class DepositPlayerActionEvent extends PlayerActionEvent {
     private static final long serialVersionUID = 9204228336536058886L;
 
     private final Map<Integer, List<Resource>> changes;
+    private final List<Resource> toBeStored;
 
-    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes) {
+    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes, List<Resource> toBeStored) {
         super(playerName);
         this.changes = changes;
+        this.toBeStored = toBeStored;
     }
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().updatePlayerDeposit(getPlayer(controller), changes);
+        controller.getPlayerController().updatePlayerDeposit(getPlayer(controller), changes, toBeStored);
     }
 }

@@ -21,6 +21,8 @@ public abstract class ActionSender {
 
     public abstract void discard(int cardIndex);
 
+    public abstract void move(int row1, int row2);
+
     public void endTurn() {
         if(!view.isOwnTurn()) {
             view.getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);

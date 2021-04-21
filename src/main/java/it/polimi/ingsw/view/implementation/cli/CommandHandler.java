@@ -143,6 +143,26 @@ public class CommandHandler {
         cli.getActionSender().discard(index);
     }
 
+    public void move(String[] args) {
+        if(args.length < 2) {
+            System.out.println("Incorrect format: please input \"move\" <row1> <row2>");
+        }
+        int[] index = new int[2] ;
+        for(int j = 0; j < 2; j++){
+            try{
+                index[j] = Integer.parseInt(args[j]);
+            }catch (NumberFormatException e){
+                System.out.println("Incorrect format: please input \"move\" <row1> <row2>");
+                return;
+            }
+            if(index[j] < 1 || index[j] > 3) {
+                cli.getRenderer().showErrorMessage("Index out of bound");
+                return;
+            }
+        }
+        cli.getActionSender().move(index[0], index[1]);
+    }
+
     public void endturn(String[] args) {
         cli.getActionSender().endTurn();
     }

@@ -1,7 +1,11 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameInstance extends Thread {
     private final Lobby lobby;

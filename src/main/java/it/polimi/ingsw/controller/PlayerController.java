@@ -60,17 +60,19 @@ public class PlayerController {
             gameController.endGame();
     }
 
-    public synchronized void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes) {
+    public synchronized void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes, List<Resource> toBeStored) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
         }
 
         try {
-            player.getBoard().getDeposit().applyChanges(changes);
+            player.getBoard().getDeposit().applyChanges(changes, toBeStored);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+
+        player.getBoard().setMarketResults(toBeStored);
 
     }
 
