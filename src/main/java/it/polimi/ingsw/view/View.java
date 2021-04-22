@@ -16,6 +16,7 @@ public abstract class View implements Runnable {
     private boolean lobbyMaster;
     private boolean ownTurn;
     private boolean alreadyPlayed;
+    private boolean usingProductions;
 
 
     public View(Client client) {
@@ -23,6 +24,7 @@ public abstract class View implements Runnable {
         this.gameState = GameState.CONNECTING;
         this.ownTurn = false;
         this.alreadyPlayed = false;
+        this.usingProductions = false;
         this.model = new MockModel();
     }
 
@@ -65,6 +67,10 @@ public abstract class View implements Runnable {
         return alreadyPlayed;
     }
 
+    public boolean isUsingProductions() {
+        return usingProductions;
+    }
+
     public MockModel getModel() {
         return model;
     }
@@ -97,9 +103,13 @@ public abstract class View implements Runnable {
         this.alreadyPlayed = alreadyPlayed;
     }
 
+    public void setUsingProductions(boolean usingProductions) {
+        this.usingProductions = usingProductions;
+    }
+
     /*
-    Handle ServerMessages
-     */
+        Handle ServerMessages
+         */
     public void addToLobby(boolean isFirstConnection) {
         setGameState(GameState.CHOOSING_NAME);
         if(isFirstConnection)
