@@ -8,10 +8,7 @@ import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.messages.DepositUpdate;
 import it.polimi.ingsw.view.ActionSender;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
-import it.polimi.ingsw.view.messages.DepositPlayerActionEvent;
-import it.polimi.ingsw.view.messages.DiscardLeaderPlayerActionEvent;
-import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
+import it.polimi.ingsw.view.messages.*;
 
 import java.util.*;
 
@@ -60,6 +57,14 @@ public class CLIActionSender extends ActionSender {
     }
 
     @Override
+    public void setActive(int cardIndex) {
+        ArrayList<LeaderCard> activeLeaderCard = new ArrayList<>(getView().getModel().getLeaderCards().keySet());
+        LeaderCard setActive = activeLeaderCard.get(cardIndex - 1);
+        getView().getClient().send(new ActivateLeaderPlayerActionEvent(getView().getPlayerName(),setActive.getUuid()));
+
+    }
+
+    @Override
     public void storeMarketResult(int resourceIndex, int rowIndex) {
         Map<Integer, List<Resource>> changes = new HashMap<>();
         List<Resource> toBeStored = new ArrayList<>(getView().getModel().getMarketResult());
@@ -71,4 +76,5 @@ public class CLIActionSender extends ActionSender {
 
         getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, toBeStored));
     }
+
 }
