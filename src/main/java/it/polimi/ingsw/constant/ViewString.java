@@ -37,4 +37,5 @@ public class ViewString {
     public static final String OTHER_TURN = "It's %s turn";
     public static final String CHOOSE_ACTION = "Choose an action:";
     public static final String SELECT_LEADERS = "Select the leader cards that you want to keep:";
+    public static final String PRODUCTION_QUEUED = "The production has been queued, type \"execute\" to apply all queued productions";
 }

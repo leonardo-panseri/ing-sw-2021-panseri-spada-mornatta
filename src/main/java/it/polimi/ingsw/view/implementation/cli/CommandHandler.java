@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.Resource;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class CommandHandler {
@@ -113,6 +115,7 @@ public class CommandHandler {
     public void spy(String[] args) {
         if(args.length < 2) {
             System.out.println("Incorrect format: please input \"spy\" <player name> <objects you want to see>");
+            return;
         }
         String playerName = args[0];
         String object = args[1];
@@ -128,6 +131,7 @@ public class CommandHandler {
     public void discard(String[] args) {
         if(args.length < 1) {
             System.out.println("Incorrect format: please input \"discard\" <leader card index>");
+            return;
         }
         int index = 0;
         try{
@@ -146,6 +150,7 @@ public class CommandHandler {
     public void move(String[] args) {
         if(args.length < 2) {
             System.out.println("Incorrect format: please input \"move\" <row1> <row2>");
+            return;
         }
         int[] index = new int[2] ;
         for(int j = 0; j < 2; j++){
@@ -166,6 +171,7 @@ public class CommandHandler {
     public void store(String[] args) {
         if(args.length < 2) {
             System.out.println("Incorrect format: please input \"store\" <market result index> <row>");
+            return;
         }
         int[] index = new int[2] ;
         for(int j = 0; j < 2; j++){
@@ -192,13 +198,10 @@ public class CommandHandler {
         cli.getActionSender().endTurn();
     }
 
-    public void test(String[] args) {
-        System.out.println("Received cmd Test with args: " + Arrays.toString(args));
-    }
-
     public void activate(String[] args){
         if(args.length < 1){
-            System.out.println("incorrect format, please input \"activate\" <leader card index> ");
+            System.out.println("Incorrect format: please input \"activate\" <leader card index>");
+            return;
         }
         int index = 0;
         try{
@@ -212,5 +215,96 @@ public class CommandHandler {
             return;
         }
         cli.getActionSender().setActive(index);
+    }
+
+    public void production(String[] args) {
+        if(cli.hasAlreadyPlayed() && !cli.isUsingProductions()) {
+            cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
+            return;
+        }
+        if(args.length < 1) {
+            cli.getRenderer().showErrorMessage("Incorrect format: please input \"production <leader|development|base> <...>\"");
+            return;
+        }
+        switch (args[0]) {
+            case "leader" -> {
+                if(args.length != 3) {
+                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production leader <leader card index> <resource to receive>\"");
+                    return;
+                }
+                int index = 0;
+                try {
+                    index = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e) {
+                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production leader <leader card index> <resource to receive>\"");
+                    return;
+                }
+                if(index > 2 || index < 1) {
+                    cli.getRenderer().showErrorMessage("Index out of bounds");
+                    return;
+                }
+                Resource toReceive = null;
+                try {
+                    toReceive = Resource.valueOf(args[2].toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    cli.getRenderer().showErrorMessage("Not a valid resource");
+                    return;
+                }
+
+                cli.getActionSender().useLeaderProduction(index, toReceive);
+            }
+            case "development" -> {
+                if(args.length != 2) {
+                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production development <development card slot index>\"");
+                    return;
+                }
+                int index = 0;
+                try {
+                    index = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e) {
+                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production development <development card slot index>\"");
+                    return;
+                }
+                if(index > 3 || index < 1) {
+                    cli.getRenderer().showErrorMessage("Index out of bounds");
+                    return;
+                }
+
+                cli.getActionSender().useDevelopmentProduction(index);
+            }
+            case "base" -> {
+                if(args.length != 4) {
+                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production base <input resource 1> <input resource 2> <output resource>\"");
+                    return;
+                }
+                List<Resource> inputResources = new ArrayList<>();
+                for(int i = 1; i < 3; i++) {
+                    try {
+                        Resource resource = Resource.valueOf(args[i].toUpperCase());
+                        inputResources.add(resource);
+                    } catch (IllegalArgumentException e) {
+                        cli.getRenderer().showErrorMessage("Input resource " + i + " is not a valid resource");
+                        return;
+                    }
+                }
+                Resource outputResource = null;
+                try {
+                    outputResource = Resource.valueOf(args[3].toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    cli.getRenderer().showErrorMessage("Output resource is not a valid resource");
+                    return;
+                }
+
+                cli.getActionSender().useBaseProduction(inputResources, outputResource);
+            }
+        }
+    }
+
+    public void execute(String[] args) {
+        if(!cli.isUsingProductions()) {
+            cli.getRenderer().showErrorMessage("You are not using productions");
+            return;
+        }
+        cli.getActionSender().executeProductions();
     }
 }
