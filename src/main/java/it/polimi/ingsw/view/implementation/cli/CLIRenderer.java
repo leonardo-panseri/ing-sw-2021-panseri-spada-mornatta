@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.implementation.cli;
 import it.polimi.ingsw.constant.AnsiColor;
 import it.polimi.ingsw.constant.AnsiSymbol;
 import it.polimi.ingsw.constant.Constants;
+import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -179,8 +180,12 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void setActiveLeaders() {
-
+    public void help() {
+        int index = 1;
+        for (String command : ViewString.getCommands()) {
+            System.out.println(index + ") " + AnsiColor.GREEN + command + AnsiColor.RESET);
+            index++;
+        }
     }
 
     @Override

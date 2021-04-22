@@ -51,5 +51,5 @@ public abstract class Renderer {
 
     public abstract void renderDeposit(List<List<Resource>> deposit);
 
-    public abstract void setActiveLeaders() ;
+    public abstract void help();
 }

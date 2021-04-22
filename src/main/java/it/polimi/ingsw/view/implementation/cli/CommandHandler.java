@@ -84,7 +84,7 @@ public class CommandHandler {
         try{
             cardIndex = Integer.parseInt(args[0]);
         }catch (NumberFormatException e){
-            System.out.println("Incorrect format: please input \"buy\" <cardNum>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.BUY_CARD);
             return;
         }
         cli.getActionSender().buyDevelopmentCard(cardIndex);
@@ -104,7 +104,7 @@ public class CommandHandler {
                 whiteConversion = Resource.valueOf(args[1]);
             }
         }catch (IllegalArgumentException e){
-            System.out.println("Incorrect format: please input \"draw\" <rowNum or columnNum> <resource to take instead of white spheres>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DRAW_MARKET);
             return;
         }
         cli.getActionSender().draw(marketIndex, whiteConversion);
@@ -112,7 +112,7 @@ public class CommandHandler {
 
     public void spy(String[] args) {
         if(args.length < 2) {
-            System.out.println("Incorrect format: please input \"spy\" <player name> <objects you want to see>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.SPY);
         }
         String playerName = args[0];
         String object = args[1];
@@ -127,13 +127,13 @@ public class CommandHandler {
 
     public void discard(String[] args) {
         if(args.length < 1) {
-            System.out.println("Incorrect format: please input \"discard\" <leader card index>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
         }
         int index = 0;
         try{
             index = Integer.parseInt(args[0]);
         }catch (NumberFormatException e){
-            System.out.println("Incorrect format: please input \"discard\" <leader card index>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
             return;
         }
         if(index > cli.getModel().getLeaderCards().size()) {
@@ -145,14 +145,14 @@ public class CommandHandler {
 
     public void move(String[] args) {
         if(args.length < 2) {
-            System.out.println("Incorrect format: please input \"move\" <row1> <row2>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.MOVE_DEPOSIT);
         }
         int[] index = new int[2] ;
         for(int j = 0; j < 2; j++){
             try{
                 index[j] = Integer.parseInt(args[j]);
             }catch (NumberFormatException e){
-                System.out.println("Incorrect format: please input \"move\" <row1> <row2>");
+                System.out.println(ViewString.INCORRECT_FORMAT + ViewString.MOVE_DEPOSIT);
                 return;
             }
             if(index[j] < 1 || index[j] > 3) {
@@ -165,14 +165,14 @@ public class CommandHandler {
 
     public void store(String[] args) {
         if(args.length < 2) {
-            System.out.println("Incorrect format: please input \"store\" <market result index> <row>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.STORE_DEPOSIT);
         }
         int[] index = new int[2] ;
         for(int j = 0; j < 2; j++){
             try{
                 index[j] = Integer.parseInt(args[j]);
             }catch (NumberFormatException e){
-                System.out.println("Incorrect format: please input \"store\" <market result index> <row>");
+                System.out.println(ViewString.INCORRECT_FORMAT + ViewString.STORE_DEPOSIT);
                 return;
             }
         }
@@ -198,13 +198,13 @@ public class CommandHandler {
 
     public void activate(String[] args){
         if(args.length < 1){
-            System.out.println("incorrect format, please input \"activate\" <leader card index> ");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
         }
         int index = 0;
         try{
             index = Integer.parseInt(args[0]);
         }catch (NumberFormatException e){
-            System.out.println("Incorrect format: please input \"activate\" <leader card index>");
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
             return;
         }
         if(index > cli.getModel().getLeaderCards().size()) {
@@ -212,5 +212,9 @@ public class CommandHandler {
             return;
         }
         cli.getActionSender().setActive(index);
+    }
+
+    public void help(String[] args) {
+        cli.getRenderer().help();
     }
 }
