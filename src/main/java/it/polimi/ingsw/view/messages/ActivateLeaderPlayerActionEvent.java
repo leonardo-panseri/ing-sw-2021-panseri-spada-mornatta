@@ -18,6 +18,6 @@ public class ActivateLeaderPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().activateLeaderCard(getPlayer(controller), controller.getGame().getDeck().getLeaderCardByUuid(leaderCardUUID));
+        controller.getPlayerController().activateLeaderCard(getPlayer(controller), controller.getGame().getPlayerByName(getPlayerName()).getLeaderCardByUuid(leaderCardUUID));
     }
 }

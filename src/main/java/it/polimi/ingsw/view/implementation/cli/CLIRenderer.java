@@ -179,6 +179,11 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
+    public void setActiveLeaders() {
+
+    }
+
+    @Override
     public void printFaith(int faith) {
         StringBuilder str = new StringBuilder("[ ");
         int pointsToWin = 24 - faith;

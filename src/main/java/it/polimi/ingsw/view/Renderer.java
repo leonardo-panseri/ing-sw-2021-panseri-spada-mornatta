@@ -50,4 +50,6 @@ public abstract class Renderer {
     public abstract void renderLeaderCard(LeaderCard card, int label);
 
     public abstract void renderDeposit(List<List<Resource>> deposit);
+
+    public abstract void setActiveLeaders() ;
 }

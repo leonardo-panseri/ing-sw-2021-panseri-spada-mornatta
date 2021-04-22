@@ -2,7 +2,10 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.messages.EndTurnPlayerActionEvent;
+
+import java.util.Map;
 
 public abstract class ActionSender {
     private final View view;
@@ -35,4 +38,5 @@ public abstract class ActionSender {
         view.getClient().send(new EndTurnPlayerActionEvent(view.getPlayerName()));
         view.setAlreadyPlayed(false);
     }
+    public abstract void setActive(int cardIndex);
 }

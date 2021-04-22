@@ -170,4 +170,22 @@ public class CommandHandler {
     public void test(String[] args) {
         System.out.println("Received cmd Test with args: " + Arrays.toString(args));
     }
+
+    public void activate(String[] args){
+        if(args.length < 1){
+            System.out.println("incorrect format, please input \"activate\" <leader card index> ");
+        }
+        int index = 0;
+        try{
+            index = Integer.parseInt(args[0]);
+        }catch (NumberFormatException e){
+            System.out.println("Incorrect format: please input \"activate\" <leader card index>");
+            return;
+        }
+        if(index > cli.getModel().getLeaderCards().size()) {
+            cli.getRenderer().showErrorMessage("Index out of bound");
+            return;
+        }
+        cli.getActionSender().setActive(index);
+    }
 }
