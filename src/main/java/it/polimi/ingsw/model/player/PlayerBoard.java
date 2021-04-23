@@ -54,6 +54,21 @@ public class PlayerBoard extends Observable<IServerPacket> {
     }
 
     /**
+     * Gets a top level DevelopmentCard by its UUID.
+     *
+     * @param uuid the uuid of the card to search for
+     * @return the development card if found, <code>null</code> otherwise
+     */
+    public synchronized DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
+        DevelopmentCard card = null;
+        for(Stack<DevelopmentCard> slot : getAllCardSlots()) {
+            if(!slot.isEmpty() && slot.peek().getUuid().equals(uuid))
+                card = slot.peek();
+        }
+        return card;
+    }
+
+    /**
      * Gets the total amount of cards with the given color.
      *
      * @param color the card color of the cards that will be counted

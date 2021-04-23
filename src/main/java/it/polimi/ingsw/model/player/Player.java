@@ -98,6 +98,16 @@ public class Player extends Observable<IServerPacket> {
     }
 
     /**
+     * Checks if the given LeaderCard is active.
+     *
+     * @param card the card to check
+     * @return true if the card is active, false if it is not active or if it is not present
+     */
+    public boolean isLeaderActive(LeaderCard card) {
+        return leaderCards.containsKey(card) && leaderCards.get(card);
+    }
+
+    /**
      * Activates a leader card possessed by the player by putting the true value in the card map.
      *
      * @param leaderCard a leader card to be activated

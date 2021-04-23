@@ -327,7 +327,7 @@ public class Deposit extends Observable<IServerPacket> {
             switch (i) {
                 case 1 -> {
                     row = new ArrayList<>();
-                    row.add(topRow);
+                    if(topRow != null) row.add(topRow);
                 }
                 case 2 -> row = middleRow;
                 case 3 -> row = bottomRow;

@@ -1,9 +1,12 @@
 package it.polimi.ingsw.view.messages.production;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serial;
 import java.util.List;
+import java.util.Map;
 
 public class BaseProduction extends Production {
     @Serial
@@ -17,11 +20,16 @@ public class BaseProduction extends Production {
         this.baseProductionOutput = baseProductionOutput;
     }
 
-    public List<Resource> getBaseProductionInput() {
-        return baseProductionInput;
+    @Override
+    public Map<Resource, Integer> use(GameController controller, Player player) {
+        return controller.getPlayerController().useBaseProduction(player, baseProductionInput, baseProductionOutput);
     }
 
-    public Resource getBaseProductionOutput() {
-        return baseProductionOutput;
+    @Override
+    public String toString() {
+        return "BaseProduction{" +
+                "baseProductionInput=" + baseProductionInput +
+                ", baseProductionOutput=" + baseProductionOutput +
+                '}';
     }
 }

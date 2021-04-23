@@ -25,18 +25,6 @@ public class ProductionPlayerActionEvent extends PlayerActionEvent {
 
     @Override
     public void process(GameController controller) {
-        System.out.println(productions);
-        //TODO Reimplement server code to validate and use productions
-//        if(cardUUID == null) {
-//            controller.getPlayerController().useBaseProduction(getPlayer(controller), baseProductionInput, baseProductionOutput);
-//        } else {
-//            if (leaderProductionDesiredResource == null) {
-//                DevelopmentCard card = controller.getGame().getDeck().getDevelopmentCardByUuid(cardUUID);
-//                controller.getPlayerController().useDevelopmentProduction(getPlayer(controller), card);
-//            } else {
-//                LeaderCard card = controller.getGame().getDeck().getLeaderCardByUuid(cardUUID);
-//                controller.getPlayerController().useLeaderProduction(getPlayer(controller), card, leaderProductionDesiredResource);
-//            }
-//        }
+        controller.getPlayerController().useProductions(getPlayer(controller), productions);
     }
 }

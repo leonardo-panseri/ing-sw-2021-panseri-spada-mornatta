@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.view.messages.production.Production;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,22 +118,38 @@ public class PlayerController {
         player.getBoard().getDeposit().setMarketResults(marketResults);
     }
 
-    public synchronized void useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {
+    public synchronized void useProductions(Player player, List<Production> productions) {
+        Map<Resource, Integer> result = new HashMap<>();
+        for(Production production : productions) {
+            try {
+                Map<Resource, Integer> productionResult = production.use(gameController, player);
+                productionResult.forEach(
+                        (resource, quantity) -> result.merge(resource, quantity, Integer::sum));
+            } catch (IllegalArgumentException e) {
+                System.err.println("Error during production: " + production.toString() + "\nMessage: " + e.getMessage());
+            }
+        }
+        if(result.containsKey(Resource.FAITH)) {
+            int faithToAdd = result.get(Resource.FAITH);
+            result.remove(Resource.FAITH);
+            player.addFaithPoints(faithToAdd);
+        }
+        player.getBoard().getDeposit().addMultipleToStrongbox(result);
+    }
+
+    public synchronized Map<Resource, Integer> useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {
         if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
-            return;
+            throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
         if (baseProductionInput.size() != 2) {
-            System.out.println("Wrong base production format!");
-            return;
+            throw new IllegalArgumentException("Wrong base production format!");
         }
 
         Map<Resource, Integer> cost = new HashMap<>();
         if (baseProductionInput.get(0) == baseProductionInput.get(1)) {
             Resource resource = baseProductionInput.get(0);
             if (player.getBoard().getDeposit().getAmountOfResource(resource) < 2) {
-                System.out.println(player.getNick() + " does not have enough " + resource);
-                return;
+                throw new IllegalArgumentException(player.getNick() + " does not have enough " + resource);
             }
 
             cost.put(resource, 2);
@@ -140,30 +157,29 @@ public class PlayerController {
             Resource resource1 = baseProductionInput.get(0);
             Resource resource2 = baseProductionInput.get(1);
             if (player.getBoard().getDeposit().getAmountOfResource(resource1) < 1) {
-                System.out.println(player.getNick() + " does not have enough " + resource1);
-                return;
+                throw new IllegalArgumentException(player.getNick() + " does not have enough " + resource1);
             }
             if (player.getBoard().getDeposit().getAmountOfResource(resource2) < 1) {
-                System.out.println(player.getNick() + " does not have enough " + resource2);
-                return;
+                throw new IllegalArgumentException(player.getNick() + " does not have enough " + resource2);
             }
 
             cost.put(resource1, 1);
             cost.put(resource2, 1);
         }
 
-        player.getBoard().getDeposit().removeResources(cost); //Maybe let player decide from where to remove resources
-        player.getBoard().getDeposit().addToStrongbox(baseProductionOutput);
+        player.getBoard().getDeposit().removeResources(cost); //TODO let player decide from where to remove resources
+
+        Map<Resource, Integer> result = new HashMap<>();
+        result.put(baseProductionOutput, 1);
+        return result;
     }
 
-    public synchronized void useDevelopmentProduction(Player player, DevelopmentCard card) {
+    public synchronized Map<Resource, Integer> useDevelopmentProduction(Player player, DevelopmentCard card) {
         if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
-            return;
+            throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
         if(card == null) {
-            System.out.println("The requested card is not in the deck!");
-            return;
+            throw new IllegalArgumentException("The requested card is not at the top of one of the player's slots!");
         }
 
         Map<Resource, Integer> input = card.getProductionInput();
@@ -171,44 +187,47 @@ public class PlayerController {
 
         for (Resource res : input.keySet()) {
             if (player.getBoard().getDeposit().getAmountOfResource(res) < input.get(res)) {
-                System.out.println(player.getNick() + " does not have enough " + res);
-                return;
+                throw new IllegalArgumentException(player.getNick() + " does not have enough " + res);
             }
         }
-        player.getBoard().getDeposit().removeResources(input);
+
+        player.getBoard().getDeposit().removeResources(input); //TODO let player decide from where to remove resources
+
         if (output.containsKey(Resource.FAITH)) {
             player.addFaithPoints(output.get(Resource.FAITH));
             output.remove(Resource.FAITH);
         }
-        player.getBoard().getDeposit().addMultipleToStrongbox(output);
+        return output;
     }
 
-    public synchronized void useLeaderProduction(Player player, LeaderCard card, Resource output) {
+    public synchronized Map<Resource, Integer> useLeaderProduction(Player player, LeaderCard card, Resource output) {
         if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
-            return;
+            throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
         if(card == null) {
-            System.out.println("The requested card is not in the deck!");
-            return;
+            throw new IllegalArgumentException("The requested card is not in the player board!");
         }
+        if(!player.isLeaderActive(card))
+            throw new IllegalArgumentException("This leader card is not active");
         if(output == null || output == Resource.FAITH) {
-            System.out.println("Incorrect required resource type");
-            return;
+            throw new IllegalArgumentException("Incorrect required resource type");
         }
 
         if (!card.getSpecialAbility().getType().equals(SpecialAbilityType.PRODUCTION)) {
-            System.out.println("The selected leader does not have a production power!");
+            throw new IllegalArgumentException("The selected leader does not have a production power!");
         }
 
         Resource cost = card.getSpecialAbility().getTargetResource();
         if (player.getBoard().getDeposit().getAmountOfResource(cost) < 1) {
-            System.out.println(player.getNick() + " does not have enough " + cost);
-            return;
+            throw new IllegalArgumentException(player.getNick() + " does not have enough " + cost);
         }
 
-        player.addFaithPoints(1);
-        player.getBoard().getDeposit().addToStrongbox(output);
+        player.getBoard().getDeposit().removeResources(Map.of(cost, 1)); //TODO let player decide from where to remove resources
+
+        Map<Resource, Integer> result = new HashMap<>();
+        result.put(Resource.FAITH, 1);
+        result.put(output, 1);
+        return result;
     }
 
     public synchronized void selectInitialLeaders(Player player, List<LeaderCard> cards) {

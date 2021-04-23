@@ -1,8 +1,12 @@
 package it.polimi.ingsw.view.messages.production;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serial;
+import java.util.Map;
 import java.util.UUID;
 
 public class LeaderProduction extends Production {
@@ -17,11 +21,17 @@ public class LeaderProduction extends Production {
         this.leaderProductionDesiredResource = leaderProductionDesiredResource;
     }
 
-    public UUID getCardUUID() {
-        return cardUUID;
+    @Override
+    public Map<Resource, Integer> use(GameController controller, Player player) {
+        LeaderCard card = player.getLeaderCardByUuid(cardUUID);
+        return controller.getPlayerController().useLeaderProduction(player, card, leaderProductionDesiredResource);
     }
 
-    public Resource getLeaderProductionDesiredResource() {
-        return leaderProductionDesiredResource;
+    @Override
+    public String toString() {
+        return "LeaderProduction{" +
+                "cardUUID=" + cardUUID +
+                ", leaderProductionDesiredResource=" + leaderProductionDesiredResource +
+                '}';
     }
 }
