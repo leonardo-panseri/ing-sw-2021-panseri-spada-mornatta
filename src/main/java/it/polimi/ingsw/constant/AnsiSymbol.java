@@ -8,4 +8,6 @@ public abstract class AnsiSymbol {
     public static final String SERVANT = "\ud83d\ude47";
     public static final String FAITH = "\u271D\uFE0F";
     public static final String EMPTY = "\uD83D\uDEAB";
+    public static final String BISHOP = "\u2657";
+    public static final String SAFE_ZONE = "\uD83D\uDE4F";
 }

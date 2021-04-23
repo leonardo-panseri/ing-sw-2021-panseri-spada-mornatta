@@ -50,15 +50,15 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOwnDevelopmentCards() {
-        if(!getView().getModel().hasOwnDevelopmentCard()) {
+        if (!getView().getModel().hasOwnDevelopmentCard()) {
             System.out.println("You don't have any development card");
             return;
         }
         List<Stack<DevelopmentCard>> targetCards = getView().getModel().getDevelopmentCards();
         int index = 1;
-        for(Stack<DevelopmentCard> stack : targetCards) {
+        for (Stack<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
-                if(stack.peek() == card) {
+                if (stack.peek() == card) {
                     System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
                 }
                 renderDevelopmentCard(card, index);
@@ -103,9 +103,9 @@ public class CLIRenderer extends Renderer {
         }
 
         List<Stack<DevelopmentCard>> targetCards = getView().getModel().getOtherDevelopmentCards().get(playerName);
-        for(Stack<DevelopmentCard> stack : targetCards) {
+        for (Stack<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
-                if(stack.peek() == card) {
+                if (stack.peek() == card) {
                     System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
                 }
                 renderDevelopmentCard(card, -1);
@@ -150,7 +150,7 @@ public class CLIRenderer extends Renderer {
                 System.out.print(renderResource(res));
                 System.out.print("|");
             }
-            for(int k = 0 ; k < i + 1 - deposit.get(i).size()  ; k++){
+            for (int k = 0; k < i + 1 - deposit.get(i).size(); k++) {
                 System.out.print("|");
                 System.out.print(AnsiSymbol.EMPTY);
                 System.out.print("|");
@@ -203,6 +203,8 @@ public class CLIRenderer extends Renderer {
     @Override
     public void printFaith(int faith) {
         StringBuilder str = new StringBuilder("[ ");
+        StringBuilder popeReports = new StringBuilder("  ");
+        StringBuilder points = new StringBuilder("  ");
         int pointsToWin = 24 - faith;
         float percentage = (float) faith / 24 * 100;
 
@@ -215,8 +217,45 @@ public class CLIRenderer extends Renderer {
             str.append(" ");
         }
         str.append("] ");
+        for (int i = 0; i < 24; i++) {
+            if (i == 7 || i == 15 || i == 23) {
+                popeReports.append(AnsiColor.YELLOW + AnsiSymbol.BISHOP + Constants.ANSI_RESET);
+            } else if (i == 22 || i == 21 || i == 20 || i == 19 ||
+                    i == 18 || i == 14 || i == 13 || i == 12 ||
+                    i == 11 || i == 6 || i == 5 || i == 4) {
+                popeReports.append(AnsiColor.GREEN + "+" + Constants.ANSI_RESET);
+            } else {
+                popeReports.append("x");
+            }
+            popeReports.append(" ");
+        }
+        for (int i = 0; i < 24; i++) {
+            if (i == 2) {
+                points.append(AnsiColor.BRIGHT_BLUE +"1" + Constants.ANSI_RESET);
+            } else if (i == 5) {
+                points.append(AnsiColor.BRIGHT_BLUE +"2" + Constants.ANSI_RESET);
+            } else if (i == 8) {
+                points.append(AnsiColor.BRIGHT_BLUE +"4" + Constants.ANSI_RESET);
+            } else if (i == 11) {
+                points.append(AnsiColor.BRIGHT_BLUE +"6" + Constants.ANSI_RESET);
+            } else if (i == 14) {
+                points.append(AnsiColor.BRIGHT_BLUE +"9" + Constants.ANSI_RESET);
+            } else if (i == 17) {
+                points.append(AnsiColor.BRIGHT_BLUE +"12" + Constants.ANSI_RESET);
+            } else if (i == 20) {
+                points.append(AnsiColor.BRIGHT_BLUE +"16" + Constants.ANSI_RESET);
+            } else if (i == 23) {
+                points.append(AnsiColor.BRIGHT_BLUE +"20" + Constants.ANSI_RESET);
+            } else {
+                points.append(" ");
+            }
+            points.append(" ");
+        }
+
         System.out.println("Collected " + faith + " faith points.");
         System.out.println(str);
+        System.out.println(popeReports);
+        System.out.println(points);
         System.out.printf(("Completion %.2f%% %n"), percentage);
         System.out.println("Other " + pointsToWin + " needed to win.");
 
@@ -230,7 +269,7 @@ public class CLIRenderer extends Renderer {
 
         int index = 1;
         for (Resource res : getView().getModel().getMarketResult()) {
-            printedResult = printedResult.concat(" " + index +") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
+            printedResult = printedResult.concat(" " + index + ") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
             index++;
         }
 
