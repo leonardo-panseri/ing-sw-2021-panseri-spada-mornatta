@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class Renderer {
     private final View view;
@@ -31,6 +32,8 @@ public abstract class Renderer {
 
     public abstract void printOwnDeposit();
 
+    public abstract void printOwnStrongbox();
+
     public abstract void printOthersLeaderCards(String playerName);
 
     public abstract void printOthersDevelopmentCards(String playerName);
@@ -50,6 +53,10 @@ public abstract class Renderer {
     public abstract void renderLeaderCard(LeaderCard card, int label);
 
     public abstract void renderDeposit(List<List<Resource>> deposit);
+
+    public abstract void renderStrongbox(Map<Resource, Integer> strongbox);
+
+    public abstract String renderResource(Resource res);
 
     public abstract void help();
 }

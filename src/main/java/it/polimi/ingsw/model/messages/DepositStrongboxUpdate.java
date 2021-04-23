@@ -19,6 +19,6 @@ public class DepositStrongboxUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-
+        view.getModelUpdateHandler().updateStrongbox(getPlayerName(), strongBox);
     }
 }

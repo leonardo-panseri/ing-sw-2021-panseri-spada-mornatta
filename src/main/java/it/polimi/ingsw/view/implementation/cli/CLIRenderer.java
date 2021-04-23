@@ -73,6 +73,11 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
+    public void printOwnStrongbox() {
+        renderStrongbox(getView().getModel().getStrongbox());
+    }
+
+    @Override
     public void printOthersLeaderCards(String playerName) {
         if (!getView().getModel().getOtherLeaderCards().containsKey(playerName)) {
             System.out.println(playerName + " does not have active cards!");
@@ -141,33 +146,9 @@ public class CLIRenderer extends Renderer {
         for (int i = 0; i < deposit.size(); i++) {
             for (int j = 0; j < deposit.get(i).size(); j++) {
                 res = deposit.get(i).get(0);
-                switch (res) {
-                    case COIN -> {
-                        System.out.print("|");
-                        System.out.print(AnsiSymbol.COIN);
-                        System.out.print("|");
-                    }
-                    case SERVANT -> {
-                        System.out.print("|");
-                        System.out.print(AnsiSymbol.SERVANT);
-                        System.out.print("|");
-                    }
-                    case FAITH -> {
-                        System.out.print("|");
-                        System.out.print(AnsiSymbol.FAITH);
-                        System.out.print("|");
-                    }
-                    case SHIELD -> {
-                        System.out.print("|");
-                        System.out.print(AnsiSymbol.SHIELD);
-                        System.out.print("|");
-                    }
-                    case STONE -> {
-                        System.out.print("|");
-                        System.out.print(AnsiSymbol.STONE);
-                        System.out.print("|");
-                    }
-                }
+                System.out.print("|");
+                System.out.print(renderResource(res));
+                System.out.print("|");
             }
             for(int k = 0 ; k < i + 1 - deposit.get(i).size()  ; k++){
                 System.out.print("|");
@@ -177,6 +158,37 @@ public class CLIRenderer extends Renderer {
             System.out.println();
             if (i == 0) System.out.print("  ");
         }
+    }
+
+    @Override
+    public void renderStrongbox(Map<Resource, Integer> strongbox) {
+        for (Resource res : strongbox.keySet()) {
+            String strongboxRow = "";
+            strongboxRow = strongboxRow.concat(renderResource(res) + " " + Constants.parseResource(res) + res + AnsiColor.RESET + ": " + strongbox.get(res));
+            System.out.println(strongboxRow);
+        }
+    }
+
+    @Override
+    public String renderResource(Resource res) {
+        switch (res) {
+            case COIN -> {
+                return Constants.parseResource(res) + AnsiSymbol.COIN + AnsiColor.RESET;
+            }
+            case SERVANT -> {
+                return Constants.parseResource(res) + AnsiSymbol.SERVANT + AnsiColor.RESET;
+            }
+            case FAITH -> {
+                return Constants.parseResource(res) + AnsiSymbol.FAITH + AnsiColor.RESET;
+            }
+            case SHIELD -> {
+                return Constants.parseResource(res) + AnsiSymbol.SHIELD + AnsiColor.RESET;
+            }
+            case STONE -> {
+                return Constants.parseResource(res) + AnsiSymbol.STONE + AnsiColor.RESET;
+            }
+        }
+        return "";
     }
 
     @Override

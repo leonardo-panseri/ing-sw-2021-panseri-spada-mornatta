@@ -52,10 +52,12 @@ public class ViewString {
     public static final String VIEW_DEVELOPMENT = "\"view development <development index>\"";
     public static final String VIEW_DECK = "\"view deck\"";
     public static final String VIEW_DEPOSIT = "\"view deposit\"";
+    public static final String VIEW_STRONGBOX = "\"view strongbox\"";
     public static final String VIEW_MARKET = "\"view market\"";
     public static final String VIEW_RESULT = "\"view leader\"";
     public static final String VIEW_FAITH = "\"view faith\"";
     public static final String BUY_CARD = "\"buy <card num>\"";
+    public static final String USE_PRODUCTION = "\"production <leader|development|base> <...>\"";
     public static final String DRAW_MARKET = "\"draw <row num or column num> <resource to take instead of white spheres>\"";
     public static final String SPY = "\"spy <player name> <leaders|development|deposit|faith>\"";
     public static final String DISCARD = "\"discard <leader card index>\"";
@@ -67,7 +69,7 @@ public class ViewString {
 
     public static List<String> getCommands() {
         List<String> commands = new ArrayList<>();
-        addMultipleToList(commands, VIEW_LEADERS, VIEW_DEVELOPMENT, VIEW_DECK, VIEW_DEPOSIT, VIEW_MARKET, VIEW_RESULT, VIEW_FAITH, BUY_CARD, DRAW_MARKET, SPY, DISCARD, MOVE_DEPOSIT, STORE_DEPOSIT, END_TURN, ACTIVATE_LEADER, HELP);
+        addMultipleToList(commands, VIEW_LEADERS, VIEW_DEVELOPMENT, VIEW_DECK, VIEW_DEPOSIT, VIEW_STRONGBOX, VIEW_MARKET, VIEW_RESULT, VIEW_FAITH, BUY_CARD, USE_PRODUCTION, DRAW_MARKET, SPY, DISCARD, MOVE_DEPOSIT, STORE_DEPOSIT, END_TURN, ACTIVATE_LEADER, HELP);
 
         return commands;
     }

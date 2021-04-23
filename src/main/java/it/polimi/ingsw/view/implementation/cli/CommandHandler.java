@@ -67,6 +67,8 @@ public class CommandHandler {
         cli.getRenderer().printOwnDeposit();
     }
 
+    public void viewStrongbox() {cli.getRenderer().printOwnStrongbox();};
+
     public void viewMarket() {
         cli.getRenderer().printMarket();
     }
@@ -131,7 +133,7 @@ public class CommandHandler {
         if(args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
         }
-        int index = 0;
+        int index;
         try{
             index = Integer.parseInt(args[0]);
         }catch (NumberFormatException e){
@@ -222,20 +224,20 @@ public class CommandHandler {
             return;
         }
         if(args.length < 1) {
-            cli.getRenderer().showErrorMessage("Incorrect format: please input \"production <leader|development|base> <...>\"");
+            cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
             return;
         }
         switch (args[0]) {
             case "leader" -> {
                 if(args.length != 3) {
-                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production leader <leader card index> <resource to receive>\"");
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
                     return;
                 }
                 int index = 0;
                 try {
                     index = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
-                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production leader <leader card index> <resource to receive>\"");
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
                     return;
                 }
                 if(index > 2 || index < 1) {
@@ -254,14 +256,14 @@ public class CommandHandler {
             }
             case "development" -> {
                 if(args.length != 2) {
-                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production development <development card slot index>\"");
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
                     return;
                 }
-                int index = 0;
+                int index;
                 try {
                     index = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
-                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production development <development card slot index>\"");
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
                     return;
                 }
                 if(index > 3 || index < 1) {
@@ -273,7 +275,7 @@ public class CommandHandler {
             }
             case "base" -> {
                 if(args.length != 4) {
-                    cli.getRenderer().showErrorMessage("Incorrect format: please input \"production base <input resource 1> <input resource 2> <output resource>\"");
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
                     return;
                 }
                 List<Resource> inputResources = new ArrayList<>();
@@ -286,7 +288,7 @@ public class CommandHandler {
                         return;
                     }
                 }
-                Resource outputResource = null;
+                Resource outputResource;
                 try {
                     outputResource = Resource.valueOf(args[3].toUpperCase());
                 } catch (IllegalArgumentException e) {

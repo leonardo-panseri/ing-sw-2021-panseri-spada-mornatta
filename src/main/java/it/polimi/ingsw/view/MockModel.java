@@ -13,6 +13,7 @@ public class MockModel {
     private List<Stack<DevelopmentCard>> developmentCards;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
     private List<List<Resource>> deposit;
+    private Map<Resource, Integer> strongbox;
     private List<List<Resource>> market;
     private List<Resource> marketResult;
     int faithPoints = 15;
@@ -31,6 +32,7 @@ public class MockModel {
         otherFaith = new HashMap<>();
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
+        strongbox = new HashMap<>();
         marketResult = new ArrayList<>();
         for (int i = 0; i<3; i++) {
             developmentCards.add(new Stack<>());
@@ -93,6 +95,14 @@ public class MockModel {
 
     public void setDeposit(List<List<Resource>> deposit) {
         this.deposit = deposit;
+    }
+
+    public Map<Resource, Integer> getStrongbox() {
+        return strongbox;
+    }
+
+    public void setStrongbox(Map<Resource, Integer> strongbox) {
+        this.strongbox = strongbox;
     }
 
     public List<Stack<DevelopmentCard>> getDevelopmentCards() {

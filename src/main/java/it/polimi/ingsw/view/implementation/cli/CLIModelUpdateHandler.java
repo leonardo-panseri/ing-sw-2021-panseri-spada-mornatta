@@ -90,6 +90,13 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
+    public void updateStrongbox(String playerName, Map<Resource, Integer> strongbox) {
+        if(playerName.equals(getView().getPlayerName())) {
+            getView().getModel().setStrongbox(strongbox);
+        }
+    }
+
+    @Override
     public void updateFaith(String playerName, int faithPoints, int popeFavours) {
         if (playerName.equals(getView().getPlayerName())) {
             getView().getModel().setFaithPoints(faithPoints);

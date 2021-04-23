@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.model.messages.FaithUpdate;
 import it.polimi.ingsw.model.messages.OwnedLeadersUpdate;
 import it.polimi.ingsw.observer.Observable;
@@ -134,6 +136,21 @@ public class Player extends Observable<IServerPacket> {
             leaderCards.put(leaderCard, false);
         }
         notify(new OwnedLeadersUpdate(this.getNick(), leaderCards));
+    }
+
+    /**
+     * Checks if the player has some leaders that grant a discount on the given resource.
+     * @param res the resource to be checked
+     * @return the number of discounts on the given resource
+     */
+    public int numLeadersDiscount(Resource res) {
+        int result = 0;
+        for (LeaderCard card: leaderCards.keySet()) {
+            if (card.getSpecialAbility().getType() == SpecialAbilityType.DISCOUNT) {
+                if(card.getSpecialAbility().getTargetResource() == res) result++;
+            }
+        }
+        return result;
     }
 
     /**

@@ -53,7 +53,14 @@ public class PlayerController {
 
         boolean endGame = player.getBoard().getNumberOfDevelopmentCards() == 6;
 
-        player.getBoard().getDeposit().removeResources(developmentCard.getCost()); //Maybe let player decide from where to remove resources
+        //Check for leaders discounts
+        Map<Resource, Integer> cost = new HashMap<>(developmentCard.getCost());
+        for(Resource res: cost.keySet()) {
+            int discount = player.numLeadersDiscount(res);
+            cost.put(res, cost.get(res) - discount);
+            if(cost.get(res) < 0) cost.put(res, 0);
+        }
+        player.getBoard().getDeposit().removeResources(cost); //Maybe let player decide from where to remove resources
         gameController.getGame().getDeck().removeBoughtCard(developmentCard);
         player.getBoard().addCard(slot, developmentCard);
 
@@ -106,6 +113,8 @@ public class PlayerController {
             gameController.getGame().getMarket().shiftRow(row);
         }
 
+
+        int faithIncrement = 0;
         for (int i = marketResults.size() - 1; i >= 0; i--) {
             if (marketResults.get(i) == null) {
                 if (whiteConversion != null)
@@ -113,23 +122,28 @@ public class PlayerController {
                 else
                     marketResults.remove(i);
             }
+            else if (marketResults.get(i) == Resource.FAITH) {
+                faithIncrement++;
+                marketResults.remove(i);
+            }
         }
+        if (faithIncrement > 0) player.addFaithPoints(faithIncrement);
 
         player.getBoard().getDeposit().setMarketResults(marketResults);
     }
 
     public synchronized void useProductions(Player player, List<Production> productions) {
         Map<Resource, Integer> result = new HashMap<>();
-        for(Production production : productions) {
+        for (Production production : productions) {
             try {
                 Map<Resource, Integer> productionResult = production.use(gameController, player);
                 productionResult.forEach(
                         (resource, quantity) -> result.merge(resource, quantity, Integer::sum));
             } catch (IllegalArgumentException e) {
-                System.err.println("Error during production: " + production.toString() + "\nMessage: " + e.getMessage());
+                System.err.println("Error during production: " + production + "\nMessage: " + e.getMessage());
             }
         }
-        if(result.containsKey(Resource.FAITH)) {
+        if (result.containsKey(Resource.FAITH)) {
             int faithToAdd = result.get(Resource.FAITH);
             result.remove(Resource.FAITH);
             player.addFaithPoints(faithToAdd);
@@ -178,7 +192,7 @@ public class PlayerController {
         if (!gameController.isPlaying(player)) {
             throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
-        if(card == null) {
+        if (card == null) {
             throw new IllegalArgumentException("The requested card is not at the top of one of the player's slots!");
         }
 
@@ -204,12 +218,12 @@ public class PlayerController {
         if (!gameController.isPlaying(player)) {
             throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
-        if(card == null) {
+        if (card == null) {
             throw new IllegalArgumentException("The requested card is not in the player board!");
         }
-        if(!player.isLeaderActive(card))
+        if (!player.isLeaderActive(card))
             throw new IllegalArgumentException("This leader card is not active");
-        if(output == null || output == Resource.FAITH) {
+        if (output == null || output == Resource.FAITH) {
             throw new IllegalArgumentException("Incorrect required resource type");
         }
 
@@ -235,13 +249,13 @@ public class PlayerController {
             System.out.println("Wrong amount of selected leaders!");
         }
 
-        try{
+        try {
             player.keepLeaders(cards);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
 
-        if(gameController.getGame().isLastPlayerTurn())
+        if (gameController.getGame().isLastPlayerTurn())
             gameController.getGame().setGamePhase(GamePhase.PLAYING);
         gameController.getGame().nextPlayer();
     }

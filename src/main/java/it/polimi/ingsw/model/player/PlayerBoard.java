@@ -116,6 +116,9 @@ public class PlayerBoard extends Observable<IServerPacket> {
                 canPlace = true;
             }
         } else if(level > 1 && level < 4) {
+            if (slots.get(slot - 1).isEmpty()) {
+                return false;
+            }
             int topCardLevel = slots.get(slot - 1).peek().getLevel();
             if (topCardLevel == level - 1) {
                 canPlace = true;

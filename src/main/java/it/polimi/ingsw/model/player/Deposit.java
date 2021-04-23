@@ -118,7 +118,10 @@ public class Deposit extends Observable<IServerPacket> {
         int index = 0;
         for (int i = 1; i < 4; i++) {
             if (changes.containsKey(i)) {
-                if (i == 1) topRow = changes.get(i).get(0);
+                if (i == 1) {
+                    if(!changes.get(i).isEmpty()) topRow = changes.get(i).get(0);
+                    else topRow = null;
+                }
                 else if (i == 2) middleRow = changes.get(i);
                 else bottomRow = changes.get(i);
                 modifiedRows[index] = i;

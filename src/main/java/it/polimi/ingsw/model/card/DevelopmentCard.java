@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serial;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,7 +49,13 @@ public class DevelopmentCard extends Card {
 
     @Override
     public synchronized boolean canPlayerAfford(Player player) {
-        return canPlayerAffordResources(player, cost);
+        Map<Resource, Integer> discountedCost = new HashMap<>(getCost());
+        for(Resource res: discountedCost.keySet()) {
+            int discount = player.numLeadersDiscount(res);
+            discountedCost.put(res, discountedCost.get(res) - discount);
+            if(discountedCost.get(res) < 0) discountedCost.put(res, 0);
+        }
+        return canPlayerAffordResources(player, discountedCost);
     }
 
     /**
