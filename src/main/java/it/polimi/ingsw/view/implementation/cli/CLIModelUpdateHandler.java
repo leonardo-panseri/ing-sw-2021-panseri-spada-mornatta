@@ -38,6 +38,12 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     @Override
     public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
         if (playerName.equals(getView().getPlayerName())) {
+            if(getView().getGameState() == GameState.PLAYING) {
+                if(ownedLeaders.size() == getView().getModel().getLeaderCards().size())
+                    getView().getRenderer().showGameMessage("Leader card successfully activated");
+                else
+                    getView().getRenderer().showGameMessage("Leader card discarded (+1 Faith)");
+            }
             getView().getModel().setLeaderCards(ownedLeaders);
         } else getView().getModel().setOthersLeaderCards(playerName, ownedLeaders);
     }
@@ -112,7 +118,8 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     public void insertDrawnResources(String playerName, List<Resource> result) {
         if (playerName.equals((getView().getPlayerName()))) {
             getView().getModel().setMarketResult(result);
-            getView().getRenderer().printMarketResult();
+            if(result.size() > 0)
+                getView().getRenderer().printMarketResult();
         }
     }
 }

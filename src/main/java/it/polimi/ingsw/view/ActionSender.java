@@ -38,7 +38,7 @@ public abstract class ActionSender {
 
     public abstract void buyDevelopmentCard(int cardIndex);
 
-    public abstract void draw(int marketIndex, Resource whiteConversion);
+    public abstract void draw(int marketIndex, List<Resource> whiteConversions);
 
     public abstract void discard(int cardIndex);
 

@@ -33,8 +33,8 @@ public class CLIActionSender extends ActionSender {
     }
 
     @Override
-    public void draw(int marketIndex, Resource whiteConversion) {
-        getView().getClient().send(new MarketPlayerActionEvent(getView().getPlayerName(), marketIndex - 1, whiteConversion));
+    public void draw(int marketIndex, List<Resource> whiteConversions) {
+        getView().getClient().send(new MarketPlayerActionEvent(getView().getPlayerName(), marketIndex - 1, whiteConversions));
     }
 
     @Override

@@ -163,4 +163,20 @@ public class MockModel {
     public void setMarketResult(List<Resource> marketResult) {
         this.marketResult = marketResult;
     }
+
+    public int countWhiteResources(int index) {
+        int result = 0;
+        if(index > 0 && index < 5) {
+            for(int i = 0; i < 3; i++) {
+                if(market.get(i).get(index - 1) == null) result++;
+            }
+        } else if(index > 4 && index < 8) {
+            for(List<Resource> row : market) {
+                for(Resource res : row) {
+                    if(res == null) result++;
+                }
+            }
+        }
+        return result;
+    }
 }

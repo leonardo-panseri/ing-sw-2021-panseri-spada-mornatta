@@ -154,6 +154,20 @@ public class Player extends Observable<IServerPacket> {
     }
 
     /**
+     * Checks if the Player has an active leader card with the given white conversion.
+     *
+     * @param resource the resource to convert to
+     * @return true if the player has this special ability, false otherwise
+     */
+    public boolean hasLeaderWhiteConversion(Resource resource) {
+        for(LeaderCard card : leaderCards.keySet()) {
+            if(isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.EXCHANGE)
+                if(card.getSpecialAbility().getTargetResource() == resource) return true;
+        }
+        return false;
+    }
+
+    /**
      * Adds the given amount of faith points to this player.
      *
      * @param faithPoints the amount of faith points to add

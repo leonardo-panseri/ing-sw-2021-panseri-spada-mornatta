@@ -100,18 +100,26 @@ public class CommandHandler {
             return;
         }
         int marketIndex;
-        Resource whiteConversion = null;
-        try{
+        try {
             marketIndex = Integer.parseInt(args[0]);
             if (marketIndex< 1 || marketIndex > 7) throw new IllegalArgumentException("incorrect_format");
-            if(args.length>1) {
-                whiteConversion = Resource.valueOf(args[1]);
-            }
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e){
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DRAW_MARKET);
             return;
         }
-        cli.getActionSender().draw(marketIndex, whiteConversion);
+        int whiteResources = cli.getModel().countWhiteResources(marketIndex);
+        List<Resource> whiteConversions = new ArrayList<>();
+        for(int i = 1; i < args.length; i++) {
+            if(whiteConversions.size() <= whiteResources) {
+                try {
+                    Resource res = Resource.valueOf(args[i].toUpperCase());
+                    whiteConversions.add(res);
+                } catch (IllegalArgumentException e) {
+                    cli.getRenderer().showErrorMessage(args[i] + " is not a valid resource");
+                }
+            }
+        }
+        cli.getActionSender().draw(marketIndex, whiteConversions);
     }
 
     public void spy(String[] args) {

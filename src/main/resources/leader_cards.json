@@ -3,13 +3,31 @@
     "victoryPoints": 0,
     "cardRequirements": {
       "resourceRequirements": {
-        "STONE" : 2
+        "STONE": 2
       },
       "cardColorRequirements": {
-        "GREEN" : 1
+        
       },
       "cardLevelRequirements": {
-        "PURPLE" : 3
+        
+      }
+    },
+    "specialAbility": {
+      "type": "PRODUCTION",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
       }
     },
     "specialAbility": {
@@ -21,13 +39,67 @@
     "victoryPoints": 0,
     "cardRequirements": {
       "resourceRequirements": {
-        "STONE" : 2
+        "STONE": 2
       },
       "cardColorRequirements": {
-        "GREEN" : 1
+        
       },
       "cardLevelRequirements": {
-        "PURPLE" : 3
+        
+      }
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
+      }
+    },
+    "specialAbility": {
+      "type": "EXCHANGE",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
+      }
+    },
+    "specialAbility": {
+      "type": "PRODUCTION",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
       }
     },
     "specialAbility": {
@@ -39,13 +111,67 @@
     "victoryPoints": 0,
     "cardRequirements": {
       "resourceRequirements": {
-        "STONE" : 2
+        "STONE": 2
       },
       "cardColorRequirements": {
-        "GREEN" : 1
+        
       },
       "cardLevelRequirements": {
-        "PURPLE" : 3
+        
+      }
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
+      }
+    },
+    "specialAbility": {
+      "type": "EXCHANGE",
+      "targetResource": "COIN"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
+      }
+    },
+    "specialAbility": {
+      "type": "PRODUCTION",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
       }
     },
     "specialAbility": {
@@ -57,13 +183,67 @@
     "victoryPoints": 0,
     "cardRequirements": {
       "resourceRequirements": {
-        "STONE" : 2
+        "STONE": 2
       },
       "cardColorRequirements": {
-        "GREEN" : 1
+        
       },
       "cardLevelRequirements": {
-        "PURPLE" : 3
+        
+      }
+    },
+    "specialAbility": {
+      "type": "DEPOT",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
+      }
+    },
+    "specialAbility": {
+      "type": "EXCHANGE",
+      "targetResource": "SHIELD"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
+      }
+    },
+    "specialAbility": {
+      "type": "PRODUCTION",
+      "targetResource": "SERVANT"
+    }
+  },
+  {
+    "victoryPoints": 0,
+    "cardRequirements": {
+      "resourceRequirements": {
+        "STONE": 2
+      },
+      "cardColorRequirements": {
+        
+      },
+      "cardLevelRequirements": {
+        
       }
     },
     "specialAbility": {
@@ -75,13 +255,13 @@
     "victoryPoints": 0,
     "cardRequirements": {
       "resourceRequirements": {
-        "STONE" : 2
+        "STONE": 2
       },
       "cardColorRequirements": {
-        "GREEN" : 1
+        
       },
       "cardLevelRequirements": {
-        "PURPLE" : 3
+        
       }
     },
     "specialAbility": {
@@ -93,198 +273,18 @@
     "victoryPoints": 0,
     "cardRequirements": {
       "resourceRequirements": {
-        "STONE" : 2
+        "STONE": 2
       },
       "cardColorRequirements": {
-        "GREEN" : 1
+        
       },
       "cardLevelRequirements": {
-        "PURPLE" : 3
+        
       }
     },
     "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
-    }
-  },
-  {
-    "victoryPoints": 0,
-    "cardRequirements": {
-      "resourceRequirements": {
-        "STONE" : 2
-      },
-      "cardColorRequirements": {
-        "GREEN" : 1
-      },
-      "cardLevelRequirements": {
-        "PURPLE" : 3
-      }
-    },
-    "specialAbility": {
-      "type": "DISCOUNT",
-      "targetResource": "SERVANT"
+      "type": "EXCHANGE",
+      "targetResource": "STONE"
     }
   }
 ]

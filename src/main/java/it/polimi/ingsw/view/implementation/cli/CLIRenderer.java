@@ -333,6 +333,10 @@ public class CLIRenderer extends Renderer {
             prettyCard = prettyCard.concat(label + ") ");
         }
 
+        if(getView().getModel().getLeaderCards().getOrDefault(card, false)) {
+            prettyCard += AnsiColor.BRIGHT_BLUE + "ACTIVE\n" + AnsiColor.RESET;
+        }
+
         prettyCard = prettyCard.concat("Points: " + card.getVictoryPoints() + "\n");
 
         if (costRes != null) {

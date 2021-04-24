@@ -112,7 +112,8 @@ public class Deposit extends Observable<IServerPacket> {
      * @throws IllegalArgumentException if the changes are not legal
      */
     public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
-        checkDepositMove(changes, marketResult);
+        checkQuantities(changes, marketResult);
+        checkBoundaries(changes);
         int modifiedLength = changes.keySet().size();
         int[] modifiedRows = new int[modifiedLength];
         int index = 0;
@@ -140,7 +141,7 @@ public class Deposit extends Observable<IServerPacket> {
      * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
-    private void checkDepositMove(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
+    private void checkQuantities(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
         List<Integer> untouchedRows = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             if (!changes.containsKey(i)) untouchedRows.add(i);
@@ -192,6 +193,36 @@ public class Deposit extends Observable<IServerPacket> {
         for (Resource res : Resource.values()) {
             if (!oldResources.get(res).equals(newResources.get(res)))
                 throw new IllegalArgumentException("illegal_deposit_move");
+        }
+    }
+
+    /**
+     * Checks if the given changes are compliant with game rules.
+     *
+     * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
+     *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     */
+    private void checkBoundaries(Map<Integer, List<Resource>> changes) {
+        if(changes.containsKey(1) && changes.get(1).size() > 1)
+            throw new IllegalArgumentException("Deposit top row overflow");
+        if(changes.containsKey(2) && changes.get(2).size() > 2)
+            throw new IllegalArgumentException("Deposit middle row overflow");
+        if(changes.containsKey(3) && changes.get(3).size() > 3)
+            throw new IllegalArgumentException("Deposit bottom row overflow");
+
+        List<Resource> alreadySeen = new ArrayList<>();
+        for(int i = 2; i < 4; i++) {
+            if(!changes.containsKey(i)) continue;
+            List<Resource> row = changes.get(i);
+            if(row.size() > 0) {
+                Resource first = row.get(0);
+                if(alreadySeen.contains(first))
+                    throw new IllegalArgumentException("Resource " + first + " is already stored in another row");
+                alreadySeen.add(first);
+                for(int j = 1; j < row.size(); j++)
+                    if(row.get(j) != first)
+                        throw new IllegalArgumentException("Row " + j + " contains mismatched resources");
+            }
         }
     }
 

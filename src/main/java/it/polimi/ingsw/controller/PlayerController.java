@@ -78,6 +78,7 @@ public class PlayerController {
             player.getBoard().getDeposit().applyChanges(changes, toBeStored);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            return;
         }
 
         player.getBoard().getDeposit().setMarketResults(toBeStored);
@@ -97,10 +98,16 @@ public class PlayerController {
         }
     }
 
-    public synchronized void useMarket(Player player, int selection, Resource whiteConversion) {
+    public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {
         if (!gameController.isPlaying(player)) {
             System.out.println("Not " + player.getNick() + "'s turn!");
             return;
+        }
+        for(Resource whiteConversion : whiteConversions) {
+            if (!player.hasLeaderWhiteConversion(whiteConversion)) {
+                System.err.println("Player " + player.getNick() + " does not have this white conversion special ability");
+                return;
+            }
         }
 
         List<Resource> marketResults = new ArrayList<>();
@@ -115,11 +122,13 @@ public class PlayerController {
 
 
         int faithIncrement = 0;
+        int whiteConversionIndex = 0;
         for (int i = marketResults.size() - 1; i >= 0; i--) {
             if (marketResults.get(i) == null) {
-                if (whiteConversion != null)
-                    marketResults.set(i, whiteConversion);
-                else
+                if (whiteConversionIndex < whiteConversions.size()) {
+                    marketResults.set(i, whiteConversions.get(whiteConversionIndex));
+                    whiteConversionIndex++;
+                } else
                     marketResults.remove(i);
             }
             else if (marketResults.get(i) == Resource.FAITH) {
