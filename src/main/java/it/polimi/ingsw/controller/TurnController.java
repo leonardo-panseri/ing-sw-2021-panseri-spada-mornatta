@@ -34,6 +34,7 @@ public class TurnController {
                 if(!p.equals(player))
                     p.addFaithPoints(discardedMarketResults);
         }
+        player.getBoard().getDeposit().clearMarketResults();
         gameController.getGame().nextPlayer();
     }
 }

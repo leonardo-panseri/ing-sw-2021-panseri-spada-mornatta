@@ -13,15 +13,17 @@ public class DepositPlayerActionEvent extends PlayerActionEvent {
 
     private final Map<Integer, List<Resource>> changes;
     private final List<Resource> toBeStored;
+    private final Map<Resource, Integer> leadersDeposit;
 
-    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes, List<Resource> toBeStored) {
+    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes, List<Resource> toBeStored, Map<Resource, Integer> leadersDeposit) {
         super(playerName);
         this.changes = changes;
         this.toBeStored = toBeStored;
+        this.leadersDeposit = leadersDeposit;
     }
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().updatePlayerDeposit(getPlayer(controller), changes, toBeStored);
+        controller.getPlayerController().updatePlayerDeposit(getPlayer(controller), changes, toBeStored, leadersDeposit);
     }
 }

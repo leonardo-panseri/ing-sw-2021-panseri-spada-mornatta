@@ -29,7 +29,7 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updateMarket(int index, List<Resource> changes);
 
-    public abstract void updateDeposit(String playerName, Map<Integer, List<Resource>> changes);
+    public abstract void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Resource, Integer> leadersDeposit);
 
     public abstract void updateStrongbox(String playerName, Map<Resource, Integer> strongbox);
 

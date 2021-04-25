@@ -20,6 +20,5 @@ public class MarketResultUpdate extends PlayerPropertyUpdate {
     @Override
     public void process(View view) {
         view.getModelUpdateHandler().insertDrawnResources(getPlayerName(), result);
-        view.setAlreadyPlayed(true);
     }
 }

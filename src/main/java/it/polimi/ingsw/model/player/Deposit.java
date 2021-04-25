@@ -71,6 +71,15 @@ public class Deposit extends Observable<IServerPacket> {
     }
 
     /**
+     * Setter: sets the leaders deposits.
+     * @param newLeadersDeposit the modified leaders deposits
+     */
+    public void setLeadersDeposit(Map<Resource, Integer> newLeadersDeposit) {
+        leadersDeposit.clear();
+        leadersDeposit.putAll(newLeadersDeposit);
+    }
+
+    /**
      * Constructor: instantiates the three rows of slots, and store the owner of the player board.
      *
      * @param player the player owner of the board.
@@ -116,9 +125,9 @@ public class Deposit extends Observable<IServerPacket> {
      * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
-    public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
-        checkQuantities(changes, marketResult);
-        checkBoundaries(changes);
+    public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Resource, Integer> leadersDeposit) throws IllegalArgumentException {
+        checkQuantities(changes, marketResult, leadersDeposit);
+        checkBoundaries(changes, leadersDeposit);
         int modifiedLength = changes.keySet().size();
         int[] modifiedRows = new int[modifiedLength];
         int index = 0;
@@ -134,6 +143,7 @@ public class Deposit extends Observable<IServerPacket> {
                 index++;
             }
         }
+        setLeadersDeposit(leadersDeposit);
 
         notifyDepositUpdate(modifiedRows);
     }
@@ -144,9 +154,10 @@ public class Deposit extends Observable<IServerPacket> {
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
      * @param marketResult a list containing the possibly modified market result
+     * @param leadersDeposit a map containing the new leaders deposits
      * @throws IllegalArgumentException if the changes are not legal
      */
-    private void checkQuantities(Map<Integer, List<Resource>> changes, List<Resource> marketResult) throws IllegalArgumentException {
+    private void checkQuantities(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Resource, Integer> leadersDeposit) throws IllegalArgumentException {
         List<Integer> untouchedRows = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             if (!changes.containsKey(i)) untouchedRows.add(i);
@@ -190,6 +201,15 @@ public class Deposit extends Observable<IServerPacket> {
             }
         }
 
+           //Add quantities from the leaders deposits
+        for (Resource res : leadersDeposit.keySet()) {
+            if (newResources.containsKey(res)) {
+                newResources.put(res, newResources.get(res) + 1);
+            } else {
+                newResources.put(res, 1);
+            }
+        }
+
         for (Resource res : Resource.values()) {
             if (!newResources.containsKey(res)) newResources.put(res, 0);
         }
@@ -206,14 +226,19 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     * @param leadersDeposit a map containing the new leaders deposits
      */
-    private void checkBoundaries(Map<Integer, List<Resource>> changes) {
+    private void checkBoundaries(Map<Integer, List<Resource>> changes, Map<Resource, Integer> leadersDeposit) {
         if(changes.containsKey(1) && changes.get(1).size() > 1)
             throw new IllegalArgumentException("Deposit top row overflow");
         if(changes.containsKey(2) && changes.get(2).size() > 2)
             throw new IllegalArgumentException("Deposit middle row overflow");
         if(changes.containsKey(3) && changes.get(3).size() > 3)
             throw new IllegalArgumentException("Deposit bottom row overflow");
+        for (Resource res : leadersDeposit.keySet()) {
+            if(leadersDeposit.get(res) > player.numLeadersDeposits(res))
+                throw new IllegalArgumentException(("Leader deposits for resource " + res + " overflow"));
+        }
 
         List<Resource> alreadySeen = new ArrayList<>();
         for(int i = 2; i < 4; i++) {
@@ -261,8 +286,8 @@ public class Deposit extends Observable<IServerPacket> {
             middleRow.remove(resource);
         } else if (row == 3 && bottomRow.size() > 0) {
             bottomRow.remove(resource);
-        }
-        notifyDepositUpdate(row);
+        } else if (row == 4 && leadersDeposit.containsKey(resource))
+            leadersDeposit.put(resource, leadersDeposit.get(resource) - 1);
     }
 
     /**
@@ -271,12 +296,20 @@ public class Deposit extends Observable<IServerPacket> {
      * @param resources a map that associates resource to quantity
      */
     public synchronized void removeResources(Map<Resource, Integer> resources) {
+        List<Integer> changedRows = new ArrayList<>();
         for (Resource res : resources.keySet()) {
             int row = findResource(res);
             for (int i = 0; i < resources.get(res); i++) {
                 removeResource(row, res);
             }
+            if (row != 4 && !changedRows.contains(row)) changedRows.add(row);
         }
+        int changedLength = changedRows.size();
+        int[] rows = new int[changedLength];
+        for (int i = 0; i < changedLength; i ++) {
+            rows[i] = changedRows.get(i);
+        }
+        notifyDepositUpdate(rows);
     }
 
     /**
@@ -375,7 +408,7 @@ public class Deposit extends Observable<IServerPacket> {
                 changes.put(i, row);
             }
         }
-        notify(new DepositUpdate(player.getNick(), changes));
+        notify(new DepositUpdate(player.getNick(), changes, leadersDeposit));
     }
 
     /**

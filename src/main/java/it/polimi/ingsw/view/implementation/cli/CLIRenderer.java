@@ -70,6 +70,7 @@ public class CLIRenderer extends Renderer {
     @Override
     public void printOwnDeposit() {
         renderDeposit(getView().getModel().getDeposit());
+        renderLeadersDeposit(getView().getModel().getLeadersDeposit());
     }
 
     @Override
@@ -120,6 +121,11 @@ public class CLIRenderer extends Renderer {
             return;
         }
         renderDeposit(getView().getModel().getOtherDeposit().get(playerName));
+        if (!getView().getModel().getOtherLeadersDeposit().containsKey(playerName)) {
+            showErrorMessage(playerName + " does not have leaders deposits or they are empty");
+            return;
+        }
+        renderLeadersDeposit(getView().getModel().getOtherLeadersDeposit().get(playerName));
     }
 
     @Override
@@ -158,6 +164,11 @@ public class CLIRenderer extends Renderer {
             System.out.println();
             if (i == 0) System.out.print("  ");
         }
+    }
+
+    @Override
+    public void renderLeadersDeposit(Map<Resource, Integer> leadersDeposit) {
+        System.out.println(leadersDeposit);
     }
 
     @Override

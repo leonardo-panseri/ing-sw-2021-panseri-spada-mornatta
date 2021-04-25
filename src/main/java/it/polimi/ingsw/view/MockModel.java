@@ -16,12 +16,14 @@ public class MockModel {
     private Map<Resource, Integer> strongbox;
     private List<List<Resource>> market;
     private List<Resource> marketResult;
+    private Map<Resource, Integer> leadersDeposit;
     int faithPoints = 15;
     int popeFavours = 2;
 
     private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
     private Map<String, List<Stack<DevelopmentCard>>> otherDevelopmentCards;
     private Map<String, List<List<Resource>>> otherDeposit;
+    private Map<String, Map<Resource, Integer>> otherLeadersDeposit;
     private Map<String, Integer> otherFaith;
     private Map<String, Integer> otherFavours;
 
@@ -32,6 +34,7 @@ public class MockModel {
         otherFaith = new HashMap<>();
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
+        leadersDeposit = new HashMap<>();
         strongbox = new HashMap<>();
         marketResult = new ArrayList<>();
         for (int i = 0; i<3; i++) {
@@ -75,6 +78,10 @@ public class MockModel {
 
     public Map<String, List<List<Resource>>> getOtherDeposit() {
         return otherDeposit;
+    }
+
+    public Map<String, Map<Resource, Integer>> getOtherLeadersDeposit() {
+        return otherLeadersDeposit;
     }
 
     public void setOtherFavours(String playerName, int popeFavours) {
@@ -162,6 +169,25 @@ public class MockModel {
 
     public void setMarketResult(List<Resource> marketResult) {
         this.marketResult = marketResult;
+    }
+
+    public Map<Resource, Integer> getLeadersDeposit() {
+        return leadersDeposit;
+    }
+
+    public void setLeadersDeposit(Map<Resource, Integer> leadersDeposit) {
+        this.leadersDeposit = leadersDeposit;
+    }
+
+    public List<Resource> convertLeaderDeposit (int row) {
+        List<Resource> keySet = new ArrayList<>(getLeadersDeposit().keySet());
+        List<Resource> newRow = new ArrayList<>();
+        newRow = new ArrayList<>();
+        int length = getLeadersDeposit().get(keySet.get(row - 1));
+        for (int i = 0 ; i< length; i++) {
+            newRow.add(keySet.get(row - 1));
+        }
+        return newRow;
     }
 
     public int countWhiteResources(int index) {

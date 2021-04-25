@@ -53,9 +53,6 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         if (playerName.equals(getView().getPlayerName())) {
             getView().getModel().setNewDevelopmentCard(card, slot);
         } else {
-            if (!getView().getModel().getOtherDevelopmentCards().containsKey(playerName)) {
-                getView().getRenderer().showErrorMessage("Error updating someone else's cards: player not found");
-            }
             getView().getModel().setOtherNewDevelopment(playerName, card, slot);
         }
     }
@@ -87,12 +84,29 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes) {
-        List<List<Resource>> deposit = getView().getModel().getDeposit();
+    public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Resource, Integer> leadersDeposit) {
+        List<List<Resource>> deposit;
+        if(playerName.equals(getView().getPlayerName())){
+            deposit = getView().getModel().getDeposit();
 
-        for (Integer i : changes.keySet()) {
-            deposit.set(i - 1, changes.get(i));
+            for (Integer i : changes.keySet()) {
+                deposit.set(i - 1, changes.get(i));
+            }
+
+            getView().getModel().setLeadersDeposit(leadersDeposit);
+        } else {
+            if(!getView().getModel().getOtherDeposit().containsKey(playerName)){
+                getView().getModel().getOtherDeposit().put(playerName, new ArrayList<>());
+            }
+            deposit = getView().getModel().getOtherDeposit().get(playerName);
+
+            for (Integer i : changes.keySet()) {
+                deposit.set(i - 1, changes.get(i));
+            }
+
+            getView().getModel().getOtherLeadersDeposit().put(playerName, leadersDeposit);
         }
+
     }
 
     @Override

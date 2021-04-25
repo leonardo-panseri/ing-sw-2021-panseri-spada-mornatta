@@ -34,6 +34,7 @@ public class CLIActionSender extends ActionSender {
 
     @Override
     public void draw(int marketIndex, List<Resource> whiteConversions) {
+        getView().setAlreadyPlayed(true);
         getView().getClient().send(new MarketPlayerActionEvent(getView().getPlayerName(), marketIndex - 1, whiteConversions));
     }
 
@@ -51,14 +52,28 @@ public class CLIActionSender extends ActionSender {
 
     @Override
     public void move(int row1, int row2) {
-        List<Resource> newRow1 = getView().getModel().getDeposit().get(row2 - 1);
-        List<Resource> newRow2 = getView().getModel().getDeposit().get(row1 - 1);
-
+        List<Resource> newRow1;
+        List<Resource> newRow2;
         Map<Integer, List<Resource>> changes = new HashMap<>();
-        changes.put(row1, newRow1);
-        changes.put(row2, newRow2);
-
-        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult()));
+        Map<Resource, Integer> newLeadersDeposit = new HashMap<>(getView().getModel().getLeadersDeposit());
+        List<Resource> keySet = new ArrayList<>(getView().getModel().getLeadersDeposit().keySet());
+        if(row1 == 4 || row1 == 5) {
+            newRow2 = getView().getModel().convertLeaderDeposit(row1);
+        } else {
+            newRow2 = getView().getModel().getDeposit().get(row1 - 1);
+            if(row2 == 4 || row2 == 5) {
+                for (Resource res : newRow2) {
+                    if(!newLeadersDeposit.containsKey(res)) newLeadersDeposit.put(res, 1);
+                }
+            } else changes.put(row2, newRow2);
+        }
+        if(row2 == 4 || row2 == 5) {
+            newRow1 = getView().getModel().convertLeaderDeposit(row2);
+        } else {
+            newRow1 = getView().getModel().getDeposit().get(row2 - 1);
+            changes.put(row1, newRow1);
+        }
+        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult(), newLeadersDeposit));
     }
 
     @Override
@@ -72,14 +87,23 @@ public class CLIActionSender extends ActionSender {
     @Override
     public void storeMarketResult(int resourceIndex, int rowIndex) {
         Map<Integer, List<Resource>> changes = new HashMap<>();
+        Map<Resource, Integer> leadersDepositChanges = new HashMap<>(getView().getModel().getLeadersDeposit());
         List<Resource> toBeStored = new ArrayList<>(getView().getModel().getMarketResult());
         Resource movedResource = toBeStored.get(resourceIndex - 1);
         toBeStored.remove(movedResource);
 
-        changes.put(rowIndex, new ArrayList<>(getView().getModel().getDeposit().get(rowIndex-1)));
-        changes.get(rowIndex).add(movedResource);
+        if(rowIndex < 4){
+            changes.put(rowIndex, new ArrayList<>(getView().getModel().getDeposit().get(rowIndex-1)));
+            changes.get(rowIndex).add(movedResource);
+        } else {
+            if(leadersDepositChanges.containsKey(movedResource)){
+                leadersDepositChanges.put(movedResource, leadersDepositChanges.get(movedResource) + 1);
+            } else {
+                leadersDepositChanges.put(movedResource, 1);
+            }
+        }
 
-        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, toBeStored));
+        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, toBeStored, leadersDepositChanges));
     }
 
     @Override

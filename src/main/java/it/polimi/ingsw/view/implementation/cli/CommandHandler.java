@@ -167,7 +167,7 @@ public class CommandHandler {
                 System.out.println(ViewString.INCORRECT_FORMAT + ViewString.MOVE_DEPOSIT);
                 return;
             }
-            if(index[j] < 1 || index[j] > 3) {
+            if(index[j] < 1 || index[j] > 5) {
                 cli.getRenderer().showErrorMessage("Index out of bound");
                 return;
             }
@@ -192,7 +192,7 @@ public class CommandHandler {
             cli.getRenderer().showErrorMessage("Market index out of bound");
             return;
         }
-        if(index[1] < 1 || index[1] > 3 ) {
+        if(index[1] < 1 || index[1] > 4 ) {
             cli.getRenderer().showErrorMessage("Row index out of bound");
             return;
         }
