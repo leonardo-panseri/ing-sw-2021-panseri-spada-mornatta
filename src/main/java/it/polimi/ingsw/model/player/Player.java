@@ -146,7 +146,7 @@ public class Player extends Observable<IServerPacket> {
     public int numLeadersDiscount(Resource res) {
         int result = 0;
         for (LeaderCard card: leaderCards.keySet()) {
-            if (card.getSpecialAbility().getType() == SpecialAbilityType.DISCOUNT) {
+            if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DISCOUNT) {
                 if(card.getSpecialAbility().getTargetResource() == res) result++;
             }
         }

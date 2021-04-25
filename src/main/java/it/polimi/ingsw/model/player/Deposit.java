@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * Models the deposit of a player board, comprehensive of the three rows of resources slots, adn the strongbox.
- * Rows are indexed starting from 1 and ending to 3, from top to bottom.
+ * Rows are indexed starting from 1 and ending to 3, from top to bottom. The eventual leaders deposit are represented by 4.
  */
 public class Deposit extends Observable<IServerPacket> {
     private final Player player;
@@ -22,6 +22,7 @@ public class Deposit extends Observable<IServerPacket> {
     private List<Resource> middleRow;
     private List<Resource> bottomRow;
     private final Map<Resource, Integer> strongBox;
+    private final Map<Resource, Integer> leadersDeposit;
     private final List<Resource> marketResults;
 
     /**
@@ -49,13 +50,15 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param res the resource to find.
      *
-     * @return the int representing the row where the resource is stored.
+     * @return the int representing the row where the resource is stored. Returns -1 if the resource is not present.
      */
 
     int findResource(Resource res) {
         if (topRow == res) return 1;
         if (middleRow.contains(res)) return 2;
-        return 3;
+        if (bottomRow.contains(res)) return 3;
+        if (leadersDeposit.containsKey(res)) return 4;
+        return -1;
     }
 
     /**
@@ -76,6 +79,7 @@ public class Deposit extends Observable<IServerPacket> {
         middleRow = new ArrayList<>();
         bottomRow = new ArrayList<>();
         strongBox = new HashMap<>();
+        leadersDeposit = new HashMap<>();
         marketResults = new ArrayList<>();
         this.player = player;
     }
@@ -100,6 +104,7 @@ public class Deposit extends Observable<IServerPacket> {
         for (Resource res : getMarketResults())
             if (res == resource)
                 amount++;
+        if (leadersDeposit.containsKey(resource)) amount += leadersDeposit.get(resource);
         return amount;
     }
 
@@ -107,7 +112,7 @@ public class Deposit extends Observable<IServerPacket> {
      * Applies the given changes to this player deposit, checking if they are legal.
      *
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
-     *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     *                2 -> middle, 3 -> bottom, 4 -> leaders deposits), the value is the list of resources that represents the new row
      * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
