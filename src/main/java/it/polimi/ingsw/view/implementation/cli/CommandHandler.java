@@ -170,6 +170,9 @@ public class CommandHandler {
             if(index[j] < 1 || index[j] > 5) {
                 cli.getRenderer().showErrorMessage("Index out of bound");
                 return;
+            } else if(index[j] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
+                cli.getRenderer().showErrorMessage(ViewString.TWO_LEADER_DEPOSITS_REQUIRED);
+                return;
             }
         }
         cli.getActionSender().move(index[0], index[1]);
@@ -192,8 +195,11 @@ public class CommandHandler {
             cli.getRenderer().showErrorMessage("Market index out of bound");
             return;
         }
-        if(index[1] < 1 || index[1] > 4 ) {
+        if(index[1] < 1 || index[1] > 5 ) {
             cli.getRenderer().showErrorMessage("Row index out of bound");
+            return;
+        } else if(index[1] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
+            cli.getRenderer().showErrorMessage(ViewString.TWO_LEADER_DEPOSITS_REQUIRED);
             return;
         }
 
@@ -215,7 +221,7 @@ public class CommandHandler {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
             return;
         }
-        if(index > cli.getModel().getLeaderCards().size()) {
+        if(index < 1 || index > 2) {
             cli.getRenderer().showErrorMessage("Index out of bound");
             return;
         }

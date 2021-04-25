@@ -167,7 +167,7 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void renderLeadersDeposit(Map<Resource, Integer> leadersDeposit) {
+    public void renderLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
         System.out.println(leadersDeposit);
     }
 

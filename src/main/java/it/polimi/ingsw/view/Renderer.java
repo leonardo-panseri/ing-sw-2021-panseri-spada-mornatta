@@ -54,7 +54,7 @@ public abstract class Renderer {
 
     public abstract void renderDeposit(List<List<Resource>> deposit);
 
-    public abstract void renderLeadersDeposit(Map<Resource, Integer> leadersDeposit);
+    public abstract void renderLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit);
 
     public abstract void renderStrongbox(Map<Resource, Integer> strongbox);
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.card.SpecialAbilityType;
 
 import java.util.*;
 
@@ -16,14 +17,14 @@ public class MockModel {
     private Map<Resource, Integer> strongbox;
     private List<List<Resource>> market;
     private List<Resource> marketResult;
-    private Map<Resource, Integer> leadersDeposit;
+    private Map<Integer, List<Resource>> leadersDeposit;
     int faithPoints = 15;
     int popeFavours = 2;
 
     private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
     private Map<String, List<Stack<DevelopmentCard>>> otherDevelopmentCards;
     private Map<String, List<List<Resource>>> otherDeposit;
-    private Map<String, Map<Resource, Integer>> otherLeadersDeposit;
+    private Map<String, Map<Integer, List<Resource>>> otherLeadersDeposit;
     private Map<String, Integer> otherFaith;
     private Map<String, Integer> otherFavours;
 
@@ -35,6 +36,8 @@ public class MockModel {
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
         leadersDeposit = new HashMap<>();
+        leadersDeposit.put(1, new ArrayList<>());
+        leadersDeposit.put(2, new ArrayList<>());
         strongbox = new HashMap<>();
         marketResult = new ArrayList<>();
         for (int i = 0; i<3; i++) {
@@ -80,7 +83,7 @@ public class MockModel {
         return otherDeposit;
     }
 
-    public Map<String, Map<Resource, Integer>> getOtherLeadersDeposit() {
+    public Map<String, Map<Integer, List<Resource>>> getOtherLeadersDeposit() {
         return otherLeadersDeposit;
     }
 
@@ -171,23 +174,12 @@ public class MockModel {
         this.marketResult = marketResult;
     }
 
-    public Map<Resource, Integer> getLeadersDeposit() {
+    public Map<Integer, List<Resource>> getLeadersDeposit() {
         return leadersDeposit;
     }
 
-    public void setLeadersDeposit(Map<Resource, Integer> leadersDeposit) {
+    public void setLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
         this.leadersDeposit = leadersDeposit;
-    }
-
-    public List<Resource> convertLeaderDeposit (int row) {
-        List<Resource> keySet = new ArrayList<>(getLeadersDeposit().keySet());
-        List<Resource> newRow = new ArrayList<>();
-        newRow = new ArrayList<>();
-        int length = getLeadersDeposit().get(keySet.get(row - 1));
-        for (int i = 0 ; i< length; i++) {
-            newRow.add(keySet.get(row - 1));
-        }
-        return newRow;
     }
 
     public int countWhiteResources(int index) {
@@ -204,5 +196,13 @@ public class MockModel {
             }
         }
         return result;
+    }
+
+    public boolean hasTwoLeaderDeposits() {
+        int count = 0;
+        for(LeaderCard card : leaderCards.keySet()) {
+            if(card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) count++;
+        }
+        return count == 2;
     }
 }

@@ -33,6 +33,7 @@ public class ViewString {
     public static final String PLAYER_CRASH_WITH_NAME = "Player %s crashed, terminating the game";
     public static final String ALREADY_PLAYED = "You have already done one of the three major actions!";
     public static final String ALREADY_ACTIVE = "The selected leader card is already active";
+    public static final String TWO_LEADER_DEPOSITS_REQUIRED = "You don't have two active leaders with a depot special ability";
 
     /*
     Game messages

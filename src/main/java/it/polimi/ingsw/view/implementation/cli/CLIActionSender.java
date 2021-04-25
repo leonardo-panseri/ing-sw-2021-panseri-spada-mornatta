@@ -55,39 +55,62 @@ public class CLIActionSender extends ActionSender {
         List<Resource> newRow1;
         List<Resource> newRow2;
         Map<Integer, List<Resource>> changes = new HashMap<>();
-        Map<Resource, Integer> newLeadersDeposit = new HashMap<>(getView().getModel().getLeadersDeposit());
-        List<Resource> keySet = new ArrayList<>(getView().getModel().getLeadersDeposit().keySet());
-        if(row1 == 4 || row1 == 5) {
-            newRow2 = getView().getModel().convertLeaderDeposit(row1);
-        } else {
-            newRow2 = getView().getModel().getDeposit().get(row1 - 1);
-            if(row2 == 4 || row2 == 5) {
-                for (Resource res : newRow2) {
-                    if(!newLeadersDeposit.containsKey(res)) newLeadersDeposit.put(res, 1);
+
+        Map<Integer, List<Resource>> leadersDepositChanges = new HashMap<>();
+
+        if(row1 < 4) {
+            if(row2 < 4) {
+                newRow1 = getView().getModel().getDeposit().get(row2 - 1);
+                newRow2 = getView().getModel().getDeposit().get(row1 - 1);
+                changes.put(row1, newRow1);
+                changes.put(row2, newRow2);
+            } else {
+                newRow1 = getView().getModel().getDeposit().get(row1 - 1);
+                newRow2 = getView().getModel().getLeadersDeposit().get(row2 - 3);
+                if(!newRow1.isEmpty()) {
+                    Resource res = newRow1.remove(0);
+                    newRow2.add(res);
                 }
-            } else changes.put(row2, newRow2);
-        }
-        if(row2 == 4 || row2 == 5) {
-            newRow1 = getView().getModel().convertLeaderDeposit(row2);
+                changes.put(row1, newRow1);
+                leadersDepositChanges.put(row2 - 3, newRow2);
+            }
         } else {
-            newRow1 = getView().getModel().getDeposit().get(row2 - 1);
-            changes.put(row1, newRow1);
+            if(row2 < 4) {
+                newRow1 = getView().getModel().getLeadersDeposit().get(row1 - 3);
+                newRow2 = getView().getModel().getDeposit().get(row2 - 1);
+                if(!newRow1.isEmpty()) {
+                    Resource res = newRow1.remove(0);
+                    newRow2.add(res);
+                }
+                leadersDepositChanges.put(row1 - 3, newRow1);
+                changes.put(row2, newRow2);
+            } else {
+                newRow1 = getView().getModel().getLeadersDeposit().get(row1 - 3);
+                newRow2 = getView().getModel().getLeadersDeposit().get(row2 - 3);
+                if(!newRow1.isEmpty()) {
+                    Resource res = newRow1.remove(0);
+                    newRow2.add(res);
+                }
+                leadersDepositChanges.put(row1 - 3, newRow1);
+                leadersDepositChanges.put(row2 - 3, newRow2);
+            }
         }
-        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult(), newLeadersDeposit));
+
+        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult(), leadersDepositChanges));
     }
 
     @Override
     public void setActive(int cardIndex) {
         ArrayList<LeaderCard> activeLeaderCard = new ArrayList<>(getView().getModel().getLeaderCards().keySet());
         LeaderCard setActive = activeLeaderCard.get(cardIndex - 1);
-        getView().getClient().send(new ActivateLeaderPlayerActionEvent(getView().getPlayerName(),setActive.getUuid()));
+        getView().getClient().send(new ActivateLeaderPlayerActionEvent(getView().getPlayerName(), setActive.getUuid()));
 
     }
 
     @Override
     public void storeMarketResult(int resourceIndex, int rowIndex) {
         Map<Integer, List<Resource>> changes = new HashMap<>();
-        Map<Resource, Integer> leadersDepositChanges = new HashMap<>(getView().getModel().getLeadersDeposit());
+        Map<Integer, List<Resource>> leadersDepositChanges = new HashMap<>();
         List<Resource> toBeStored = new ArrayList<>(getView().getModel().getMarketResult());
         Resource movedResource = toBeStored.get(resourceIndex - 1);
         toBeStored.remove(movedResource);
@@ -95,12 +118,10 @@ public class CLIActionSender extends ActionSender {
         if(rowIndex < 4){
             changes.put(rowIndex, new ArrayList<>(getView().getModel().getDeposit().get(rowIndex-1)));
             changes.get(rowIndex).add(movedResource);
-        } else {
-            if(leadersDepositChanges.containsKey(movedResource)){
-                leadersDepositChanges.put(movedResource, leadersDepositChanges.get(movedResource) + 1);
-            } else {
-                leadersDepositChanges.put(movedResource, 1);
-            }
+        } else if(rowIndex == 4 || rowIndex == 5) {
+            List<Resource> newResources = new ArrayList<>(getView().getModel().getLeadersDeposit().get(rowIndex - 3));
+            newResources.add(movedResource);
+            leadersDepositChanges.put(rowIndex - 3, newResources);
         }
 
         getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, toBeStored, leadersDepositChanges));
@@ -126,7 +147,7 @@ public class CLIActionSender extends ActionSender {
 
     @Override
     public void useDevelopmentProduction(int cardIndex) {
-        DevelopmentCard developmentCard = null;
+        DevelopmentCard developmentCard;
         try {
             developmentCard = getView().getModel().getDevelopmentCards().get(cardIndex - 1).peek();
         } catch (EmptyStackException e) {

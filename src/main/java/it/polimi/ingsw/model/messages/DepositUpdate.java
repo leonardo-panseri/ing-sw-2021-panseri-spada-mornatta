@@ -12,9 +12,9 @@ public class DepositUpdate extends PlayerPropertyUpdate {
     private static final long serialVersionUID = 8588565899289384713L;
 
     private final Map<Integer, List<Resource>> changes;
-    private final Map<Resource, Integer> leadersDeposit;
+    private final Map<Integer, List<Resource>> leadersDeposit;
 
-    public DepositUpdate(String player, Map<Integer, List<Resource>> changes, Map<Resource, Integer> leadersDeposit) {
+    public DepositUpdate(String player, Map<Integer, List<Resource>> changes, Map<Integer, List<Resource>> leadersDeposit) {
         super(player);
         this.changes = changes;
         this.leadersDeposit = leadersDeposit;

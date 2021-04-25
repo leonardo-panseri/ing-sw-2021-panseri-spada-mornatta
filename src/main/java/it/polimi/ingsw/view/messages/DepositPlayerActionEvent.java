@@ -13,9 +13,9 @@ public class DepositPlayerActionEvent extends PlayerActionEvent {
 
     private final Map<Integer, List<Resource>> changes;
     private final List<Resource> toBeStored;
-    private final Map<Resource, Integer> leadersDeposit;
+    private final Map<Integer, List<Resource>> leadersDeposit;
 
-    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes, List<Resource> toBeStored, Map<Resource, Integer> leadersDeposit) {
+    public DepositPlayerActionEvent(String playerName, Map<Integer, List<Resource>> changes, List<Resource> toBeStored, Map<Integer, List<Resource>> leadersDeposit) {
         super(playerName);
         this.changes = changes;
         this.toBeStored = toBeStored;

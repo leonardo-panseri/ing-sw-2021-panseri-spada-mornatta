@@ -22,7 +22,11 @@ public class Deposit extends Observable<IServerPacket> {
     private List<Resource> middleRow;
     private List<Resource> bottomRow;
     private final Map<Resource, Integer> strongBox;
-    private final Map<Resource, Integer> leadersDeposit;
+    /**
+     * Key can be 1 or 2 and indicates leader card slot, the list contains a maximum of 2 resources of the same type
+     * and is the content of the leader card deposit
+     */
+    private final Map<Integer, List<Resource>> leadersDeposit;
     private final List<Resource> marketResults;
 
     /**
@@ -57,7 +61,8 @@ public class Deposit extends Observable<IServerPacket> {
         if (topRow == res) return 1;
         if (middleRow.contains(res)) return 2;
         if (bottomRow.contains(res)) return 3;
-        if (leadersDeposit.containsKey(res)) return 4;
+        if (leadersDeposit.get(1).contains(res)) return 4;
+        if (leadersDeposit.get(2).contains(res)) return 5;
         return -1;
     }
 
@@ -71,15 +76,6 @@ public class Deposit extends Observable<IServerPacket> {
     }
 
     /**
-     * Setter: sets the leaders deposits.
-     * @param newLeadersDeposit the modified leaders deposits
-     */
-    public void setLeadersDeposit(Map<Resource, Integer> newLeadersDeposit) {
-        leadersDeposit.clear();
-        leadersDeposit.putAll(newLeadersDeposit);
-    }
-
-    /**
      * Constructor: instantiates the three rows of slots, and store the owner of the player board.
      *
      * @param player the player owner of the board.
@@ -89,6 +85,8 @@ public class Deposit extends Observable<IServerPacket> {
         bottomRow = new ArrayList<>();
         strongBox = new HashMap<>();
         leadersDeposit = new HashMap<>();
+        leadersDeposit.put(1, new ArrayList<>());
+        leadersDeposit.put(2, new ArrayList<>());
         marketResults = new ArrayList<>();
         this.player = player;
     }
@@ -113,7 +111,10 @@ public class Deposit extends Observable<IServerPacket> {
         for (Resource res : getMarketResults())
             if (res == resource)
                 amount++;
-        if (leadersDeposit.containsKey(resource)) amount += leadersDeposit.get(resource);
+        for(int leaderSlot : leadersDeposit.keySet())
+            for(Resource res : leadersDeposit.get(leaderSlot))
+                if(res == resource)
+                    amount++;
         return amount;
     }
 
@@ -125,9 +126,10 @@ public class Deposit extends Observable<IServerPacket> {
      * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
-    public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Resource, Integer> leadersDeposit) throws IllegalArgumentException {
+    public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Integer, List<Resource>> leadersDeposit) throws IllegalArgumentException {
         checkQuantities(changes, marketResult, leadersDeposit);
-        checkBoundaries(changes, leadersDeposit);
+        checkBoundaries(changes);
+        checkLeaderDeposit(leadersDeposit);
         int modifiedLength = changes.keySet().size();
         int[] modifiedRows = new int[modifiedLength];
         int index = 0;
@@ -143,7 +145,9 @@ public class Deposit extends Observable<IServerPacket> {
                 index++;
             }
         }
-        setLeadersDeposit(leadersDeposit);
+
+        leadersDeposit.forEach((leaderSlot, resourceList) ->
+                this.leadersDeposit.merge(leaderSlot, resourceList, (originalList, modifiedList) -> modifiedList));
 
         notifyDepositUpdate(modifiedRows);
     }
@@ -157,7 +161,7 @@ public class Deposit extends Observable<IServerPacket> {
      * @param leadersDeposit a map containing the new leaders deposits
      * @throws IllegalArgumentException if the changes are not legal
      */
-    private void checkQuantities(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Resource, Integer> leadersDeposit) throws IllegalArgumentException {
+    private void checkQuantities(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Integer, List<Resource>> leadersDeposit) throws IllegalArgumentException {
         List<Integer> untouchedRows = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             if (!changes.containsKey(i)) untouchedRows.add(i);
@@ -170,7 +174,7 @@ public class Deposit extends Observable<IServerPacket> {
         }
 
         //Mapping the new quantities of resources in deposit, strongbox and market result
-            //Assembly the new deposit adding the untouched rows
+        //Assembly the new deposit adding the untouched rows
         Map<Resource, Integer> newResources = new HashMap<>();
         for (int missingRow : untouchedRows) {
             changes.put(missingRow, getRow(missingRow));
@@ -184,7 +188,8 @@ public class Deposit extends Observable<IServerPacket> {
                 }
             }
         }
-            //Add quantities from the strongbox (not modified by the action)
+
+        //Add quantities from the strongbox (not modified by the action)
         for (Resource res : getStrongBox().keySet()) {
             if (newResources.containsKey(res)) {
                 newResources.put(res, newResources.get(res) + getStrongBox().get(res));
@@ -192,7 +197,8 @@ public class Deposit extends Observable<IServerPacket> {
                 newResources.put(res, getStrongBox().get(res));
             }
         }
-            //Add quantities from the market result list
+
+        //Add quantities from the market result list
         for (Resource res : marketResult) {
             if (newResources.containsKey(res)) {
                 newResources.put(res, newResources.get(res) + 1);
@@ -201,13 +207,16 @@ public class Deposit extends Observable<IServerPacket> {
             }
         }
 
-           //Add quantities from the leaders deposits
-        for (Resource res : leadersDeposit.keySet()) {
-            if (newResources.containsKey(res)) {
-                newResources.put(res, newResources.get(res) + 1);
-            } else {
-                newResources.put(res, 1);
-            }
+        //Add quantities from the leaders deposits
+        if(!leadersDeposit.containsKey(1)) leadersDeposit.put(1, this.leadersDeposit.get(1));
+        if(!leadersDeposit.containsKey(2)) leadersDeposit.put(2, this.leadersDeposit.get(2));
+        for (int leaderSlot : leadersDeposit.keySet()) {
+            for(Resource res : leadersDeposit.get(leaderSlot))
+                if (newResources.containsKey(res)) {
+                    newResources.put(res, newResources.get(res) + 1);
+                } else {
+                    newResources.put(res, 1);
+                }
         }
 
         for (Resource res : Resource.values()) {
@@ -216,8 +225,11 @@ public class Deposit extends Observable<IServerPacket> {
 
         //At this point, if the move is legal, the two maps should be the same
         for (Resource res : Resource.values()) {
-            if (!oldResources.get(res).equals(newResources.get(res)))
-                throw new IllegalArgumentException("illegal_deposit_move");
+            if (!oldResources.get(res).equals(newResources.get(res))) {
+                System.out.println("Old resources: " + oldResources);
+                System.out.println("New resources: " + newResources);
+                throw new IllegalArgumentException("Resource " + res + " quantity is not valid");
+            }
         }
     }
 
@@ -226,19 +238,14 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
-     * @param leadersDeposit a map containing the new leaders deposits
      */
-    private void checkBoundaries(Map<Integer, List<Resource>> changes, Map<Resource, Integer> leadersDeposit) {
+    private void checkBoundaries(Map<Integer, List<Resource>> changes) {
         if(changes.containsKey(1) && changes.get(1).size() > 1)
             throw new IllegalArgumentException("Deposit top row overflow");
         if(changes.containsKey(2) && changes.get(2).size() > 2)
             throw new IllegalArgumentException("Deposit middle row overflow");
         if(changes.containsKey(3) && changes.get(3).size() > 3)
             throw new IllegalArgumentException("Deposit bottom row overflow");
-        for (Resource res : leadersDeposit.keySet()) {
-            if(leadersDeposit.get(res) > player.numLeadersDeposits(res))
-                throw new IllegalArgumentException(("Leader deposits for resource " + res + " overflow"));
-        }
 
         List<Resource> alreadySeen = new ArrayList<>();
         for(int i = 2; i < 4; i++) {
@@ -254,6 +261,34 @@ public class Deposit extends Observable<IServerPacket> {
                         throw new IllegalArgumentException("Row " + j + " contains mismatched resources");
             }
         }
+    }
+
+    /**
+     * Checks if the given leaders deposits are compliant to game rules.
+     *
+     * @param leadersDeposit a map representing leaders deposits, the keys should be only 1 and/or 2, representing
+     *                       the modified leader deposits
+     * @throws IllegalArgumentException if the given changes violate game rules
+     */
+    private void checkLeaderDeposit(Map<Integer, List<Resource>> leadersDeposit) throws IllegalArgumentException {
+        List<Resource> depositsRequired = new ArrayList<>();
+        for(int leaderSlot : leadersDeposit.keySet()) {
+            int amount = 0;
+            Resource resource = null;
+            if(!leadersDeposit.get(leaderSlot).isEmpty()) {
+                resource = leadersDeposit.get(leaderSlot).get(0);
+                depositsRequired.add(resource);
+                for (Resource res : leadersDeposit.get(leaderSlot)) {
+                    amount++;
+                    if (res != resource)
+                        throw new IllegalArgumentException("Leader deposit " + leaderSlot + " contains mismatched resources");
+                }
+                if (amount > 2)
+                    throw new IllegalArgumentException("Leader deposit overflow");
+            }
+        }
+        if(!player.hasLeaderDeposits(depositsRequired))
+            throw new IllegalArgumentException("Leader deposit not found");
     }
 
     /**
@@ -286,8 +321,10 @@ public class Deposit extends Observable<IServerPacket> {
             middleRow.remove(resource);
         } else if (row == 3 && bottomRow.size() > 0) {
             bottomRow.remove(resource);
-        } else if (row == 4 && leadersDeposit.containsKey(resource))
-            leadersDeposit.put(resource, leadersDeposit.get(resource) - 1);
+        } else if (row == 4)
+            leadersDeposit.get(1).remove(resource);
+        else if (row == 5)
+            leadersDeposit.get(2).remove(resource);
     }
 
     /**

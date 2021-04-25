@@ -154,22 +154,6 @@ public class Player extends Observable<IServerPacket> {
     }
 
     /**
-     * Checks if the player has some leaders that grant a deposit for the given resource.
-     * @param res the resource to be checked
-     * @return the number of deposits for the given resource
-     */
-    public int numLeadersDeposits(Resource res) {
-        int result = 0;
-        for (LeaderCard card: leaderCards.keySet()) {
-            if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) {
-                if(card.getSpecialAbility().getTargetResource() == res) result++;
-            }
-        }
-        return result;
-    }
-
-
-    /**
      * Checks if the Player has an active leader card with the given white conversion.
      *
      * @param resource the resource to convert to
@@ -181,6 +165,23 @@ public class Player extends Observable<IServerPacket> {
                 if(card.getSpecialAbility().getTargetResource() == resource) return true;
         }
         return false;
+    }
+
+    /**
+     * Checks if the Player has an active leader card with a deposit for the given resource.
+     *
+     * @param resourcesToCheck a list of resource to check for
+     * @return true if the player has this special ability, false otherwise
+     */
+    public boolean hasLeaderDeposits(List<Resource> resourcesToCheck) {
+        List<Resource> resources = new ArrayList<>(resourcesToCheck);
+        int index = 0;
+        for(LeaderCard card : leaderCards.keySet()) {
+            if(index >= resources.size()) break;
+            if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT)
+                if (card.getSpecialAbility().getTargetResource() == resources.get(index)) resources.remove(index);
+        }
+        return resources.isEmpty();
     }
 
     /**

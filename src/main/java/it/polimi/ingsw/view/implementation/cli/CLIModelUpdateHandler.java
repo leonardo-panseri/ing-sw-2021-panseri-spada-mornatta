@@ -84,7 +84,7 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Resource, Integer> leadersDeposit) {
+    public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Integer, List<Resource>> leadersDeposit) {
         List<List<Resource>> deposit;
         if(playerName.equals(getView().getPlayerName())){
             deposit = getView().getModel().getDeposit();
