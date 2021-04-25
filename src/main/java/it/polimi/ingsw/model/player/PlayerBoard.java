@@ -141,6 +141,20 @@ public class PlayerBoard extends Observable<IServerPacket> {
     }
 
     /**
+     * Calculates the total amount of victory points given by all development cards on the board.
+     *
+     * @return the total amount of victory points
+     */
+    public int getDevelopmentCardsTotalVictoryPoints() {
+        int victoryPoints = 0;
+        for(Stack<DevelopmentCard> slot : getAllCardSlots()) {
+            for(DevelopmentCard card : slot)
+                victoryPoints += card.getVictoryPoints();
+        }
+        return victoryPoints;
+    }
+
+    /**
      * Calls for the method to push the bought development card in the desired stack.
      *
      * @param slot the slot where to push the card

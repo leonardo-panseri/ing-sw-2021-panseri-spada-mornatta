@@ -7,10 +7,7 @@ import it.polimi.ingsw.model.messages.MarketResultUpdate;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Models the deposit of a player board, comprehensive of the three rows of resources slots, adn the strongbox.
@@ -534,5 +531,19 @@ public class Deposit extends Observable<IServerPacket> {
     public void clearMarketResults() {
         marketResults.clear();
         notify(new MarketResultUpdate(player.getNick(), marketResults));
+    }
+
+    /**
+     * Counts all resources present in this deposit.
+     *
+     * @return the total amount of resources present
+     */
+    public int countAllResources() {
+        int amount = 0;
+        amount += topRow != null ? 1 : 0;
+        amount += middleRow.size() + bottomRow.size();
+        amount += strongBox.values().stream().reduce(0, Integer::sum);
+        amount += leadersDeposit.values().stream().mapToInt(List::size).reduce(0, Integer::sum);
+        return amount;
     }
 }

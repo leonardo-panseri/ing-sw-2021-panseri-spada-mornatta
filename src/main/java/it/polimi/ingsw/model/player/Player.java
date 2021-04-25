@@ -55,7 +55,7 @@ public class Player extends Observable<IServerPacket> {
         return nick;
     }
 
-    int getFaithPoints() {
+    public int getFaithPoints() {
         return faithPoints;
     }
 
@@ -84,7 +84,7 @@ public class Player extends Observable<IServerPacket> {
      *
      * @return the amount of pope favours activated
      */
-    int getPopeFavours() {
+    public int getPopeFavours() {
         return popeFavours;
     }
 
@@ -245,6 +245,20 @@ public class Player extends Observable<IServerPacket> {
             }
         }
         return result;
+    }
+
+    /**
+     * Calculates the total amount of victory points given by all active leader cards of this Player.
+     *
+     * @return the total amount of victory points
+     */
+    public int getLeaderCardsTotalVictoryPoints() {
+        int victoryPoints = 0;
+        for(LeaderCard card : leaderCards.keySet()) {
+            if(isLeaderActive(card))
+                victoryPoints += card.getVictoryPoints();
+        }
+        return victoryPoints;
     }
 
     @Override

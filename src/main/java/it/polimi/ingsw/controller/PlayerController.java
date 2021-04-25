@@ -51,7 +51,7 @@ public class PlayerController {
             return;
         }
 
-        boolean endGame = player.getBoard().getNumberOfDevelopmentCards() == 6;
+        boolean endGame = player.getBoard().getNumberOfDevelopmentCards() > 6;
 
         //Check for leaders discounts
         Map<Resource, Integer> cost = new HashMap<>(developmentCard.getCost());
@@ -65,7 +65,7 @@ public class PlayerController {
         player.getBoard().addCard(slot, developmentCard);
 
         if (endGame)
-            gameController.endGame();
+            gameController.getGame().startLastRound(player);
     }
 
     public synchronized void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes, List<Resource> toBeStored, Map<Integer, List<Resource>> leadersDeposit) {
@@ -96,6 +96,9 @@ public class PlayerController {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+        player.addFaithPoints(1);
+
+        checkFaithPointsToWin(player);
     }
 
     public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {
@@ -136,7 +139,10 @@ public class PlayerController {
                 marketResults.remove(i);
             }
         }
-        if (faithIncrement > 0) player.addFaithPoints(faithIncrement);
+        if (faithIncrement > 0) {
+            player.addFaithPoints(faithIncrement);
+            checkFaithPointsToWin(player);
+        }
 
         player.getBoard().getDeposit().setMarketResults(marketResults);
     }
@@ -156,6 +162,7 @@ public class PlayerController {
             int faithToAdd = result.get(Resource.FAITH);
             result.remove(Resource.FAITH);
             player.addFaithPoints(faithToAdd);
+            checkFaithPointsToWin(player);
         }
         player.getBoard().getDeposit().addMultipleToStrongbox(result);
     }
@@ -267,5 +274,10 @@ public class PlayerController {
         if (gameController.getGame().isLastPlayerTurn())
             gameController.getGame().setGamePhase(GamePhase.PLAYING);
         gameController.getGame().nextPlayer();
+    }
+
+    void checkFaithPointsToWin(Player player) {
+        if(player.getFaithPoints() > 23)
+            gameController.getGame().startLastRound(player);
     }
 }

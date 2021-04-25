@@ -1,15 +1,15 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.card.Deck;
+import it.polimi.ingsw.model.messages.EndGameUpdate;
 import it.polimi.ingsw.model.messages.GamePhaseUpdate;
+import it.polimi.ingsw.model.messages.LastRoundUpdate;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.TurnUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Model class representing the game state, contains references to all other game model objects. Notifies all registered
@@ -18,6 +18,7 @@ import java.util.List;
 public class Game extends Observable<IServerPacket> {
     private static final int[] popeReports = {8, 16, 24};
     private static final int[] popeFavourValues = {2, 3, 4};
+    private static final Map<Integer, Integer> popePoints = Map.of(3, 1, 6, 2, 9, 4, 12, 6, 15, 9, 18, 12, 21, 16, 24, 20);
     private final Market market;
     private final List<Player> players;
     private final Deck deck;
@@ -165,6 +166,27 @@ public class Game extends Observable<IServerPacket> {
     }
 
     /**
+     * Sets the game to the last round game phase.
+     *
+     * @param player the player that caused this phase to start
+     */
+    public synchronized void startLastRound(Player player) {
+        if(gamePhase != GamePhase.LAST_ROUND) {
+            this.gamePhase = GamePhase.LAST_ROUND;
+            notify(new LastRoundUpdate(player.getNick()));
+        }
+    }
+
+    /**
+     * Checks if it is the last round of the game.
+     *
+     * @return true if it is the last round, false otherwise
+     */
+    public synchronized boolean isLastRound() {
+        return gamePhase == GamePhase.LAST_ROUND;
+    }
+
+    /**
      * Passes the turn to the next player, if the current player is the last in the players list restarts from the
      * first player.
      */
@@ -196,5 +218,29 @@ public class Game extends Observable<IServerPacket> {
      */
     public void randomSortPlayers() {
         Collections.shuffle(players);
+    }
+
+    /**
+     * Terminates a game, sending scores and the winner name to Players.
+     *
+     * @param scores the final scores of this game
+     * @param winnerName the winner name
+     */
+    public void terminate(Map<String, Integer> scores, String winnerName) {
+        gamePhase = GamePhase.END;
+        notify(new EndGameUpdate(scores, winnerName));
+    }
+
+    /**
+     * Calculates victory points awarded by the given position in the faith track.
+     *
+     * @param faithPoints the progression in the faith track
+     * @return the victory points awarded by the given position in the faith track
+     */
+    public int calculateFaithTrackVictoryPoints(int faithPoints) {
+        for(int i = faithPoints; i > 0; i--) {
+            if(popePoints.containsKey(i)) return popePoints.get(i);
+        }
+        return 0;
     }
 }

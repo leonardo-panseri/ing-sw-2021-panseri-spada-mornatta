@@ -27,14 +27,20 @@ public class TurnController {
         if(!gameController.isPlaying(player)) {
             return;
         }
-
         int discardedMarketResults = player.getBoard().getDeposit().getUnusedMarketResults();
         if(discardedMarketResults > 0) {
             for(Player p : gameController.getGame().getPlayers())
-                if(!p.equals(player))
+                if(!p.equals(player)) {
                     p.addFaithPoints(discardedMarketResults);
+                    gameController.getPlayerController().checkFaithPointsToWin(p);
+                }
         }
         player.getBoard().getDeposit().clearMarketResults();
-        gameController.getGame().nextPlayer();
+
+        if(gameController.getGame().isLastRound() && gameController.getGame().isLastPlayerTurn()) {
+            gameController.endGame();
+        } else {
+            gameController.getGame().nextPlayer();
+        }
     }
 }
