@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GamePhase;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.messages.PlayerActionEvent;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
@@ -8,14 +8,15 @@ import it.polimi.ingsw.observer.Observer;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 
 public class GameController implements Observer<PlayerActionEvent> {
+    private final Lobby lobby;
     private final Game game;
     private final TurnController turnController;
     private final PlayerController playerController;
 
-    public GameController() {
+    public GameController(Lobby lobby) {
+        this.lobby = lobby;
         game = new Game();
         turnController = new TurnController(this);
         playerController = new PlayerController(this);
@@ -50,6 +51,7 @@ public class GameController implements Observer<PlayerActionEvent> {
             scores.put(player.getNick(), score);
         }
         game.terminate(scores, winner);
+        lobby.terminate();
     }
 
     int calculateScore(Player player) {

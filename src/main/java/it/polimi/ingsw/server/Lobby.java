@@ -100,4 +100,12 @@ public class Lobby extends Observable<IServerPacket> {
                 return false;
         return playersToStart == connections.size();
     }
+
+    public synchronized void terminate() {
+        for(SocketClientConnection conn : connections) {
+            if(conn != null) {
+                conn.closeConnection();
+            }
+        }
+    }
 }
