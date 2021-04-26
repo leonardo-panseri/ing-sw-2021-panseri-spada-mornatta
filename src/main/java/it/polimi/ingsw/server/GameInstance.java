@@ -19,6 +19,7 @@ public class GameInstance extends Thread {
         System.out.println("Starting game!");
 
         GameController controller = new GameController();
+        List<RemoteView> registeredViews = new ArrayList<>();
         for(SocketClientConnection conn : lobby.getConnections()) {
             conn.setLobbyUUID(lobby.getUuid());
 
@@ -27,15 +28,22 @@ public class GameInstance extends Thread {
             RemoteView remoteView = conn.getRemoteView();
             remoteView.setPlayer(player);
             remoteView.setGameController(controller);
+
             controller.getGame().addObserver(remoteView);
             controller.getGame().getDeck().addObserver(remoteView);
             controller.getGame().getMarket().addObserver(remoteView);
-            player.addObserver(remoteView);
-            player.getBoard().addObserver(remoteView);
-            player.getBoard().getDeposit().addObserver(remoteView);
+            registeredViews.add(remoteView);
 
             if(lobby.isSinglePlayer())
                 controller.getGame().createLorenzo().addObserver(remoteView);
+        }
+
+        for(Player player : controller.getGame().getPlayers()) {
+            for(RemoteView remoteView : registeredViews) {
+                player.addObserver(remoteView);
+                player.getBoard().addObserver(remoteView);
+                player.getBoard().getDeposit().addObserver(remoteView);
+            }
         }
 
         lobby.startGame();

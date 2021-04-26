@@ -149,6 +149,7 @@ public class SocketClientConnection implements Runnable {
             writeThread.join();
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());
+            e.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -186,13 +187,11 @@ class WriteThread extends Thread {
     public void run() {
         try {
             while (clientConnection.isActive()) {
-                while (bufferOut.size() > 0) {
-                    Object object = bufferOut.remove();
+                Object object = bufferOut.take();
 
-                    out.reset();
-                    out.writeObject(object);
-                    out.flush();
-                }
+                out.reset();
+                out.writeObject(object);
+                out.flush();
             }
         } catch(Exception e) {
             System.err.println("Error in SocketClientConnection WriteThread");

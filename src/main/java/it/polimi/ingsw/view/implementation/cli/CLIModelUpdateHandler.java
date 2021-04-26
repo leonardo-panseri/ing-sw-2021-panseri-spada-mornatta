@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.ModelUpdateHandler;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,8 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
             getView().getModel().setLeadersDeposit(leadersDeposit);
         } else {
             if(!getView().getModel().getOtherDeposit().containsKey(playerName)){
-                getView().getModel().getOtherDeposit().put(playerName, new ArrayList<>());
+                getView().getModel().getOtherDeposit().put(playerName, new ArrayList<>(
+                        Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>())));
             }
             deposit = getView().getModel().getOtherDeposit().get(playerName);
 

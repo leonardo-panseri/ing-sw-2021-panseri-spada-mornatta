@@ -25,6 +25,7 @@ public class TurnController {
 
     public synchronized void endTurn(Player player) {
         if(!gameController.isPlaying(player)) {
+            System.err.println("Player tried to end turn, but it is not its turn");
             return;
         }
         int discardedMarketResults = player.getBoard().getDeposit().getUnusedMarketResults();
@@ -34,8 +35,8 @@ public class TurnController {
                     p.addFaithPoints(discardedMarketResults);
                     gameController.getPlayerController().checkFaithPointsToWin(p);
                 }
+            player.getBoard().getDeposit().clearMarketResults();
         }
-        player.getBoard().getDeposit().clearMarketResults();
 
         if(gameController.getGame().isLastRound() && gameController.getGame().isLastPlayerTurn()) {
             gameController.endGame();

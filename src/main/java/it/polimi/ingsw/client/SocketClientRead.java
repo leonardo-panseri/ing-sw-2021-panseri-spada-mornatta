@@ -23,19 +23,31 @@ public class SocketClientRead extends Thread {
                 Object inputObject = socketIn.readObject();
                 if(inputObject instanceof ServerMessage) {
                     ServerMessage message = (ServerMessage) inputObject;
-                    message.process(client.getView());
+
+                    try {
+                        message.process(client.getView());
+                    } catch (Exception e) {
+                        System.err.println("Uncaught exception while processing server message");
+                        e.printStackTrace();
+                    }
                 } else if(inputObject instanceof PropertyUpdate){
                     PropertyUpdate update = (PropertyUpdate) inputObject;
 
                     System.out.println("Received: " + update);
 
-                    update.process(client.getView());
+                    try {
+                        update.process(client.getView());
+                    } catch (Exception e) {
+                        System.err.println("Uncaught exception while processing update");
+                        e.printStackTrace();
+                    }
                 } else {
                     System.err.println("Received object of unknown type");
                 }
             }
         } catch (Exception e){
             client.setActive(false);
+            e.printStackTrace();
         }
     }
 }
