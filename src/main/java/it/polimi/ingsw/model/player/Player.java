@@ -76,7 +76,7 @@ public class Player extends Observable<IServerPacket> {
      */
     void setFaithPoints(int faithPoints) {
         this.faithPoints = faithPoints;
-        notify(new FaithUpdate(this.nick, this.faithPoints));
+        notify(new FaithUpdate(this.nick, getFaithPoints()));
     }
 
     /**
@@ -190,7 +190,7 @@ public class Player extends Observable<IServerPacket> {
      */
     public synchronized void addFaithPoints(int faithPoints) {
         this.faithPoints += faithPoints;
-        notify(new FaithUpdate(getNick(), faithPoints));
+        notify(new FaithUpdate(getNick(), getFaithPoints()));
     }
 
     /**
@@ -200,7 +200,7 @@ public class Player extends Observable<IServerPacket> {
      */
     public synchronized void addPopeFavours(int popeFavours) {
         this.popeFavours += popeFavours;
-        notify(new PopeFavourUpdate(getNick(), popeFavours));
+        notify(new PopeFavourUpdate(getNick(), getPopeFavours()));
     }
 
     /**
