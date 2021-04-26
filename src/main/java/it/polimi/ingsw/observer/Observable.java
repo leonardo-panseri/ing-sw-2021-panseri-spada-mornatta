@@ -6,10 +6,6 @@ import java.util.List;
 public class Observable<T> {
     private final List<Observer<T>> observers = new ArrayList<>();
 
-    public List<Observer<T>> getObservers() {
-        return observers;
-    }
-
     public void addObserver(Observer<T> observer){
         synchronized (observers) {
             observers.add(observer);

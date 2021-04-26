@@ -68,6 +68,7 @@ public class Client {
             view.run();
 
             readThread.join();
+            System.out.println("Read thread terminated");
             writeThread.join();
         } catch(InterruptedException | NoSuchElementException e){
             System.out.println("Connection closed from the client side");

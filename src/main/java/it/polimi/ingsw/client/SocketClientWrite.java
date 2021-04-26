@@ -24,16 +24,15 @@ public class SocketClientWrite extends Thread {
     public void run() {
         try {
             while (client.isActive()) {
-                while (bufferOut.size() > 0) {
-                    Object object = bufferOut.remove();
+                Object object = bufferOut.take();
 
-                    socketOut.reset();
-                    socketOut.writeObject(object);
-                    socketOut.flush();
-                }
+                socketOut.reset();
+                socketOut.writeObject(object);
+                socketOut.flush();
             }
         }catch(Exception e){
             client.setActive(false);
+            e.printStackTrace();
         }
     }
 

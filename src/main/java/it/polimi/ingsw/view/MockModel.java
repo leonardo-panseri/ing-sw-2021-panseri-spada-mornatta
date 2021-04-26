@@ -21,18 +21,20 @@ public class MockModel {
     int faithPoints = 15;
     int popeFavours = 2;
 
-    private Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
-    private Map<String, List<Stack<DevelopmentCard>>> otherDevelopmentCards;
-    private Map<String, List<List<Resource>>> otherDeposit;
-    private Map<String, Map<Integer, List<Resource>>> otherLeadersDeposit;
-    private Map<String, Integer> otherFaith;
-    private Map<String, Integer> otherFavours;
+    private final Map<String, Map<LeaderCard, Boolean>> otherLeaderCards;
+    private final Map<String, List<Stack<DevelopmentCard>>> otherDevelopmentCards;
+    private final Map<String, List<List<Resource>>> otherDeposit;
+    private final Map<String, Map<Integer, List<Resource>>> otherLeadersDeposit;
+    private final Map<String, Integer> otherFaith;
+    private final Map<String, Integer> otherFavours;
 
     public MockModel() {
         otherLeaderCards = new HashMap<>();
         otherDevelopmentCards = new HashMap<>();
         otherDeposit = new HashMap<>();
+        otherLeadersDeposit = new HashMap<>();
         otherFaith = new HashMap<>();
+        otherFavours = new HashMap<>();
         developmentCards = new ArrayList<>();
         deposit = new ArrayList<>();
         leadersDeposit = new HashMap<>();

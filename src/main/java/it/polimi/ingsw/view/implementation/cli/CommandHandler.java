@@ -244,14 +244,14 @@ public class CommandHandler {
         switch (args[0]) {
             case "leader" -> {
                 if(args.length != 3) {
-                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_LEADER_PRODUCTION);
                     return;
                 }
                 int index = 0;
                 try {
                     index = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
-                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_LEADER_PRODUCTION);
                     return;
                 }
                 if(index > 2 || index < 1) {
@@ -270,14 +270,14 @@ public class CommandHandler {
             }
             case "development" -> {
                 if(args.length != 2) {
-                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_DEVELOPMENT_PRODUCTION);
                     return;
                 }
                 int index;
                 try {
                     index = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
-                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_DEVELOPMENT_PRODUCTION);
                     return;
                 }
                 if(index > 3 || index < 1) {
@@ -289,7 +289,7 @@ public class CommandHandler {
             }
             case "base" -> {
                 if(args.length != 4) {
-                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
+                    cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_BASE_PRODUCTION);
                     return;
                 }
                 List<Resource> inputResources = new ArrayList<>();
