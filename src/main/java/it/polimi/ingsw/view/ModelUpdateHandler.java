@@ -33,7 +33,9 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updateStrongbox(String playerName, Map<Resource, Integer> strongbox);
 
-    public abstract void updateFaith(String playerName, int faithPoints, int popeFavours);
+    public abstract void updateFaith(String playerName, int faithPoints);
+
+    public abstract void updatePopeFavours(String playerName, int popeFavours);
 
     public abstract void insertDrawnResources(String playerName, List<Resource> result);
 }

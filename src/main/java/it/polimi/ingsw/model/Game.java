@@ -16,9 +16,12 @@ import java.util.*;
  * observer of state updates.
  */
 public class Game extends Observable<IServerPacket> {
-    private static final int[] popeReports = {8, 16, 24};
-    private static final int[] popeFavourValues = {2, 3, 4};
-    private static final Map<Integer, Integer> popePoints = Map.of(3, 1, 6, 2, 9, 4, 12, 6, 15, 9, 18, 12, 21, 16, 24, 20);
+    /**
+     * Map correlating pope report slot in the faith track with:
+     * <ol><li>victory points awarded to players in range</li><li>range of the pope report</li></ol>
+     */
+    private final Map<Integer, List<Integer>> popeReports = Map.of(8, Arrays.asList(2, 4), 16, Arrays.asList(3, 5), 24, Arrays.asList(4, 6));
+    private final Map<Integer, Integer> faithTrackPoints = Map.of(3, 1, 6, 2, 9, 4, 12, 6, 15, 9, 18, 12, 21, 16, 24, 20);
     private final Market market;
     private final List<Player> players;
     private final Deck deck;
@@ -239,8 +242,36 @@ public class Game extends Observable<IServerPacket> {
      */
     public int calculateFaithTrackVictoryPoints(int faithPoints) {
         for(int i = faithPoints; i > 0; i--) {
-            if(popePoints.containsKey(i)) return popePoints.get(i);
+            if(faithTrackPoints.containsKey(i)) return faithTrackPoints.get(i);
         }
         return 0;
+    }
+
+    /**
+     * Checks if there is a pope report slot before the given position in the faith track.
+     *
+     * @param faithPoints the position in the faith track to check from
+     * @return the index of the pope report slot if found, <code>-1</code> otherwise
+     */
+    public int checkForPopeReportSlot(int faithPoints) {
+        for(int i = faithPoints; i > 0; i--)
+            if(popeReports.containsKey(i)) return i;
+        return -1;
+    }
+
+    /**
+     * Activates the pope report action that awards
+     *
+     * @param popeReportSlot the pope report slot that caused the activation
+     */
+    public void activatePopeReport(int popeReportSlot) {
+        if(!popeReports.containsKey(popeReportSlot))
+            return;
+        int minSlot = popeReportSlot - popeReports.get(popeReportSlot).get(1) + 1;
+        for(Player player : getPlayers()) {
+            if(player.getFaithPoints() >= minSlot && player.getFaithPoints() <= popeReportSlot)
+                player.addPopeFavours(popeReports.get(popeReportSlot).get(0));
+        }
+        popeReports.remove(popeReportSlot);
     }
 }

@@ -8,18 +8,15 @@ public class FaithUpdate extends PlayerPropertyUpdate {
     @Serial
     private static final long serialVersionUID = 2004064498686999989L;
 
-    private int faithPoints;
-    private int popeFavours;
+    private final int faithPoints;
 
-
-    public FaithUpdate(String playerName, int faithPoints, int popeFavours) {
+    public FaithUpdate(String playerName, int faithPoints) {
         super(playerName);
         this.faithPoints = faithPoints;
-        this.popeFavours = popeFavours;
     }
 
     @Override
     public void process(View view) {
-        view.getModelUpdateHandler().updateFaith(getPlayerName(), faithPoints, popeFavours);
+        view.getModelUpdateHandler().updateFaith(getPlayerName(), faithPoints);
     }
 }

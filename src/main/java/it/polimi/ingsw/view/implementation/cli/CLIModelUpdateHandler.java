@@ -119,13 +119,19 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void updateFaith(String playerName, int faithPoints, int popeFavours) {
+    public void updateFaith(String playerName, int faithPoints) {
         if (playerName.equals(getView().getPlayerName())) {
             getView().getModel().setFaithPoints(faithPoints);
-            getView().getModel().setPopeFavours(popeFavours);
-        }
-        else {
+        } else {
             getView().getModel().setOtherFaith(playerName, faithPoints);
+        }
+    }
+
+    @Override
+    public void updatePopeFavours(String playerName, int popeFavours) {
+        if (playerName.equals(getView().getPlayerName())) {
+            getView().getModel().setPopeFavours(popeFavours);
+        } else {
             getView().getModel().setOtherFavours(playerName, popeFavours);
         }
     }

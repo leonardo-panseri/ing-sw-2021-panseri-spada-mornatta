@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.model.messages.FaithUpdate;
 import it.polimi.ingsw.model.messages.OwnedLeadersUpdate;
+import it.polimi.ingsw.model.messages.PopeFavourUpdate;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
@@ -74,9 +75,8 @@ public class Player extends Observable<IServerPacket> {
      * @param faithPoints the position in the faith track
      */
     void setFaithPoints(int faithPoints) {
-
         this.faithPoints = faithPoints;
-        notify(new FaithUpdate(this.nick, this.faithPoints, this.popeFavours));
+        notify(new FaithUpdate(this.nick, this.faithPoints));
     }
 
     /**
@@ -94,9 +94,8 @@ public class Player extends Observable<IServerPacket> {
      * @param popeFavours the new amount of pope favours
      */
     void setPopeFavours(int popeFavours) {
-
         this.popeFavours = popeFavours;
-        notify(new FaithUpdate(this.nick, this.faithPoints, this.popeFavours));
+        notify(new PopeFavourUpdate(this.nick, this.popeFavours));
     }
 
     /**
@@ -191,7 +190,17 @@ public class Player extends Observable<IServerPacket> {
      */
     public synchronized void addFaithPoints(int faithPoints) {
         this.faithPoints += faithPoints;
-        notify(new FaithUpdate(getNick(), faithPoints, popeFavours));
+        notify(new FaithUpdate(getNick(), faithPoints));
+    }
+
+    /**
+     * Adds the given amount of pope favours to this player.
+     *
+     * @param popeFavours the amount of pope favours to add
+     */
+    public synchronized void addPopeFavours(int popeFavours) {
+        this.popeFavours += popeFavours;
+        notify(new PopeFavourUpdate(getNick(), popeFavours));
     }
 
     /**

@@ -98,7 +98,7 @@ public class PlayerController {
         }
         player.addFaithPoints(1);
 
-        checkFaithPointsToWin(player);
+        checkFaithPoints(player);
     }
 
     public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {
@@ -141,7 +141,7 @@ public class PlayerController {
         }
         if (faithIncrement > 0) {
             player.addFaithPoints(faithIncrement);
-            checkFaithPointsToWin(player);
+            checkFaithPoints(player);
         }
 
         player.getBoard().getDeposit().setMarketResults(marketResults);
@@ -162,7 +162,7 @@ public class PlayerController {
             int faithToAdd = result.get(Resource.FAITH);
             result.remove(Resource.FAITH);
             player.addFaithPoints(faithToAdd);
-            checkFaithPointsToWin(player);
+            checkFaithPoints(player);
         }
         player.getBoard().getDeposit().addMultipleToStrongbox(result);
     }
@@ -276,7 +276,10 @@ public class PlayerController {
         gameController.getGame().nextPlayer();
     }
 
-    void checkFaithPointsToWin(Player player) {
+    void checkFaithPoints(Player player) {
+        int popeReportSlot = gameController.getGame().checkForPopeReportSlot(player.getFaithPoints());
+        if(popeReportSlot != -1)
+            gameController.getGame().activatePopeReport(popeReportSlot);
         if(player.getFaithPoints() > 23)
             gameController.getGame().startLastRound(player);
     }

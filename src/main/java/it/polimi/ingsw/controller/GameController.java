@@ -57,7 +57,7 @@ public class GameController implements Observer<PlayerActionEvent> {
 
         score += player.getBoard().getDevelopmentCardsTotalVictoryPoints();
         score += game.calculateFaithTrackVictoryPoints(player.getFaithPoints());
-        score += player.getPopeFavours(); //TODO Implement pope favour logic
+        score += player.getPopeFavours();
         score += player.getLeaderCardsTotalVictoryPoints();
         score += Math.floor(player.getBoard().getDeposit().countAllResources() / 5F);
 
