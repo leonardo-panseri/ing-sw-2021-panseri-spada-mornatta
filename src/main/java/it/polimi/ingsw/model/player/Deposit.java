@@ -245,9 +245,11 @@ public class Deposit extends Observable<IServerPacket> {
             throw new IllegalArgumentException("Deposit bottom row overflow");
 
         List<Resource> alreadySeen = new ArrayList<>();
-        for(int i = 2; i < 4; i++) {
-            if(!changes.containsKey(i)) continue;
-            List<Resource> row = changes.get(i);
+        for(int i = 1; i < 4; i++) {
+            List<Resource> row;
+            if(!changes.containsKey(i)) {
+                row = getRow(i);
+            } else row = changes.get(i);
             if(row.size() > 0) {
                 Resource first = row.get(0);
                 if(alreadySeen.contains(first))

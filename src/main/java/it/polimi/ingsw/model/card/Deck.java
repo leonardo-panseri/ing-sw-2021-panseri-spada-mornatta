@@ -36,8 +36,8 @@ public class Deck extends Observable<IServerPacket> {
      */
     public synchronized LeaderCard getLeaderCardByUuid(UUID uuid) {
         LeaderCard result = null;
-        for(LeaderCard card : leaderCards) {
-            if(uuid.equals(card.getUuid())) {
+        for (LeaderCard card : leaderCards) {
+            if (uuid.equals(card.getUuid())) {
                 result = card;
                 break;
             }
@@ -54,10 +54,10 @@ public class Deck extends Observable<IServerPacket> {
     public synchronized DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
         DevelopmentCard result = null;
         outerLoop:
-        for(HashMap<CardColor, Stack<DevelopmentCard>> color : developmentCards) {
-            for(Stack<DevelopmentCard> pile : color.values()) {
-                for(DevelopmentCard card : pile) {
-                    if(uuid.equals(card.getUuid())) {
+        for (HashMap<CardColor, Stack<DevelopmentCard>> color : developmentCards) {
+            for (Stack<DevelopmentCard> pile : color.values()) {
+                for (DevelopmentCard card : pile) {
+                    if (uuid.equals(card.getUuid())) {
                         result = card;
                         break outerLoop;
                     }
@@ -80,8 +80,8 @@ public class Deck extends Observable<IServerPacket> {
      * Shuffles the development cards.
      */
     public void shuffleDevelopmentDeck() {
-        for (HashMap<CardColor, Stack<DevelopmentCard>> map : developmentCards){
-            for (Stack<DevelopmentCard> stack : map.values()){
+        for (HashMap<CardColor, Stack<DevelopmentCard>> map : developmentCards) {
+            for (Stack<DevelopmentCard> stack : map.values()) {
                 Collections.shuffle(stack);
             }
         }
@@ -89,7 +89,7 @@ public class Deck extends Observable<IServerPacket> {
     }
 
     /**
-     *This method is used in the first phase of the game, when players have to draw 4 leaders each.
+     * This method is used in the first phase of the game, when players have to draw 4 leaders each.
      *
      * @return a list of leader cards, the random draw of 4 leaders
      */
@@ -116,22 +116,4 @@ public class Deck extends Observable<IServerPacket> {
                 .pop();
     }
 
-    public static void main(String[] args) {
-        Map<Resource, Integer> rReq = new HashMap<>();
-        Map<CardColor, Integer> cReq = new HashMap<>();
-        Map<CardColor, Integer> lReq = new HashMap<>();
-
-        rReq.put(Resource.STONE, 2);
-        cReq.put(CardColor.GREEN, 3);
-        lReq.put(CardColor.PURPLE, 1);
-        LeaderCardRequirement req = new LeaderCardRequirement(rReq, cReq, lReq);
-
-        SpecialAbility sp = new SpecialAbility(SpecialAbilityType.DISCOUNT, Resource.STONE);
-
-        LeaderCard card = new LeaderCard(4, req, sp);
-
-        GsonParser g = GsonParser.instance();
-
-        System.out.println(g.getGson().toJson(card));
-    }
 }

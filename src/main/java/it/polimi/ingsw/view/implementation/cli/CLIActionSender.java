@@ -6,14 +6,12 @@ import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
-import it.polimi.ingsw.model.messages.DepositUpdate;
 import it.polimi.ingsw.view.ActionSender;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.messages.*;
 import it.polimi.ingsw.view.messages.production.BaseProduction;
 import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
 import it.polimi.ingsw.view.messages.production.LeaderProduction;
-import it.polimi.ingsw.view.messages.production.Production;
 
 import java.util.*;
 
@@ -65,8 +63,8 @@ public class CLIActionSender extends ActionSender {
                 changes.put(row1, newRow1);
                 changes.put(row2, newRow2);
             } else {
-                newRow1 = getView().getModel().getDeposit().get(row1 - 1);
-                newRow2 = getView().getModel().getLeadersDeposit().get(row2 - 3);
+                newRow1 = new ArrayList<>(getView().getModel().getDeposit().get(row1 - 1));
+                newRow2 = new ArrayList<>(getView().getModel().getLeadersDeposit().get(row2 - 3));
                 if(!newRow1.isEmpty()) {
                     Resource res = newRow1.remove(0);
                     newRow2.add(res);
@@ -76,8 +74,8 @@ public class CLIActionSender extends ActionSender {
             }
         } else {
             if(row2 < 4) {
-                newRow1 = getView().getModel().getLeadersDeposit().get(row1 - 3);
-                newRow2 = getView().getModel().getDeposit().get(row2 - 1);
+                newRow1 = new ArrayList<>(getView().getModel().getLeadersDeposit().get(row1 - 3));
+                newRow2 = new ArrayList<>(getView().getModel().getDeposit().get(row2 - 1));
                 if(!newRow1.isEmpty()) {
                     Resource res = newRow1.remove(0);
                     newRow2.add(res);
@@ -85,8 +83,8 @@ public class CLIActionSender extends ActionSender {
                 leadersDepositChanges.put(row1 - 3, newRow1);
                 changes.put(row2, newRow2);
             } else {
-                newRow1 = getView().getModel().getLeadersDeposit().get(row1 - 3);
-                newRow2 = getView().getModel().getLeadersDeposit().get(row2 - 3);
+                newRow1 = new ArrayList<>(getView().getModel().getLeadersDeposit().get(row1 - 3));
+                newRow2 = new ArrayList<>(getView().getModel().getLeadersDeposit().get(row2 - 3));
                 if(!newRow1.isEmpty()) {
                     Resource res = newRow1.remove(0);
                     newRow2.add(res);

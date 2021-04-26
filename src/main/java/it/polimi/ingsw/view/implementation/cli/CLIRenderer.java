@@ -168,7 +168,14 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void renderLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
-        System.out.println(leadersDeposit);
+        if(leadersDeposit.size() == 0) return;
+        System.out.println(AnsiColor.CYAN + "-- LEADERS DEPOSITS --" + AnsiColor.RESET);
+        for (List<Resource> deposit : leadersDeposit.values()) {
+            if(deposit.size()>0){
+                Resource res = deposit.get(0);
+                System.out.println(renderResource(res) + " " + Constants.parseResource(res) + res + AnsiColor.RESET + ": " + deposit.size());
+            } else System.out.println("Empty deposit slot");
+        }
     }
 
     @Override
