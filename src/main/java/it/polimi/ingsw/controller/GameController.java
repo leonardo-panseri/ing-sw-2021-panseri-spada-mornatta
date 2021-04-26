@@ -66,14 +66,6 @@ public class GameController implements Observer<PlayerActionEvent> {
         return score;
     }
 
-    void exit() {
-
-    }
-
-    void exitGame() {
-
-    }
-
     @Override
     public synchronized void update(PlayerActionEvent event) {
         event.process(this);

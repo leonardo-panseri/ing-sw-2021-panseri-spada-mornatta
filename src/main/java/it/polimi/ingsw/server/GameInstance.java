@@ -18,7 +18,7 @@ public class GameInstance extends Thread {
     public void run() {
         System.out.println("Starting game!");
 
-        GameController controller = new GameController();
+        GameController controller = new GameController(lobby);
         List<RemoteView> registeredViews = new ArrayList<>();
         for(SocketClientConnection conn : lobby.getConnections()) {
             conn.setLobbyUUID(lobby.getUuid());
