@@ -13,22 +13,13 @@ public class MarketPlayerActionEvent extends PlayerActionEvent {
     private final int selected;
     private final List<Resource> whiteConversions;
 
-    public MarketPlayerActionEvent(String playerName, int selected, List<Resource> whiteConversions) {
-        super(playerName);
+    public MarketPlayerActionEvent(int selected, List<Resource> whiteConversions) {
         this.selected = selected;
         this.whiteConversions = whiteConversions;
     }
 
-    public int getSelected() {
-        return selected;
-    }
-
-    public List<Resource> getWhiteConversions() {
-        return whiteConversions;
-    }
-
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().useMarket(getPlayer(controller), selected, whiteConversions);
+        controller.getPlayerController().useMarket(getPlayer(), selected, whiteConversions);
     }
 }

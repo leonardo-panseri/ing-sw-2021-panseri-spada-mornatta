@@ -18,13 +18,12 @@ public class ProductionPlayerActionEvent extends PlayerActionEvent {
 
     private final List<Production> productions;
 
-    public ProductionPlayerActionEvent(String playerName, List<Production> productions) {
-        super(playerName);
+    public ProductionPlayerActionEvent(List<Production> productions) {
         this.productions = new ArrayList<>(productions);
     }
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().useProductions(getPlayer(controller), productions);
+        controller.getPlayerController().useProductions(getPlayer(), productions);
     }
 }

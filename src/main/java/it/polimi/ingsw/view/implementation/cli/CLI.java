@@ -76,7 +76,7 @@ public class CLI extends View {
                         uuids.add(leaders.get(i - 1).getUuid());
                     }
 
-                    getClient().send(new SelectLeadersPlayerActionEvent(getPlayerName(), uuids));
+                    getClient().send(new SelectLeadersPlayerActionEvent(uuids));
                 }
                 case WAIT_SELECT_LEADERS -> getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
                 case PLAYING -> {

@@ -55,7 +55,7 @@ public abstract class ActionSender {
             view.getRenderer().showErrorMessage(ViewString.NOT_ALREADY_PLAYED);
             return;
         }
-        view.getClient().send(new EndTurnPlayerActionEvent(view.getPlayerName()));
+        view.getClient().send(new EndTurnPlayerActionEvent());
         view.setAlreadyPlayed(false);
         view.setUsingProductions(false);
     }

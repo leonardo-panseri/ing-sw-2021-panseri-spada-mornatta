@@ -10,20 +10,16 @@ public abstract class PlayerActionEvent implements Serializable {
     @Serial
     private static final long serialVersionUID = 2332021003720296652L;
 
-    private final String playerName;
-
-    public PlayerActionEvent(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
+    private transient Player player;
 
     public abstract void process(GameController controller);
 
-    protected Player getPlayer(GameController controller) {
-        return controller.getGame().getPlayerByName(playerName);
+    protected Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
 

@@ -15,23 +15,21 @@ public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
 
     private final List<UUID> selectedLeadersUUID;
 
-    public SelectLeadersPlayerActionEvent(String playerName, List<UUID> selectedLeadersUUID) {
-        super(playerName);
+    public SelectLeadersPlayerActionEvent(List<UUID> selectedLeadersUUID) {
         this.selectedLeadersUUID = selectedLeadersUUID;
     }
 
     @Override
     public void process(GameController controller) {
-        Player player = getPlayer(controller);
         List<LeaderCard> cards = new ArrayList<>();
         for(UUID uuid : selectedLeadersUUID) {
-            LeaderCard card = player.getLeaderCardByUuid(uuid);
+            LeaderCard card = getPlayer().getLeaderCardByUuid(uuid);
             if(card == null) {
                 System.err.println("SelectLeadersPlayerActionEvent: Can't find leader card");
                 break;
             }
             cards.add(card);
         }
-        controller.getPlayerController().selectInitialLeaders(player, cards);
+        controller.getPlayerController().selectInitialLeaders(getPlayer(), cards);
     }
 }

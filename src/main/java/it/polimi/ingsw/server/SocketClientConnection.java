@@ -183,6 +183,9 @@ class WriteThread extends Thread {
         bufferOut = new ArrayBlockingQueue<>(BUFFER_CAPACITY);
     }
 
+    /**
+     * Starts the write thread loop, waiting for objects to be added to the queue and sending them to the client.
+     */
     @Override
     public void run() {
         try {
