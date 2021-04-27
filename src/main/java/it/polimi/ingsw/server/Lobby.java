@@ -159,7 +159,7 @@ public class Lobby extends Observable<IServerPacket> {
     /**
      * Checks if the number of players needed to start the game for this Lobby is set.
      *
-     * @return true if 0 < playersToStart < 5, false otherwise
+     * @return true if 0 &lt; playersToStart &lt; 5, false otherwise
      */
     public boolean isPlayersToStartSet() {
         return playersToStart > 0 && playersToStart < 5;
