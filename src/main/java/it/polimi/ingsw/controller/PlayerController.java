@@ -204,7 +204,17 @@ public class PlayerController {
         return result;
     }
 
-    public synchronized Map<Resource, Integer> useDevelopmentProduction(Player player, DevelopmentCard card) {
+    /**
+     * Uses the production of the given DevelopmentCard.
+     *
+     * @param player the player that wants to use this production
+     * @param card the wanted development card
+     * @return a map containing the results of this production
+     * @throws IllegalArgumentException if <ul><li>it's not the player's turn</li>
+     *                                  <li>the card is null</li>
+     *                                  <li>the player does not have enough resources</li></ul>
+     */
+    public synchronized Map<Resource, Integer> useDevelopmentProduction(Player player, DevelopmentCard card) throws IllegalArgumentException {
         if (!gameController.isPlaying(player)) {
             throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
@@ -230,7 +240,20 @@ public class PlayerController {
         return output;
     }
 
-    public synchronized Map<Resource, Integer> useLeaderProduction(Player player, LeaderCard card, Resource output) {
+    /**
+     * Uses the production ability of the given LeaderCard with the given Resource as the output.
+     *
+     * @param player the player that wants to use this production power
+     * @param card the leader card with the wanted production ability
+     * @param output the resource that will be awarded as an output of this production
+     * @return a map containing the results of this production
+     * @throws IllegalArgumentException if <ul><li>it's not the player's turn</li>
+     *                                  <li>the card is null or not active</li>
+     *                                  <li>the resource is null or is <code>Resource.FAITH</code></li>
+     *                                  <li>the card does not have a production power</li>
+     *                                  <li>the player does not have enough resources</li></ul>
+     */
+    public synchronized Map<Resource, Integer> useLeaderProduction(Player player, LeaderCard card, Resource output) throws IllegalArgumentException {
         if (!gameController.isPlaying(player)) {
             throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
         }
@@ -242,7 +265,6 @@ public class PlayerController {
         if (output == null || output == Resource.FAITH) {
             throw new IllegalArgumentException("Incorrect required resource type");
         }
-
         if (!card.getSpecialAbility().getType().equals(SpecialAbilityType.PRODUCTION)) {
             throw new IllegalArgumentException("The selected leader does not have a production power!");
         }
@@ -260,15 +282,24 @@ public class PlayerController {
         return result;
     }
 
+    /**
+     * Selects the LeaderCards that the Player wants to keep, discarding the others.
+     *
+     * @param player the player that is selecting the cards
+     * @param cards a list of cards that has been selected, the length of this list must be 2, otherwise prints an error
+     *              to console and returns
+     */
     public synchronized void selectInitialLeaders(Player player, List<LeaderCard> cards) {
         if (cards.size() != 2) {
             System.out.println("Wrong amount of selected leaders!");
+            return;
         }
 
         try {
             player.keepLeaders(cards);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            return;
         }
 
         if (gameController.getGame().isLastPlayerTurn())
@@ -276,6 +307,12 @@ public class PlayerController {
         gameController.getGame().nextPlayer();
     }
 
+    /**
+     * Checks the amount of faith points of the given Player. If the Player has activated a pope report award all
+     * players in range the corresponding amount of pope favours. If the player has reached 24 faith points ends the game.
+     *
+     * @param player the player to check
+     */
     void checkFaithPoints(Player player) {
         int popeReportSlot = gameController.getGame().checkForPopeReportSlot(player.getFaithPoints());
         if(popeReportSlot != -1)
@@ -284,7 +321,13 @@ public class PlayerController {
             gameController.getGame().startLastRound(player);
     }
 
-    public synchronized void sendChatMessage(String sender, String message) {
-        gameController.getGame().notifyChatMessage(sender, message);
+    /**
+     * Sends a chat message to all players.
+     *
+     * @param sender the player who wrote this message
+     * @param message the message that will be sent
+     */
+    public synchronized void sendChatMessage(Player sender, String message) {
+        gameController.getGame().notifyChatMessage(sender.getNick(), message);
     }
 }

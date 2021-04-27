@@ -5,13 +5,12 @@ import it.polimi.ingsw.controller.GameController;
 public class ChatPlayerActionEvent extends PlayerActionEvent{
 
     private final String message;
-    public ChatPlayerActionEvent(String playerName, String message) {
-        super(playerName);
+    public ChatPlayerActionEvent(String message) {
         this.message = message;
     }
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().sendChatMessage(getPlayerName(), message);
+        controller.getPlayerController().sendChatMessage(getPlayer(), message);
     }
 }

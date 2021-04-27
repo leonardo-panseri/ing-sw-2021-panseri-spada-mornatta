@@ -178,6 +178,6 @@ public class CLIActionSender extends ActionSender {
 
     @Override
     public void sendChatMessage(String message) {
-        getView().getClient().send(new ChatPlayerActionEvent(getView().getPlayerName(), message));
+        getView().getClient().send(new ChatPlayerActionEvent(message));
     }
 }

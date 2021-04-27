@@ -190,6 +190,7 @@ public class Player extends Observable<IServerPacket> {
      */
     public synchronized void addFaithPoints(int faithPoints) {
         this.faithPoints += faithPoints;
+        if(this.faithPoints > 24) this.faithPoints = 24;
         notify(new FaithUpdate(getNick(), getFaithPoints()));
     }
 
@@ -232,8 +233,9 @@ public class Player extends Observable<IServerPacket> {
         for(LeaderCard card : selected) {
             if(!leaderCards.containsKey(card))
                 throw new IllegalArgumentException("leadercard_not_found");
-            selectedLeaders.put(card, false);
         }
+        selectedLeaders.put(selected.get(0), false);
+        selectedLeaders.put(selected.get(1), false);
 
         leaderCards = selectedLeaders;
         notify(new OwnedLeadersUpdate(getNick(), leaderCards));
