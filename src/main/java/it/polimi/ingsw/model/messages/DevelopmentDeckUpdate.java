@@ -9,12 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Update sent after a development card has been removed by the deck
+ */
 public class DevelopmentDeckUpdate extends PropertyUpdate {
     @Serial
     private static final long serialVersionUID = -1459329869594429503L;
 
-    private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
+    private final List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
+    /**
+     * Constructor: creates a new DevelopmentDeckUpdate
+     * @param developmentCards the new deck of development cards
+     * */
     public DevelopmentDeckUpdate(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards) {
         this.developmentCards = developmentCards;
     }
