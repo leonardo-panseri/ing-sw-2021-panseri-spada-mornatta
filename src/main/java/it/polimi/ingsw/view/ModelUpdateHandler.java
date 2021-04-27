@@ -37,5 +37,7 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updatePopeFavours(String playerName, int popeFavours);
 
+    public abstract void updateChat(String playerName, String message);
+
     public abstract void insertDrawnResources(String playerName, List<Resource> result);
 }

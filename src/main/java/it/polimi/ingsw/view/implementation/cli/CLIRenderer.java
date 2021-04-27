@@ -295,6 +295,11 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
+    public void printChatMessage(String sender, String message) {
+        System.out.println(AnsiColor.BRIGHT_MAGENTA + "[" + AnsiColor.italicize("FROM:") + AnsiColor.BRIGHT_MAGENTA + sender + "] " + message + AnsiColor.RESET);
+    }
+
+    @Override
     public void renderDevelopmentCard(DevelopmentCard card, int label) {
         ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
         ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());

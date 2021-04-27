@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.card.Deck;
-import it.polimi.ingsw.model.messages.EndGameUpdate;
-import it.polimi.ingsw.model.messages.GamePhaseUpdate;
-import it.polimi.ingsw.model.messages.LastRoundUpdate;
+import it.polimi.ingsw.model.messages.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.model.messages.TurnUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
@@ -260,7 +257,7 @@ public class Game extends Observable<IServerPacket> {
     }
 
     /**
-     * Activates the pope report action that awards
+     * Activates the pope report action that awards.
      *
      * @param popeReportSlot the pope report slot that caused the activation
      */
@@ -273,5 +270,14 @@ public class Game extends Observable<IServerPacket> {
                 player.addPopeFavours(popeReports.get(popeReportSlot).get(0));
         }
         popeReports.remove(popeReportSlot);
+    }
+
+    /**
+     * Notifies the clients of a new global chat message.
+     * @param sender the player that has sent the message
+     * @param message the content of the message
+     */
+    public void notifyChatMessage(String sender, String message) {
+        notify(new ChatUpdate(sender, message));
     }
 }

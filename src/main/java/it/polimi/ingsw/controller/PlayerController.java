@@ -283,4 +283,8 @@ public class PlayerController {
         if(player.getFaithPoints() > 23)
             gameController.getGame().startLastRound(player);
     }
+
+    public synchronized void sendChatMessage(String sender, String message) {
+        gameController.getGame().notifyChatMessage(sender, message);
+    }
 }

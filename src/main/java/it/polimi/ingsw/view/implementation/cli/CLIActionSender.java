@@ -175,4 +175,9 @@ public class CLIActionSender extends ActionSender {
         getView().getClient().send(new ProductionPlayerActionEvent(getView().getPlayerName(), getPendingProductions()));
         clearPendingProductions();
     }
+
+    @Override
+    public void sendChatMessage(String message) {
+        getView().getClient().send(new ChatPlayerActionEvent(getView().getPlayerName(), message));
+    }
 }

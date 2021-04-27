@@ -15,6 +15,7 @@ public abstract class AnsiColor {
     public static final String WHITE = "\u001B[37m";
     public static final String GREY = "\u001B[90m";
     public static final String BRIGHT_BLUE = "\u001B[94m";
+    public static final String BRIGHT_MAGENTA = "\u001B[95m";
 
     public static String italicize(String message) {
         return START_ITALICIZE + message + END_ITALICIZE;

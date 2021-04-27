@@ -68,4 +68,6 @@ public abstract class ActionSender {
     public abstract void useBaseProduction(List<Resource> inputResource, Resource outputResource);
 
     public abstract void executeProductions();
+
+    public abstract void sendChatMessage(String message);
 }

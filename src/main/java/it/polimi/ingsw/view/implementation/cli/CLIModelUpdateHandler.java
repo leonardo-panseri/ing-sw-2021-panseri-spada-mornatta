@@ -137,6 +137,11 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
+    public void updateChat(String sender, String message) {
+        getView().getRenderer().printChatMessage(sender, message);
+    }
+
+    @Override
     public void insertDrawnResources(String playerName, List<Resource> result) {
         if (playerName.equals((getView().getPlayerName()))) {
             getView().getModel().setMarketResult(result);

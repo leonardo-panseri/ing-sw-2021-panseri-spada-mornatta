@@ -51,6 +51,22 @@ public class CommandHandler {
         }
     }
 
+    public void handleChat(String command) throws IllegalArgumentException {
+        if(command == null)
+            throw new IllegalArgumentException("Not a chat message");
+        if(command.trim().equals(""))
+            throw new IllegalArgumentException("Not a chat message");
+
+        String[] split = command.split(" ");
+        String cmd = split[0];
+        String[] args;
+        if (cmd.equals("chat")) {
+            args = Arrays.copyOfRange(split, 1, split.length);
+            chat(args);
+        }
+        else throw new IllegalArgumentException("Not a chat message");
+    }
+
     public void viewLeaders() {
         cli.getRenderer().printOwnLeaders();
     }
@@ -321,5 +337,10 @@ public class CommandHandler {
             return;
         }
         cli.getActionSender().executeProductions();
+    }
+
+    public void chat(String[] splitMessage) {
+        String message = String.join(" ", splitMessage);
+        cli.getActionSender().sendChatMessage(message);
     }
 }

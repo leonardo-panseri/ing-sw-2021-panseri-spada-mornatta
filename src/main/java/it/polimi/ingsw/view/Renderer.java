@@ -48,6 +48,8 @@ public abstract class Renderer {
 
     public abstract void printMarketResult();
 
+    public abstract void printChatMessage(String sender, String message);
+
     public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
 
     public abstract void renderLeaderCard(LeaderCard card, int label);

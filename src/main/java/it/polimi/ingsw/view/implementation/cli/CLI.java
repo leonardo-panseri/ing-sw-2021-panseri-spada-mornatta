@@ -81,7 +81,11 @@ public class CLI extends View {
                 case WAIT_SELECT_LEADERS -> getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
                 case PLAYING -> {
                     if (!isOwnTurn()) {
-                        getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
+                        try {
+                            commandHandler.handleChat(command);
+                        } catch (IllegalArgumentException e) {
+                            getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
+                        }
                         break;
                     }
 
