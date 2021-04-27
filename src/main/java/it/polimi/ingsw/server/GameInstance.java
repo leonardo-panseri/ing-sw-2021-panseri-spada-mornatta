@@ -7,13 +7,24 @@ import it.polimi.ingsw.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Thread to start a new Game instance.
+ */
 public class GameInstance extends Thread {
     private final Lobby lobby;
 
+    /**
+     * Constructs a new GameInstance for the given Lobby.
+     *
+     * @param lobby the lobby that will have its game started
+     */
     GameInstance(Lobby lobby) {
         this.lobby = lobby;
     }
 
+    /**
+     * Initializes a new Game, instantiating and registering all necessary controller and model objects.
+     */
     @Override
     public void run() {
         System.out.println("Starting game!");

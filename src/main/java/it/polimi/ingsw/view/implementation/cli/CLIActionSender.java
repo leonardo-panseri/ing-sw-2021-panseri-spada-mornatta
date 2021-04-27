@@ -27,13 +27,13 @@ public class CLIActionSender extends ActionSender {
         int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
 
         ArrayList<Stack<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        getView().getClient().send(new BuyPlayerActionEvent(getView().getPlayerName(), stacks.get(stackIndex).peek().getUuid(), 1));
+        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).peek().getUuid(), 1));
     }
 
     @Override
     public void draw(int marketIndex, List<Resource> whiteConversions) {
         getView().setAlreadyPlayed(true);
-        getView().getClient().send(new MarketPlayerActionEvent(getView().getPlayerName(), marketIndex - 1, whiteConversions));
+        getView().getClient().send(new MarketPlayerActionEvent(marketIndex - 1, whiteConversions));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CLIActionSender extends ActionSender {
             return;
         }
 
-        getView().getClient().send(new DiscardLeaderPlayerActionEvent(getView().getPlayerName(), cardToDiscard.getUuid()));
+        getView().getClient().send(new DiscardLeaderPlayerActionEvent(cardToDiscard.getUuid()));
     }
 
     @Override
@@ -94,14 +94,14 @@ public class CLIActionSender extends ActionSender {
             }
         }
 
-        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, getView().getModel().getMarketResult(), leadersDepositChanges));
+        getView().getClient().send(new DepositPlayerActionEvent(changes, getView().getModel().getMarketResult(), leadersDepositChanges));
     }
 
     @Override
     public void setActive(int cardIndex) {
         ArrayList<LeaderCard> activeLeaderCard = new ArrayList<>(getView().getModel().getLeaderCards().keySet());
         LeaderCard setActive = activeLeaderCard.get(cardIndex - 1);
-        getView().getClient().send(new ActivateLeaderPlayerActionEvent(getView().getPlayerName(), setActive.getUuid()));
+        getView().getClient().send(new ActivateLeaderPlayerActionEvent(setActive.getUuid()));
 
     }
 
@@ -122,7 +122,7 @@ public class CLIActionSender extends ActionSender {
             leadersDepositChanges.put(rowIndex - 3, newResources);
         }
 
-        getView().getClient().send(new DepositPlayerActionEvent(getView().getPlayerName(), changes, toBeStored, leadersDepositChanges));
+        getView().getClient().send(new DepositPlayerActionEvent(changes, toBeStored, leadersDepositChanges));
     }
 
     @Override
@@ -172,7 +172,7 @@ public class CLIActionSender extends ActionSender {
             getView().getRenderer().showErrorMessage("There are no productions in the queue");
             return;
         }
-        getView().getClient().send(new ProductionPlayerActionEvent(getView().getPlayerName(), getPendingProductions()));
+        getView().getClient().send(new ProductionPlayerActionEvent(getPendingProductions()));
         clearPendingProductions();
     }
 }

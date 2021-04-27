@@ -11,13 +11,12 @@ public class DiscardLeaderPlayerActionEvent extends PlayerActionEvent {
 
     private final UUID leaderCardUUID;
 
-    public DiscardLeaderPlayerActionEvent(String playerName, UUID leaderCardUUID) {
-        super(playerName);
+    public DiscardLeaderPlayerActionEvent(UUID leaderCardUUID) {
         this.leaderCardUUID = leaderCardUUID;
     }
 
     @Override
     public void process(GameController controller) {
-        controller.getPlayerController().discardLeader(getPlayer(controller), controller.getGame().getPlayerByName(getPlayerName()).getLeaderCardByUuid(leaderCardUUID));
+        controller.getPlayerController().discardLeader(getPlayer(), getPlayer().getLeaderCardByUuid(leaderCardUUID));
     }
 }

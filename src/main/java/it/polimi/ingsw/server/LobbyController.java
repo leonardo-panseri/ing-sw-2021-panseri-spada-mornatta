@@ -4,27 +4,38 @@ import it.polimi.ingsw.client.messages.ClientMessage;
 
 import java.util.*;
 
+/**
+ * Controller for the lobbies waiting to start a game.
+ */
 public class LobbyController {
     private final Server server;
     private final Map<UUID, Lobby> playingLobbies = new HashMap<>();
     private Lobby currentLobby = new Lobby();
-    private boolean currentLobbyStarting = false;
 
+    /**
+     * Constructs a new LobbyController for the given Server.
+     *
+     * @param server the server that this LobbyController belongs to
+     */
     LobbyController(Server server) {
         this.server = server;
     }
 
+    /**
+     * Processes the given ClientMessage.
+     *
+     * @param message the client message to process
+     */
     public synchronized void update(ClientMessage message) {
         message.process(this);
     }
 
+    /**
+     * Adds the given ClientConnection to the current lobby.
+     *
+     * @param connection the connection that will be added to the lobby
+     */
     public synchronized void addToLobby(SocketClientConnection connection) {
-        if(currentLobbyStarting) {
-            System.err.println("Trying to connect whilst game is starting, closing");
-
-            connection.closeConnection();
-            return;
-        }
         currentLobby.addObserver(connection.getRemoteView());
         try {
             currentLobby.addConnection(connection);
@@ -35,6 +46,12 @@ public class LobbyController {
         }
     }
 
+    /**
+     * Sets the name of the Player that is associated with the given ClientConnection.
+     *
+     * @param connection the connection that will have its player name set
+     * @param playerName the name to be set
+     */
     public synchronized void setPlayerName(SocketClientConnection connection, String playerName) {
         if(connection.getPlayerName() != null) {
             return;
@@ -47,6 +64,12 @@ public class LobbyController {
             startGame();
     }
 
+    /**
+     * Sets the number of players needed to start the game in the current lobby.
+     *
+     * @param connection the connection that wants to set the players needed to start
+     * @param playersToStart the number of players needed to start the game in the current lobby
+     */
     public synchronized void setPlayersToStart(SocketClientConnection connection, int playersToStart) {
         if(currentLobby.isPlayersToStartSet()) {
             return;
@@ -57,25 +80,28 @@ public class LobbyController {
             startGame();
     }
 
+    /**
+     * Starts the game in the current lobby. The game is initialized in a separate Thread to allow new players to connect
+     * to the next lobby without waiting.
+     */
     private synchronized void startGame() {
-        currentLobbyStarting = true;
-
         Lobby lobbyToStart = currentLobby;
         playingLobbies.put(currentLobby.getUuid(), lobbyToStart);
 
         server.getExecutor().submit(new GameInstance(lobbyToStart));
 
         currentLobby = new Lobby();
-
-        currentLobbyStarting = false;
     }
 
+    /**
+     * Deregister a connection from the lobby, if it is in a playing lobby terminates the game and disconnects all other
+     * players in that lobby.
+     *
+     * @param connection the connection to deregister
+     */
     public synchronized void deregisterConnection(SocketClientConnection connection) {
         if(connection.getLobbyUUID() == null) {
-            if(currentLobbyStarting)
-                currentLobby.disconnectAll(connection);
-            else
-                currentLobby.disconnect(connection);
+            currentLobby.disconnect(connection);
         } else {
             Lobby lobby = playingLobbies.get(connection.getLobbyUUID());
             if(lobby != null) {
