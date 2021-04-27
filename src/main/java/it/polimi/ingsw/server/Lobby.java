@@ -73,7 +73,8 @@ public class Lobby extends Observable<IServerPacket> {
     }
 
     /**
-     * Sets the player name for the given connection.
+     * Sets the player name for the given connection. If there is an other player with this name already connected sends
+     * an error message to the client.
      *
      * @param connection the connection that will have its player name set
      * @param playerName the player name to be set, if it's null or empty sends an error message to the client
@@ -82,6 +83,12 @@ public class Lobby extends Observable<IServerPacket> {
         if(playerName == null || playerName.trim().equals("")) {
             notify(new ErrorMessage(connection, "Your username can't be empty"));
             return;
+        }
+        for(SocketClientConnection clientConnection : connections) {
+            if(playerName.equalsIgnoreCase(clientConnection.getPlayerName())) {
+                notify(new ErrorMessage(connection, "This username is already taken"));
+                return;
+            }
         }
 
         connection.setPlayerName(playerName);

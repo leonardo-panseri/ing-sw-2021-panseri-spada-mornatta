@@ -10,37 +10,70 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Main client instance.
+ */
 public class Client {
-
     private final String ip;
     private final int port;
     private SocketClientWrite writeThread;
 
     private View view;
 
+    private boolean active = true;
+
+    /**
+     * Constructs a new Client that will connect to the given ip and port.
+     *
+     * @param ip the ip of the server
+     * @param port the port of the server
+     */
     public Client(String ip, int port){
         this.ip = ip;
         this.port = port;
     }
 
-    private boolean active = true;
-
+    /**
+     * Checks if this client is still active.
+     *
+     * @return true if the client is active, false otherwise
+     */
     public synchronized boolean isActive(){
         return active;
     }
 
+    /**
+     * Sets this client active status.
+     *
+     * @param active the active status
+     */
     public synchronized void setActive(boolean active){
         this.active = active;
     }
 
+    /**
+     * Gets the View associated with this Client.
+     *
+     * @return the view that's associated with this client
+     */
     public View getView() {
         return view;
     }
 
+    /**
+     * Sends a message to the Server.
+     *
+     * @param message the message that will be sent to the server
+     */
     public void send(Object message) {
         writeThread.send(message);
     }
 
+    /**
+     * Starts the main client loop, reading and interpreting user commands.
+     *
+     * @throws IOException if the creation of the socket input or output stream fails
+     */
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
