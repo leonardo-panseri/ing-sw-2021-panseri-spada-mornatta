@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.IProcessablePacket;
+import it.polimi.ingsw.server.IServerPacket;
 import it.polimi.ingsw.server.messages.ServerMessage;
 import it.polimi.ingsw.model.messages.*;
 
@@ -32,26 +34,20 @@ public class SocketClientRead extends Thread {
     public void run() {
         try {
             while (client.isActive()) {
-                Object inputObject = socketIn.readObject();
-                if(inputObject instanceof ServerMessage) {
-                    ServerMessage message = (ServerMessage) inputObject;
+                Object packet = socketIn.readObject();
 
-                    try {
-                        message.process(client.getView());
-                    } catch (Exception e) {
-                        System.err.println("Uncaught exception while processing server message");
-                        e.printStackTrace();
-                    }
-                } else if(inputObject instanceof PropertyUpdate){
-                    PropertyUpdate update = (PropertyUpdate) inputObject;
+                if(packet instanceof IProcessablePacket) {
+                    if(packet instanceof IServerPacket) {
+                        IServerPacket serverPacket = (IServerPacket) packet;
 
-                    System.out.println("Received: " + update);
-
-                    try {
-                        update.process(client.getView());
-                    } catch (Exception e) {
-                        System.err.println("Uncaught exception while processing update");
-                        e.printStackTrace();
+                        try {
+                            serverPacket.process(client.getView());
+                        } catch (Exception e) {
+                            System.err.println("Uncaught exception while processing server packet");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.err.println("Received a packet of the wrong type");
                     }
                 } else {
                     System.err.println("Received object of unknown type");

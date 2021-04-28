@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.messages;
 
-import it.polimi.ingsw.view.View;
-
 import java.io.Serial;
 
 /**
@@ -19,10 +17,6 @@ public abstract class PlayerPropertyUpdate extends PropertyUpdate {
      **/
     public PlayerPropertyUpdate(String playerName) {
         this.playerName = playerName;
-    }
-
-    protected boolean isCurrentPlayer(View view) {
-        return view.getPlayerName().equals(playerName);
     }
 
     protected String getPlayerName() {

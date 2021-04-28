@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.IProcessablePacket;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.server.messages.DirectServerMessage;
 import it.polimi.ingsw.view.messages.*;
@@ -117,12 +118,14 @@ public class RemoteView implements Observer<IServerPacket> {
     void handlePacket(Object packet) {
         System.out.println("Received: " + packet);
 
-        if(packet instanceof ClientMessage) {
-            ClientMessage clientMessage = (ClientMessage) packet;
-            notifyClientMessage(clientMessage);
-        } else if(packet instanceof PlayerActionEvent) {
-            PlayerActionEvent actionEvent = (PlayerActionEvent) packet;
-            notifyActionEvent(actionEvent);
+        if(packet instanceof IProcessablePacket) {
+            if(packet instanceof ClientMessage) {
+                ClientMessage clientMessage = (ClientMessage) packet;
+                notifyClientMessage(clientMessage);
+            } else if(packet instanceof PlayerActionEvent) {
+                PlayerActionEvent actionEvent = (PlayerActionEvent) packet;
+                notifyActionEvent(actionEvent);
+            }
         } else {
             System.err.println("Received object is of unknown type");
         }
