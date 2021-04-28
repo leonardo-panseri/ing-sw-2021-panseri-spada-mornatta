@@ -45,7 +45,7 @@ public class MockModel {
         leadersDeposit.put(2, new ArrayList<>());
         strongbox = new HashMap<>();
         marketResult = new ArrayList<>();
-        for (int i = 0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             developmentCards.add(new Stack<>());
             deposit.add(new ArrayList<>());
         }
@@ -64,6 +64,7 @@ public class MockModel {
 
     /**
      * Sets the LeaderCards of the player
+     *
      * @param leaderCards a map containing the LeaderCards that need to be set
      */
 
@@ -82,46 +83,101 @@ public class MockModel {
     }
 
     /**
-     * Sets the leader cards of a given non current player.
-     * @param playerName the name of the player to perform the set on.
+     * Sets the leader cards  of the given player or Lorenzo's development cards in the event of a single player game.
+     *
+     * @param playerName  the name of the player to perform the set on.
      * @param leaderCards a map made of the leader cards of a given non current player
      */
     public void setOthersLeaderCards(String playerName, Map<LeaderCard, Boolean> leaderCards) {
         otherLeaderCards.put(playerName, leaderCards);
     }
 
+    /**
+     * Gets the development cards of the other players or Lorenzo's development cards
+     * in the event of a single player game.
+     *
+     * @return a map representing the development cards of the other players or Lorenzo's development cards in the event
+     * of a single player game
+     */
     public Map<String, List<Stack<DevelopmentCard>>> getOtherDevelopmentCards() {
         return otherDevelopmentCards;
     }
 
+    /**
+     * Sets the the development card of the given player or Lorenzo's in the event of a single player game.
+     *
+     * @param card the development card that needs to be set
+     * @param slot the slot in which the development card needs to be put in
+     */
     public void setOtherNewDevelopment(String playerName, DevelopmentCard card, int slot) {
         otherDevelopmentCards.get(playerName).get(slot - 1).push(card);
     }
 
+    /**
+     * Sets the faith points of a given player or Lorenzo's in the event of a single player game.
+     *
+     * @param playerName  the name of the player to set faith points to
+     * @param faithPoints the number of faith points that need to be added to the given player
+     */
     public void setOtherFaith(String playerName, int faithPoints) {
         otherFaith.put(playerName, faithPoints);
     }
 
+    /**
+     * Gets the faith points of a given player or Lorenzo's in the event of a single player game.
+     *
+     * @param playerName the name of the player to get faith points from
+     * @return Gets the faith points of a given player or Lorenzo's in the event of a single player game
+     */
     public int getOtherFaith(String playerName) {
         return this.otherFaith.containsKey(playerName) ? otherFaith.get(playerName) : 0;
     }
+
+    /**
+     * Gets the deposit of the non current players.
+     *
+     * @return a map representing the deposit of the non current players
+     */
 
     public Map<String, List<List<Resource>>> getOtherDeposit() {
         return otherDeposit;
     }
 
+    /**
+     * Gets the deposit of the leader cards with deposit as their special ability type of the other players.
+     *
+     * @return a Map representing  the deposit of the leader cards with deposit as their
+     * special ability type of the other players.
+     */
     public Map<String, Map<Integer, List<Resource>>> getOtherLeadersDeposit() {
         return otherLeadersDeposit;
     }
 
+    /**
+     * Sets the pope favours of the other players.
+     *
+     * @param playerName  the name of the player to set the pope favours to.
+     * @param popeFavours the pope favour that need to be added to the given player
+     */
     public void setOtherFavours(String playerName, int popeFavours) {
         otherFavours.put(playerName, popeFavours);
     }
 
+    /**
+     * Gets the deck made up of development cards.
+     *
+     * @return a list representing the deck made up of development cards
+     */
     public List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentDeck() {
         return developmentDeck;
     }
 
+    /**
+     * Sets the deck made up of development cards.
+     *
+     * @param developmentDeck a stack representing the deck made up of development cards, each stack initially has
+     *                        3 cards
+     */
     public void setDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck) {
         this.developmentDeck = developmentDeck;
     }
@@ -159,14 +215,31 @@ public class MockModel {
      * @param strongbox a map showing the number of times that the resources are present in the strongbox
      */
 
+    /**
+     * Sets the strongbox of the current player.
+     *
+     * @param strongbox a Map representing the strongbox, the integer
+     *                  represents the number of times the resource is present in the strongbox
+     */
     public void setStrongbox(Map<Resource, Integer> strongbox) {
         this.strongbox = strongbox;
     }
 
+    /**
+     * Gets the development cards of the current player.
+     *
+     * @return a list representing the development cards of the current player
+     */
     public List<Stack<DevelopmentCard>> getDevelopmentCards() {
         return developmentCards;
     }
 
+    /**
+     * Shows if the current player has any development cards
+     *
+     * @return returns true if the current player has at least one development card, false if
+     *         the player does not have any.
+     */
     public boolean hasOwnDevelopmentCard() {
         for (Stack<DevelopmentCard> stack : developmentCards) {
             if (!stack.isEmpty()) return true;
@@ -174,18 +247,40 @@ public class MockModel {
         return false;
     }
 
+    /**
+     * Sets a new development card to the current player.
+     *
+     * @param card the development card needed to be set
+     * @param slot the slot in which the card will be put
+     */
     public void setNewDevelopmentCard(DevelopmentCard card, int slot) {
         developmentCards.get(slot - 1).push(card);
     }
 
+    /**
+     * Gets the market.
+     *
+     * @return a list of a list representing the market used to draw resources
+     */
     public List<List<Resource>> getMarket() {
         return market;
     }
 
+    /**
+     * Sets the market.
+     *
+     * @param market list of a list representing the market used to draw resources
+     */
     public void setMarket(List<List<Resource>> market) {
         this.market = market;
     }
 
+    /**
+     * Updates a row of the market.
+     *
+     * @param index the index representing the row that needs to be changed
+     * @param changes a List containing the resources that will be associated to the new row
+     */
     public void updateMarketRow(int index, List<Resource> changes) {
         getMarket().get(index).clear();
         getMarket().get(index).addAll(changes);
@@ -196,22 +291,44 @@ public class MockModel {
      *
      * @return the number of faith points held by the player
      */
-    public int getFaithPoints(){
+    public int getFaithPoints() {
         return this.faithPoints;
     }
+
+    /**
+     * Sets the faith points of the current player.
+     *
+     * @param faithPoints the number of faith points that need to be added to the current player
+     */
 
     public void setFaithPoints(int faithPoints) {
         this.faithPoints = faithPoints;
     }
 
+    /**
+     * Gets the number of pope favours of the current player.
+     *
+     * @return the number of pope favours of the current player
+     */
     public int getPopeFavours() {
         return popeFavours;
     }
 
+    /**
+     * Sets the number of pope favours of the current player.
+     *
+     * @param popeFavours the number of pope favours of the current player
+     */
     public void setPopeFavours(int popeFavours) {
         this.popeFavours = popeFavours;
     }
 
+    /**
+     * Update a column of the market.
+     *
+     * @param index the index representing the column that needs to be changed
+     * @param changes a List containing the resources that will be associated to the new column
+     */
     public void updateMarketColumn(int index, List<Resource> changes) {
         for (List<Resource> row : getMarket()) {
             row.remove(index);
@@ -219,13 +336,29 @@ public class MockModel {
         }
     }
 
+    /**
+     * Gets the result of a draw from the market.
+     *
+     * @return the result of a draw from the market.
+     */
     public List<Resource> getMarketResult() {
         return marketResult;
     }
 
+    /**
+     * Sets the result of a draw from the market.
+     *
+     * @param marketResult a list representing the result of a draw from the market
+     */
     public void setMarketResult(List<Resource> marketResult) {
         this.marketResult = marketResult;
     }
+
+    /**
+     * Gets the deposit of the leader cards having deposit as their special ability.
+     *
+     * @return a Map showing the deposit of the leaders
+     */
 
     public Map<Integer, List<Resource>> getLeadersDeposit() {
         return leadersDeposit;
@@ -234,7 +367,7 @@ public class MockModel {
     /**
      * Sets the deposit of the leader cards having deposit as their special ability.
      *
-     * @param leadersDeposit the Map showing the deposit of the leaders
+     * @param leadersDeposit a Map showing the deposit of the leaders
      */
     public void setLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
         this.leadersDeposit = leadersDeposit;
@@ -244,19 +377,18 @@ public class MockModel {
      * Counts the occurrences of a white resource in a given row or column of the market.
      *
      * @param index the index representing the row or column of the market
-     *
      * @return the occurrences of a white resource in the row or column of the market
      */
     public int countWhiteResources(int index) {
         int result = 0;
-        if(index > 0 && index < 5) {
-            for(int i = 0; i < 3; i++) {
-                if(market.get(i).get(index - 1) == null) result++;
+        if (index > 0 && index < 5) {
+            for (int i = 0; i < 3; i++) {
+                if (market.get(i).get(index - 1) == null) result++;
             }
-        } else if(index > 4 && index < 8) {
-            for(List<Resource> row : market) {
-                for(Resource res : row) {
-                    if(res == null) result++;
+        } else if (index > 4 && index < 8) {
+            for (List<Resource> row : market) {
+                for (Resource res : row) {
+                    if (res == null) result++;
                 }
             }
         }
@@ -271,8 +403,8 @@ public class MockModel {
      */
     public boolean hasTwoLeaderDeposits() {
         int count = 0;
-        for(LeaderCard card : leaderCards.keySet()) {
-            if(card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) count++;
+        for (LeaderCard card : leaderCards.keySet()) {
+            if (card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) count++;
         }
         return count == 2;
     }
