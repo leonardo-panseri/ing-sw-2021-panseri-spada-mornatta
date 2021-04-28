@@ -28,8 +28,10 @@ public abstract class View implements Runnable {
         this.model = new MockModel();
     }
 
-    /*
-    Getters & Setters
+    /**
+     * Gets the client.
+     *
+     * @return the client associated with the view
      */
     public Client getClient() {
         return client;

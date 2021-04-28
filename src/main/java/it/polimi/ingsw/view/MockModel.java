@@ -28,6 +28,9 @@ public class MockModel {
     private final Map<String, Integer> otherFaith;
     private final Map<String, Integer> otherFavours;
 
+    /**
+     * Initializes all the necessary attributes of the MockModel.
+     */
     public MockModel() {
         otherLeaderCards = new HashMap<>();
         otherDevelopmentCards = new HashMap<>();
@@ -49,18 +52,40 @@ public class MockModel {
 
     }
 
+    /**
+     * Gets a map corresponding to the LeaderCards of the player.
+     *
+     * @return a map of the LeaderCards.
+     */
+
     public Map<LeaderCard, Boolean> getLeaderCards() {
         return leaderCards;
     }
+
+    /**
+     * Sets the LeaderCards of the player
+     * @param leaderCards a map containing the LeaderCards that need to be set
+     */
 
     public void setLeaderCards(Map<LeaderCard, Boolean> leaderCards) {
         this.leaderCards = leaderCards;
     }
 
+
+    /**
+     * Gets the leader cards of the other players.
+     *
+     * @return a map containing the leader cards of the other players
+     */
     public Map<String, Map<LeaderCard, Boolean>> getOtherLeaderCards() {
         return otherLeaderCards;
     }
 
+    /**
+     * Sets the leader cards of a given non current player.
+     * @param playerName the name of the player to perform the set on.
+     * @param leaderCards a map made of the leader cards of a given non current player
+     */
     public void setOthersLeaderCards(String playerName, Map<LeaderCard, Boolean> leaderCards) {
         otherLeaderCards.put(playerName, leaderCards);
     }
@@ -101,17 +126,38 @@ public class MockModel {
         this.developmentDeck = developmentDeck;
     }
 
+    /**
+     * Gets the deposit of the current player.
+     *
+     * @return a list of a list of resources representing the deposit of the current player
+     */
     public List<List<Resource>> getDeposit() {
         return deposit;
     }
 
+    /**
+     * Sets the deposit of the current player.
+     *
+     * @param deposit a list of a list of resources representing the deposit of the current player
+     */
     public void setDeposit(List<List<Resource>> deposit) {
         this.deposit = deposit;
     }
 
+    /**
+     * Gets the strongbox of the current player.
+     *
+     * @return a map showing the number of times that the resources are present in the strongbox
+     */
     public Map<Resource, Integer> getStrongbox() {
         return strongbox;
     }
+
+    /**
+     * Sets the strongbox of the current player.
+     *
+     * @param strongbox a map showing the number of times that the resources are present in the strongbox
+     */
 
     public void setStrongbox(Map<Resource, Integer> strongbox) {
         this.strongbox = strongbox;
@@ -145,6 +191,11 @@ public class MockModel {
         getMarket().get(index).addAll(changes);
     }
 
+    /**
+     * Gets faith points of the player.
+     *
+     * @return the number of faith points held by the player
+     */
     public int getFaithPoints(){
         return this.faithPoints;
     }
@@ -180,10 +231,22 @@ public class MockModel {
         return leadersDeposit;
     }
 
+    /**
+     * Sets the deposit of the leader cards having deposit as their special ability.
+     *
+     * @param leadersDeposit the Map showing the deposit of the leaders
+     */
     public void setLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
         this.leadersDeposit = leadersDeposit;
     }
 
+    /**
+     * Counts the occurrences of a white resource in a given row or column of the market.
+     *
+     * @param index the index representing the row or column of the market
+     *
+     * @return the occurrences of a white resource in the row or column of the market
+     */
     public int countWhiteResources(int index) {
         int result = 0;
         if(index > 0 && index < 5) {
@@ -200,6 +263,12 @@ public class MockModel {
         return result;
     }
 
+    /**
+     * Checks if the player has two leader cards with deposit as their special ability type.
+     *
+     * @return true if the player has two leader cards with deposit as their special ability type,
+     * else false
+     */
     public boolean hasTwoLeaderDeposits() {
         int count = 0;
         for(LeaderCard card : leaderCards.keySet()) {
