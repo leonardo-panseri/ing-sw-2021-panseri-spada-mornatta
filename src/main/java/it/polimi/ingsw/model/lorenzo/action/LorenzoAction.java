@@ -3,13 +3,14 @@ package it.polimi.ingsw.model.lorenzo.action;
 import it.polimi.ingsw.controller.LorenzoController;
 import it.polimi.ingsw.model.card.CardColor;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Super class representing an action that the single player opponent can perform.
  */
-public abstract class LorenzoAction {
+public abstract class LorenzoAction implements Serializable {
     /**
      * Executes the action.
      */

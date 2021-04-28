@@ -3,6 +3,8 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.constant.ViewString;
 
+import java.util.Map;
+
 public abstract class View implements Runnable {
     private final Client client;
 
@@ -151,6 +153,10 @@ public abstract class View implements Runnable {
         getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_CRASH :
                                               ViewString.PLAYER_CRASH_WITH_NAME.formatted(playerName));
         client.setActive(false);
+    }
+
+    public void handleEndGame(Map<String, Integer> scores, String winnerName) {
+        getRenderer().printFinalScores(scores, winnerName);
     }
 }
 

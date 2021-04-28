@@ -6,7 +6,9 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -100,11 +102,30 @@ public class GameController implements Observer<PlayerActionEvent> {
             int score = calculateScore(player);
             if(score > maxScore) {
                 maxScore = score;
-                winner = player.getNick();
             }
             scores.put(player.getNick(), score);
         }
-        game.terminate(scores, winner);
+
+        int maxResource = 0;
+        for (Player player : game.getPlayers()) {
+            if(maxScore == calculateScore(player)) {
+                int resources = player.getBoard().getDeposit().countAllResources();
+                if(resources > maxResource) {
+                    maxResource = resources;
+                    winner = player.getNick();
+                }
+            }
+        }
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(scores.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<String, Integer> results = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : list) {
+            results.put(entry.getKey(), entry.getValue());
+        }
+
+        game.terminate(results, winner);
         lobby.terminate();
     }
 
