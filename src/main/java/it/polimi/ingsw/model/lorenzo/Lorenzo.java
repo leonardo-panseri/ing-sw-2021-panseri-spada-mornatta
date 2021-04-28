@@ -1,5 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.lorenzo;
 
+import it.polimi.ingsw.model.lorenzo.action.LorenzoAction;
+import it.polimi.ingsw.model.messages.TurnUpdate;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.LorenzoUpdate;
 import it.polimi.ingsw.server.IServerPacket;
@@ -26,15 +28,6 @@ public class Lorenzo extends Observable<IServerPacket> {
     }
 
     /**
-     * Returns the next action without deleting it.
-     *
-     * @return the lorenzo action that will be executed next
-     */
-    public LorenzoAction getNextAction() {
-        return actions.get(0);
-    }
-
-    /**
      * Returns the amount of faith points.
      *
      * @return the amount of faith points.
@@ -44,19 +37,12 @@ public class Lorenzo extends Observable<IServerPacket> {
     }
 
     /**
-     * Returns the actions of Lorenzo
-     *
-     * @return the actions of Lorenzo
-     */
-    List<LorenzoAction> getActions(){
-        return actions;
-    }
-
-    /**
      * Pops the first action from the actions list. If the list is empty does nothing.
      */
-    public void popAction() {
-        if (actions.size() > 0) actions.remove(0);
+    public LorenzoAction popAction() {
+        if (actions.size() > 0)
+            return actions.remove(0);
+        return null;
     }
 
     /**
@@ -64,7 +50,7 @@ public class Lorenzo extends Observable<IServerPacket> {
      */
     public void shuffleActions() {
         actions.clear();
-        actions.addAll(Arrays.asList(LorenzoAction.values()));
+        actions.addAll(LorenzoAction.getAllActions());
         Collections.shuffle(actions);
     }
 
@@ -76,5 +62,14 @@ public class Lorenzo extends Observable<IServerPacket> {
     public void addPoints(int points) {
         faithPoints += points;
         notify(new LorenzoUpdate(this.faithPoints));
+    }
+
+    /**
+     * Ends the turn of Lorenzo.
+     *
+     * @param nextPlayerName the name of the player that should play next
+     */
+    public void endTurn(String nextPlayerName) {
+        notify(new TurnUpdate(nextPlayerName));
     }
 }

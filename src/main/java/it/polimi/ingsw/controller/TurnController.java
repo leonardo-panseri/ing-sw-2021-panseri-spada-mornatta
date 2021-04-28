@@ -59,7 +59,10 @@ public class TurnController {
         if(gameController.getGame().isLastRound() && gameController.getGame().isLastPlayerTurn()) {
             gameController.endGame();
         } else {
-            gameController.getGame().nextPlayer();
+            if(gameController.isSinglePlayer())
+                gameController.getLorenzoController().executeAction();
+            else
+                gameController.getGame().nextPlayer();
         }
     }
 }

@@ -26,8 +26,6 @@ public class Deck extends Observable<IServerPacket> {
         developmentCards = DeckParser.loadDevelopmentCards();
     }
 
-    //TODO Getting the card by uuid can return null because the cards get removed from the deck
-
     /**
      * Gets the LeaderCard with the given UUID.
      *
@@ -116,4 +114,21 @@ public class Deck extends Observable<IServerPacket> {
                 .pop();
     }
 
+    /**
+     * Removes two DevelopmentCards of the lowest level from the deck.
+     *
+     * @param color the color of the cards that will be removed
+     */
+    public void removeTwoDevelopmentCards(CardColor color) {
+        int removed = 0;
+        int index = 0;
+        while(removed < 2 && index < 3) {
+            if (!developmentCards.get(index).get(color).isEmpty()) {
+                developmentCards.get(index).get(color).pop();
+                removed++;
+            } else
+                index++;
+        }
+        notify(new DevelopmentDeckUpdate(developmentCards));
+    }
 }

@@ -17,6 +17,7 @@ public class GameController implements Observer<PlayerActionEvent> {
     private final Game game;
     private final TurnController turnController;
     private final PlayerController playerController;
+    private final LorenzoController lorenzoController;
 
     /**
      * Constructs a new GameController for the given Lobby.
@@ -28,6 +29,19 @@ public class GameController implements Observer<PlayerActionEvent> {
         game = new Game();
         turnController = new TurnController(this);
         playerController = new PlayerController(this);
+        if(lobby.isSinglePlayer())
+            lorenzoController = new LorenzoController(this);
+        else
+            lorenzoController = null;
+    }
+
+    /**
+     * Checks if the Game is single player.
+     *
+     * @return true if there is only 1 player in the game, false otherwise
+     */
+    public synchronized boolean isSinglePlayer() {
+        return lobby.isSinglePlayer();
     }
 
     /**
@@ -55,6 +69,15 @@ public class GameController implements Observer<PlayerActionEvent> {
      */
     public synchronized PlayerController getPlayerController() {
         return playerController;
+    }
+
+    /**
+     * Gets the LorenzoController.
+     *
+     * @return the lorenzo controller if this game is single player, null otherwise
+     */
+    public synchronized LorenzoController getLorenzoController() {
+        return lorenzoController;
     }
 
     /**

@@ -23,6 +23,6 @@ public class LorenzoUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-
+        view.getModelUpdateHandler().updateFaith("lorenzo", faithPoints);
     }
 }

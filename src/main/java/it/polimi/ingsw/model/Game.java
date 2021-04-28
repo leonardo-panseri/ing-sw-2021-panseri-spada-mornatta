@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.card.Deck;
+import it.polimi.ingsw.model.lorenzo.Lorenzo;
 import it.polimi.ingsw.model.messages.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
