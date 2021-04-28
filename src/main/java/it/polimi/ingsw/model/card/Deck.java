@@ -129,6 +129,21 @@ public class Deck extends Observable<IServerPacket> {
             } else
                 index++;
         }
-        notify(new DevelopmentDeckUpdate(developmentCards));
+        if(removed > 0)
+            notify(new DevelopmentDeckUpdate(developmentCards));
+    }
+
+    /**
+     * Checks if there are no DevelopmentCards of this color left in the Deck.
+     *
+     * @param color the color of the cards to search for
+     * @return true if there are no more cards of this color
+     */
+    public boolean isColorEmpty(CardColor color) {
+        boolean empty = true;
+        for(HashMap<CardColor, Stack<DevelopmentCard>> pile : developmentCards) {
+            if(!pile.get(color).isEmpty()) empty = false;
+        }
+        return empty;
     }
 }

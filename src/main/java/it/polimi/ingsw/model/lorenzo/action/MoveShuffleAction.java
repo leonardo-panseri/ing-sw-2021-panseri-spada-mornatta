@@ -2,10 +2,13 @@ package it.polimi.ingsw.model.lorenzo.action;
 
 import it.polimi.ingsw.controller.LorenzoController;
 
+/**
+ * LorenzoAction adding 1 faith point and shuffling the actions of the single player opponent.
+ */
 public class MoveShuffleAction extends LorenzoAction {
     @Override
-    public void execute(LorenzoController controller) {
-        controller.executeMoveShuffleAction();
+    public boolean execute(LorenzoController controller) {
+        return controller.executeMoveShuffleAction();
     }
 
     @Override

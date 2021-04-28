@@ -233,6 +233,18 @@ public class Game extends Observable<IServerPacket> {
     }
 
     /**
+     * Terminates a single player game, sending results to the Player.
+     *
+     * @param lorenzoWin boolean representing if Lorenzo has won
+     * @param loseReason the reason why Lorenzo has won, if lorenzoWin is false, this will be ignored
+     * @param playerScore the score of the Player, if lorenzoWin is true, this will be ignored
+     */
+    public void terminateSingleplayer(boolean lorenzoWin, String loseReason, int playerScore) {
+        gamePhase = GamePhase.END;
+        notify(new EndSingleplayerGameUpdate(lorenzoWin, loseReason, playerScore));
+    }
+
+    /**
      * Calculates victory points awarded by the given position in the faith track.
      *
      * @param faithPoints the progression in the faith track

@@ -13,8 +13,10 @@ import java.util.List;
 public abstract class LorenzoAction implements Serializable {
     /**
      * Executes the action.
+     *
+     * @return true if this action has ended the game, false otherwise
      */
-    public abstract void execute(LorenzoController controller);
+    public abstract boolean execute(LorenzoController controller);
 
     /**
      * Gets a list of all possible actions.

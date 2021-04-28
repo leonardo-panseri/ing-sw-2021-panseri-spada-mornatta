@@ -32,7 +32,7 @@ public class Lorenzo extends Observable<IServerPacket> {
      *
      * @return the amount of faith points.
      */
-    int getFaithPoints() {
+    public int getFaithPoints() {
         return faithPoints;
     }
 

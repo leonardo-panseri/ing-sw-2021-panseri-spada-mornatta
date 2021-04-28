@@ -58,6 +58,9 @@ public class TurnController {
 
         if(gameController.getGame().isLastRound() && gameController.getGame().isLastPlayerTurn()) {
             gameController.endGame();
+        } else if(gameController.isSinglePlayer() && gameController.getGame().isLastRound()) {
+            gameController.getGame().terminateSingleplayer(false, "",
+                    gameController.calculateScore(gameController.getGame().getCurrentPlayer()));
         } else {
             if(gameController.isSinglePlayer())
                 gameController.getLorenzoController().executeAction();

@@ -135,7 +135,7 @@ public class GameController implements Observer<PlayerActionEvent> {
      * @param player the player whose score will be calculated
      * @return the score of the player
      */
-    private int calculateScore(Player player) {
+    int calculateScore(Player player) {
         int score = 0;
 
         score += player.getBoard().getDevelopmentCardsTotalVictoryPoints();
