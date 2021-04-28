@@ -174,7 +174,7 @@ public class Game extends Observable<IServerPacket> {
     public synchronized void startLastRound(Player player) {
         if(gamePhase != GamePhase.LAST_ROUND) {
             this.gamePhase = GamePhase.LAST_ROUND;
-            notify(new LastRoundUpdate(player.getNick()));
+            notify(new LastRoundUpdate(player.getNick(), isLastPlayerTurn()));
         }
     }
 

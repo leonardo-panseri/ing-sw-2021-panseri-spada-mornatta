@@ -7,16 +7,23 @@ import it.polimi.ingsw.view.View;
  * by finishing the faith track or buying 7 cards.
  */
 public class LastRoundUpdate extends PlayerPropertyUpdate {
+
+    private final boolean hasLastPlayerCompleted;
     /**
      * Constructor: creates a new FaithUpdate.
      * @param playerName the player that ended the game
+     * @param hasLastPlayerCompleted indicates if the player that has completed the game is the last player
      **/
-    public LastRoundUpdate(String playerName) {
+    public LastRoundUpdate(String playerName, boolean hasLastPlayerCompleted) {
         super(playerName);
+        this.hasLastPlayerCompleted = hasLastPlayerCompleted;
     }
 
     @Override
     public void process(View view) {
-        //TODO implement
+        if (!hasLastPlayerCompleted){
+            view.getRenderer().showLobbyMessage("Player " + getPlayerName() +
+                    " has completed the game! This is the last round!");
+        }
     }
 }

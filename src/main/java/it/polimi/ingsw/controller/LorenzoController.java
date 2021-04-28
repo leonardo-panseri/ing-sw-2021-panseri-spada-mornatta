@@ -13,8 +13,7 @@ public class LorenzoController {
     public void executeAction() {
         LorenzoAction nextAction = gameController.getGame().getLorenzo().popAction();
         nextAction.execute(this);
-
-        gameController.getGame().getLorenzo().endTurn(gameController.getGame().getCurrentPlayer().getNick());
+        gameController.getGame().getLorenzo().endTurn(gameController.getGame().getCurrentPlayer().getNick(), nextAction);
     }
 
     public void executeDevelopmentAction(CardColor color) {

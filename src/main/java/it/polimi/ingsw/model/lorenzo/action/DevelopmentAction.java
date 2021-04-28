@@ -14,4 +14,9 @@ public class DevelopmentAction extends LorenzoAction {
     public void execute(LorenzoController controller) {
         controller.executeDevelopmentAction(cardColor);
     }
+
+    @Override
+    public String toString() {
+        return "Lorenzo discarded 2 " + cardColor + " development cards!";
+    }
 }

@@ -1,25 +1,25 @@
 package it.polimi.ingsw.model.lorenzo;
 
 import it.polimi.ingsw.model.lorenzo.action.LorenzoAction;
+import it.polimi.ingsw.model.messages.LorenzoActionUpdate;
 import it.polimi.ingsw.model.messages.TurnUpdate;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.model.messages.LorenzoUpdate;
+import it.polimi.ingsw.model.messages.LorenzoFaithUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Model class representing the singleplayer opponent. Notifies all registered observer of state updates.
+ * Model class representing the single player opponent. Notifies all registered observer of state updates.
  */
 public class Lorenzo extends Observable<IServerPacket> {
     private int faithPoints;
     private final List<LorenzoAction> actions;
 
     /**
-     * Constructs a new singleplayer opponent with 0 faith points and a randomized set of actions.
+     * Constructs a new single player opponent with 0 faith points and a randomized set of actions.
      */
     public Lorenzo() {
         faithPoints = 0;
@@ -61,7 +61,7 @@ public class Lorenzo extends Observable<IServerPacket> {
      */
     public void addPoints(int points) {
         faithPoints += points;
-        notify(new LorenzoUpdate(this.faithPoints));
+        notify(new LorenzoFaithUpdate(this.faithPoints));
     }
 
     /**
@@ -69,7 +69,8 @@ public class Lorenzo extends Observable<IServerPacket> {
      *
      * @param nextPlayerName the name of the player that should play next
      */
-    public void endTurn(String nextPlayerName) {
+    public void endTurn(String nextPlayerName, LorenzoAction executedAction) {
+        notify(new LorenzoActionUpdate(executedAction));
         notify(new TurnUpdate(nextPlayerName));
     }
 }

@@ -50,6 +50,8 @@ public abstract class Renderer {
 
     public abstract void printChatMessage(String sender, String message);
 
+    public abstract void printFinalScores(Map<String, Integer> scores, String winnerName);
+
     public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
 
     public abstract void renderLeaderCard(LeaderCard card, int label);

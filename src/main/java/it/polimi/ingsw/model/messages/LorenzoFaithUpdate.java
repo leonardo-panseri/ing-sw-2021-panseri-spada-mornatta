@@ -7,7 +7,7 @@ import java.io.Serial;
 /**
  * Update sent upon modification of Lorenzo's faith points (in single player mode).
  */
-public class LorenzoUpdate extends PropertyUpdate {
+public class LorenzoFaithUpdate extends PropertyUpdate {
     @Serial
     private static final long serialVersionUID = 5123184263333073010L;
 
@@ -17,7 +17,7 @@ public class LorenzoUpdate extends PropertyUpdate {
      * Constructor: creates a new LorenzoUpdate.
      * @param points the new Lorenzo faith points
      **/
-    public LorenzoUpdate(int points) {
+    public LorenzoFaithUpdate(int points) {
         faithPoints = points;
     }
 

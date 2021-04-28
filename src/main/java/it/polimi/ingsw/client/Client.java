@@ -82,11 +82,17 @@ public class Client {
 
         try{
             Scanner stdin = new Scanner(System.in);
+            String input;
             int chosen = -1;
             while (chosen != 1 && chosen != 2){
                 System.out.println("Choose interface: \n" +
                         "1) CLI");
-                chosen = stdin.nextInt();
+                input = stdin.nextLine();
+                try{
+                    chosen = Integer.parseInt(input);
+                } catch (NumberFormatException e){
+                    System.out.println("Please input 1 or 2");
+                }
             }
 
             if(chosen == 1) {

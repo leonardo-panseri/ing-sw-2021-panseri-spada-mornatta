@@ -300,6 +300,16 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
+    public void printFinalScores(Map<String, Integer> scores, String winnerName) {
+        System.out.println(AnsiColor.YELLOW + AnsiColor.bold(winnerName + " is the true Master of Renaissance!"));
+
+        int index = 0;
+        for (String nick : scores.keySet()) {
+            System.out.println(index + ") " + AnsiColor.YELLOW + nick + " : " + AnsiColor.RESET + scores.get(nick) + " victory points");
+        }
+    }
+
+    @Override
     public void renderDevelopmentCard(DevelopmentCard card, int label) {
         ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
         ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());
