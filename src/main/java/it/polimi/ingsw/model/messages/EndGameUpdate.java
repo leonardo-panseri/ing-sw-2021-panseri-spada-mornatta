@@ -23,6 +23,6 @@ public class EndGameUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-        //TODO Implement
+        view.handleEndGame(scores, winnerName);
     }
 }

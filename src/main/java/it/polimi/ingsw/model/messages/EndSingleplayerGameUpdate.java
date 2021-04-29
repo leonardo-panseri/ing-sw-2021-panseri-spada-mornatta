@@ -24,7 +24,7 @@ public class EndSingleplayerGameUpdate extends PropertyUpdate {
     }
 
     @Override
-    public void process(View controller) {
-        //TODO Implement
+    public void process(View view) {
+        view.handleEndSingleplayerGame(lorenzoWin, loseReason, playerScore);
     }
 }

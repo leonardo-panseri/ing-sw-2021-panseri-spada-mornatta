@@ -156,7 +156,14 @@ public abstract class View implements Runnable {
     }
 
     public void handleEndGame(Map<String, Integer> scores, String winnerName) {
+        client.setActive(false);
         getRenderer().printFinalScores(scores, winnerName);
+    }
+
+    public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
+        client.setActive(false);
+        getRenderer().printSingleplayerFinalScore(lorenzoWin, loseReason, playerScore);
+
     }
 }
 

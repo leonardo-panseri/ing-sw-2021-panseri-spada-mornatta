@@ -6,10 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Main Game controller holding references to the model and all other controllers.
@@ -126,6 +123,13 @@ public class GameController implements Observer<PlayerActionEvent> {
         }
 
         game.terminate(results, winner);
+
+        Timer timer = new Timer();
+        try {
+            timer.wait(10000); //Wait for 10 seconds before closing all connections to give time to all clients to terminate properly
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         lobby.terminate();
     }
 

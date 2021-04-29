@@ -310,6 +310,17 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
+    public void printSingleplayerFinalScore(boolean lorenzoWin, String loseReason, int playerScore) {
+        if(lorenzoWin) {
+            System.out.println(AnsiColor.YELLOW + AnsiColor.bold(loseReason));
+            System.out.println(AnsiColor.YELLOW + AnsiColor.bold("You have lost! Lorenzo is still the true Master of Renaissance!"));
+        } else {
+            System.out.println(AnsiColor.YELLOW + AnsiColor.bold("You are the true Master of Renaissance!"));
+            System.out.println(AnsiColor.YELLOW + AnsiColor.bold("Your score: " + playerScore + " victory points"));
+        }
+    }
+
+    @Override
     public void renderDevelopmentCard(DevelopmentCard card, int label) {
         ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
         ArrayList<Resource> input = new ArrayList<>(card.getProductionInput().keySet());
