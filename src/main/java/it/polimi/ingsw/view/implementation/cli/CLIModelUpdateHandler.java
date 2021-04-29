@@ -145,8 +145,7 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     public void insertDrawnResources(String playerName, List<Resource> result) {
         if (playerName.equals((getView().getPlayerName()))) {
             getView().getModel().setMarketResult(result);
-            if(result.size() > 0)
-                getView().getRenderer().printMarketResult();
+            getView().getRenderer().printMarketResult();
         }
     }
 }

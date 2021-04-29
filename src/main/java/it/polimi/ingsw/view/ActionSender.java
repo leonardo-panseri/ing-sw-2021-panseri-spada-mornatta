@@ -36,7 +36,7 @@ public abstract class ActionSender {
         pendingProductions.clear();
     }
 
-    public abstract void buyDevelopmentCard(int cardIndex);
+    public abstract void buyDevelopmentCard(int cardIndex, int slotIndex);
 
     public abstract void draw(int marketIndex, List<Resource> whiteConversions);
 

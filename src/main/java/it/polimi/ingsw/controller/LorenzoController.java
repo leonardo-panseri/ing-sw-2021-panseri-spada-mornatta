@@ -67,10 +67,14 @@ public class LorenzoController {
 
     /**
      * Checks if Lorenzo has won the match by having more than 23 faith points and if so terminates the game.
+     * Also checks for activation of a pope report.
      *
      * @return true if the game is over, false otherwise
      */
     private boolean checkLorenzoFaith() {
+        int popeReportSlot = gameController.getGame().checkForPopeReportSlot(gameController.getGame().getLorenzo().getFaithPoints());
+        if(popeReportSlot != -1)
+            gameController.getGame().activatePopeReport(popeReportSlot);
         if(gameController.getGame().getLorenzo().getFaithPoints() > 23) {
             gameController.getGame().terminateSingleplayer(true,
                     "Lorenzo has reached the end of the faith track", -1);

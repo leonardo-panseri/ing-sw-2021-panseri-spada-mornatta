@@ -50,7 +50,6 @@ public class Deposit extends Observable<IServerPacket> {
      * Gets the number representing the row where the resource is stored.
      *
      * @param res the resource to find.
-     *
      * @return the int representing the row where the resource is stored. Returns -1 if the resource is not present.
      */
 
@@ -60,6 +59,7 @@ public class Deposit extends Observable<IServerPacket> {
         if (bottomRow.contains(res)) return 3;
         if (leadersDeposit.get(1).contains(res)) return 4;
         if (leadersDeposit.get(2).contains(res)) return 5;
+        if (strongBox.containsKey(res)) return 6;
         return -1;
     }
 
@@ -108,9 +108,9 @@ public class Deposit extends Observable<IServerPacket> {
         for (Resource res : getMarketResults())
             if (res == resource)
                 amount++;
-        for(int leaderSlot : leadersDeposit.keySet())
-            for(Resource res : leadersDeposit.get(leaderSlot))
-                if(res == resource)
+        for (int leaderSlot : leadersDeposit.keySet())
+            for (Resource res : leadersDeposit.get(leaderSlot))
+                if (res == resource)
                     amount++;
         return amount;
     }
@@ -118,8 +118,8 @@ public class Deposit extends Observable<IServerPacket> {
     /**
      * Applies the given changes to this player deposit, checking if they are legal.
      *
-     * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
-     *                2 -> middle, 3 -> bottom, 4 -> leaders deposits), the value is the list of resources that represents the new row
+     * @param changes      a map representing changes to be applied, the key is the identifier of the row (1 -> top,
+     *                     2 -> middle, 3 -> bottom, 4 -> leaders deposits), the value is the list of resources that represents the new row
      * @param marketResult a list containing the possibly modified market result
      * @throws IllegalArgumentException if the changes are not legal
      */
@@ -133,10 +133,9 @@ public class Deposit extends Observable<IServerPacket> {
         for (int i = 1; i < 4; i++) {
             if (changes.containsKey(i)) {
                 if (i == 1) {
-                    if(!changes.get(i).isEmpty()) topRow = changes.get(i).get(0);
+                    if (!changes.get(i).isEmpty()) topRow = changes.get(i).get(0);
                     else topRow = null;
-                }
-                else if (i == 2) middleRow = changes.get(i);
+                } else if (i == 2) middleRow = changes.get(i);
                 else bottomRow = changes.get(i);
                 modifiedRows[index] = i;
                 index++;
@@ -152,9 +151,9 @@ public class Deposit extends Observable<IServerPacket> {
     /**
      * Checks if the deposit move is legal.
      *
-     * @param changes a map representing changes to be applied, the key is the identifier of the row (1 -> top,
-     *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
-     * @param marketResult a list containing the possibly modified market result
+     * @param changes        a map representing changes to be applied, the key is the identifier of the row (1 -> top,
+     *                       2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     * @param marketResult   a list containing the possibly modified market result
      * @param leadersDeposit a map containing the new leaders deposits
      * @throws IllegalArgumentException if the changes are not legal
      */
@@ -205,10 +204,10 @@ public class Deposit extends Observable<IServerPacket> {
         }
 
         //Add quantities from the leaders deposits
-        if(!leadersDeposit.containsKey(1)) leadersDeposit.put(1, this.leadersDeposit.get(1));
-        if(!leadersDeposit.containsKey(2)) leadersDeposit.put(2, this.leadersDeposit.get(2));
+        if (!leadersDeposit.containsKey(1)) leadersDeposit.put(1, this.leadersDeposit.get(1));
+        if (!leadersDeposit.containsKey(2)) leadersDeposit.put(2, this.leadersDeposit.get(2));
         for (int leaderSlot : leadersDeposit.keySet()) {
-            for(Resource res : leadersDeposit.get(leaderSlot))
+            for (Resource res : leadersDeposit.get(leaderSlot))
                 if (newResources.containsKey(res)) {
                     newResources.put(res, newResources.get(res) + 1);
                 } else {
@@ -237,26 +236,26 @@ public class Deposit extends Observable<IServerPacket> {
      *                2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
      */
     private void checkBoundaries(Map<Integer, List<Resource>> changes) {
-        if(changes.containsKey(1) && changes.get(1).size() > 1)
+        if (changes.containsKey(1) && changes.get(1).size() > 1)
             throw new IllegalArgumentException("Deposit top row overflow");
-        if(changes.containsKey(2) && changes.get(2).size() > 2)
+        if (changes.containsKey(2) && changes.get(2).size() > 2)
             throw new IllegalArgumentException("Deposit middle row overflow");
-        if(changes.containsKey(3) && changes.get(3).size() > 3)
+        if (changes.containsKey(3) && changes.get(3).size() > 3)
             throw new IllegalArgumentException("Deposit bottom row overflow");
 
         List<Resource> alreadySeen = new ArrayList<>();
-        for(int i = 1; i < 4; i++) {
+        for (int i = 1; i < 4; i++) {
             List<Resource> row;
-            if(!changes.containsKey(i)) {
+            if (!changes.containsKey(i)) {
                 row = getRow(i);
             } else row = changes.get(i);
-            if(row.size() > 0) {
+            if (row.size() > 0) {
                 Resource first = row.get(0);
-                if(alreadySeen.contains(first))
+                if (alreadySeen.contains(first))
                     throw new IllegalArgumentException("Resource " + first + " is already stored in another row");
                 alreadySeen.add(first);
-                for(int j = 1; j < row.size(); j++)
-                    if(row.get(j) != first)
+                for (int j = 1; j < row.size(); j++)
+                    if (row.get(j) != first)
                         throw new IllegalArgumentException("Row " + j + " contains mismatched resources");
             }
         }
@@ -271,10 +270,10 @@ public class Deposit extends Observable<IServerPacket> {
      */
     private void checkLeaderDeposit(Map<Integer, List<Resource>> leadersDeposit) throws IllegalArgumentException {
         List<Resource> depositsRequired = new ArrayList<>();
-        for(int leaderSlot : leadersDeposit.keySet()) {
+        for (int leaderSlot : leadersDeposit.keySet()) {
             int amount = 0;
-            Resource resource = null;
-            if(!leadersDeposit.get(leaderSlot).isEmpty()) {
+            Resource resource;
+            if (!leadersDeposit.get(leaderSlot).isEmpty()) {
                 resource = leadersDeposit.get(leaderSlot).get(0);
                 depositsRequired.add(resource);
                 for (Resource res : leadersDeposit.get(leaderSlot)) {
@@ -286,7 +285,7 @@ public class Deposit extends Observable<IServerPacket> {
                     throw new IllegalArgumentException("Leader deposit overflow");
             }
         }
-        if(!player.hasLeaderDeposits(depositsRequired))
+        if (!player.hasLeaderDeposits(depositsRequired))
             throw new IllegalArgumentException("Leader deposit not found");
     }
 
@@ -312,18 +311,25 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param row      the row where to delete the resource from
      * @param resource the resource to delete
+     * @return 1 if the resource has been removed, 0 otherwise
      */
-    void removeResource(int row, Resource resource) {
+    int removeResource(int row, Resource resource) {
         if (row == 1 && topRow != null) {
             topRow = null;
+            return 1;
         } else if (row == 2 && middleRow.size() > 0) {
-            middleRow.remove(resource);
+            if (middleRow.remove(resource)) return 1;
         } else if (row == 3 && bottomRow.size() > 0) {
-            bottomRow.remove(resource);
-        } else if (row == 4)
-            leadersDeposit.get(1).remove(resource);
-        else if (row == 5)
-            leadersDeposit.get(2).remove(resource);
+            if (bottomRow.remove(resource)) return 1;
+        } else if (row == 4) {
+            if (leadersDeposit.get(1).remove(resource)) return 1;
+        } else if (row == 5) {
+            if (leadersDeposit.get(2).remove(resource)) return 1;
+        } else if (row == 6) {
+            if (removeFromStrongbox(resource)) return 1;
+        }
+
+        return 0;
     }
 
     /**
@@ -334,15 +340,18 @@ public class Deposit extends Observable<IServerPacket> {
     public synchronized void removeResources(Map<Resource, Integer> resources) {
         List<Integer> changedRows = new ArrayList<>();
         for (Resource res : resources.keySet()) {
-            int row = findResource(res);
-            for (int i = 0; i < resources.get(res); i++) {
-                removeResource(row, res);
+            int removed = 0;
+            while (removed < resources.get(res)) {
+                int row = findResource(res);
+                removed += removeResource(row, res);
+                if (row != 4 && row != 5 && row != 6) {
+                    if (!changedRows.contains(row)) changedRows.add(row);
+                }
             }
-            if (row != 4 && !changedRows.contains(row)) changedRows.add(row);
         }
         int changedLength = changedRows.size();
         int[] rows = new int[changedLength];
-        for (int i = 0; i < changedLength; i ++) {
+        for (int i = 0; i < changedLength; i++) {
             rows[i] = changedRows.get(i);
         }
         notifyDepositUpdate(rows);
@@ -435,7 +444,7 @@ public class Deposit extends Observable<IServerPacket> {
             switch (i) {
                 case 1 -> {
                     row = new ArrayList<>();
-                    if(topRow != null) row.add(topRow);
+                    if (topRow != null) row.add(topRow);
                 }
                 case 2 -> row = middleRow;
                 case 3 -> row = bottomRow;
@@ -468,7 +477,7 @@ public class Deposit extends Observable<IServerPacket> {
      *
      * @param resources the map of resources to be added in the strongbox
      */
-    public void addMultipleToStrongbox(Map<Resource, Integer> resources){
+    public void addMultipleToStrongbox(Map<Resource, Integer> resources) {
         for (Resource res : resources.keySet()) {
             for (int i = 0; i < resources.get(res); i++) {
                 addToStrongbox(res);
@@ -481,14 +490,17 @@ public class Deposit extends Observable<IServerPacket> {
      * If the type of resource is stored, it removes one to the current related counter.
      *
      * @param resource the resource to be removed
+     * @return true if the resource has been removed, false otherwise
      */
-    void removeFromStrongbox(Resource resource) {
+    boolean removeFromStrongbox(Resource resource) {
         int counter;
         if (strongBox.containsKey(resource) && strongBox.get(resource) > 0) {
             counter = strongBox.get(resource) - 1;
             strongBox.put(resource, counter);
             notifyStrongboxUpdate();
+            return true;
         }
+        return false;
     }
 
     /**

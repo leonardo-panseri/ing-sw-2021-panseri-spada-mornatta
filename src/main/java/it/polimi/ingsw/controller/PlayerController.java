@@ -73,8 +73,6 @@ public class PlayerController {
             return;
         }
 
-        boolean endGame = player.getBoard().getNumberOfDevelopmentCards() > 6;
-
         //Check for leaders discounts
         Map<Resource, Integer> cost = new HashMap<>(developmentCard.getCost());
         for(Resource res: cost.keySet()) {
@@ -82,9 +80,18 @@ public class PlayerController {
             cost.put(res, cost.get(res) - discount);
             if(cost.get(res) < 0) cost.put(res, 0);
         }
-        player.getBoard().getDeposit().removeResources(cost); //Maybe let player decide from where to remove resources
+        player.getBoard().getDeposit().removeResources(cost);
         gameController.getGame().getDeck().removeBoughtCard(developmentCard);
+
+        if(gameController.isSinglePlayer() && gameController.getGame().getDeck().isColorEmpty(developmentCard.getColor())) {
+            gameController.getGame().terminateSingleplayer(true,
+                    "You bought the last " + developmentCard.getColor().toString().toLowerCase() + " development card", -1);
+            return;
+        }
+
         player.getBoard().addCard(slot, developmentCard);
+
+        boolean endGame = player.getBoard().getNumberOfDevelopmentCards() > 6;
 
         if (endGame)
             gameController.getGame().startLastRound(player);
@@ -267,7 +274,7 @@ public class PlayerController {
             cost.put(resource2, 1);
         }
 
-        player.getBoard().getDeposit().removeResources(cost); //TODO let player decide from where to remove resources
+        player.getBoard().getDeposit().removeResources(cost);
 
         Map<Resource, Integer> result = new HashMap<>();
         result.put(baseProductionOutput, 1);
@@ -301,7 +308,7 @@ public class PlayerController {
             }
         }
 
-        player.getBoard().getDeposit().removeResources(input); //TODO let player decide from where to remove resources
+        player.getBoard().getDeposit().removeResources(input);
 
         if (output.containsKey(Resource.FAITH)) {
             player.addFaithPoints(output.get(Resource.FAITH));
@@ -344,7 +351,7 @@ public class PlayerController {
             throw new IllegalArgumentException(player.getNick() + " does not have enough " + cost);
         }
 
-        player.getBoard().getDeposit().removeResources(Map.of(cost, 1)); //TODO let player decide from where to remove resources
+        player.getBoard().getDeposit().removeResources(Map.of(cost, 1));
 
         Map<Resource, Integer> result = new HashMap<>();
         result.put(Resource.FAITH, 1);
