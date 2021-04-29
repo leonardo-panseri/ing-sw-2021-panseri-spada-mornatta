@@ -5,7 +5,7 @@ import it.polimi.ingsw.constant.ViewString;
 
 import java.util.Map;
 
-public abstract class View implements Runnable {
+public abstract class View extends Thread {
     private final Client client;
 
     private ModelUpdateHandler modelUpdateHandler;
@@ -161,8 +161,8 @@ public abstract class View implements Runnable {
     }
 
     public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
-        client.terminate();
         getRenderer().printSingleplayerFinalScore(lorenzoWin, loseReason, playerScore);
+        client.terminate();
     }
 }
 

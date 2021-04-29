@@ -18,7 +18,7 @@ public class Game extends Observable<IServerPacket> {
      * Map correlating pope report slot in the faith track with:
      * <ol><li>victory points awarded to players in range</li><li>range of the pope report</li></ol>
      */
-    private final Map<Integer, List<Integer>> popeReports = Map.of(8, Arrays.asList(2, 4), 16, Arrays.asList(3, 5), 24, Arrays.asList(4, 6));
+    private final Map<Integer, List<Integer>> popeReports = new HashMap<>(Map.of(8, Arrays.asList(2, 4), 16, Arrays.asList(3, 5), 24, Arrays.asList(4, 6)));
     private final Map<Integer, Integer> faithTrackPoints = Map.of(3, 1, 6, 2, 9, 4, 12, 6, 15, 9, 18, 12, 21, 16, 24, 20);
     private final Market market;
     private final List<Player> players;

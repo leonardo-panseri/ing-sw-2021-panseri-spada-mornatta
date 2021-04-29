@@ -49,7 +49,9 @@ public class Client {
     public synchronized void terminate(){
         this.active = false;
         writeThread.interrupt();
+        System.out.flush();
         readThread.interrupt();
+        System.out.println("Press ENTER to exit...");
     }
 
     /**
@@ -105,10 +107,11 @@ public class Client {
             readThread.start();
             writeThread.start();
 
-            view.run();
+            view.start();
 
-            readThread.join();
             writeThread.join();
+            readThread.join();
+            view.join();
         } catch(InterruptedException | NoSuchElementException e){
             System.out.println("Connection closed from the client side");
         } finally {

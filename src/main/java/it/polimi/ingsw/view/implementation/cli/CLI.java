@@ -29,6 +29,10 @@ public class CLI extends View {
         String command;
         while (getClient().isActive()) {
             command = scanner.nextLine();
+
+            if(!getClient().isActive())
+                break;
+
             switch (getGameState()) {
                 case CHOOSING_NAME -> {
                     setPlayerName(command);
@@ -97,5 +101,6 @@ public class CLI extends View {
                 }
             }
         }
+        scanner.close();
     }
 }

@@ -56,8 +56,6 @@ public class SocketClientRead extends Thread {
                     System.err.println("Received object of unknown type");
                 }
             }
-        } catch (IOException ignored) {
-            System.out.println("Write thread terminated");
         } catch (Exception e){
             client.terminate();
             e.printStackTrace();
