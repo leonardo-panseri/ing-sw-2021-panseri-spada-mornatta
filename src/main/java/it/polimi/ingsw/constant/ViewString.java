@@ -57,7 +57,7 @@ public class ViewString {
     public static final String VIEW_MARKET = "\"view market\"";
     public static final String VIEW_RESULT = "\"view leader\"";
     public static final String VIEW_FAITH = "\"view faith\"";
-    public static final String BUY_CARD = "\"buy <card num>\"";
+    public static final String BUY_CARD = "\"buy <card num> <slot num>\"";
     public static final String USE_PRODUCTION = "\"production <leader|development|base> <...>\"";
     public static final String USE_LEADER_PRODUCTION = "\"production leader <leader card index> <resource to receive>\"";
     public static final String USE_DEVELOPMENT_PRODUCTION = "\"production development <development card slot index>\"";

@@ -139,7 +139,7 @@ public class CLIRenderer extends Renderer {
         int index = 1;
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : deck) {
             for (Stack<DevelopmentCard> stack : map.values()) {
-                renderDevelopmentCard(stack.peek(), index);
+                if (!stack.isEmpty()) renderDevelopmentCard(stack.peek(), index);
                 index++;
             }
         }
@@ -168,10 +168,10 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void renderLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
-        if(leadersDeposit.size() == 0) return;
+        if (leadersDeposit.size() == 0) return;
         System.out.println(AnsiColor.CYAN + "-- LEADERS DEPOSITS --" + AnsiColor.RESET);
         for (List<Resource> deposit : leadersDeposit.values()) {
-            if(deposit.size()>0){
+            if (deposit.size() > 0) {
                 Resource res = deposit.get(0);
                 System.out.println(renderResource(res) + " " + Constants.parseResource(res) + res + AnsiColor.RESET + ": " + deposit.size());
             } else System.out.println("Empty deposit slot");
@@ -249,21 +249,21 @@ public class CLIRenderer extends Renderer {
         }
         for (int i = 0; i < 24; i++) {
             if (i == 2) {
-                points.append(AnsiColor.BRIGHT_BLUE +"1" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "1" + Constants.ANSI_RESET);
             } else if (i == 5) {
-                points.append(AnsiColor.BRIGHT_BLUE +"2" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "2" + Constants.ANSI_RESET);
             } else if (i == 8) {
-                points.append(AnsiColor.BRIGHT_BLUE +"4" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "4" + Constants.ANSI_RESET);
             } else if (i == 11) {
-                points.append(AnsiColor.BRIGHT_BLUE +"6" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "6" + Constants.ANSI_RESET);
             } else if (i == 14) {
-                points.append(AnsiColor.BRIGHT_BLUE +"9" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "9" + Constants.ANSI_RESET);
             } else if (i == 17) {
-                points.append(AnsiColor.BRIGHT_BLUE +"12" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "12" + Constants.ANSI_RESET);
             } else if (i == 20) {
-                points.append(AnsiColor.BRIGHT_BLUE +"16" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "16" + Constants.ANSI_RESET);
             } else if (i == 23) {
-                points.append(AnsiColor.BRIGHT_BLUE +"20" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "20" + Constants.ANSI_RESET);
             } else {
                 points.append(" ");
             }
@@ -282,16 +282,18 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printMarketResult() {
-        String printedResult = "";
-        printedResult = printedResult.concat("The following resources are waiting to be stored: - ");
+        if (getView().getModel().getMarketResult().size() > 0) {
+            String printedResult = "";
+            printedResult = printedResult.concat("The following resources are waiting to be stored: - ");
 
-        int index = 1;
-        for (Resource res : getView().getModel().getMarketResult()) {
-            printedResult = printedResult.concat(" " + index + ") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
-            index++;
-        }
+            int index = 1;
+            for (Resource res : getView().getModel().getMarketResult()) {
+                printedResult = printedResult.concat(" " + index + ") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
+                index++;
+            }
 
-        System.out.println(printedResult);
+            System.out.println(printedResult);
+        } else System.out.println("No resources are waiting to be stored");
     }
 
     @Override
@@ -311,7 +313,7 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printSingleplayerFinalScore(boolean lorenzoWin, String loseReason, int playerScore) {
-        if(lorenzoWin) {
+        if (lorenzoWin) {
             System.out.println(AnsiColor.YELLOW + AnsiColor.bold(loseReason));
             System.out.println(AnsiColor.YELLOW + AnsiColor.bold("You have lost! Lorenzo is still the true Master of Renaissance!"));
         } else {
@@ -377,7 +379,7 @@ public class CLIRenderer extends Renderer {
             prettyCard = prettyCard.concat(label + ") ");
         }
 
-        if(getView().getModel().getLeaderCards().getOrDefault(card, false)) {
+        if (getView().getModel().getLeaderCards().getOrDefault(card, false)) {
             prettyCard += AnsiColor.BRIGHT_BLUE + "ACTIVE\n" + AnsiColor.RESET;
         }
 

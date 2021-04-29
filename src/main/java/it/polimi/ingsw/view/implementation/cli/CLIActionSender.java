@@ -21,13 +21,13 @@ public class CLIActionSender extends ActionSender {
     }
 
     @Override
-    public void buyDevelopmentCard(int cardIndex) {
+    public void buyDevelopmentCard(int cardIndex, int slotIndex) {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
         int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
         int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
 
         ArrayList<Stack<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).peek().getUuid(), 1));
+        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).peek().getUuid(), slotIndex));
     }
 
     @Override

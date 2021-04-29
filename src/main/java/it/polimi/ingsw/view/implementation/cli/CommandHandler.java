@@ -18,9 +18,9 @@ public class CommandHandler {
     }
 
     public void handle(String command) throws IllegalArgumentException {
-        if(command == null)
+        if (command == null)
             throw new IllegalArgumentException("Command can't be null");
-        if(command.trim().equals(""))
+        if (command.trim().equals(""))
             throw new IllegalArgumentException("Command can't be empty");
 
         String[] split = command.split(" ");
@@ -30,17 +30,15 @@ public class CommandHandler {
             split[1] = split[1].substring(0, 1).toUpperCase(Locale.ROOT) + split[1].substring(1);
             cmd = cmd.concat(split[1]);
             args = null;
-        }
-        else if(split.length > 1)
+        } else if (split.length > 1)
             args = Arrays.copyOfRange(split, 1, split.length);
 
         try {
             Method cmdHandler;
-            if(args != null) {
+            if (args != null) {
                 cmdHandler = getClass().getMethod(cmd, args.getClass());
                 cmdHandler.invoke(this, (Object) args);
-            }
-            else {
+            } else {
                 cmdHandler = getClass().getMethod(cmd);
                 cmdHandler.invoke(this);
             }
@@ -52,9 +50,9 @@ public class CommandHandler {
     }
 
     public void handleChat(String command) throws IllegalArgumentException {
-        if(command == null)
+        if (command == null)
             throw new IllegalArgumentException("Not a chat message");
-        if(command.trim().equals(""))
+        if (command.trim().equals(""))
             throw new IllegalArgumentException("Not a chat message");
 
         String[] split = command.split(" ");
@@ -63,8 +61,7 @@ public class CommandHandler {
         if (cmd.equals("chat")) {
             args = Arrays.copyOfRange(split, 1, split.length);
             chat(args);
-        }
-        else throw new IllegalArgumentException("Not a chat message");
+        } else throw new IllegalArgumentException("Not a chat message");
     }
 
     public void viewLeaders() {
@@ -83,7 +80,9 @@ public class CommandHandler {
         cli.getRenderer().printOwnDeposit();
     }
 
-    public void viewStrongbox() {cli.getRenderer().printOwnStrongbox();};
+    public void viewStrongbox() {
+        cli.getRenderer().printOwnStrongbox();
+    }
 
     public void viewMarket() {
         cli.getRenderer().printMarket();
@@ -93,40 +92,53 @@ public class CommandHandler {
         cli.getRenderer().printMarketResult();
     }
 
-    public void viewFaith(){cli.getRenderer().printFaith(cli.getModel().getFaithPoints());}
+    public void viewFaith() {
+        cli.getRenderer().printFaith(cli.getModel().getFaithPoints());
+    }
 
     public void buy(String[] args) {
-        if(cli.hasAlreadyPlayed()) {
+        if (cli.hasAlreadyPlayed()) {
             cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
             return;
         }
         int cardIndex;
-        try{
+        try {
             cardIndex = Integer.parseInt(args[0]);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.BUY_CARD);
             return;
         }
-        cli.getActionSender().buyDevelopmentCard(cardIndex);
+        int slotIndex;
+        try {
+            slotIndex = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.BUY_CARD);
+            return;
+        }
+        if (cardIndex < 1 || cardIndex > 12 || slotIndex < 1 || slotIndex > 3) {
+            System.out.println(ViewString.INCORRECT_FORMAT + ViewString.BUY_CARD);
+            return;
+        }
+        cli.getActionSender().buyDevelopmentCard(cardIndex, slotIndex);
     }
 
     public void draw(String[] args) {
-        if(cli.hasAlreadyPlayed()) {
+        if (cli.hasAlreadyPlayed()) {
             cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
             return;
         }
         int marketIndex;
         try {
             marketIndex = Integer.parseInt(args[0]);
-            if (marketIndex< 1 || marketIndex > 7) throw new IllegalArgumentException("incorrect_format");
-        } catch (IllegalArgumentException e){
+            if (marketIndex < 1 || marketIndex > 7) throw new IllegalArgumentException("incorrect_format");
+        } catch (IllegalArgumentException e) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DRAW_MARKET);
             return;
         }
         int whiteResources = cli.getModel().countWhiteResources(marketIndex);
         List<Resource> whiteConversions = new ArrayList<>();
-        for(int i = 1; i < args.length; i++) {
-            if(whiteConversions.size() <= whiteResources) {
+        for (int i = 1; i < args.length; i++) {
+            if (whiteConversions.size() <= whiteResources) {
                 try {
                     Resource res = Resource.valueOf(args[i].toUpperCase());
                     whiteConversions.add(res);
@@ -139,7 +151,7 @@ public class CommandHandler {
     }
 
     public void spy(String[] args) {
-        if(args.length < 2) {
+        if (args.length < 2) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.SPY);
         }
         String playerName = args[0];
@@ -154,17 +166,17 @@ public class CommandHandler {
     }
 
     public void discard(String[] args) {
-        if(args.length < 1) {
+        if (args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
         }
         int index;
-        try{
+        try {
             index = Integer.parseInt(args[0]);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
             return;
         }
-        if(index > cli.getModel().getLeaderCards().size()) {
+        if (index > cli.getModel().getLeaderCards().size()) {
             cli.getRenderer().showErrorMessage("Index out of bound");
             return;
         }
@@ -172,21 +184,21 @@ public class CommandHandler {
     }
 
     public void move(String[] args) {
-        if(args.length < 2) {
+        if (args.length < 2) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.MOVE_DEPOSIT);
         }
-        int[] index = new int[2] ;
-        for(int j = 0; j < 2; j++){
-            try{
+        int[] index = new int[2];
+        for (int j = 0; j < 2; j++) {
+            try {
                 index[j] = Integer.parseInt(args[j]);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(ViewString.INCORRECT_FORMAT + ViewString.MOVE_DEPOSIT);
                 return;
             }
-            if(index[j] < 1 || index[j] > 5) {
+            if (index[j] < 1 || index[j] > 5) {
                 cli.getRenderer().showErrorMessage("Index out of bound");
                 return;
-            } else if(index[j] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
+            } else if (index[j] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
                 cli.getRenderer().showErrorMessage(ViewString.TWO_LEADER_DEPOSITS_REQUIRED);
                 return;
             }
@@ -195,26 +207,26 @@ public class CommandHandler {
     }
 
     public void store(String[] args) {
-        if(args.length < 2) {
+        if (args.length < 2) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.STORE_DEPOSIT);
         }
-        int[] index = new int[2] ;
-        for(int j = 0; j < 2; j++){
-            try{
+        int[] index = new int[2];
+        for (int j = 0; j < 2; j++) {
+            try {
                 index[j] = Integer.parseInt(args[j]);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(ViewString.INCORRECT_FORMAT + ViewString.STORE_DEPOSIT);
                 return;
             }
         }
-        if(index[0] < 1 || index[0] > cli.getModel().getMarketResult().size() ) {
+        if (index[0] < 1 || index[0] > cli.getModel().getMarketResult().size()) {
             cli.getRenderer().showErrorMessage("Market index out of bound");
             return;
         }
-        if(index[1] < 1 || index[1] > 5 ) {
+        if (index[1] < 1 || index[1] > 5) {
             cli.getRenderer().showErrorMessage("Row index out of bound");
             return;
-        } else if(index[1] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
+        } else if (index[1] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
             cli.getRenderer().showErrorMessage(ViewString.TWO_LEADER_DEPOSITS_REQUIRED);
             return;
         }
@@ -226,18 +238,18 @@ public class CommandHandler {
         cli.getActionSender().endTurn();
     }
 
-    public void activate(String[] args){
-        if(args.length < 1){
+    public void activate(String[] args) {
+        if (args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
         }
         int index = 0;
-        try{
+        try {
             index = Integer.parseInt(args[0]);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
             return;
         }
-        if(index < 1 || index > 2) {
+        if (index < 1 || index > 2) {
             cli.getRenderer().showErrorMessage("Index out of bound");
             return;
         }
@@ -249,17 +261,17 @@ public class CommandHandler {
     }
 
     public void production(String[] args) {
-        if(cli.hasAlreadyPlayed() && !cli.isUsingProductions()) {
+        if (cli.hasAlreadyPlayed() && !cli.isUsingProductions()) {
             cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
             return;
         }
-        if(args.length < 1) {
+        if (args.length < 1) {
             cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
             return;
         }
         switch (args[0]) {
             case "leader" -> {
-                if(args.length != 3) {
+                if (args.length != 3) {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_LEADER_PRODUCTION);
                     return;
                 }
@@ -270,7 +282,7 @@ public class CommandHandler {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_LEADER_PRODUCTION);
                     return;
                 }
-                if(index > 2 || index < 1) {
+                if (index > 2 || index < 1) {
                     cli.getRenderer().showErrorMessage("Index out of bounds");
                     return;
                 }
@@ -285,7 +297,7 @@ public class CommandHandler {
                 cli.getActionSender().useLeaderProduction(index, toReceive);
             }
             case "development" -> {
-                if(args.length != 2) {
+                if (args.length != 2) {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_DEVELOPMENT_PRODUCTION);
                     return;
                 }
@@ -296,7 +308,7 @@ public class CommandHandler {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_DEVELOPMENT_PRODUCTION);
                     return;
                 }
-                if(index > 3 || index < 1) {
+                if (index > 3 || index < 1) {
                     cli.getRenderer().showErrorMessage("Index out of bounds");
                     return;
                 }
@@ -304,12 +316,12 @@ public class CommandHandler {
                 cli.getActionSender().useDevelopmentProduction(index);
             }
             case "base" -> {
-                if(args.length != 4) {
+                if (args.length != 4) {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_BASE_PRODUCTION);
                     return;
                 }
                 List<Resource> inputResources = new ArrayList<>();
-                for(int i = 1; i < 3; i++) {
+                for (int i = 1; i < 3; i++) {
                     try {
                         Resource resource = Resource.valueOf(args[i].toUpperCase());
                         inputResources.add(resource);
@@ -332,7 +344,7 @@ public class CommandHandler {
     }
 
     public void execute(String[] args) {
-        if(!cli.isUsingProductions()) {
+        if (!cli.isUsingProductions()) {
             cli.getRenderer().showErrorMessage("You are not using productions");
             return;
         }
