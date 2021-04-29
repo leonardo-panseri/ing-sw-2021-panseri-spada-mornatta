@@ -17,6 +17,7 @@ public class Client {
     private final String ip;
     private final int port;
     private SocketClientWrite writeThread;
+    private SocketClientRead readThread;
 
     private View view;
 
@@ -43,12 +44,12 @@ public class Client {
     }
 
     /**
-     * Sets this client active status.
-     *
-     * @param active the active status
+     * Terminates this client.
      */
-    public synchronized void setActive(boolean active){
-        this.active = active;
+    public synchronized void terminate(){
+        this.active = false;
+        writeThread.interrupt();
+        readThread.interrupt();
     }
 
     /**
@@ -99,7 +100,7 @@ public class Client {
                 view = new CLI(this);
             } else view = new CLI(this);
 
-            SocketClientRead readThread = new SocketClientRead(this, socketIn);
+            readThread = new SocketClientRead(this, socketIn);
             writeThread = new SocketClientWrite(this, socketOut);
             readThread.start();
             writeThread.start();

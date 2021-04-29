@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.IServerPacket;
 import it.polimi.ingsw.server.messages.ServerMessage;
 import it.polimi.ingsw.model.messages.*;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 
 /**
@@ -55,8 +56,10 @@ public class SocketClientRead extends Thread {
                     System.err.println("Received object of unknown type");
                 }
             }
+        } catch (IOException ignored) {
+            System.out.println("Write thread terminated");
         } catch (Exception e){
-            client.setActive(false);
+            client.terminate();
             e.printStackTrace();
         }
     }

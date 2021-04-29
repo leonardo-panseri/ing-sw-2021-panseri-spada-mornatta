@@ -152,18 +152,17 @@ public abstract class View implements Runnable {
     public void handlePlayerCrash(String playerName) {
         getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_CRASH :
                                               ViewString.PLAYER_CRASH_WITH_NAME.formatted(playerName));
-        client.setActive(false);
+        client.terminate();
     }
 
     public void handleEndGame(Map<String, Integer> scores, String winnerName) {
-        client.setActive(false);
+        client.terminate();
         getRenderer().printFinalScores(scores, winnerName);
     }
 
     public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
-        client.setActive(false);
+        client.terminate();
         getRenderer().printSingleplayerFinalScore(lorenzoWin, loseReason, playerScore);
-
     }
 }
 

@@ -40,8 +40,10 @@ public class SocketClientWrite extends Thread {
                 socketOut.writeObject(object);
                 socketOut.flush();
             }
-        }catch(Exception e){
-            client.setActive(false);
+        } catch (InterruptedException ignored) {
+            System.out.println("Write thread terminated");
+        } catch(Exception e) {
+            client.terminate();
             e.printStackTrace();
         }
     }
