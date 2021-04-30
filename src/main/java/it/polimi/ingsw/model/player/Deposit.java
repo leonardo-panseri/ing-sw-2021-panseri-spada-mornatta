@@ -127,6 +127,7 @@ public class Deposit extends Observable<IServerPacket> {
         checkQuantities(changes, marketResult, leadersDeposit);
         checkBoundaries(changes);
         checkLeaderDeposit(leadersDeposit);
+
         int modifiedLength = changes.keySet().size();
         int[] modifiedRows = new int[modifiedLength];
         int index = 0;
@@ -222,9 +223,7 @@ public class Deposit extends Observable<IServerPacket> {
         //At this point, if the move is legal, the two maps should be the same
         for (Resource res : Resource.values()) {
             if (!oldResources.get(res).equals(newResources.get(res))) {
-                System.out.println("Old resources: " + oldResources);
-                System.out.println("New resources: " + newResources);
-                throw new IllegalArgumentException("Resource " + res + " quantity is not valid");
+                throw new IllegalArgumentException("Resource " + res + " quantity is not valid!");
             }
         }
     }
@@ -237,11 +236,11 @@ public class Deposit extends Observable<IServerPacket> {
      */
     private void checkBoundaries(Map<Integer, List<Resource>> changes) {
         if (changes.containsKey(1) && changes.get(1).size() > 1)
-            throw new IllegalArgumentException("Deposit top row overflow");
+            throw new IllegalArgumentException("Deposit top row is already full!");
         if (changes.containsKey(2) && changes.get(2).size() > 2)
-            throw new IllegalArgumentException("Deposit middle row overflow");
+            throw new IllegalArgumentException("Deposit middle row is already full!");
         if (changes.containsKey(3) && changes.get(3).size() > 3)
-            throw new IllegalArgumentException("Deposit bottom row overflow");
+            throw new IllegalArgumentException("Deposit bottom row is already full!");
 
         List<Resource> alreadySeen = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
@@ -252,7 +251,7 @@ public class Deposit extends Observable<IServerPacket> {
             if (row.size() > 0) {
                 Resource first = row.get(0);
                 if (alreadySeen.contains(first))
-                    throw new IllegalArgumentException("Resource " + first + " is already stored in another row");
+                    throw new IllegalArgumentException("Resource " + first + " is already stored in another row!");
                 alreadySeen.add(first);
                 for (int j = 1; j < row.size(); j++)
                     if (row.get(j) != first)
@@ -279,14 +278,14 @@ public class Deposit extends Observable<IServerPacket> {
                 for (Resource res : leadersDeposit.get(leaderSlot)) {
                     amount++;
                     if (res != resource)
-                        throw new IllegalArgumentException("Leader deposit " + leaderSlot + " contains mismatched resources");
+                        throw new IllegalArgumentException("Leader deposit " + leaderSlot + " contains mismatched resources!");
                 }
                 if (amount > 2)
-                    throw new IllegalArgumentException("Leader deposit overflow");
+                    throw new IllegalArgumentException("Leader deposit " + leaderSlot + " is already full!");
             }
         }
         if (!player.hasLeaderDeposits(depositsRequired))
-            throw new IllegalArgumentException("Leader deposit not found");
+            throw new IllegalArgumentException("You cannot use this leader deposit because you don't have an active leader card with this special ability!");
     }
 
     /**

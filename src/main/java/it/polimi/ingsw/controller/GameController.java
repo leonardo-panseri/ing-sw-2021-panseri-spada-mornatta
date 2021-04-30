@@ -153,16 +153,25 @@ public class GameController implements Observer<PlayerActionEvent> {
 
     @Override
     public synchronized void update(PlayerActionEvent event) {
-        event.process(this);
+        try {
+            event.process(this);
+        } catch (IllegalStateException ignored) {
+            //Ignored exception for player action that is not during his turn
+        }
+
     }
 
     /**
      * Checks if it's the turn of the given Player.
      *
      * @param player the player to check
-     * @return true if it's the given player's turn, false otherwise
+     * @throws IllegalStateException if it is not the turn of the given player
      */
-    boolean isPlaying(Player player) {
-        return getGame().getCurrentPlayer().equals(player);
+    synchronized void checkTurn(Player player) throws  IllegalStateException {
+        if(!getGame().getCurrentPlayer().equals(player)) {
+            String errorMessage = "Not " + player.getNick() + "'s turn";
+            game.notifyInvalidAction(player, errorMessage);
+            throw new IllegalStateException(errorMessage);
+        }
     }
 }

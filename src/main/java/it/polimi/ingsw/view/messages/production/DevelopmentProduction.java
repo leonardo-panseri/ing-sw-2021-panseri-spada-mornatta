@@ -27,8 +27,6 @@ public class DevelopmentProduction extends Production {
 
     @Override
     public String toString() {
-        return "DevelopmentProduction{" +
-                "cardUUID=" + cardUUID +
-                '}';
+        return "development production";
     }
 }

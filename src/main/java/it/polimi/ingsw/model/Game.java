@@ -293,4 +293,8 @@ public class Game extends Observable<IServerPacket> {
     public void notifyChatMessage(String sender, String message) {
         notify(new ChatUpdate(sender, message));
     }
+
+    public void notifyInvalidAction(Player player, String message) {
+        notify(new InvalidActionUpdate(player, message));
+    }
 }

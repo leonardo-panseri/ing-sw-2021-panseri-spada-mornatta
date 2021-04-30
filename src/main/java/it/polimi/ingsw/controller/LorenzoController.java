@@ -71,7 +71,7 @@ public class LorenzoController {
      *
      * @return true if the game is over, false otherwise
      */
-    private boolean checkLorenzoFaith() {
+    boolean checkLorenzoFaith() {
         int popeReportSlot = gameController.getGame().checkForPopeReportSlot(gameController.getGame().getLorenzo().getFaithPoints());
         if(popeReportSlot != -1)
             gameController.getGame().activatePopeReport(popeReportSlot);

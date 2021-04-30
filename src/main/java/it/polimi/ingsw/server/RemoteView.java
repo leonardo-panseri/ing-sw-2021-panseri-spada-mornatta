@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.IProcessablePacket;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.messages.InvalidActionUpdate;
 import it.polimi.ingsw.server.messages.DirectServerMessage;
 import it.polimi.ingsw.view.messages.*;
 import it.polimi.ingsw.model.player.Player;
@@ -76,7 +77,11 @@ public class RemoteView implements Observer<IServerPacket> {
     private void notifyActionEvent(PlayerActionEvent event) {
         if(gameController != null) {
             event.setPlayer(player);
-            gameController.update(event);
+            try {
+                gameController.update(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else
             System.err.println("Received PlayerActionEvent, but game is not started yet");
     }
@@ -90,7 +95,11 @@ public class RemoteView implements Observer<IServerPacket> {
     private void notifyClientMessage(ClientMessage message) {
         if(gameController == null) {
             message.setClientConnection(getClientConnection());
-            lobbyController.update(message);
+            try {
+                lobbyController.update(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else
             System.err.println("Received ClientMessage, but the game is already started");
     }
@@ -106,6 +115,10 @@ public class RemoteView implements Observer<IServerPacket> {
             DirectServerMessage dm = (DirectServerMessage) packet;
             if(dm.getRecipient() == clientConnection)
                 clientConnection.send(dm);
+        } else if (packet instanceof InvalidActionUpdate) {
+            InvalidActionUpdate update = (InvalidActionUpdate) packet;
+            if(update.getPlayer() == player)
+                clientConnection.send(update);
         } else
             clientConnection.send(packet);
     }

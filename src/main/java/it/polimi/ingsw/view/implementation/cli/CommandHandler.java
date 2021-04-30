@@ -144,6 +144,7 @@ public class CommandHandler {
                     whiteConversions.add(res);
                 } catch (IllegalArgumentException e) {
                     cli.getRenderer().showErrorMessage(args[i] + " is not a valid resource");
+                    return;
                 }
             }
         }

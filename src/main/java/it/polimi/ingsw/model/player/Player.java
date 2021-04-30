@@ -117,9 +117,9 @@ public class Player extends Observable<IServerPacket> {
      */
     public void setLeaderActive(LeaderCard leaderCard) throws IllegalArgumentException {
         if(!leaderCards.containsKey(leaderCard))
-            throw new IllegalArgumentException("leadercard_not_present");
+            throw new IllegalArgumentException("You don't have this leader card!");
         if(leaderCards.get(leaderCard))
-            throw new IllegalArgumentException("leadercard_already_active");
+            throw new IllegalArgumentException("This leader card is already active!");
 
         leaderCards.put(leaderCard, true);
         notify(new OwnedLeadersUpdate(getNick(), leaderCards));
@@ -213,9 +213,9 @@ public class Player extends Observable<IServerPacket> {
      */
     public void discardLeader(LeaderCard card) throws IllegalArgumentException {
         if(!leaderCards.containsKey(card))
-            throw new IllegalArgumentException("leadercard_not_present");
+            throw new IllegalArgumentException("You don't have this leader card!");
         if(leaderCards.get(card))
-            throw new IllegalArgumentException("leadercard_already_active");
+            throw new IllegalArgumentException("This leader card is active, you cannot discard it!");
 
         leaderCards.remove(card);
 
@@ -232,7 +232,7 @@ public class Player extends Observable<IServerPacket> {
         Map<LeaderCard, Boolean> selectedLeaders = new HashMap<>();
         for(LeaderCard card : selected) {
             if(!leaderCards.containsKey(card))
-                throw new IllegalArgumentException("leadercard_not_found");
+                throw new IllegalArgumentException("You don't own this leader card!");
         }
         selectedLeaders.put(selected.get(0), false);
         selectedLeaders.put(selected.get(1), false);

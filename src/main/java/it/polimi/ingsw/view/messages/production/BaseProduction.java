@@ -27,9 +27,9 @@ public class BaseProduction extends Production {
 
     @Override
     public String toString() {
-        return "BaseProduction{" +
-                "baseProductionInput=" + baseProductionInput +
-                ", baseProductionOutput=" + baseProductionOutput +
-                '}';
+        return "base production (" +
+                "input=" + baseProductionInput +
+                ", output=" + baseProductionOutput +
+                ')';
     }
 }

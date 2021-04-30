@@ -29,9 +29,8 @@ public class LeaderProduction extends Production {
 
     @Override
     public String toString() {
-        return "LeaderProduction{" +
-                "cardUUID=" + cardUUID +
-                ", leaderProductionDesiredResource=" + leaderProductionDesiredResource +
-                '}';
+        return "leader production(" +
+                "desired resource=" + leaderProductionDesiredResource +
+                ')';
     }
 }

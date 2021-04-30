@@ -22,6 +22,7 @@ public class PlayerController {
 
     /**
      * Constructor: create a new PlayerController with reference to the game controller
+     *
      * @param gameController the game controller
      */
     public PlayerController(GameController gameController) {
@@ -31,23 +32,22 @@ public class PlayerController {
     /**
      * Activates a leader card. If it's not the player's turn, prints an error and returns.
      * If the player does not meet the requirements, prints an error and returns.
+     *
      * @param player the player who wants to activate a card
      * @param leader the leader card to be activated
      */
     public synchronized void activateLeaderCard(Player player, LeaderCard leader) {
-        if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
-            return;
-        }
+        gameController.checkTurn(player);
+
         if (!leader.canPlayerAfford(player)) {
-            System.out.println(player.getNick() + " cannot afford the leader card!");
+            gameController.getGame().notifyInvalidAction(player, "You cannot afford this leader card!");
             return;
         }
 
         try {
             player.setLeaderActive(leader);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            gameController.getGame().notifyInvalidAction(player, e.getMessage());
         }
     }
 
@@ -55,21 +55,24 @@ public class PlayerController {
      * Make a player buy a development card. If the card is null, prints an error and returns.
      * If the player cannot afford the card, or does not have a space for the card, prints an error and returns.
      * Prior to buying the card, checks if the player has any discount granted by the leaders.
+     *
      * @param player the player who wants to buy the card
      * @param developmentCard the desired development card
      * @param slot the slot of the player's board where to stack the bought card
      */
     public synchronized void buyDevelopmentCard(Player player, DevelopmentCard developmentCard, int slot) {
+        gameController.checkTurn(player);
+
         if (gameController.getGame().getDeck().getDevelopmentCardByUuid(developmentCard.getUuid()) == null) {
-            System.out.println("The requested card is not in the deck!");
+            gameController.getGame().notifyInvalidAction(player, "This development card is not in the deck!");
             return;
         }
         if (!developmentCard.canPlayerAfford(player)) {
-            System.out.println(player.getNick() + " cannot afford the development card!");
+            gameController.getGame().notifyInvalidAction(player, "You cannot afford this development card!");
             return;
         }
         if (!player.getBoard().canPlaceCardOfLevel(developmentCard.getLevel(), slot)) {
-            System.out.println(player.getNick() + " does not have space for this kind of card!");
+            gameController.getGame().notifyInvalidAction(player, "You cannot place this card in this slot!");
             return;
         }
 
@@ -77,8 +80,10 @@ public class PlayerController {
         Map<Resource, Integer> cost = new HashMap<>(developmentCard.getCost());
         for(Resource res: cost.keySet()) {
             int discount = player.numLeadersDiscount(res);
-            cost.put(res, cost.get(res) - discount);
-            if(cost.get(res) < 0) cost.put(res, 0);
+            if(discount > 0) {
+                cost.put(res, cost.get(res) - discount);
+                if (cost.get(res) < 0) cost.put(res, 0);
+            }
         }
         player.getBoard().getDeposit().removeResources(cost);
         gameController.getGame().getDeck().removeBoughtCard(developmentCard);
@@ -92,7 +97,6 @@ public class PlayerController {
         player.getBoard().addCard(slot, developmentCard);
 
         boolean endGame = player.getBoard().getNumberOfDevelopmentCards() > 6;
-
         if (endGame)
             gameController.getGame().startLastRound(player);
     }
@@ -100,45 +104,41 @@ public class PlayerController {
     /**
      * Updates a player deposit after storing a resource or moving rows, if the move is legal.
      * If it's not the player's turn, prints an error and returns.
+     *
      * @param player the owner of the deposit
      * @param changes a map containing the indexes of the changed rows and the new rows to replace them with
      * @param toBeStored the list of drawn resource still waiting to be stored
      * @param leadersDeposit the leaders deposits granted by some leaders
      */
     public synchronized void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes, List<Resource> toBeStored, Map<Integer, List<Resource>> leadersDeposit) {
-        if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
-            return;
-        }
+        gameController.checkTurn(player);
 
         try {
             player.getBoard().getDeposit().applyChanges(changes, toBeStored, leadersDeposit);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            gameController.getGame().notifyInvalidAction(player, e.getMessage());
             return;
         }
 
         player.getBoard().getDeposit().setMarketResults(toBeStored);
-
     }
 
     /**
      * Discards a leader from the player hand and gives the player a faith point.
      * If it's not the player's turn, prints an error and returns.
-     * Also checks if the player has crossed a pope reports, or if the player has reached the end of the faith track
+     * Also checks if the player has crossed a pope reports, or if the player has reached the end of the faith track.
+     *
      * @param player the player that wants to discard a leader
      * @param card the card to be activated
      */
     public synchronized void discardLeader(Player player, LeaderCard card) {
-        if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
-            return;
-        }
+        gameController.checkTurn(player);
 
         try {
             player.discardLeader(card);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            gameController.getGame().notifyInvalidAction(player, e.getMessage());
+            return;
         }
         player.addFaithPoints(1);
 
@@ -151,27 +151,31 @@ public class PlayerController {
      * If it's not the player's turn, prints an error and returns.
      * If the player does not have a leader that grants the selected white resource conversion,
      * prints an error and returns.
+     *
      * @param player the player that wants to use the market
      * @param selection the selected row/column
      * @param whiteConversions the list of requested conversion resources
      */
     public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {
-        if (!gameController.isPlaying(player)) {
-            System.out.println("Not " + player.getNick() + "'s turn!");
+        gameController.checkTurn(player);
+
+        if(selection < 0 || selection > 6) {
+            gameController.getGame().notifyInvalidAction(player, "You have specified an invalid index for the market!");
             return;
         }
         for(Resource whiteConversion : whiteConversions) {
             if (!player.hasLeaderWhiteConversion(whiteConversion)) {
-                System.err.println("Player " + player.getNick() + " does not have this white conversion special ability");
+                gameController.getGame().notifyInvalidAction(player,
+                        "You don't have the white conversion special ability for resource " + whiteConversion + "!");
                 return;
             }
         }
 
         List<Resource> marketResults = new ArrayList<>();
-        if (selection >= 0 && selection < 4) {
+        if (selection < 4) {
             marketResults.addAll(gameController.getGame().getMarket().getColumn(selection));
             gameController.getGame().getMarket().shiftColumn(selection);
-        } else if (selection >= 4 && selection < 7) {
+        } else {
             int row = selection - 4;
             marketResults.addAll(gameController.getGame().getMarket().getRow(row));
             gameController.getGame().getMarket().shiftRow(row);
@@ -207,10 +211,13 @@ public class PlayerController {
      * At the end, adds the sum of faith points to the player,
      * checks if the player crossed a pope report or made the game end.
      * Eventually, stores the obtained resources in the strongbox.
+     *
      * @param player the player that wants to perform the productions
      * @param productions the list of productions
      */
     public synchronized void useProductions(Player player, List<Production> productions) {
+        gameController.checkTurn(player);
+
         Map<Resource, Integer> result = new HashMap<>();
         for (Production production : productions) {
             try {
@@ -218,9 +225,10 @@ public class PlayerController {
                 productionResult.forEach(
                         (resource, quantity) -> result.merge(resource, quantity, Integer::sum));
             } catch (IllegalArgumentException e) {
-                System.err.println("Error during production: " + production + "\nMessage: " + e.getMessage());
+                gameController.getGame().notifyInvalidAction(player, "Error during " + production + ": " + e.getMessage());
             }
         }
+
         if (result.containsKey(Resource.FAITH)) {
             int faithToAdd = result.get(Resource.FAITH);
             result.remove(Resource.FAITH);
@@ -236,27 +244,27 @@ public class PlayerController {
      * If the player has specified less then two inputs, prints an error and returns.
      * If the player has not specified an output resource, prints an error and returns.
      * If the player has not enough resource to complete the production, prints an error and returns.
+     *
      * @param player the player that uses the production
      * @param baseProductionInput the two production input resources
      * @param baseProductionOutput the output resource
      * @return a map containing the output resource
      */
     public synchronized Map<Resource, Integer> useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {
-        if (!gameController.isPlaying(player)) {
-            throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
-        }
+        gameController.checkTurn(player);
+
         if (baseProductionInput.size() != 2) {
-            throw new IllegalArgumentException("Wrong base production format!");
+            throw new IllegalArgumentException("wrong base production format!");
         }
         if (baseProductionOutput == null) {
-            throw new IllegalArgumentException("Wrong base production format!");
+            throw new IllegalArgumentException("wrong base production format!");
         }
 
         Map<Resource, Integer> cost = new HashMap<>();
         if (baseProductionInput.get(0) == baseProductionInput.get(1)) {
             Resource resource = baseProductionInput.get(0);
             if (player.getBoard().getDeposit().getAmountOfResource(resource) < 2) {
-                throw new IllegalArgumentException(player.getNick() + " does not have enough " + resource);
+                throw new IllegalArgumentException("you don't have enough " + resource + "!");
             }
 
             cost.put(resource, 2);
@@ -264,10 +272,10 @@ public class PlayerController {
             Resource resource1 = baseProductionInput.get(0);
             Resource resource2 = baseProductionInput.get(1);
             if (player.getBoard().getDeposit().getAmountOfResource(resource1) < 1) {
-                throw new IllegalArgumentException(player.getNick() + " does not have enough " + resource1);
+                throw new IllegalArgumentException("you don't have enough " + resource1 + "!");
             }
             if (player.getBoard().getDeposit().getAmountOfResource(resource2) < 1) {
-                throw new IllegalArgumentException(player.getNick() + " does not have enough " + resource2);
+                throw new IllegalArgumentException("you don't have enough " + resource2 + "!");
             }
 
             cost.put(resource1, 1);
@@ -292,11 +300,10 @@ public class PlayerController {
      *                                  <li>the player does not have enough resources</li></ul>
      */
     public synchronized Map<Resource, Integer> useDevelopmentProduction(Player player, DevelopmentCard card) throws IllegalArgumentException {
-        if (!gameController.isPlaying(player)) {
-            throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
-        }
+        gameController.checkTurn(player);
+
         if (card == null) {
-            throw new IllegalArgumentException("The requested card is not at the top of one of the player's slots!");
+            throw new IllegalArgumentException("this development card is not at the top of one of your slots!");
         }
 
         Map<Resource, Integer> input = card.getProductionInput();
@@ -304,16 +311,12 @@ public class PlayerController {
 
         for (Resource res : input.keySet()) {
             if (player.getBoard().getDeposit().getAmountOfResource(res) < input.get(res)) {
-                throw new IllegalArgumentException(player.getNick() + " does not have enough " + res);
+                throw new IllegalArgumentException("you don't have enough " + res + "!");
             }
         }
 
         player.getBoard().getDeposit().removeResources(input);
 
-        if (output.containsKey(Resource.FAITH)) {
-            player.addFaithPoints(output.get(Resource.FAITH));
-            output.remove(Resource.FAITH);
-        }
         return output;
     }
 
@@ -331,24 +334,23 @@ public class PlayerController {
      *                                  <li>the player does not have enough resources</li></ul>
      */
     public synchronized Map<Resource, Integer> useLeaderProduction(Player player, LeaderCard card, Resource output) throws IllegalArgumentException {
-        if (!gameController.isPlaying(player)) {
-            throw new IllegalArgumentException("Not " + player.getNick() + "'s turn!");
-        }
+        gameController.checkTurn(player);
+
         if (card == null) {
-            throw new IllegalArgumentException("The requested card is not in the player board!");
+            throw new IllegalArgumentException("this leader card is not in your board!");
         }
         if (!player.isLeaderActive(card))
-            throw new IllegalArgumentException("This leader card is not active");
+            throw new IllegalArgumentException("this leader card is not active!");
         if (output == null || output == Resource.FAITH) {
-            throw new IllegalArgumentException("Incorrect required resource type");
+            throw new IllegalArgumentException("incorrect desired resource type!");
         }
         if (!card.getSpecialAbility().getType().equals(SpecialAbilityType.PRODUCTION)) {
-            throw new IllegalArgumentException("The selected leader does not have a production power!");
+            throw new IllegalArgumentException("the selected leader does not have a production power!");
         }
 
         Resource cost = card.getSpecialAbility().getTargetResource();
         if (player.getBoard().getDeposit().getAmountOfResource(cost) < 1) {
-            throw new IllegalArgumentException(player.getNick() + " does not have enough " + cost);
+            throw new IllegalArgumentException("you don't have enough " + cost + "!");
         }
 
         player.getBoard().getDeposit().removeResources(Map.of(cost, 1));
@@ -367,15 +369,17 @@ public class PlayerController {
      *              to console and returns
      */
     public synchronized void selectInitialLeaders(Player player, List<LeaderCard> cards) {
+        gameController.checkTurn(player);
+
         if (cards.size() != 2) {
-            System.out.println("Wrong amount of selected leaders!");
+            gameController.getGame().notifyInvalidAction(player, "You must select two leader cards!");
             return;
         }
 
         try {
             player.keepLeaders(cards);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            gameController.getGame().notifyInvalidAction(player, e.getMessage());
             return;
         }
 

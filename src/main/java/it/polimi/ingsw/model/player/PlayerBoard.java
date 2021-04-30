@@ -110,6 +110,10 @@ public class PlayerBoard extends Observable<IServerPacket> {
             return false;
 
         List<Stack<DevelopmentCard>> slots = getAllCardSlots();
+
+        if(slots.get(slot - 1).size() >= 3)
+            return false;
+
         boolean canPlace = false;
         if(level == 1) {
             if(slots.get(slot - 1).isEmpty()) {

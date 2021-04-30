@@ -42,17 +42,20 @@ public class TurnController {
      * @param player the player whose turn will be ended
      */
     public synchronized void endTurn(Player player) {
-        if(!gameController.isPlaying(player)) {
-            System.err.println("Player tried to end turn, but it is not its turn");
-            return;
-        }
+        gameController.checkTurn(player);
+
         int discardedMarketResults = player.getBoard().getDeposit().getUnusedMarketResults();
         if(discardedMarketResults > 0) {
-            for(Player p : gameController.getGame().getPlayers())
-                if(!p.equals(player)) {
-                    p.addFaithPoints(discardedMarketResults);
-                    gameController.getPlayerController().checkFaithPoints(p);
-                }
+            if(gameController.isSinglePlayer()) {
+                gameController.getGame().getLorenzo().addPoints(discardedMarketResults);
+                gameController.getLorenzoController().checkLorenzoFaith();
+            } else {
+                for (Player p : gameController.getGame().getPlayers())
+                    if (!p.equals(player)) {
+                        p.addFaithPoints(discardedMarketResults);
+                        gameController.getPlayerController().checkFaithPoints(p);
+                    }
+            }
             player.getBoard().getDeposit().clearMarketResults();
         }
 
