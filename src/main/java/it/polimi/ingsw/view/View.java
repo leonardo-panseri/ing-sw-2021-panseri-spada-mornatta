@@ -2,6 +2,8 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.beans.MockModel;
+import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.Map;
 
@@ -126,12 +128,17 @@ public abstract class View extends Thread {
         getRenderer().showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
                 ViewString.PLAYER_CONNECTED.formatted(playerName));
 
-        if(playerName.equals(getPlayerName()))
-            if(isLobbyMaster()) {
+        if(playerName.equals(getPlayerName())) {
+            MockPlayer localPlayer = getModel().addPlayer(getPlayerName(), true);
+            getModel().setLocalPlayer(localPlayer);
+            if (isLobbyMaster()) {
                 setGameState(GameState.CHOOSING_PLAYERS);
                 getRenderer().showGameMessage(ViewString.CHOOSE_PLAYERS_TO_START);
             } else
                 setGameState(GameState.WAITING_PLAYERS);
+        } else {
+            getModel().addPlayer(playerName, false);
+        }
     }
 
     public void handleSetPlayersToStart() {

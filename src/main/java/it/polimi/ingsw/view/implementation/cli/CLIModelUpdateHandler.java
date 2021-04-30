@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.ModelUpdateHandler;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,24 +39,31 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
 
     @Override
     public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
-        if (playerName.equals(getView().getPlayerName())) {
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
+        }
+
+        if (player.isLocalPlayer()) {
             if(getView().getGameState() == GameState.PLAYING) {
-                if(ownedLeaders.size() == getView().getModel().getLeaderCards().size())
+                if(ownedLeaders.size() == player.getLeaderCards().size())
                     getView().getRenderer().showGameMessage("Leader card successfully activated");
                 else
                     getView().getRenderer().showGameMessage("Leader card discarded (+1 Faith)");
             }
-            getView().getModel().setLeaderCards(ownedLeaders);
-        } else getView().getModel().setOthersLeaderCards(playerName, ownedLeaders);
+        }
+
+        player.setLeaderCards(ownedLeaders);
     }
 
     @Override
     public void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot) {
-        if (playerName.equals(getView().getPlayerName())) {
-            getView().getModel().setNewDevelopmentCard(card, slot);
-        } else {
-            getView().getModel().setOtherNewDevelopment(playerName, card, slot);
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
         }
+
+        player.getPlayerBoard().setNewDevelopmentCard(card, slot);
     }
 
     @Override
@@ -86,54 +94,44 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
 
     @Override
     public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Integer, List<Resource>> leadersDeposit) {
-        List<List<Resource>> deposit;
-        if(playerName.equals(getView().getPlayerName())){
-            deposit = getView().getModel().getDeposit();
-
-            for (Integer i : changes.keySet()) {
-                deposit.set(i - 1, changes.get(i));
-            }
-
-            getView().getModel().setLeadersDeposit(leadersDeposit);
-        } else {
-            if(!getView().getModel().getOtherDeposit().containsKey(playerName)){
-                getView().getModel().getOtherDeposit().put(playerName, new ArrayList<>(
-                        Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>())));
-            }
-            deposit = getView().getModel().getOtherDeposit().get(playerName);
-
-            for (Integer i : changes.keySet()) {
-                deposit.set(i - 1, changes.get(i));
-            }
-
-            getView().getModel().getOtherLeadersDeposit().put(playerName, leadersDeposit);
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
         }
 
+        for (Integer i : changes.keySet()) {
+            player.getDeposit().setRow(i - 1, changes.get(i));
+        }
     }
 
     @Override
     public void updateStrongbox(String playerName, Map<Resource, Integer> strongbox) {
-        if(playerName.equals(getView().getPlayerName())) {
-            getView().getModel().setStrongbox(strongbox);
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
         }
+
+        player.getDeposit().setStrongbox(strongbox);
     }
 
     @Override
     public void updateFaith(String playerName, int faithPoints) {
-        if (playerName.equals(getView().getPlayerName())) {
-            getView().getModel().setFaithPoints(faithPoints);
-        } else {
-            getView().getModel().setOtherFaith(playerName, faithPoints);
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
         }
+
+        player.setFaithPoints(faithPoints);
     }
 
     @Override
     public void updatePopeFavours(String playerName, int popeFavours) {
-        if (playerName.equals(getView().getPlayerName())) {
-            getView().getModel().setPopeFavours(popeFavours);
-        } else {
-            getView().getModel().setOtherFavours(playerName, popeFavours);
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
         }
+
+        player.setPopeFavours(popeFavours);
     }
 
     @Override
@@ -143,8 +141,14 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
 
     @Override
     public void insertDrawnResources(String playerName, List<Resource> result) {
-        if (playerName.equals((getView().getPlayerName()))) {
-            getView().getModel().setMarketResult(result);
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
+        }
+
+        player.getDeposit().setMarketResult(result);
+
+        if (player.isLocalPlayer()) {
             getView().getRenderer().printMarketResult();
         }
     }

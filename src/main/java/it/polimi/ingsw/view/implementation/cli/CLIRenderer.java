@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.Renderer;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class CLIRenderer extends Renderer {
     @Override
     public void printOwnLeaders() {
         int index = 1;
-        for (LeaderCard card : getView().getModel().getLeaderCards().keySet()) {
+        for (LeaderCard card : getView().getModel().getLocalPlayer().getLeaderCards().keySet()) {
             getView().getRenderer().renderLeaderCard(card, index);
             index++;
         }
@@ -50,11 +51,11 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOwnDevelopmentCards() {
-        if (!getView().getModel().hasOwnDevelopmentCard()) {
+        if (!getView().getModel().getLocalPlayer().getPlayerBoard().hasOwnDevelopmentCard()) {
             System.out.println("You don't have any development card");
             return;
         }
-        List<Stack<DevelopmentCard>> targetCards = getView().getModel().getDevelopmentCards();
+        List<Stack<DevelopmentCard>> targetCards = getView().getModel().getLocalPlayer().getPlayerBoard().getDevelopmentCards();
         int index = 1;
         for (Stack<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
@@ -69,41 +70,43 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOwnDeposit() {
-        renderDeposit(getView().getModel().getDeposit());
-        renderLeadersDeposit(getView().getModel().getLeadersDeposit());
+        renderDeposit(getView().getModel().getLocalPlayer());
+        renderLeadersDeposit(getView().getModel().getLocalPlayer());
     }
 
     @Override
     public void printOwnStrongbox() {
-        renderStrongbox(getView().getModel().getStrongbox());
+        renderStrongbox(getView().getModel().getLocalPlayer());
     }
 
     @Override
     public void printOthersLeaderCards(String playerName) {
-        if (!getView().getModel().getOtherLeaderCards().containsKey(playerName)) {
-            System.out.println(playerName + " does not have active cards!");
+        MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
+        if (otherPlayer == null ) {
+            System.err.println(playerName + " not found in local model!");
             return;
         }
 
         int numActive = 0;
-        Map<LeaderCard, Boolean> targetCards = getView().getModel().getOtherLeaderCards().get(playerName);
+        Map<LeaderCard, Boolean> targetCards = otherPlayer.getLeaderCards();
         for (LeaderCard card : targetCards.keySet()) {
             if (targetCards.get(card)) {
                 numActive++;
                 renderLeaderCard(card, -1);
             }
         }
-        if (numActive == 0) System.out.println("Player does not have active cards!");
+        if (numActive == 0) getView().getRenderer().showGameMessage("Player does not have active cards!");
     }
 
     @Override
     public void printOthersDevelopmentCards(String playerName) {
-        if (!getView().getModel().getOtherDevelopmentCards().containsKey(playerName)) {
-            System.out.println("Player does not have development cards!");
+        MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
+        if (otherPlayer == null) {
+            System.err.println(playerName + " not found in local model!");
             return;
         }
 
-        List<Stack<DevelopmentCard>> targetCards = getView().getModel().getOtherDevelopmentCards().get(playerName);
+        List<Stack<DevelopmentCard>> targetCards = otherPlayer.getPlayerBoard().getDevelopmentCards();
         for (Stack<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
                 if (stack.peek() == card) {
@@ -116,21 +119,25 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printOthersDeposit(String playerName) {
-        if (!getView().getModel().getOtherDeposit().containsKey(playerName)) {
-            showErrorMessage(playerName + " does not have a deposit or it's empty");
+        MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
+        if (otherPlayer == null) {
+            System.err.println(playerName + " not found in local model!");
             return;
         }
-        renderDeposit(getView().getModel().getOtherDeposit().get(playerName));
-        if (!getView().getModel().getOtherLeadersDeposit().containsKey(playerName)) {
-            showErrorMessage(playerName + " does not have leaders deposits or they are empty");
-            return;
-        }
-        renderLeadersDeposit(getView().getModel().getOtherLeadersDeposit().get(playerName));
+
+        renderDeposit(otherPlayer);
+        renderLeadersDeposit(otherPlayer);
     }
 
     @Override
     public void printOthersFaith(String playerName) {
-        printFaith(getView().getModel().getOtherFaith(playerName));
+        MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
+        if (otherPlayer == null) {
+            System.err.println(playerName + " not found in local model!");
+            return;
+        }
+
+        printFaith(otherPlayer.getFaithPoints());
     }
 
     @Override
@@ -146,7 +153,8 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void renderDeposit(List<List<Resource>> deposit) {
+    public void renderDeposit(MockPlayer player) {
+        List<List<Resource>> deposit = player.getDeposit().getAllRows();
         Resource res;
         System.out.print("    ");
         for (int i = 0; i < deposit.size(); i++) {
@@ -167,7 +175,8 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void renderLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
+    public void renderLeadersDeposit(MockPlayer player) {
+        Map<Integer, List<Resource>> leadersDeposit = player.getDeposit().getActiveLeadersDeposit();
         if (leadersDeposit.size() == 0) return;
         System.out.println(AnsiColor.CYAN + "-- LEADERS DEPOSITS --" + AnsiColor.RESET);
         for (List<Resource> deposit : leadersDeposit.values()) {
@@ -179,7 +188,8 @@ public class CLIRenderer extends Renderer {
     }
 
     @Override
-    public void renderStrongbox(Map<Resource, Integer> strongbox) {
+    public void renderStrongbox(MockPlayer player) {
+        Map<Resource, Integer> strongbox = player.getDeposit().getStrongbox();
         for (Resource res : strongbox.keySet()) {
             String strongboxRow = "";
             strongboxRow = strongboxRow.concat(renderResource(res) + " " + Constants.parseResource(res) + res + AnsiColor.RESET + ": " + strongbox.get(res));
@@ -282,12 +292,13 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printMarketResult() {
-        if (getView().getModel().getMarketResult().size() > 0) {
+        List<Resource> marketResult = getView().getModel().getLocalPlayer().getDeposit().getMarketResult();
+        if (marketResult.size() > 0) {
             String printedResult = "";
             printedResult = printedResult.concat("The following resources are waiting to be stored: - ");
 
             int index = 1;
-            for (Resource res : getView().getModel().getMarketResult()) {
+            for (Resource res : marketResult) {
                 printedResult = printedResult.concat(" " + index + ") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
                 index++;
             }
@@ -379,7 +390,7 @@ public class CLIRenderer extends Renderer {
             prettyCard = prettyCard.concat(label + ") ");
         }
 
-        if (getView().getModel().getLeaderCards().getOrDefault(card, false)) {
+        if (getView().getModel().getLocalPlayer().isLeaderCardActive(card)) {
             prettyCard += AnsiColor.BRIGHT_BLUE + "ACTIVE\n" + AnsiColor.RESET;
         }
 

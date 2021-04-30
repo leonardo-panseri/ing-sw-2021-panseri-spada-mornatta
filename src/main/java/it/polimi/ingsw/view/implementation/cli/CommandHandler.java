@@ -44,24 +44,8 @@ public class CommandHandler {
             }
         } catch (NoSuchMethodException | SecurityException |
                 IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
             throw new IllegalArgumentException("Command does not exists.");
         }
-    }
-
-    public void handleChat(String command) throws IllegalArgumentException {
-        if (command == null)
-            throw new IllegalArgumentException("Not a chat message");
-        if (command.trim().equals(""))
-            throw new IllegalArgumentException("Not a chat message");
-
-        String[] split = command.split(" ");
-        String cmd = split[0];
-        String[] args;
-        if (cmd.equals("chat")) {
-            args = Arrays.copyOfRange(split, 1, split.length);
-            chat(args);
-        } else throw new IllegalArgumentException("Not a chat message");
     }
 
     public void viewLeaders() {
@@ -93,7 +77,7 @@ public class CommandHandler {
     }
 
     public void viewFaith() {
-        cli.getRenderer().printFaith(cli.getModel().getFaithPoints());
+        cli.getRenderer().printFaith(cli.getModel().getLocalPlayer().getFaithPoints());
     }
 
     public void buy(String[] args) {
@@ -177,7 +161,7 @@ public class CommandHandler {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
             return;
         }
-        if (index > cli.getModel().getLeaderCards().size()) {
+        if (index > cli.getModel().getLocalPlayer().getLeaderCards().size()) {
             cli.getRenderer().showErrorMessage("Index out of bound");
             return;
         }
@@ -199,7 +183,7 @@ public class CommandHandler {
             if (index[j] < 1 || index[j] > 5) {
                 cli.getRenderer().showErrorMessage("Index out of bound");
                 return;
-            } else if (index[j] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
+            } else if (index[j] == 5 && !cli.getModel().getLocalPlayer().hasTwoLeaderDeposits()) {
                 cli.getRenderer().showErrorMessage(ViewString.TWO_LEADER_DEPOSITS_REQUIRED);
                 return;
             }
@@ -220,14 +204,14 @@ public class CommandHandler {
                 return;
             }
         }
-        if (index[0] < 1 || index[0] > cli.getModel().getMarketResult().size()) {
-            cli.getRenderer().showErrorMessage("Market index out of bound");
+        if (index[0] < 1 || index[0] > cli.getModel().getLocalPlayer().getDeposit().getMarketResult().size()) {
+            cli.getRenderer().showErrorMessage("Market result index out of bound");
             return;
         }
         if (index[1] < 1 || index[1] > 5) {
             cli.getRenderer().showErrorMessage("Row index out of bound");
             return;
-        } else if (index[1] == 5 && !cli.getModel().hasTwoLeaderDeposits()) {
+        } else if (index[1] == 5 && !cli.getModel().getLocalPlayer().hasTwoLeaderDeposits()) {
             cli.getRenderer().showErrorMessage(ViewString.TWO_LEADER_DEPOSITS_REQUIRED);
             return;
         }

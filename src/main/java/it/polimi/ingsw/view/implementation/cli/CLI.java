@@ -75,24 +75,14 @@ public class CLI extends View {
                         break;
                     }
                     List<UUID> uuids = new ArrayList<>();
-                    List<LeaderCard> leaders = new ArrayList<>(getModel().getLeaderCards().keySet());
                     for (int i : leadersToKeep) {
-                        uuids.add(leaders.get(i - 1).getUuid());
+                        uuids.add(getModel().getLocalPlayer().getLeaderCardAt(i - 1).getUuid());
                     }
 
                     getClient().send(new SelectLeadersPlayerActionEvent(uuids));
                 }
                 case WAIT_SELECT_LEADERS -> getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
                 case PLAYING -> {
-                    if (!isOwnTurn()) {
-                        try {
-                            commandHandler.handleChat(command);
-                        } catch (IllegalArgumentException e) {
-                            getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
-                        }
-                        break;
-                    }
-
                     try {
                         commandHandler.handle(command);
                     } catch (IllegalArgumentException e) {

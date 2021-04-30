@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.List;
 import java.util.Map;
@@ -58,11 +59,11 @@ public abstract class Renderer {
 
     public abstract void renderLeaderCard(LeaderCard card, int label);
 
-    public abstract void renderDeposit(List<List<Resource>> deposit);
+    public abstract void renderDeposit(MockPlayer player);
 
-    public abstract void renderLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit);
+    public abstract void renderLeadersDeposit(MockPlayer player);
 
-    public abstract void renderStrongbox(Map<Resource, Integer> strongbox);
+    public abstract void renderStrongbox(MockPlayer player);
 
     public abstract String renderResource(Resource res);
 

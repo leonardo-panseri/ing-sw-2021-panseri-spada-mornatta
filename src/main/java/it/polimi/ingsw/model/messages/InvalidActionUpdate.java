@@ -19,5 +19,7 @@ public class InvalidActionUpdate extends PropertyUpdate {
     @Override
     public void process(View view) {
         view.getRenderer().showErrorMessage(errorMessage);
+        view.setAlreadyPlayed(false);
+        view.setUsingProductions(false);
     }
 }

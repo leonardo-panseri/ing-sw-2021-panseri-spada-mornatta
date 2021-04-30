@@ -169,7 +169,7 @@ public class GameController implements Observer<PlayerActionEvent> {
      */
     synchronized void checkTurn(Player player) throws  IllegalStateException {
         if(!getGame().getCurrentPlayer().equals(player)) {
-            String errorMessage = "Not " + player.getNick() + "'s turn";
+            String errorMessage = "Not your turn!";
             game.notifyInvalidAction(player, errorMessage);
             throw new IllegalStateException(errorMessage);
         }
