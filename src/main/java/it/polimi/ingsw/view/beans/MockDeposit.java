@@ -30,13 +30,32 @@ public class MockDeposit {
         marketResult = new ArrayList<>();
     }
 
+    /**
+     * Sets the given row of the deposit.
+     *
+     * @param row the index representing the row to set
+     * @param deposit a list representing the Resources to assign to a given row
+     */
     public void setRow(int row, List<Resource> deposit) {
         this.deposit.set(row, deposit);
     }
 
+    /**
+     * Gets the given row of the deposit.
+     *
+     * @param index the index representing the row to get
+     * @return a list of a list representing the Resources of given row
+     */
+
     public List<Resource> getRow(int index) {
         return deposit.get(index);
     }
+
+    /**
+     * Gets all rows of the deposit.
+     *
+     * @return a list of a list representing the Resources of all the rows
+     */
 
     public List<List<Resource>> getAllRows() {
         return deposit;
