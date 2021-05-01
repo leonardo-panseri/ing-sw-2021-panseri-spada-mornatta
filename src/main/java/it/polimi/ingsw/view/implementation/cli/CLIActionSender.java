@@ -206,13 +206,13 @@ public class CLIActionSender extends ActionSender {
      */
     @Override
     public void useDevelopmentProduction(int cardIndex) {
-        DevelopmentCard developmentCard;
-        try {
-            developmentCard = getView().getModel().getLocalPlayer().getPlayerBoard().getTopDevelopmentCardAt(cardIndex - 1);
-        } catch (EmptyStackException e) {
+        DevelopmentCard developmentCard = getView().getModel().getLocalPlayer().getPlayerBoard()
+                .getTopDevelopmentCardAt(cardIndex - 1);
+        if(developmentCard == null) {
             getView().getRenderer().showErrorMessage("This development card slot is empty");
             return;
         }
+
         getView().setAlreadyPlayed(true);
         getView().setUsingProductions(true);
         addPendingProduction(new DevelopmentProduction(developmentCard.getUuid()));

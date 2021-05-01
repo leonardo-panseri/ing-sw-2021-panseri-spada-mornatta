@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 
 import java.util.*;
 
+/**
+ * Local copy of the game model.
+ */
 public class MockModel {
     private MockPlayer localPlayer;
     private final Map<String, MockPlayer> players;
