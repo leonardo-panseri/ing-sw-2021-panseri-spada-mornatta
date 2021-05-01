@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.View;
  * by finishing the faith track or buying 7 cards.
  */
 public class LastRoundUpdate extends PlayerPropertyUpdate {
+    private static final long serialVersionUID = -3370016451218144806L;
 
     private final boolean hasLastPlayerCompleted;
     /**

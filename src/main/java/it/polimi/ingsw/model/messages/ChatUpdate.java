@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.View;
 
 public class ChatUpdate extends PropertyUpdate{
 
+    private static final long serialVersionUID = -5748108204406842439L;
     private final String sender;
     private final String message;
 

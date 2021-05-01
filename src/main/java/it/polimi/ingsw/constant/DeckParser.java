@@ -1,9 +1,6 @@
 package it.polimi.ingsw.constant;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.*;
 
 import java.io.*;

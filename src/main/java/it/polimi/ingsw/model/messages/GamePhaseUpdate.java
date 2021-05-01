@@ -7,6 +7,8 @@ import it.polimi.ingsw.view.View;
  * Update sent after a game phase change
  */
 public class GamePhaseUpdate extends PropertyUpdate {
+    private static final long serialVersionUID = -1301820235063661054L;
+
     private final GamePhase currentPhase;
 
     /**

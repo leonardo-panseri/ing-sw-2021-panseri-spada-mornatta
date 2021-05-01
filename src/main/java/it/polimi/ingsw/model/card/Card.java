@@ -17,8 +17,8 @@ public abstract class Card implements Serializable {
     @Serial
     private static final long serialVersionUID = -5973224638164897402L;
 
-    private UUID uuid;
-    private int victoryPoints;
+    private final UUID uuid;
+    private final int victoryPoints;
 
     /**
      * Constructs a Card with a random UUID and the given victory points.

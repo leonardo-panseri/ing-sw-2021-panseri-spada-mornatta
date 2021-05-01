@@ -2,10 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.IProcessablePacket;
 import it.polimi.ingsw.server.IServerPacket;
-import it.polimi.ingsw.server.messages.ServerMessage;
-import it.polimi.ingsw.model.messages.*;
-
-import java.io.IOException;
 import java.io.ObjectInputStream;
 
 /**

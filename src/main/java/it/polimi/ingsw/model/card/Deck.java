@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model.card;
 
 import it.polimi.ingsw.constant.DeckParser;
-import it.polimi.ingsw.constant.GsonParser;
-import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.DevelopmentDeckUpdate;
+import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;

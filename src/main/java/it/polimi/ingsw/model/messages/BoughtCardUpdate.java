@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.view.View;
 
 import java.io.Serial;
-import java.util.UUID;
 
 /**
  * Update sent after the player has successfully bought a development card.
