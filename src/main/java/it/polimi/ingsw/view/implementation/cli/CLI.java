@@ -77,7 +77,11 @@ public class CLI extends View {
                     }
                     List<UUID> uuids = new ArrayList<>();
                     for (int i : leadersToKeep) {
-                        uuids.add(getModel().getLocalPlayer().getLeaderCardAt(i - 1).getUuid());
+                        try {
+                            uuids.add(getModel().getLocalPlayer().getLeaderCardAt(i - 1).getUuid());
+                        } catch (NullPointerException e) {
+                            getRenderer().showErrorMessage(ViewString.LEADERS_SELECT_ERROR);
+                        }
                     }
 
                     getClient().send(new SelectLeadersPlayerActionEvent(uuids));

@@ -2,13 +2,11 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.messages.EndTurnPlayerActionEvent;
 import it.polimi.ingsw.view.messages.production.Production;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class ActionSender {
     private final View view;

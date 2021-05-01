@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;

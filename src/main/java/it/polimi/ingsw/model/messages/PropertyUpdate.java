@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.messages;
 
 import it.polimi.ingsw.server.IServerPacket;
-import it.polimi.ingsw.view.View;
 
 import java.io.Serial;
 import java.io.Serializable;

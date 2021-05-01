@@ -74,15 +74,6 @@ public class Game extends Observable<IServerPacket> {
     }
 
     /**
-     * Removes the given {@link Player} from the game. Does nothing if the player is not in the game.
-     *
-     * @param player the player that will be removed from the game
-     */
-    public void removePlayer(Player player) {
-        players.remove(player);
-    }
-
-    /**
      * Gets the current {@link Player}.
      *
      * @return the current player
