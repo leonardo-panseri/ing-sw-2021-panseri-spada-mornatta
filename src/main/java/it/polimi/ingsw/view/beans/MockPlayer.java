@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Local copy of a player.
+ */
 public class MockPlayer {
     private final String name;
     private final boolean localPlayer;
@@ -25,6 +28,11 @@ public class MockPlayer {
         this.playerBoard = new MockPlayerBoard(this);
     }
 
+    /**
+     * Checks if this MockPlayer is the player that is local to this instance of the client.
+     *
+     * @return true if this is the local player, false otherwise
+     */
     public boolean isLocalPlayer() {
         return localPlayer;
     }
@@ -39,28 +47,27 @@ public class MockPlayer {
     }
 
     /**
-     * Sets the faith points of the current player.
+     * Sets the faith points of the player.
      *
-     * @param faithPoints the number of faith points that need to be added to the current player
+     * @param faithPoints the number of faith points to set
      */
-
     public void setFaithPoints(int faithPoints) {
         this.faithPoints = faithPoints;
     }
 
     /**
-     * Gets the number of pope favours of the current player.
+     * Gets the number of pope favours of the player.
      *
-     * @return the number of pope favours of the current player
+     * @return the number of pope favours of the player
      */
     public int getPopeFavours() {
         return popeFavours;
     }
 
     /**
-     * Sets the number of pope favours of the current player.
+     * Sets the number of pope favours of the player.
      *
-     * @param popeFavours the number of pope favours of the current player
+     * @param popeFavours the new number of pope favours of the player
      */
     public void setPopeFavours(int popeFavours) {
         this.popeFavours = popeFavours;
@@ -75,6 +82,12 @@ public class MockPlayer {
         return leaderCards;
     }
 
+    /**
+     * Gets the LeaderCard at the given index.
+     *
+     * @param index the index of the leader card (should be 0 or 1)
+     * @return the leader card at the given index, or null if not found
+     */
     public LeaderCard getLeaderCardAt(int index) {
         ArrayList<LeaderCard> leaderCards = new ArrayList<>(getLeaderCards().keySet());
         try {
@@ -84,12 +97,18 @@ public class MockPlayer {
         }
     }
 
+    /**
+     * Checks if the given LeaderCard is active.
+     *
+     * @param leaderCard the leader card to check
+     * @return true if it's active, false otherwise
+     */
     public boolean isLeaderCardActive(LeaderCard leaderCard) {
-        return leaderCards.get(leaderCard);
+        return leaderCards.getOrDefault(leaderCard, false);
     }
 
     /**
-     * Sets the LeaderCards of the player
+     * Sets the LeaderCards of the player.
      *
      * @param leaderCards a map containing the LeaderCards that need to be set
      */
@@ -111,10 +130,20 @@ public class MockPlayer {
         return count == 2;
     }
 
+    /**
+     * Gets the MockPlayerBoard associated with this player.
+     *
+     * @return the player board of this player
+     */
     public MockPlayerBoard getPlayerBoard() {
         return playerBoard;
     }
 
+    /**
+     * Shortcut for {@link MockPlayerBoard#getDeposit()}.
+     *
+     * @return the MockDeposit of this player
+     */
     public MockDeposit getDeposit() {
         return playerBoard.getDeposit();
     }
