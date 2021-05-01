@@ -37,7 +37,7 @@ public class CLIRenderer extends Renderer {
 
     @Override
     public void printMarket() {
-        System.out.println(Constants.buildMarket(getView().getModel().getMarket()));
+        renderMarket(getView().getModel().getMarket().getGrid(), getView().getModel().getMarket().getSlideResource());
     }
 
     @Override
@@ -182,7 +182,7 @@ public class CLIRenderer extends Renderer {
         for (List<Resource> deposit : leadersDeposit.values()) {
             if (deposit.size() > 0) {
                 Resource res = deposit.get(0);
-                System.out.println(renderResource(res) + " " + Constants.parseResource(res) + res + AnsiColor.RESET + ": " + deposit.size());
+                System.out.println(renderResource(res) + " " + AnsiColor.getResourceColor(res) + res + AnsiColor.RESET + ": " + deposit.size());
             } else System.out.println("Empty deposit slot");
         }
     }
@@ -192,7 +192,7 @@ public class CLIRenderer extends Renderer {
         Map<Resource, Integer> strongbox = player.getDeposit().getStrongbox();
         for (Resource res : strongbox.keySet()) {
             String strongboxRow = "";
-            strongboxRow = strongboxRow.concat(renderResource(res) + " " + Constants.parseResource(res) + res + AnsiColor.RESET + ": " + strongbox.get(res));
+            strongboxRow = strongboxRow.concat(renderResource(res) + " " + AnsiColor.getResourceColor(res) + res + AnsiColor.RESET + ": " + strongbox.get(res));
             System.out.println(strongboxRow);
         }
     }
@@ -201,19 +201,19 @@ public class CLIRenderer extends Renderer {
     public String renderResource(Resource res) {
         switch (res) {
             case COIN -> {
-                return Constants.parseResource(res) + AnsiSymbol.COIN + AnsiColor.RESET;
+                return AnsiColor.getResourceColor(res) + AnsiSymbol.COIN + AnsiColor.RESET;
             }
             case SERVANT -> {
-                return Constants.parseResource(res) + AnsiSymbol.SERVANT + AnsiColor.RESET;
+                return AnsiColor.getResourceColor(res) + AnsiSymbol.SERVANT + AnsiColor.RESET;
             }
             case FAITH -> {
-                return Constants.parseResource(res) + AnsiSymbol.FAITH + AnsiColor.RESET;
+                return AnsiColor.getResourceColor(res) + AnsiSymbol.FAITH + AnsiColor.RESET;
             }
             case SHIELD -> {
-                return Constants.parseResource(res) + AnsiSymbol.SHIELD + AnsiColor.RESET;
+                return AnsiColor.getResourceColor(res) + AnsiSymbol.SHIELD + AnsiColor.RESET;
             }
             case STONE -> {
-                return Constants.parseResource(res) + AnsiSymbol.STONE + AnsiColor.RESET;
+                return AnsiColor.getResourceColor(res) + AnsiSymbol.STONE + AnsiColor.RESET;
             }
         }
         return "";
@@ -237,21 +237,21 @@ public class CLIRenderer extends Renderer {
         float percentage = (float) faith / 24 * 100;
 
         for (int i = 0; i < faith; i++) {
-            str.append(AnsiColor.PURPLE + AnsiSymbol.CROSS + Constants.ANSI_RESET);
+            str.append(AnsiColor.PURPLE + AnsiSymbol.CROSS + AnsiColor.RESET);
             str.append(" ");
         }
         for (int i = 0; i < pointsToWin; i++) {
-            str.append(AnsiColor.RED + "-" + Constants.ANSI_RESET);
+            str.append(AnsiColor.RED + "-" + AnsiColor.RESET);
             str.append(" ");
         }
         str.append("] ");
         for (int i = 0; i < 24; i++) {
             if (i == 7 || i == 15 || i == 23) {
-                popeReports.append(AnsiColor.YELLOW + AnsiSymbol.BISHOP + Constants.ANSI_RESET);
+                popeReports.append(AnsiColor.YELLOW + AnsiSymbol.BISHOP + AnsiColor.RESET);
             } else if (i == 22 || i == 21 || i == 20 || i == 19 ||
                     i == 18 || i == 14 || i == 13 || i == 12 ||
                     i == 11 || i == 6 || i == 5 || i == 4) {
-                popeReports.append(AnsiColor.GREEN + "+" + Constants.ANSI_RESET);
+                popeReports.append(AnsiColor.GREEN + "+" + AnsiColor.RESET);
             } else {
                 popeReports.append("x");
             }
@@ -259,21 +259,21 @@ public class CLIRenderer extends Renderer {
         }
         for (int i = 0; i < 24; i++) {
             if (i == 2) {
-                points.append(AnsiColor.BRIGHT_BLUE + "1" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "1" + AnsiColor.RESET);
             } else if (i == 5) {
-                points.append(AnsiColor.BRIGHT_BLUE + "2" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "2" + AnsiColor.RESET);
             } else if (i == 8) {
-                points.append(AnsiColor.BRIGHT_BLUE + "4" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "4" + AnsiColor.RESET);
             } else if (i == 11) {
-                points.append(AnsiColor.BRIGHT_BLUE + "6" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "6" + AnsiColor.RESET);
             } else if (i == 14) {
-                points.append(AnsiColor.BRIGHT_BLUE + "9" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "9" + AnsiColor.RESET);
             } else if (i == 17) {
-                points.append(AnsiColor.BRIGHT_BLUE + "12" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "12" + AnsiColor.RESET);
             } else if (i == 20) {
-                points.append(AnsiColor.BRIGHT_BLUE + "16" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "16" + AnsiColor.RESET);
             } else if (i == 23) {
-                points.append(AnsiColor.BRIGHT_BLUE + "20" + Constants.ANSI_RESET);
+                points.append(AnsiColor.BRIGHT_BLUE + "20" + AnsiColor.RESET);
             } else {
                 points.append(" ");
             }
@@ -299,7 +299,7 @@ public class CLIRenderer extends Renderer {
 
             int index = 1;
             for (Resource res : marketResult) {
-                printedResult = printedResult.concat(" " + index + ") " + Constants.parseResource(res) + res + AnsiColor.RESET + " - ");
+                printedResult = printedResult.concat(" " + index + ") " + AnsiColor.getResourceColor(res) + res + AnsiColor.RESET + " - ");
                 index++;
             }
 
@@ -419,5 +419,39 @@ public class CLIRenderer extends Renderer {
         prettyCard = prettyCard.concat("Targeted resource: " + card.getSpecialAbility().getTargetResource() + "\n");
 
         System.out.println(prettyCard);
+    }
+
+    @Override
+    public void renderMarket(List<List<Resource>> grid, Resource slideResource) {
+        String market = "";
+        market = market.concat("-----------------------------------------\n");
+        for (int r = 0; r < 3; r++) {
+            for (int i = 0; i < 4; i++) {
+                String color = AnsiColor.getResourceColor(grid.get(r).get(i));
+                market = market.concat("|  ");
+                market = market.concat(color + "/ * \\  " + AnsiColor.RESET);
+            }
+            market = market.concat("|");
+            market = market.concat(Constants.SIDEARROW + "\n");
+            for (int i = 0; i < 4; i++) {
+                String color = AnsiColor.getResourceColor(grid.get(r).get(i));
+                market = market.concat("| ");
+                market = market.concat(color + "*     * " + AnsiColor.RESET);
+            }
+            market = market.concat("|");
+            market = market.concat(Constants.SIDEARROW + (r+5) + "\n");
+            for (int i = 0; i < 4; i++) {
+                String color = AnsiColor.getResourceColor(grid.get(r).get(i));
+                market = market.concat("|  ");
+                market = market.concat(color + "\\ * /  " + AnsiColor.RESET);
+            }
+            market = market.concat("|");
+            market = market.concat(Constants.SIDEARROW + "\n");
+            market = market.concat("-----------------------------------------\n");
+        }
+        market = market.concat(Constants.BOTTOMARROWS);
+        market = market.concat(Constants.BOTTOMINDEX);
+
+        System.out.println(market);
     }
 }

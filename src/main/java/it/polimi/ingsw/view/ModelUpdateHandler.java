@@ -27,7 +27,7 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updateTurn(String playerName);
 
-    public abstract void updateMarket(int index, List<Resource> changes);
+    public abstract void updateMarket(int index, List<Resource> changes, Resource slideResource);
 
     public abstract void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Integer, List<Resource>> leadersDeposit);
 

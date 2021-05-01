@@ -11,8 +11,6 @@ import it.polimi.ingsw.view.ModelUpdateHandler;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.beans.MockPlayer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -86,10 +84,11 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void updateMarket(int index, List<Resource> changes) {
+    public void updateMarket(int index, List<Resource> changes, Resource slideResource) {
         if (index >= 4) {
-            getView().getModel().updateMarketRow(index - 4, changes);
-        } else getView().getModel().updateMarketColumn(index, changes);
+            getView().getModel().getMarket().updateMarketRow(index - 4, changes);
+        } else getView().getModel().getMarket().updateMarketColumn(index, changes);
+        getView().getModel().getMarket().setSlideResource(slideResource);
     }
 
     @Override
@@ -102,6 +101,7 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         for (Integer i : changes.keySet()) {
             player.getDeposit().setRow(i - 1, changes.get(i));
         }
+        player.getDeposit().setLeadersDeposit(leadersDeposit);
     }
 
     @Override

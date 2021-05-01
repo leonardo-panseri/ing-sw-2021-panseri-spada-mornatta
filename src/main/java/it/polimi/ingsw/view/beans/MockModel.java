@@ -1,13 +1,7 @@
 package it.polimi.ingsw.view.beans;
 
-import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
-import it.polimi.ingsw.model.card.LeaderCard;
-import it.polimi.ingsw.model.card.SpecialAbilityType;
-import it.polimi.ingsw.view.beans.MockDeposit;
-import it.polimi.ingsw.view.beans.MockPlayer;
-import it.polimi.ingsw.view.beans.MockPlayerBoard;
 
 import java.util.*;
 
@@ -16,30 +10,55 @@ public class MockModel {
     private final Map<String, MockPlayer> players;
 
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
-    private List<List<Resource>> market;
+    private final MockMarket market;
 
     /**
-     * Initializes all the necessary attributes of the MockModel.
+     * Constructs a new MockModel initializing the players map and the market, and setting the local player to null.
      */
     public MockModel() {
         localPlayer = null;
         players = new HashMap<>();
+        market = new MockMarket();
     }
 
+    /**
+     * Gets the MockPlayer that is playing with this instance of the client.
+     *
+     * @return the local player, if it has not been set yet returns null
+     */
     public MockPlayer getLocalPlayer() {
         if(localPlayer == null)
             System.err.println("Tried to get local player but it was not set");
         return localPlayer;
     }
 
+    /**
+     * Sets the MockPlayer that is playing with this instance of the client.
+     *
+     * @param localPlayer the local player to be set
+     */
     public void setLocalPlayer(MockPlayer localPlayer) {
         this.localPlayer = localPlayer;
     }
 
+    /**
+     * Gets the MockPlayer with the given name, if not found returns null.
+     *
+     * @param name the name of the player to search for
+     * @return the player with the given name if found, null otherwise
+     */
     public MockPlayer getPlayer(String name) {
         return players.getOrDefault(name.toLowerCase(), null);
     }
 
+    /**
+     * Creates a new MockPlayer and adds it to the player map, if a player with this name is already present returns it
+     * instead.
+     *
+     * @param name the name of the player
+     * @param localPlayer if this player should be set as the local player
+     * @return the new player added or the existing one with this name if found
+     */
     public MockPlayer addPlayer(String name, boolean localPlayer) {
         if(!players.containsKey(name.toLowerCase())) {
             MockPlayer newPlayer = new MockPlayer(name, localPlayer);
@@ -73,64 +92,7 @@ public class MockModel {
      *
      * @return a list of a list representing the market used to draw resources
      */
-    public List<List<Resource>> getMarket() {
+    public MockMarket getMarket() {
         return market;
     }
-
-    /**
-     * Sets the market.
-     *
-     * @param market list of a list representing the market used to draw resources
-     */
-    public void setMarket(List<List<Resource>> market) {
-        this.market = market;
-    }
-
-    /**
-     * Updates a row of the market.
-     *
-     * @param index the index representing the row that needs to be changed
-     * @param changes a List containing the resources that will be associated to the new row
-     */
-    public void updateMarketRow(int index, List<Resource> changes) {
-        getMarket().get(index).clear();
-        getMarket().get(index).addAll(changes);
-    }
-
-    /**
-     * Update a column of the market.
-     *
-     * @param index the index representing the column that needs to be changed
-     * @param changes a List containing the resources that will be associated to the new column
-     */
-    public void updateMarketColumn(int index, List<Resource> changes) {
-        for (List<Resource> row : getMarket()) {
-            row.remove(index);
-            row.add(index, changes.get(getMarket().indexOf(row)));
-        }
-    }
-
-    /**
-     * Counts the occurrences of a white resource in a given row or column of the market.
-     *
-     * @param index the index representing the row or column of the market
-     * @return the occurrences of a white resource in the row or column of the market
-     */
-    public int countWhiteResources(int index) {
-        int result = 0;
-        if (index > 0 && index < 5) {
-            for (int i = 0; i < 3; i++) {
-                if (market.get(i).get(index - 1) == null) result++;
-            }
-        } else if (index > 4 && index < 8) {
-            for (List<Resource> row : market) {
-                for (Resource res : row) {
-                    if (res == null) result++;
-                }
-            }
-        }
-        return result;
-    }
-
-
 }

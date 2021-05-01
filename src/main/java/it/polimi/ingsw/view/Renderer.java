@@ -65,6 +65,8 @@ public abstract class Renderer {
 
     public abstract void renderStrongbox(MockPlayer player);
 
+    public abstract void renderMarket(List<List<Resource>> grid, Resource slideResource);
+
     public abstract String renderResource(Resource res);
 
     public abstract void help();

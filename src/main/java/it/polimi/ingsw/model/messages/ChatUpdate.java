@@ -23,6 +23,6 @@ public class ChatUpdate extends PropertyUpdate{
 
     @Override
     public void process(View view) {
-        view.getRenderer().printChatMessage(sender, message);
+        view.getModelUpdateHandler().updateChat(sender, message);
     }
 }

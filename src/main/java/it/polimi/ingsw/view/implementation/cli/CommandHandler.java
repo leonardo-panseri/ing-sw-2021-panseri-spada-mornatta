@@ -119,7 +119,7 @@ public class CommandHandler {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DRAW_MARKET);
             return;
         }
-        int whiteResources = cli.getModel().countWhiteResources(marketIndex);
+        int whiteResources = cli.getModel().getMarket().countWhiteResources(marketIndex);
         List<Resource> whiteConversions = new ArrayList<>();
         for (int i = 1; i < args.length; i++) {
             if (whiteConversions.size() <= whiteResources) {

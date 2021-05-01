@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.implementation.cli;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
+import it.polimi.ingsw.constant.AnsiColor;
 import it.polimi.ingsw.constant.Constants;
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.card.LeaderCard;
@@ -25,7 +26,7 @@ public class CLI extends View {
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(Constants.ANSI_BLUE + Constants.MASTER + Constants.ANSI_RESET);
+        System.out.println(AnsiColor.BLUE + Constants.MASTER + AnsiColor.RESET);
         String command;
         while (getClient().isActive()) {
             command = scanner.nextLine();

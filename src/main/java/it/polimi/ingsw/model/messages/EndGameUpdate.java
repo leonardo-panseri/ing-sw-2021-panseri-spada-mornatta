@@ -2,12 +2,16 @@ package it.polimi.ingsw.model.messages;
 
 import it.polimi.ingsw.view.View;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
  * Update sent after the game has ended.
  */
 public class EndGameUpdate extends PropertyUpdate {
+    @Serial
+    private static final long serialVersionUID = 1651171994362581998L;
+
     private final Map<String, Integer> scores;
     private final String winnerName;
 

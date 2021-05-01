@@ -2,10 +2,15 @@ package it.polimi.ingsw.model.messages;
 
 import it.polimi.ingsw.view.View;
 
+import java.io.Serial;
+
 /**
  * Update sent when a single player game ends.
  */
 public class EndSingleplayerGameUpdate extends PropertyUpdate {
+    @Serial
+    private static final long serialVersionUID = 5751033303882195025L;
+
     private final boolean lorenzoWin;
     private final String loseReason;
     private final int playerScore;

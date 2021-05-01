@@ -174,6 +174,6 @@ public class Market extends Observable<IServerPacket> {
         update.add(getRow(1));
         update.add(getRow(2));
 
-        notify(new CreateMarketUpdate(update));
+        notify(new CreateMarketUpdate(update, slideResource));
     }
 }

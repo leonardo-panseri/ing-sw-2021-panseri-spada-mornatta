@@ -9,14 +9,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Local copy of a Player's deposit.
+ */
 public class MockDeposit {
     private final MockPlayer player;
 
-    private List<List<Resource>> deposit;
+    private final List<List<Resource>> deposit;
     private Map<Resource, Integer> strongbox;
     private Map<Integer, List<Resource>> leadersDeposit;
     private List<Resource> marketResult;
 
+    /**
+     * Constructs a new empty MockDeposit for the given MockPlayer.
+     *
+     * @param player the player owner of this deposit
+     */
     public MockDeposit(MockPlayer player) {
         this.player = player;
         deposit = new ArrayList<>();
@@ -30,22 +38,39 @@ public class MockDeposit {
         marketResult = new ArrayList<>();
     }
 
-    public void setRow(int row, List<Resource> deposit) {
-        this.deposit.set(row, deposit);
+    /**
+     * Sets the given resources in the row with the given index.
+     *
+     * @param index the index of the row to change (0 -> top row, 1 -> middle row, 2 -> bottom row)
+     * @param changes the new row to override to the row with the id
+     */
+    public void setRow(int index, List<Resource> changes) {
+        this.deposit.set(index, changes);
     }
 
+    /**
+     * Gets the row at the given index.
+     *
+     * @param index the index of the row to get (0 -> top row, 1 -> middle row, 2 -> bottom row)
+     * @return the row with the given index
+     */
     public List<Resource> getRow(int index) {
         return deposit.get(index);
     }
 
+    /**
+     * Gets all the rows of this MockDeposit.
+     *
+     * @return a list containing all rows (list[0] -> top row, list[1] -> middle row, list[2] -> bottom row)
+     */
     public List<List<Resource>> getAllRows() {
         return deposit;
     }
 
     /**
-     * Gets the strongbox of the current player.
+     * Gets the strongbox of this MockDeposit.
      *
-     * @return a map showing the number of times that the resources are present in the strongbox
+     * @return a map associating the resources with the number of that type of resource that is present in the strongbox
      */
     public Map<Resource, Integer> getStrongbox() {
         return strongbox;
@@ -53,9 +78,9 @@ public class MockDeposit {
 
 
     /**
-     * Sets the strongbox of the current player.
+     * Sets the strongbox.
      *
-     * @param strongbox a Map representing the strongbox, the integer
+     * @param strongbox a map representing the strongbox, the integer
      *                  represents the number of times the resource is present in the strongbox
      */
     public void setStrongbox(Map<Resource, Integer> strongbox) {
@@ -63,9 +88,10 @@ public class MockDeposit {
     }
 
     /**
-     * Gets the deposit of the leader cards having deposit as their special ability.
+     * Gets the deposit of the leader with the given index.
      *
-     * @return a Map showing the deposit of the leaders
+     * @param index the index of the leader deposit (1 -> first leader deposit, 2 -> second leader deposit)
+     * @return a list containing the leader deposit at the given index
      */
     public List<Resource> getLeadersDeposit(int index) {
         if(index != 1 && index != 2) {
@@ -75,6 +101,12 @@ public class MockDeposit {
         return leadersDeposit.get(index);
     }
 
+    /**
+     * Gets the active leader deposits.
+     *
+     * @return a map associating the indexes of the leaders to the corresponding deposits if the leaders are active and
+     *         have the deposit ability
+     */
     public Map<Integer, List<Resource>> getActiveLeadersDeposit() {
         HashMap<Integer, List<Resource>> result = new HashMap<>();
         LeaderCard card1 = player.getLeaderCardAt(0);
