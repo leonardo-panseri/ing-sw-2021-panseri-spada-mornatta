@@ -111,10 +111,21 @@ public class MockPlayer {
         return count == 2;
     }
 
+    /**
+     * Gets the current player board.
+     *
+     * @return the player board of the current player
+     */
+
     public MockPlayerBoard getPlayerBoard() {
         return playerBoard;
     }
 
+    /**
+     * Gets the deposit of the current player.
+     *
+     * @return the deposit of the current player
+     */
     public MockDeposit getDeposit() {
         return playerBoard.getDeposit();
     }
