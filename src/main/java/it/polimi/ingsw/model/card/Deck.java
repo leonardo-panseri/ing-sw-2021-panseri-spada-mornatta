@@ -25,23 +25,6 @@ public class Deck extends Observable<IServerPacket> {
     }
 
     /**
-     * Gets the LeaderCard with the given UUID.
-     *
-     * @param uuid the uuid of the card to search for
-     * @return the leader card with the given UUID or <code>null</code> if not found
-     */
-    public synchronized LeaderCard getLeaderCardByUuid(UUID uuid) {
-        LeaderCard result = null;
-        for (LeaderCard card : leaderCards) {
-            if (uuid.equals(card.getUuid())) {
-                result = card;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
      * Gets the DevelopmentCard with the given UUID.
      *
      * @param uuid the uuid of the card to search for
