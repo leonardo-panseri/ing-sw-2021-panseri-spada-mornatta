@@ -19,6 +19,13 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         super(view);
     }
 
+    /**
+     * Updates the gamePhase. The different states in which the game can be are: {@link GamePhase#SELECTING_LEADERS},
+     * {@link GamePhase#PLAYING}, {@link GamePhase#END}.
+     *
+     * @param gamePhase The different states in which the game can be are: {@link GamePhase#SELECTING_LEADERS},
+     *        {@link GamePhase#PLAYING}, {@link GamePhase#END}
+     */
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
         switch (gamePhase) {
@@ -35,6 +42,13 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         }
     }
 
+    /**
+     * Updates the LeaderCards of the given player if his GamePhase is {@link GamePhase#PLAYING}.
+     *
+     * @param playerName the name of the given player
+     * @param ownedLeaders a map representing the LeaderCards owned by the given player {@link GamePhase#PLAYING},
+     *                     with a boolean attribute that indicates if the LeaderCard is active
+     */
     @Override
     public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
         MockPlayer player = getView().getModel().getPlayer(playerName);
@@ -54,6 +68,14 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         player.setLeaderCards(ownedLeaders);
     }
 
+    /**
+     * Updates the development cards of the given player.
+     *
+     * @param playerName the name of the given player
+     * @param card the development card to set
+     * @param slot the slot in which the development card will be set
+     */
+
     @Override
     public void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot) {
         MockPlayer player = getView().getModel().getPlayer(playerName);
@@ -64,6 +86,15 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         player.getPlayerBoard().setNewDevelopmentCard(card, slot);
     }
 
+    /**
+     * Updates the turn of the given player. The states of the game are {@link GameState#CONNECTING},
+     * {@link GameState#CONNECTING}, {@link GameState#CONNECTING}, {@link GameState#CONNECTING},
+     * {@link GameState#CONNECTING}, {@link GameState#CONNECTING}, {@link GameState#CONNECTING}
+     *
+     *
+     *
+     * @param playerName the name of the given
+     */
     @Override
     public void updateTurn(String playerName) {
         if (playerName.equals(getView().getPlayerName())) {
