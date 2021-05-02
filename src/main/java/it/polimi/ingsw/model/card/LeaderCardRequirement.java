@@ -59,7 +59,7 @@ public class LeaderCardRequirement implements Serializable {
      * @return true if the player can afford the card, false otherwise
      */
     boolean canPlayerAfford(Player player) {
-        if(!Card.canPlayerAffordResources(player, resourceRequirements))
+        if(!player.hasResources(resourceRequirements))
             return false;
         boolean canAfford = true;
         for(CardColor color : cardColorRequirements.keySet()) {

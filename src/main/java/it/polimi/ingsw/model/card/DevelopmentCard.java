@@ -55,7 +55,7 @@ public class DevelopmentCard extends Card {
             discountedCost.put(res, discountedCost.get(res) - discount);
             if(discountedCost.get(res) < 0) discountedCost.put(res, 0);
         }
-        return canPlayerAffordResources(player, discountedCost);
+        return player.hasResources(discountedCost);
     }
 
     /**

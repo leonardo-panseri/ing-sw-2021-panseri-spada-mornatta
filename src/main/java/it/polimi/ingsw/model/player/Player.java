@@ -272,6 +272,23 @@ public class Player extends Observable<IServerPacket> {
         return victoryPoints;
     }
 
+    /**
+     * Checks if this Player has the given resources.
+     *
+     * @param resources a map associating resource type to quantity
+     * @return true if this player has at least the given types and amounts of resources, false otherwise
+     */
+    public boolean hasResources(Map<Resource, Integer> resources) {
+        boolean canAfford = true;
+        for (Resource res : resources.keySet()) {
+            int required = resources.get(res);
+            int playerAmount = getBoard().getDeposit().getAmountOfResource(res);
+            if(playerAmount < required)
+                canAfford = false;
+        }
+        return canAfford;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

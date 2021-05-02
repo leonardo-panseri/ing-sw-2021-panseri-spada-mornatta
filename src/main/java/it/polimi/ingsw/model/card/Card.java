@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model.card;
 
-import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -55,17 +53,6 @@ public abstract class Card implements Serializable {
      * @return true if the player can afford this card, false otherwise
      */
     public abstract boolean canPlayerAfford(Player player);
-
-    protected static boolean canPlayerAffordResources(Player player, Map<Resource, Integer> resources) {
-        boolean canAfford = true;
-        for (Resource res : resources.keySet()) {
-            int required = resources.get(res);
-            int playerAmount = player.getBoard().getDeposit().getAmountOfResource(res);
-            if(playerAmount < required)
-                canAfford = false;
-        }
-        return canAfford;
-    }
 
     @Override
     public boolean equals(Object o) {
