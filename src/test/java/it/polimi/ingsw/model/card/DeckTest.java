@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 class DeckTest {
 
@@ -61,24 +58,4 @@ class DeckTest {
             }
         }
     }
-
-    @Test
-    public void removeAllTest() {
-        Deck testDeck2 = new Deck();
-
-        for (HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck2.getDevelopmentCards()) {
-            for (Stack<DevelopmentCard> stack : map.values()) {
-                for (DevelopmentCard card : stack) {
-                    testDeck.removeBoughtCard(card);
-                }
-            }
-        }
-
-        for (HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
-            for (Stack<DevelopmentCard> stack : map.values()) {
-                assertEquals(0, stack.size());
-            }
-        }
-    }
-
 }

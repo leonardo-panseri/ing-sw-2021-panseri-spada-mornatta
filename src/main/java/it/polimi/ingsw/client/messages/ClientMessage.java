@@ -16,6 +16,11 @@ public abstract class ClientMessage implements Serializable, IProcessablePacket<
 
     private transient SocketClientConnection clientConnection;
 
+    /**
+     * Gets the ClientConnection of this message.
+     *
+     * @return the client connection associated with this message
+     */
     public SocketClientConnection getClientConnection() {
         return clientConnection;
     }

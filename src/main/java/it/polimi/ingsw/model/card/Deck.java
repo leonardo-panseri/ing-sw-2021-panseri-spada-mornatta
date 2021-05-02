@@ -104,8 +104,9 @@ public class Deck extends Observable<IServerPacket> {
      * Removes a card from the Deck when bought.
      *
      * @param card the bought development card to remove.
+     * @throws EmptyStackException if the given card is not in the deck
      */
-    public synchronized void removeBoughtCard(DevelopmentCard card) {
+    public synchronized void removeBoughtCard(DevelopmentCard card) throws EmptyStackException {
         developmentCards
                 .get(card.getLevel() - 1)
                 .get(card.getColor())

@@ -107,16 +107,13 @@ class PlayerTest {
             testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
         });
 
-        Exception exception = assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> {
                     testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
                 });
-        String expectedMessage = "leadercard_already_active";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
 
 
-        exception = assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> {
                     SpecialAbility testSpecialAbility = new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN);
                     testCardLevelRequirements.put(CardColor.BLUE, 1);
@@ -127,9 +124,6 @@ class PlayerTest {
                     testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards2.keySet()));
                     testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
                 });
-        expectedMessage = "leadercard_not_present";
-        actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
 
     }
 
@@ -164,24 +158,18 @@ class PlayerTest {
             testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
         });
 
-        Exception exception = assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> {
                     testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
                 });
-        String expectedMessage = "leadercard_not_present";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
 
-        exception = assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> {
                     testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
                     testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
                     testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
                     ;
                 });
-        expectedMessage = "leadercard_already_active";
-        actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
