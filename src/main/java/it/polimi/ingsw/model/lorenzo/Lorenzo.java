@@ -28,6 +28,15 @@ public class Lorenzo extends Observable<IServerPacket> {
     }
 
     /**
+     * Gets a List containing actions that can be performed.
+     *
+     * @return a list containing the actions of lorenzo
+     */
+    List<LorenzoAction> getActions() {
+        return actions;
+    }
+
+    /**
      * Returns the amount of faith points.
      *
      * @return the amount of faith points.
