@@ -90,9 +90,45 @@ class DeckTest {
         }
     }
 
+    @Test
+    public void removeTwoCardsOfSameColorTest() {
+        List<DevelopmentCard> cardsBefore;
+        List<DevelopmentCard> cardsAfter;
+        for(CardColor color : CardColor.values()) {
+            cardsBefore = getAllCardsOfColor(testDeck.getDevelopmentCards(), color);
+            testDeck.removeTwoDevelopmentCards(color);
+            cardsAfter = getAllCardsOfColor(testDeck.getDevelopmentCards(), color);
+
+            for(int i = 2; i < cardsBefore.size(); i++) {
+                assertEquals(cardsBefore.get(i), cardsAfter.get(i - 2));
+            }
+        }
+    }
+
+    @Test
+    public void isColorEmptyTest() {
+        for(HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
+            for(CardColor color : map.keySet())
+                assertFalse(testDeck.isColorEmpty(color));
+
+            for(CardColor color : map.keySet()) {
+                Iterator<DevelopmentCard> iterator = map.get(color).iterator();
+                while(iterator.hasNext()) {
+                    iterator.next();
+                    iterator.remove();
+                }
+            }
+        }
+
+        for(HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
+            for(CardColor color : map.keySet())
+                assertTrue(testDeck.isColorEmpty(color));
+        }
+    }
+
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCardsDeepCopy(List<HashMap<CardColor, Stack<DevelopmentCard>>> input) {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> output = new ArrayList<>();
-        testDeck.getDevelopmentCards().forEach(map -> {
+        input.forEach(map -> {
             HashMap<CardColor, Stack<DevelopmentCard>> newMap = new HashMap<>();
             map.forEach((color, stack) -> {
                 Stack<DevelopmentCard> newStack = new Stack<>();
@@ -102,5 +138,11 @@ class DeckTest {
             output.add(newMap);
         });
         return output;
+    }
+
+    private List<DevelopmentCard> getAllCardsOfColor(List<HashMap<CardColor, Stack<DevelopmentCard>>> input, CardColor colorToSearch) {
+        List<DevelopmentCard> result = new ArrayList<>();
+        input.forEach(map -> map.forEach((color, stack) -> {if(color == colorToSearch) result.addAll(stack);}));
+        return result;
     }
 }
