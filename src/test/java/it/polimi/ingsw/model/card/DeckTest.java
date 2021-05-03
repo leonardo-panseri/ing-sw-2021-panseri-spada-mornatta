@@ -10,36 +10,11 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
-
-    Game testGame;
-    Deck testDeck;
-    DevelopmentCard devCard;
-    Map<Resource, Integer> reqMap;
-    int level;
-    Map<Resource, Integer> inMap;
-    Map<Resource, Integer> outMap;
-    CardColor color;
-
+    private Deck testDeck;
 
     @BeforeEach
     public void init() {
-        testGame = new Game();
-        testDeck = testGame.getDeck();
-
-        reqMap = new HashMap<>();
-        reqMap.put(Resource.SERVANT, 3);
-
-        level = 1;
-
-        inMap = new HashMap<>();
-        inMap.put(Resource.COIN, 1);
-
-        outMap = new HashMap<>();
-        outMap.put(Resource.STONE, 3);
-
-        color = CardColor.GREEN;
-
-        devCard = new DevelopmentCard(1, reqMap, level, inMap, outMap, color);
+        testDeck = new Game().getDeck();
     }
 
     @Test
@@ -82,10 +57,18 @@ class DeckTest {
 
     @Test
     public void removeCardTest() {
-        testDeck.removeBoughtCard(devCard);
+        Random random = new Random();
+        Stack<DevelopmentCard> randomStack = testDeck.getDevelopmentCards()
+                .get(random.nextInt(3))
+                .get(CardColor.values()[random.nextInt(4)]);
+        DevelopmentCard randomCard = randomStack.get(random.nextInt(randomStack.size()));
+        assertTrue(randomStack.contains(randomCard));
+        assertNotEquals(testDeck.getDevelopmentCardByUuid(randomCard.getUuid()), null);
+
+        testDeck.removeBoughtCard(randomCard);
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
             for (Stack<DevelopmentCard> stack : map.values()) {
-                assertFalse(stack.contains(devCard));
+                assertFalse(stack.contains(randomCard));
             }
         }
     }
