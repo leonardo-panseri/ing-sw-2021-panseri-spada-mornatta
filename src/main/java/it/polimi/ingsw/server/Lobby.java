@@ -186,6 +186,7 @@ public class Lobby extends Observable<IServerPacket> {
             if(conn != null) {
                 conn.closeConnection();
             }
+            connections.remove(conn);
         }
     }
 }

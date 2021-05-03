@@ -143,7 +143,7 @@ public class Game extends Observable<IServerPacket> {
      *
      * @return the current game phase
      */
-    private GamePhase getGamePhase() {
+    public GamePhase getGamePhase() {
         return gamePhase;
     }
 
