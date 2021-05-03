@@ -20,26 +20,47 @@ public class CLIRenderer extends Renderer {
         super(view);
     }
 
+    /**
+     * Shows the game's message.
+     *
+     * @param message the game's message to show
+     */
     @Override
     public void showGameMessage(String message) {
         System.out.println(AnsiColor.BLUE + "[" + AnsiColor.italicize("TO:You") + AnsiColor.BLUE + "] " + message + AnsiColor.RESET);
     }
 
+    /**
+     * Shows the lobby's message.
+     *
+     * @param message the lobby's message to show
+     */
     @Override
     public void showLobbyMessage(String message) {
         System.out.println(AnsiColor.GREEN + "[" + AnsiColor.italicize("TO:Lobby") + AnsiColor.GREEN + "] " + message + AnsiColor.RESET);
     }
 
+    /**
+     * Shows the error message.
+     *
+     * @param message the error message to show.
+     */
     @Override
     public void showErrorMessage(String message) {
         System.out.println(AnsiColor.RED + "[" + AnsiColor.italicize("ERROR") + AnsiColor.RED + "] " + message + AnsiColor.RESET);
     }
 
+    /**
+     * Prints the market.
+     */
     @Override
     public void printMarket() {
         renderMarket(getView().getModel().getMarket().getGrid(), getView().getModel().getMarket().getSlideResource());
     }
 
+    /**
+     * Prints the LeaderCards of the player.
+     */
     @Override
     public void printOwnLeaders() {
         int index = 1;
@@ -49,6 +70,9 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the DevelopmentCards of the player.
+     */
     @Override
     public void printOwnDevelopmentCards() {
         if (!getView().getModel().getLocalPlayer().getPlayerBoard().hasOwnDevelopmentCard()) {
@@ -68,12 +92,18 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the player's deposit.
+     */
     @Override
     public void printOwnDeposit() {
         renderDeposit(getView().getModel().getLocalPlayer());
         renderLeadersDeposit(getView().getModel().getLocalPlayer());
     }
 
+    /**
+     * Prints the player's StrongBox.
+     */
     @Override
     public void printOwnStrongbox() {
         renderStrongbox(getView().getModel().getLocalPlayer());
@@ -98,6 +128,11 @@ public class CLIRenderer extends Renderer {
         if (numActive == 0) getView().getRenderer().showGameMessage("Player does not have active cards!");
     }
 
+    /**
+     * Prints the development cards of the given player.
+     *
+     * @param playerName the name of the player whose development cards will
+     */
     @Override
     public void printOthersDevelopmentCards(String playerName) {
         MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
