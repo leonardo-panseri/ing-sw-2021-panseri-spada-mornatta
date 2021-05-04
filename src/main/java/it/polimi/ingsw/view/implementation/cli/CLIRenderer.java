@@ -335,6 +335,9 @@ public class CLIRenderer extends Renderer {
 
     }
 
+    /**
+     * Prints a message showing the resources to store after a draw.
+     */
     @Override
     public void printMarketResult() {
         List<Resource> marketResult = getView().getModel().getLocalPlayer().getDeposit().getMarketResult();
@@ -352,11 +355,23 @@ public class CLIRenderer extends Renderer {
         } else System.out.println("No resources are waiting to be stored");
     }
 
+    /**
+     * Prints a chat message.
+     *
+     * @param sender a string showing the name of the sender
+     * @param message a string representing the message
+     */
     @Override
     public void printChatMessage(String sender, String message) {
         System.out.println(AnsiColor.BRIGHT_MAGENTA + "[" + AnsiColor.italicize("FROM:") + AnsiColor.BRIGHT_MAGENTA + sender + "] " + message + AnsiColor.RESET);
     }
 
+    /**
+     * Prints the final scores of the game.
+     *
+     * @param scores a Map showing the name of each player and its points
+     * @param winnerName a String showing the name of the winner
+     */
     @Override
     public void printFinalScores(Map<String, Integer> scores, String winnerName) {
         System.out.println(AnsiColor.YELLOW + AnsiColor.bold(winnerName + " is the true Master of Renaissance!"));
@@ -367,6 +382,13 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the final scores of a single player game.
+     *
+     * @param lorenzoWin a Boolean true if Lorenzo wins, else false
+     * @param loseReason a String showing the reason of the loss
+     * @param playerScore the number representing the score of the player
+     */
     @Override
     public void printSingleplayerFinalScore(boolean lorenzoWin, String loseReason, int playerScore) {
         if (lorenzoWin) {
