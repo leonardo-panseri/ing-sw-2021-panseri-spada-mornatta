@@ -228,7 +228,7 @@
         "cost": {
           "SERVANT": 3
         },
-        "level": 1,
+        "level": 3,
         "productionInput": {
           "COIN": 1
         },

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.card;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -18,7 +19,7 @@ class DeckTest {
     }
 
     @Test
-    public void getDevelopmentCardByUuidTest() {
+    void getDevelopmentCardByUuidTest() {
         DevelopmentCard cardGot;
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
             for (Stack<DevelopmentCard> stack : map.values()) {
@@ -37,7 +38,7 @@ class DeckTest {
     }
 
     @Test
-    public void shuffleDevelopmentCardTest() {
+    void shuffleDevelopmentCardTest() {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCardsBefore = developmentCardsDeepCopy(testDeck.getDevelopmentCards());
         testDeck.shuffleDevelopmentDeck();
         for(int i = 0; i < testDeck.getDevelopmentCards().size(); i++) {
@@ -50,20 +51,20 @@ class DeckTest {
     }
 
     @Test
-    public void initialDrawTest() {
+    void initialDrawTest() {
         List<LeaderCard> draw = testDeck.initialDrawLeaders();
         assertEquals(4, draw.size());
     }
 
     @Test
-    public void removeCardTest() {
+    void removeCardTest() {
         Random random = new Random();
         Stack<DevelopmentCard> randomStack = testDeck.getDevelopmentCards()
                 .get(random.nextInt(3))
                 .get(CardColor.values()[random.nextInt(4)]);
-        DevelopmentCard randomCard = randomStack.get(random.nextInt(randomStack.size()));
+        DevelopmentCard randomCard = randomStack.peek();
         assertTrue(randomStack.contains(randomCard));
-        assertNotEquals(testDeck.getDevelopmentCardByUuid(randomCard.getUuid()), null);
+        assertNotEquals(null, testDeck.getDevelopmentCardByUuid(randomCard.getUuid()));
 
         testDeck.removeBoughtCard(randomCard);
         for (HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
@@ -74,7 +75,7 @@ class DeckTest {
     }
 
     @Test
-    public void removeTwoCardsOfSameColorTest() {
+    void removeTwoCardsOfSameColorTest() {
         List<DevelopmentCard> cardsBefore;
         List<DevelopmentCard> cardsAfter;
         for(CardColor color : CardColor.values()) {
@@ -89,7 +90,7 @@ class DeckTest {
     }
 
     @Test
-    public void isColorEmptyTest() {
+    void isColorEmptyTest() {
         for(HashMap<CardColor, Stack<DevelopmentCard>> map : testDeck.getDevelopmentCards()) {
             for(CardColor color : map.keySet())
                 assertFalse(testDeck.isColorEmpty(color));

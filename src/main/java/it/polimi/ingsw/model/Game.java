@@ -86,8 +86,11 @@ public class Game extends Observable<IServerPacket> {
      * Sets the current {@link Player}.
      *
      * @param currentPlayer the player that will be set as current player
+     * @throws IllegalArgumentException if the given player is not in the player list of this game
      */
-    public synchronized void setCurrentPlayer(Player currentPlayer) {
+    public synchronized void setCurrentPlayer(Player currentPlayer) throws IllegalArgumentException {
+        if(!players.contains(currentPlayer))
+            throw new IllegalArgumentException("The player is not in this game player list");
         this.currentPlayer = currentPlayer;
         notify(new TurnUpdate(currentPlayer.getNick()));
     }
@@ -116,7 +119,7 @@ public class Game extends Observable<IServerPacket> {
      * @return a list of players participating in this game
      */
     public List<Player> getPlayers() {
-        return players;
+        return new ArrayList<>(players);
     }
 
     /**
@@ -134,7 +137,7 @@ public class Game extends Observable<IServerPacket> {
      *
      * @return the number of players
      */
-    public int getPlayerNum() {
+    public int getPlayerCount() {
         return players.size();
     }
 

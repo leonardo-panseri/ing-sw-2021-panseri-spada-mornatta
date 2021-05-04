@@ -36,9 +36,9 @@ class GameControllerTest {
         Player p1 = new Player("one");
         Player p2 = new Player("two");
         controllerTest.addPlayer(p1);
-        assertEquals(1, controllerTest.getGame().getPlayerNum());
+        assertEquals(1, controllerTest.getGame().getPlayerCount());
         controllerTest.addPlayer(p2);
-        assertEquals(2, controllerTest.getGame().getPlayerNum());
+        assertEquals(2, controllerTest.getGame().getPlayerCount());
 
         assertEquals("one", controllerTest.getGame().getPlayerAt(0).getNick());
         assertEquals("two", controllerTest.getGame().getPlayerAt(1).getNick());

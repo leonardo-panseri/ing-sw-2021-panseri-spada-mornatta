@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.BoughtCardUpdate;
-import it.polimi.ingsw.model.messages.MarketResultUpdate;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
@@ -102,7 +99,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
      * Checks if a card of the given level can be placed in the given slot.
      *
      * @param level the level of the card
-     * @param slot the slot to place the card in
+     * @param slot the slot to place the card in (1 -> left, 2 -> center, 3 -> right)
      * @return true if the card can be placed in the slot, false otherwise
      */
     public boolean canPlaceCardOfLevel(int level, int slot) {
@@ -161,13 +158,10 @@ public class PlayerBoard extends Observable<IServerPacket> {
     /**
      * Calls for the method to push the bought development card in the desired stack.
      *
-     * @param slot the slot where to push the card
+     * @param slot the slot where to add the card (1 -> left, 2 -> center, 3 -> right)
      * @param developmentCard the bought development card
      */
     public synchronized void addCard(int slot, DevelopmentCard developmentCard) {
-        //slot 1 == cardSlotLeft
-        //slot 2 == cardSlotCenter
-        //slot 3 == cardSlotRight
         if (slot == 1) {
             pushDevelopmentCard(developmentCard, cardSlotLeft);
         }

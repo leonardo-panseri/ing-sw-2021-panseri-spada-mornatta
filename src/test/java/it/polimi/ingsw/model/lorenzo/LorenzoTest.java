@@ -24,7 +24,7 @@ class LorenzoTest {
     }
 
     @Test
-    public void addPointsTest() {
+    void addPointsTest() {
         assertEquals(0, testLorenzo.getFaithPoints());
         testLorenzo.addPoints(2);
         assertEquals(2, testLorenzo.getFaithPoints());
@@ -35,7 +35,7 @@ class LorenzoTest {
     }
 
     @Test
-    public void popActionTest() {
+    void popActionTest() {
         for (int i = 6; i > 0; i--){
             assertEquals(i, testLorenzo.getActions().size());
             LorenzoAction result = testLorenzo.popAction();
@@ -45,7 +45,7 @@ class LorenzoTest {
     }
 
     @Test
-    public void endTurnTest() {
+    void endTurnTest() {
         List<IServerPacket> packets = new ArrayList<>();
         testLorenzo.addObserver(packets::add);
         testLorenzo.endTurn("Test", new DevelopmentAction(CardColor.PURPLE));

@@ -14,18 +14,16 @@ public class CardsTest {
     private Map<Resource, Integer> cost, prodIn, prodOut;
     private DevelopmentCard testDevelopmentCard;
 
-    private LeaderCardRequirement requirements;
     private Map<Resource, Integer> resourceReq;
     private Map<CardColor, Integer> cardColorReq;
     private Map<CardColor, Integer> cardLevelReq;
-    private SpecialAbility specialAbility;
     private LeaderCard testLeaderCard;
 
     private Player testRichPlayer;
     private Player testPoorPlayer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         cost = Map.of(Resource.SERVANT, 2, Resource.SHIELD, 3);
         prodIn = Map.of(Resource.COIN, 1, Resource.STONE, 1);
         prodOut = Map.of(Resource.FAITH, 2);
@@ -35,8 +33,8 @@ public class CardsTest {
         resourceReq = Map.of(Resource.SERVANT, 2, Resource.SHIELD, 3);
         cardColorReq = Map.of(CardColor.GREEN, 2);
         cardLevelReq = Map.of(CardColor.GREEN, 2);
-        requirements = new LeaderCardRequirement(resourceReq, cardColorReq, cardLevelReq);
-        specialAbility = new SpecialAbility(SpecialAbilityType.EXCHANGE, Resource.SHIELD);
+        LeaderCardRequirement requirements = new LeaderCardRequirement(resourceReq, cardColorReq, cardLevelReq);
+        SpecialAbility specialAbility = new SpecialAbility(SpecialAbilityType.EXCHANGE, Resource.SHIELD);
         testLeaderCard = new LeaderCard(7, requirements, specialAbility);
 
         testRichPlayer = new Player("TestRich");
@@ -47,7 +45,7 @@ public class CardsTest {
     }
 
     @Test
-    public void developmentCardConstructionTest() {
+    void developmentCardConstructionTest() {
         assertNotNull(testDevelopmentCard.getUuid());
         assertEquals(testDevelopmentCard.getVictoryPoints(), 10);
         assertEquals(testDevelopmentCard.getCost(), new HashMap<>(cost));
@@ -58,13 +56,13 @@ public class CardsTest {
     }
 
     @Test
-    public void canPlayerAffordDevelopmentCardTest() {
+    void canPlayerAffordDevelopmentCardTest() {
         assertTrue(testDevelopmentCard.canPlayerAfford(testRichPlayer));
         assertFalse(testDevelopmentCard.canPlayerAfford(testPoorPlayer));
     }
 
     @Test
-    public void leaderCardConstructionTest() {
+    void leaderCardConstructionTest() {
         assertNotNull(testLeaderCard.getUuid());
         assertEquals(testLeaderCard.getVictoryPoints(), 7);
         assertEquals(testLeaderCard.getCardRequirements().getResourceRequirements(), new HashMap<>(resourceReq));
@@ -75,12 +73,19 @@ public class CardsTest {
     }
 
     @Test
-    public void canPlayerAffordLeaderCardTest() {
+    void canPlayerAffordLeaderCardTest() {
         testRichPlayer.getBoard().addCard(1, testDevelopmentCard);
         testRichPlayer.getBoard().addCard(1, new DevelopmentCard(10, cost, 2,
                 prodIn, prodOut, CardColor.GREEN));
 
         assertTrue(testLeaderCard.canPlayerAfford(testRichPlayer));
         assertFalse(testLeaderCard.canPlayerAfford(testPoorPlayer));
+    }
+
+    public static DevelopmentCard getTestDevelopmentCard(int victoryPoints, Map<Resource, Integer> cost, int level,
+                                                         Map<Resource, Integer> prodIn, Map<Resource, Integer> prodOut,
+                                                         CardColor color) {
+        return new DevelopmentCard(victoryPoints, cost, level,
+                prodIn, prodOut, color);
     }
 }

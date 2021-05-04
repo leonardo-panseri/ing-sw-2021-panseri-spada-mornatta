@@ -27,7 +27,7 @@ public class TurnController {
     public synchronized void start() {
         gameController.getGame().randomSortPlayers();
         gameController.getGame().setCurrentPlayer(gameController.getGame().getPlayerAt(0));
-        for (int i = 0; i < gameController.getGame().getPlayerNum(); i++) {
+        for (int i = 0; i < gameController.getGame().getPlayerCount(); i++) {
             List<LeaderCard> draw = gameController.getGame().getDeck().initialDrawLeaders();
             gameController.getGame().getPlayerAt(i).setLeaderCards(draw);
         }

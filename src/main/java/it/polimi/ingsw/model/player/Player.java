@@ -174,11 +174,12 @@ public class Player extends Observable<IServerPacket> {
      */
     public boolean hasLeaderDeposits(List<Resource> resourcesToCheck) {
         List<Resource> resources = new ArrayList<>(resourcesToCheck);
-        int index = 0;
         for(LeaderCard card : leaderCards.keySet()) {
-            if(index >= resources.size()) break;
-            if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT)
-                if (card.getSpecialAbility().getTargetResource() == resources.get(index)) resources.remove(index);
+            if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) {
+                int indexFound = resources.lastIndexOf(card.getSpecialAbility().getTargetResource());
+                if (indexFound != -1)
+                    resources.remove(indexFound);
+            }
         }
         return resources.isEmpty();
     }

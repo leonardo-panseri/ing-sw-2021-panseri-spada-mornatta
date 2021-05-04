@@ -15,38 +15,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Game testGame;
-    PlayerBoard testPlayerBoard;
-    Map<Resource, Integer> testResourceRequirements = new HashMap<>();
-    Map<CardColor, Integer> testCardColorRequirements = new HashMap<>();
-    Map<CardColor, Integer> testCardLevelRequirements = new HashMap<>();
-    LeaderCard testLeaderCard;
-    LeaderCard testLeaderCard2;
-    Map<LeaderCard, Boolean> testListLeaderCards = new HashMap<>();
-    Map<LeaderCard, Boolean> testListLeaderCards2 = new HashMap<>();
+    private Game testGame;
+    private Player player;
+    private Map<Resource, Integer> testResourceRequirements;
+    private Map<CardColor, Integer> testCardColorRequirements;
+    private Map<CardColor, Integer> testCardLevelRequirements;
+    private LeaderCard testLeaderCard;
+    private List<LeaderCard> testListLeaderCards;
 
 
     @BeforeEach
     public void initialization() {
         testGame = new Game();
-        testGame.addPlayer(new Player("Edoardo"));
-        testGame.addPlayer(new Player("Davide"));
-        testGame.addPlayer(new Player("Leonardo"));
+        player = new Player("Edoardo");
+        testGame.addPlayer(player);
+        
         SpecialAbility testSpecialAbility = new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN);
-        testResourceRequirements.put(Resource.COIN, 2);
-        testCardColorRequirements.put(CardColor.BLUE, 2);
-        testCardLevelRequirements.put(CardColor.BLUE, 2);
+        testResourceRequirements = Map.of(Resource.COIN, 2);
+        testCardColorRequirements = Map.of(CardColor.BLUE, 2);
+        testCardLevelRequirements = Map.of(CardColor.BLUE, 2);
         LeaderCardRequirement testLeaderCardRequirement =
                 new LeaderCardRequirement(testResourceRequirements, testCardColorRequirements, testCardLevelRequirements);
         testLeaderCard = new LeaderCard(1, testLeaderCardRequirement, testSpecialAbility);
-        testListLeaderCards.put(testLeaderCard, false);
-
-
-    }
-
-    @Test
-    void getNick() {
-        // HOW?
+        testListLeaderCards = Collections.singletonList(testLeaderCard);
     }
 
     @Test
@@ -54,127 +45,186 @@ class PlayerTest {
         int testFaithPoint1 = 5;
         int testFaithPoint2 = 13;
         int testFaithPoint3 = 15;
-        testGame.getPlayerByName("Edoardo").setFaithPoints(5);
-        testGame.getPlayerByName("Davide").setFaithPoints(13);
-        testGame.getPlayerByName("Leonardo").setFaithPoints(15);
-        assertEquals(5, testGame.getPlayerByName("Edoardo").getFaithPoints());
-        assertEquals(13, testGame.getPlayerByName("Davide").getFaithPoints());
-        assertEquals(15, testGame.getPlayerByName("Leonardo").getFaithPoints());
-    }
-
-    @Test
-    void getBoard() {
-        // useful?
+        player.setFaithPoints(testFaithPoint1);
+        assertEquals(testFaithPoint1, player.getFaithPoints());
+        player.setFaithPoints(testFaithPoint2);
+        assertEquals(testFaithPoint2, player.getFaithPoints());
+        player.setFaithPoints(testFaithPoint3);
+        assertEquals(testFaithPoint3, player.getFaithPoints());
     }
 
     @Test
     void setFaithPoints() {
-
-        testGame.getPlayerByName("Edoardo").setFaithPoints(10);
-        assertEquals(10, testGame.getPlayerByName("Edoardo").getFaithPoints());
-        testGame.getPlayerByName("Davide").setFaithPoints(20);
-        assertEquals(20, testGame.getPlayerByName("Davide").getFaithPoints());
-        testGame.getPlayerByName("Leonardo").setFaithPoints(7);
-        assertEquals(7, testGame.getPlayerByName("Leonardo").getFaithPoints());
+        player.setFaithPoints(10);
+        assertEquals(10, player.getFaithPoints());
+        player.setFaithPoints(20);
+        assertEquals(20, player.getFaithPoints());
+        player.setFaithPoints(7);
+        assertEquals(7, player.getFaithPoints());
     }
 
     @Test
     void getPopeFavours() {
-        testGame.getPlayerByName("Edoardo").setPopeFavours(1);
-        assertEquals(1, testGame.getPlayerByName("Edoardo").getPopeFavours());
-        testGame.getPlayerByName("Edoardo").setPopeFavours(2);
-        assertEquals(2, testGame.getPlayerByName("Edoardo").getPopeFavours());
-        testGame.getPlayerByName("Edoardo").setPopeFavours(3);
-        assertEquals(3, testGame.getPlayerByName("Edoardo").getPopeFavours());
+        player.setPopeFavours(1);
+        assertEquals(1, player.getPopeFavours());
+        player.setPopeFavours(2);
+        assertEquals(2, player.getPopeFavours());
+        player.setPopeFavours(3);
+        assertEquals(3, player.getPopeFavours());
     }
 
     @Test
     void setPopeFavours() {
-        testGame.getPlayerByName("Edoardo").setPopeFavours(1);
-        assertEquals(1, testGame.getPlayerByName("Edoardo").getPopeFavours());
-        testGame.getPlayerByName("Edoardo").setPopeFavours(2);
-        assertEquals(2, testGame.getPlayerByName("Edoardo").getPopeFavours());
-        testGame.getPlayerByName("Edoardo").setPopeFavours(3);
-        assertEquals(3, testGame.getPlayerByName("Edoardo").getPopeFavours());
+        player.setPopeFavours(1);
+        assertEquals(1, player.getPopeFavours());
+        player.setPopeFavours(2);
+        assertEquals(2, player.getPopeFavours());
+        player.setPopeFavours(3);
+        assertEquals(3, player.getPopeFavours());
     }
 
     @Test
     void setLeaderActive() {
-        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
-        testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
-        assert (testGame.getPlayerByName("Edoardo").getLeaderCards().get(testLeaderCard));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+        player.setLeaderCards(testListLeaderCards);
+        player.setLeaderActive(testLeaderCard);
+        assertTrue(player.isLeaderActive(testLeaderCard));
+        assertThrows(IllegalArgumentException.class, () -> {
+            player.setLeaderActive(testLeaderCard);
         });
 
         assertThrows(IllegalArgumentException.class,
                 () -> {
-                    testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
-                });
-
-
-        assertThrows(IllegalArgumentException.class,
-                () -> {
-                    SpecialAbility testSpecialAbility = new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN);
-                    testCardLevelRequirements.put(CardColor.BLUE, 1);
-                    LeaderCardRequirement testLeaderCardRequirement1 =
-                            new LeaderCardRequirement(testResourceRequirements, testCardColorRequirements, testCardLevelRequirements);
-                    testLeaderCard = new LeaderCard(1, testLeaderCardRequirement1, testSpecialAbility);
-                    testListLeaderCards.put(testLeaderCard2, false);
-                    testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards2.keySet()));
-                    testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
+                    LeaderCard card = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN));
+                    player.setLeaderActive(card);
                 });
 
     }
 
     @Test
     void setLeaderCards() {
-        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
-        assert (testGame.getPlayerByName("Edoardo").getLeaderCards().containsKey(testLeaderCard));
-
-
+        player.setLeaderCards(testListLeaderCards);
+        assertTrue(player.getLeaderCards().containsKey(testLeaderCard));
     }
 
 
     @Test
     void addFaithPoints() {
-        testGame.getPlayerByName("Edoardo").setFaithPoints(0);
-        testGame.getPlayerByName("Edoardo").addFaithPoints(3);
-        assertEquals(3, testGame.getPlayerByName("Edoardo").getFaithPoints());
-        testGame.getPlayerByName("Davide").setFaithPoints(15);
-        testGame.getPlayerByName("Davide").addFaithPoints(5);
-        assertEquals(20, testGame.getPlayerByName("Davide").getFaithPoints());
-        testGame.getPlayerByName("Leonardo").setFaithPoints(0);
-        testGame.getPlayerByName("Leonardo").addFaithPoints(5);
-        assertEquals(5, testGame.getPlayerByName("Leonardo").getFaithPoints());
+        player.setFaithPoints(0);
+        player.addFaithPoints(3);
+        assertEquals(3, player.getFaithPoints());
+        player.setFaithPoints(15);
+        player.addFaithPoints(5);
+        assertEquals(20, player.getFaithPoints());
+        player.setFaithPoints(0);
+        player.addFaithPoints(5);
+        assertEquals(5, player.getFaithPoints());
     }
 
     @Test
     void discardLeader() {
-        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
-        testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
-        assert (testGame.getPlayerByName("Edoardo").getLeaderCards().isEmpty());
+        player.setLeaderCards(testListLeaderCards);
+        player.discardLeader(testLeaderCard);
+        assertTrue(player.getLeaderCards().isEmpty());
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
+            player.discardLeader(testLeaderCard);
         });
 
         assertThrows(IllegalArgumentException.class,
                 () -> {
-                    testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
-                });
-
-        assertThrows(IllegalArgumentException.class,
-                () -> {
-                    testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
-                    testGame.getPlayerByName("Edoardo").setLeaderActive(testLeaderCard);
-                    testGame.getPlayerByName("Edoardo").discardLeader(testLeaderCard);
+                    player.setLeaderCards(testListLeaderCards);
+                    player.setLeaderActive(testLeaderCard);
+                    player.discardLeader(testLeaderCard);
                     ;
                 });
     }
 
     @Test
+    public void countLeadersDiscount() {
+        LeaderCard card1 = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DISCOUNT, Resource.SHIELD));
+        LeaderCard card2 = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DISCOUNT, Resource.SHIELD));
+
+        player.setLeaderCards(Arrays.asList(card1, card2));
+        player.setLeaderActive(card1);
+        player.setLeaderActive(card2);
+
+        assertEquals(2, player.numLeadersDiscount(Resource.SHIELD));
+        assertEquals(0, player.numLeadersDiscount(Resource.COIN));
+    }
+
+    @Test
+    public void hasLeaderWhiteConversion() {
+        LeaderCard card = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.EXCHANGE, Resource.STONE));
+
+        player.setLeaderCards(Collections.singletonList(card));
+        player.setLeaderActive(card);
+
+        assertTrue(player.hasLeaderWhiteConversion(Resource.STONE));
+        assertFalse(player.hasLeaderWhiteConversion(Resource.SHIELD));
+    }
+
+    @Test
+    public void hasLeaderDeposits() {
+        LeaderCard card1 = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN));
+        LeaderCard card2 = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DEPOT, Resource.SERVANT));
+
+        player.setLeaderCards(Arrays.asList(card1, card2));
+        player.setLeaderActive(card1);
+        player.setLeaderActive(card2);
+
+        assertTrue(player.hasLeaderDeposits(Arrays.asList(Resource.COIN, Resource.SERVANT)));
+        assertFalse(player.hasLeaderDeposits(Collections.singletonList(Resource.SHIELD)));
+    }
+
+    @Test
+    public void addPopeFavours() {
+        player.addPopeFavours(1);
+        assertEquals(1, player.getPopeFavours());
+        player.addPopeFavours(2);
+        assertEquals(3, player.getPopeFavours());
+        player.addPopeFavours(3);
+        assertEquals(6, player.getPopeFavours());
+    }
+
+    @Test
     public void keepLeaders(){
-        testGame.getPlayerByName("Edoardo").setLeaderCards(new ArrayList<>(testListLeaderCards.keySet()));
-        //testGame.getPlayerByName("Edoardo").keepLeaders();
+        LeaderCard cardPresent = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN));
+        LeaderCard cardNotPresent = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DEPOT, Resource.SERVANT));
+        player.setLeaderCards(Arrays.asList(testLeaderCard, cardPresent, cardNotPresent));
+
+        List<LeaderCard> chosen = new ArrayList<>(Arrays.asList(testLeaderCard, cardPresent));
+        player.keepLeaders(chosen);
+
+        assertTrue(player.getLeaderCards().containsKey(testLeaderCard));
+        assertTrue(player.getLeaderCards().containsKey(cardPresent));
+        assertFalse(player.getLeaderCards().containsKey(cardNotPresent));
+
+        chosen.remove(1);
+        chosen.add(cardNotPresent);
+        assertThrows(IllegalArgumentException.class, () -> player.keepLeaders(chosen));
+    }
+
+    @Test
+    public void getLeaderCardByUuid() {
+        player.setLeaderCards(testListLeaderCards);
+        assertNotNull(player.getLeaderCardByUuid(testLeaderCard.getUuid()));
+        player.discardLeader(testLeaderCard);
+        assertNull(player.getLeaderCardByUuid(testLeaderCard.getUuid()));
+    }
+
+    @Test
+    public void getLeaderCardsTotalVictoryPoints() {
+        LeaderCard card = getTestLeaderCardWithAbility(new SpecialAbility(SpecialAbilityType.DISCOUNT, Resource.SERVANT));
+        player.setLeaderCards(Arrays.asList(testLeaderCard, card));
+        player.setLeaderActive(testLeaderCard);
+        player.setLeaderActive(card);
+
+        assertEquals(7, player.getLeaderCardsTotalVictoryPoints());
+    }
+
+    private LeaderCard getTestLeaderCardWithAbility(SpecialAbility ability) {
+        return new LeaderCard(6,
+                new LeaderCardRequirement(testResourceRequirements, testCardColorRequirements, testCardLevelRequirements),
+                ability);
     }
 }

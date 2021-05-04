@@ -143,7 +143,12 @@ public class SocketClientConnection implements Runnable {
             while(isActive()){
                 read = in.readObject();
 
-                remoteView.handlePacket(read);
+                try {
+                    remoteView.handlePacket(read);
+                } catch (Exception e) {
+                    System.err.println("Packet from " + playerName + " handling threw an uncaught exception!");
+                    e.printStackTrace();
+                }
             }
 
             writeThread.join();
