@@ -119,8 +119,9 @@ public class Deposit extends Observable<IServerPacket> {
      * Applies the given changes to this player deposit, checking if they are legal.
      *
      * @param changes      a map representing changes to be applied, the key is the identifier of the row (1 -> top,
-     *                     2 -> middle, 3 -> bottom, 4 -> leaders deposits), the value is the list of resources that represents the new row
+     *                     2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
      * @param marketResult a list containing the possibly modified market result
+     * @param leadersDeposit a map representing the leader deposits
      * @throws IllegalArgumentException if the changes are not legal
      */
     public void applyChanges(Map<Integer, List<Resource>> changes, List<Resource> marketResult, Map<Integer, List<Resource>> leadersDeposit) throws IllegalArgumentException {

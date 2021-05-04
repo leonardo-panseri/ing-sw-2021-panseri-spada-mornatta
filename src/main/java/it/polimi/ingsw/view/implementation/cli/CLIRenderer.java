@@ -131,7 +131,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the development cards of the given player.
      *
-     * @param playerName the name of the player whose development cards will
+     * @param playerName the name of the player whose development cards to print
      */
     @Override
     public void printOthersDevelopmentCards(String playerName) {
@@ -152,6 +152,11 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the deposit of the given player.
+     *
+     * @param playerName the name of the player whose deposit to print
+     */
     @Override
     public void printOthersDeposit(String playerName) {
         MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
@@ -164,6 +169,11 @@ public class CLIRenderer extends Renderer {
         renderLeadersDeposit(otherPlayer);
     }
 
+    /**
+     * Prints the faith points of the given player.
+     *
+     * @param playerName the name of the player whose
+     */
     @Override
     public void printOthersFaith(String playerName) {
         MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
