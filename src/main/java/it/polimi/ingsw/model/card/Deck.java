@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.card;
 
-import it.polimi.ingsw.constant.DeckParser;
 import it.polimi.ingsw.model.messages.DevelopmentDeckUpdate;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
@@ -16,12 +16,29 @@ public class Deck extends Observable<IServerPacket> {
     private final List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards;
 
     /**
-     * Constructs a new Deck. It loads leader cards from a JSON file utilizing the DeckParser.
-     * The same occurs for the development cards.
+     * Constructs a new Deck, loading cards from the default game configurations.
      */
     public Deck() {
-        leaderCards = DeckParser.loadLeaderCards();
-        developmentCards = DeckParser.loadDevelopmentCards();
+        GameConfig gameConfig = GameConfig.loadDefaultGameConfig();
+        if (gameConfig == null) {
+            System.err.println("GameConfig is null in Deck constructor");
+            leaderCards = null;
+            developmentCards = null;
+            return;
+        }
+        leaderCards = gameConfig.getLeaderCards();
+        developmentCards = gameConfig.getDevelopmentCards();
+    }
+
+    /**
+     * Constructs a new Deck with the given cards.
+     *
+     * @param leaderCards the leader cards
+     * @param developmentCards the development cards
+     */
+    public Deck(List<LeaderCard> leaderCards, List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards) {
+        this.leaderCards = leaderCards;
+        this.developmentCards = developmentCards;
     }
 
     /**

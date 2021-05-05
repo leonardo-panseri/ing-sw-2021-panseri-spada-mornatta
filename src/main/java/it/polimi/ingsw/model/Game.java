@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.lorenzo.Lorenzo;
 import it.polimi.ingsw.model.messages.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.*;
@@ -18,8 +19,11 @@ public class Game extends Observable<IServerPacket> {
      * Map correlating pope report slot in the faith track with:
      * <ol><li>victory points awarded to players in range</li><li>range of the pope report</li></ol>
      */
-    private final Map<Integer, List<Integer>> popeReports = new HashMap<>(Map.of(8, Arrays.asList(2, 4), 16, Arrays.asList(3, 5), 24, Arrays.asList(4, 6)));
-    private final Map<Integer, Integer> faithTrackPoints = Map.of(3, 1, 6, 2, 9, 4, 12, 6, 15, 9, 18, 12, 21, 16, 24, 20);
+    private final Map<Integer, List<Integer>> popeReports;
+    private final Map<Integer, Integer> faithTrackPoints;
+    private final BaseProductionPower baseProductionPower;
+
+
     private final Market market;
     private final List<Player> players;
     private final Deck deck;
@@ -29,10 +33,23 @@ public class Game extends Observable<IServerPacket> {
     private GamePhase gamePhase = GamePhase.SELECTING_LEADERS;
 
     /**
-     * Constructs a new game, instantiating a new {@link Deck} and a new {@link Market}.
+     * Constructs a new game with the default game configurations.
      */
     public Game() {
-        deck = new Deck();
+        this(Objects.requireNonNull(GameConfig.loadDefaultGameConfig()));
+    }
+
+    /**
+     * Constructs a new game with the given game configurations.
+     *
+     * @param gameConfig the game configurations to apply to this game
+     */
+    public Game(GameConfig gameConfig) {
+        popeReports = gameConfig.getPopeReports();
+        faithTrackPoints = gameConfig.getFaithTrackPoints();
+        baseProductionPower = gameConfig.getBaseProductionPower();
+
+        deck = new Deck(gameConfig.getLeaderCards(), gameConfig.getDevelopmentCards());
         market = new Market();
         players = new ArrayList<>();
     }

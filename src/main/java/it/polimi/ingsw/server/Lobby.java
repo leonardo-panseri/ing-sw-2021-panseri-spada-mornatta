@@ -18,6 +18,8 @@ public class Lobby extends Observable<IServerPacket> {
     private final List<SocketClientConnection> connections;
     private int playersToStart;
 
+    private GameConfig customGameConfig;
+
     /**
      * Constructs a new Lobby with a random UUID, an empty connection list and the players needed to start set to -1.
      */
@@ -26,6 +28,7 @@ public class Lobby extends Observable<IServerPacket> {
         this.firstConnection = null;
         this.connections = new ArrayList<>();
         this.playersToStart = -1;
+        this.customGameConfig = null;
     }
 
     /**
@@ -43,6 +46,15 @@ public class Lobby extends Observable<IServerPacket> {
      */
     List<SocketClientConnection> getConnections() {
         return connections;
+    }
+
+    /**
+     * Gets the custom game config for this Lobby.
+     *
+     * @return the custom game config for the lobby, or null if not set
+     */
+    public GameConfig getCustomGameConfig() {
+        return customGameConfig;
     }
 
     /**

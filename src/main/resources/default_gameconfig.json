@@ -1,0 +1,503 @@
+{
+  "baseProductionPower": {
+    "input": [
+      null
+    ],
+    "output": [
+      null,
+      null
+    ]
+  },
+  "popeReports": {
+    "16": [
+      3,
+      5
+    ],
+    "24": [
+      4,
+      6
+    ],
+    "8": [
+      2,
+      4
+    ]
+  },
+  "faithTrackPoints": {
+    "9": 4,
+    "12": 6,
+    "15": 9,
+    "18": 12,
+    "3": 1,
+    "21": 16,
+    "6": 2,
+    "24": 20
+  },
+  "leaderCards": [
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "PRODUCTION",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DISCOUNT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DEPOT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "EXCHANGE",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "PRODUCTION",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DISCOUNT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DEPOT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "EXCHANGE",
+        "targetResource": "COIN"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "PRODUCTION",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DISCOUNT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DEPOT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "EXCHANGE",
+        "targetResource": "SHIELD"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "PRODUCTION",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DISCOUNT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "DISCOUNT",
+        "targetResource": "SERVANT"
+      },
+      "victoryPoints": 0
+    },
+    {
+      "cardRequirements": {
+        "resourceRequirements": {
+          "STONE": 2
+        },
+        "cardColorRequirements": {},
+        "cardLevelRequirements": {}
+      },
+      "specialAbility": {
+        "type": "EXCHANGE",
+        "targetResource": "STONE"
+      },
+      "victoryPoints": 0
+    }
+  ],
+  "developmentCards": [
+    {
+      "GREEN": [
+        {
+          "cost": {
+            "STONE": 1
+          },
+          "level": 1,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "GREEN",
+          "victoryPoints": 0
+        },
+        {
+          "cost": {
+            "STONE": 1
+          },
+          "level": 1,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "GREEN",
+          "victoryPoints": 0
+        }
+      ],
+      "PURPLE": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 1,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "PURPLE",
+          "victoryPoints": 0
+        }
+      ],
+      "BLUE": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 1,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "BLUE",
+          "victoryPoints": 0
+        }
+      ],
+      "YELLOW": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 1,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "YELLOW",
+          "victoryPoints": 0
+        }
+      ]
+    },
+    {
+      "GREEN": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 2,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "GREEN",
+          "victoryPoints": 0
+        },
+        {
+          "cost": {
+            "STONE": 3
+          },
+          "level": 2,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "GREEN",
+          "victoryPoints": 0
+        }
+      ],
+      "PURPLE": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 2,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "PURPLE",
+          "victoryPoints": 0
+        }
+      ],
+      "BLUE": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 2,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "BLUE",
+          "victoryPoints": 0
+        }
+      ],
+      "YELLOW": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 2,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "YELLOW",
+          "victoryPoints": 0
+        }
+      ]
+    },
+    {
+      "GREEN": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 3,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "GREEN",
+          "victoryPoints": 0
+        },
+        {
+          "cost": {
+            "STONE": 3
+          },
+          "level": 3,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "GREEN",
+          "victoryPoints": 0
+        }
+      ],
+      "PURPLE": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 3,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "PURPLE",
+          "victoryPoints": 0
+        }
+      ],
+      "BLUE": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 3,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "BLUE",
+          "victoryPoints": 0
+        }
+      ],
+      "YELLOW": [
+        {
+          "cost": {
+            "SERVANT": 3
+          },
+          "level": 3,
+          "productionInput": {
+            "COIN": 1
+          },
+          "productionOutput": {
+            "STONE": 3
+          },
+          "color": "YELLOW",
+          "victoryPoints": 0
+        }
+      ]
+    }
+  ]
+}

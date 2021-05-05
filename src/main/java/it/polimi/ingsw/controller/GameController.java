@@ -1,10 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.server.Lobby;
-import it.polimi.ingsw.view.messages.PlayerActionEvent;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.server.GameConfig;
+import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.view.messages.PlayerActionEvent;
 
 import java.util.*;
 
@@ -25,7 +26,11 @@ public class GameController implements Observer<PlayerActionEvent> {
      */
     public GameController(Lobby lobby) {
         this.lobby = lobby;
-        game = new Game();
+        GameConfig gameConfig = lobby.getCustomGameConfig();
+        if(gameConfig != null)
+            game = new Game(gameConfig);
+        else
+            game = new Game();
         turnController = new TurnController(this);
         playerController = new PlayerController(this);
         if(lobby.isSinglePlayer())
