@@ -59,7 +59,9 @@ public class Deposit extends Observable<IServerPacket> {
         if (bottomRow.contains(res)) return 3;
         if (leadersDeposit.get(1).contains(res)) return 4;
         if (leadersDeposit.get(2).contains(res)) return 5;
-        if (strongBox.containsKey(res)) return 6;
+        if (strongBox.containsKey(res)) {
+            if (strongBox.get(res) > 0) return 6;
+        }
         return -1;
     }
 
@@ -118,9 +120,9 @@ public class Deposit extends Observable<IServerPacket> {
     /**
      * Applies the given changes to this player deposit, checking if they are legal.
      *
-     * @param changes      a map representing changes to be applied, the key is the identifier of the row (1 -> top,
-     *                     2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
-     * @param marketResult a list containing the possibly modified market result
+     * @param changes        a map representing changes to be applied, the key is the identifier of the row (1 -> top,
+     *                       2 -> middle, 3 -> bottom), the value is the list of resources that represents the new row
+     * @param marketResult   a list containing the possibly modified market result
      * @param leadersDeposit a map representing the leader deposits
      * @throws IllegalArgumentException if the changes are not legal
      */

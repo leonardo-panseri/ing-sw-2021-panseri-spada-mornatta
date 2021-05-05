@@ -68,28 +68,93 @@ class DepositTest {
         assertEquals(2, testDeposit.getRow(3).size());
     }
 
+
     @Test
-    void moveRowTest() {
-        removeResourceTest();
-        printDepo();
+    void moveRowTest12(){
+        addBasicDeposit();
+
+        List<Resource> rowToMove;
+        List<Resource> destinationRow;
+
+        rowToMove = new ArrayList<>(testDeposit.getRow(1));
+        destinationRow = new ArrayList<>(testDeposit.getRow(2));
+        testDeposit.moveRow(1,2);
+        assertEquals(rowToMove,testDeposit.getRow(2));
+        assertEquals(destinationRow,testDeposit.getRow(1));
+
+    }
+
+    @Test
+    void moveRowTest21(){
+        addBasicDeposit();
+
+        List<Resource> rowToMove;
+        List<Resource> destinationRow;
+
+        rowToMove = new ArrayList<>(testDeposit.getRow(2));
+        destinationRow = new ArrayList<>(testDeposit.getRow(1));
+        testDeposit.moveRow(2,1);
+        assertEquals(rowToMove,testDeposit.getRow(1));
+        assertEquals(destinationRow,testDeposit.getRow(2));
+
+    }
+
+    @Test
+    void moveRowTest13(){
+        addBasicDeposit();
+
+        List<Resource> rowToMove;
+        List<Resource> destinationRow;
+
+        rowToMove = new ArrayList<>(testDeposit.getRow(1));
+        destinationRow = new ArrayList<>(testDeposit.getRow(3));
+        testDeposit.moveRow(1,3);
+        assertEquals(rowToMove,testDeposit.getRow(3));
+        assertEquals(destinationRow,testDeposit.getRow(1));
+    }
+
+    @Test
+    void moveRowTest31(){
+        addBasicDeposit();
+
+        List<Resource> rowToMove;
+        List<Resource> destinationRow;
+
+        rowToMove = new ArrayList<>(testDeposit.getRow(3));
+        destinationRow = new ArrayList<>(testDeposit.getRow(1));
+        testDeposit.moveRow(3,1);
+        assertEquals(rowToMove,testDeposit.getRow(1));
+        assertEquals(destinationRow,testDeposit.getRow(3));
+    }
+
+    @Test
+    void moveRowTest23(){
+        addBasicDeposit();
+
+        List<Resource> rowToMove;
+        List<Resource> destinationRow;
+
+        rowToMove = new ArrayList<>(testDeposit.getRow(3));
+        destinationRow = new ArrayList<>(testDeposit.getRow(2));
+        testDeposit.moveRow(3,2);
+        assertEquals(rowToMove,testDeposit.getRow(2));
+        assertEquals(destinationRow,testDeposit.getRow(3));
+
+    }
+
+    @Test
+    void moveRowTest32(){
+        addBasicDeposit();
+
         List<Resource> rowToMove;
         List<Resource> destinationRow;
 
         rowToMove = new ArrayList<>(testDeposit.getRow(2));
         destinationRow = new ArrayList<>(testDeposit.getRow(3));
-        testDeposit.moveRow(2, 3);
-        printDepo();
+        testDeposit.moveRow(2,3);
+        assertEquals(rowToMove,testDeposit.getRow(3));
+        assertEquals(destinationRow,testDeposit.getRow(2));
 
-        assertEquals(rowToMove, testDeposit.getRow(3));
-        assertEquals(destinationRow, testDeposit.getRow(2));
-
-        rowToMove = new ArrayList<>(testDeposit.getRow(3));
-        destinationRow = new ArrayList<>(testDeposit.getRow(1));
-        testDeposit.moveRow(3, 1);
-        printDepo();
-
-        assertEquals(rowToMove, testDeposit.getRow(1));
-        assertEquals(destinationRow, testDeposit.getRow(3));
     }
 
     @Test
@@ -125,7 +190,6 @@ class DepositTest {
         testDeposit.addResource(3, Resource.STONE);
         testDeposit.addToStrongbox(Resource.SHIELD);
 
-        printDepo();
 
         assertEquals(1, testDeposit.findResource(Resource.COIN));
         assertEquals(2, testDeposit.findResource(Resource.SERVANT));
@@ -133,11 +197,20 @@ class DepositTest {
         assertEquals(6, testDeposit.findResource(Resource.SHIELD));
 
         testDeposit.removeResource(1, Resource.COIN);
-
-        assertEquals(-1, testDeposit.findResource(Resource.COIN));
-
         testDeposit.removeResource(2, Resource.SERVANT);
         testDeposit.removeResource(3, Resource.STONE);
+        testDeposit.removeResource(6,Resource.SHIELD);
+
+        assertEquals(-1, testDeposit.findResource(Resource.COIN));
+        assertEquals(-1, testDeposit.findResource(Resource.SERVANT));
+        assertEquals(-1, testDeposit.findResource(Resource.STONE));
+
+        assertEquals(-1, testDeposit.findResource(Resource.SHIELD));
+
+    }
+
+    @Test
+            void findResourceLeaderDepositTest(){
 
         SpecialAbility testSpecialAbility = new SpecialAbility(SpecialAbilityType.DEPOT, Resource.COIN);
         Map<Resource, Integer> testResourceRequirements = new HashMap<>();
@@ -157,21 +230,53 @@ class DepositTest {
         List<LeaderCard> testListLeaderCards = new ArrayList<LeaderCard>(testMapLeaderCards.keySet());
         testGame.addPlayer(p1);
         testGame.getPlayerByName("Davide").setLeaderCards(testListLeaderCards);
-        testGame.getPlayerByName("Davide").setLeaderActive(testLeaderCard);
+        p1.setLeaderActive(testLeaderCard);
         List<Resource> testResources = new ArrayList<>();
         Map<Integer, List<Resource>> testChanges = new HashMap<>();
         Map<Integer, List<Resource>> testLeaderDeposit = new HashMap<>();
         Map<Integer, List<Resource>> testLeaderDeposit2 = new HashMap<>();
         List<Resource> test1 = new ArrayList<>();
-        test1.add(Resource.COIN);
         testResources.add(Resource.COIN);
+        testLeaderDeposit2.put(1,testResources);
 
-        testDeposit.setMarketResults(test1);
+        testDeposit.setMarketResults(testResources);
         testDeposit.applyChanges(testChanges,test1,testLeaderDeposit2);
-        System.out.println("************");
-        System.out.println("************");
 
+       assertEquals(4,testDeposit.findResource(Resource.COIN));
+
+    }
+
+    @Test
+    void removeResourcesTest() {
+        addBasicDeposit();
+        Map<Resource,Integer> removeRes = new HashMap<>();
+        removeRes.put(Resource.COIN,1);
+        removeRes.put(Resource.STONE,1);
+        removeRes.put(Resource.SERVANT,1);
+        testDeposit.removeResources(removeRes);
+        assertEquals(-1,testDeposit.findResource(Resource.COIN));
+        assertEquals(-1,testDeposit.findResource(Resource.STONE));
+        assertEquals(-1,testDeposit.findResource(Resource.SERVANT));
 
 
     }
+
+    @Test
+    void ClearMarketResultTest(){
+        List<Resource> clearList = new ArrayList<>();
+        clearList.add(Resource.COIN);
+        clearList.add(Resource.STONE);
+        clearList.add(Resource.SERVANT);
+        testDeposit.setMarketResults(clearList);
+        testDeposit.clearMarketResults();
+        assertEquals(0,testDeposit.getMarketResults().size());
+
+    }
+
+    private void addBasicDeposit(){
+        testDeposit.addResource(1,Resource.SERVANT);
+        testDeposit.addResource(2,Resource.STONE);
+        testDeposit.addResource(3,Resource.COIN);
+    }
+
 }
