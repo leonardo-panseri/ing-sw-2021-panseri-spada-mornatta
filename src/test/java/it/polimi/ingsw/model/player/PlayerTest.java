@@ -13,7 +13,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerTest {
+public class PlayerTest {
 
     private Game testGame;
     private Player player;
@@ -226,5 +226,9 @@ class PlayerTest {
         return new LeaderCard(6,
                 new LeaderCardRequirement(testResourceRequirements, testCardColorRequirements, testCardLevelRequirements),
                 ability);
+    }
+
+    public static Map<LeaderCard, Boolean> getPlayersLeadercards(Player player) {
+        return player.getLeaderCards();
     }
 }

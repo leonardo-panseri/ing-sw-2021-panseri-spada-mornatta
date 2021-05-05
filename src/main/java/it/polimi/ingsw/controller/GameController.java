@@ -125,12 +125,12 @@ public class GameController implements Observer<PlayerActionEvent> {
         game.terminate(results, winner);
 
         Timer timer = new Timer();
-        try {
-            timer.wait(10000); //Wait for 10 seconds before closing all connections to give time to all clients to terminate properly
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        lobby.terminate();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                lobby.terminate();
+            }
+        }, 10000L); //Wait for 10 seconds before closing all connections to give time to all clients to terminate properly
     }
 
     /**

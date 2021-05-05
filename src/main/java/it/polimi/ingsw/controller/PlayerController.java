@@ -153,7 +153,7 @@ public class PlayerController {
      * prints an error and returns.
      *
      * @param player the player that wants to use the market
-     * @param selection the selected row/column
+     * @param selection the selected row/column (columns -> 0,1,2,3; rows -> 4,5,6)
      * @param whiteConversions the list of requested conversion resources
      */
     public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {

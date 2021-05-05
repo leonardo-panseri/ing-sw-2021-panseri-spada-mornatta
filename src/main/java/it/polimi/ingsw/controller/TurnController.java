@@ -59,7 +59,8 @@ public class TurnController {
             player.getBoard().getDeposit().clearMarketResults();
         }
 
-        if(gameController.getGame().isLastRound() && gameController.getGame().isLastPlayerTurn()) {
+        if(!gameController.isSinglePlayer() && gameController.getGame().isLastRound() &&
+                gameController.getGame().isLastPlayerTurn()) {
             gameController.endGame();
         } else if(gameController.isSinglePlayer() && gameController.getGame().isLastRound()) {
             gameController.getGame().terminateSingleplayer(false, "",
