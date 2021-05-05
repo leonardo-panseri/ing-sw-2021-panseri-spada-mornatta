@@ -185,6 +185,9 @@ public class CLIRenderer extends Renderer {
         printFaith(otherPlayer.getFaithPoints());
     }
 
+    /**
+     * Prints the development deck with all its development cards as a stack.
+     */
     @Override
     public void printDevelopmentDeck() {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
@@ -197,6 +200,11 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the deposit of the player. The deposit is made up of: top row, middle row and bottom row.
+     *
+     * @param player the player whose deposit to print
+     */
     @Override
     public void renderDeposit(MockPlayer player) {
         List<List<Resource>> deposit = player.getDeposit().getAllRows();
@@ -219,6 +227,12 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Shows the leader deposits if the player has an active leader with such special ability.
+     *
+     * @param player the player whose leader deposits to print
+     */
+
     @Override
     public void renderLeadersDeposit(MockPlayer player) {
         Map<Integer, List<Resource>> leadersDeposit = player.getDeposit().getActiveLeadersDeposit();
@@ -232,6 +246,11 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the strongbox of the player.
+     *
+     * @param player the player whose strongbox to print.
+     */
     @Override
     public void renderStrongbox(MockPlayer player) {
         Map<Resource, Integer> strongbox = player.getDeposit().getStrongbox();
@@ -242,6 +261,12 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the formatted version of th given resource.
+     *
+     * @param res the resource to print.
+     * @return a String showing the resource given
+     */
     @Override
     public String renderResource(Resource res) {
         switch (res) {
@@ -264,6 +289,9 @@ public class CLIRenderer extends Renderer {
         return "";
     }
 
+    /**
+     * Prints all the possible commands that the player can type in the CLI.
+     */
     @Override
     public void help() {
         int index = 1;
@@ -273,6 +301,11 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the Faith Track.
+     *
+     * @param faith the number of faith points of the player
+     */
     @Override
     public void printFaith(int faith) {
         StringBuilder str = new StringBuilder("[ ");
@@ -338,6 +371,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints a message showing the resources to store after a draw.
      */
+
     @Override
     public void printMarketResult() {
         List<Resource> marketResult = getView().getModel().getLocalPlayer().getDeposit().getMarketResult();
@@ -400,6 +434,12 @@ public class CLIRenderer extends Renderer {
         }
     }
 
+    /**
+     * Prints the DevelopmentCard with its attributes such as its production input and its production output.
+     *
+     * @param card the development card to print
+     * @param label the label of the card
+     */
     @Override
     public void renderDevelopmentCard(DevelopmentCard card, int label) {
         ArrayList<Resource> cost = new ArrayList<>(card.getCost().keySet());
@@ -445,6 +485,12 @@ public class CLIRenderer extends Renderer {
         System.out.println(prettyCard);
     }
 
+    /**
+     * Prints the LeaderCard with its attributes such as its resource requirements, card color requirements and its card level requirements.
+     *
+     * @param card the leader card to print
+     * @param label the label of the card
+     */
     @Override
     public void renderLeaderCard(LeaderCard card, int label) {
         Map<Resource, Integer> costRes = card.getCardRequirements().getResourceRequirements();
@@ -488,6 +534,12 @@ public class CLIRenderer extends Renderer {
         System.out.println(prettyCard);
     }
 
+    /**
+     * Prints the market.
+     *
+     * @param grid a list of a list representing the resources which make up the market
+     * @param slideResource a Resource representing the Resource in the slide
+     */
     @Override
     public void renderMarket(List<List<Resource>> grid, Resource slideResource) {
         String market = "";
