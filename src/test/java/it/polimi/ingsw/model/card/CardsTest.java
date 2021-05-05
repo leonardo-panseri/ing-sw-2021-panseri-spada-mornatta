@@ -22,6 +22,12 @@ public class CardsTest {
     private Player testRichPlayer;
     private Player testPoorPlayer;
 
+    public static DevelopmentCard createTestDevCard(int victoryPoints, int level) {
+        Map<Resource, Integer> req = new HashMap<>();
+        req.put(Resource.STONE, 2);
+        return new DevelopmentCard(12, req, 1, new HashMap<>(), new HashMap<>(), CardColor.GREEN);
+    }
+
     @BeforeEach
     void setUp() {
         cost = Map.of(Resource.SERVANT, 2, Resource.SHIELD, 3);

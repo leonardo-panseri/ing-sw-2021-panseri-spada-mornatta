@@ -10,8 +10,12 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeckTest {
-    private Deck testDeck;
+public class DeckTest {
+    private static Deck testDeck;
+
+    public static DevelopmentCard getCardByLevel(int level, Deck deck) {
+        return deck.getDevelopmentCards().get(level-1).get(CardColor.GREEN).get(0);
+    }
 
     @BeforeEach
     public void init() {
