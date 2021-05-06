@@ -142,9 +142,28 @@ public class CLI extends View {
                         }
 
                         if(selectedResources.containsKey(slot))
-                            selectedResources.get(slot).add(resource);
-                        else
+                            if(selectedResources.get(slot).get(0).equals(resource))
+                                selectedResources.get(slot).add(resource);
+                            else {
+                                getRenderer().showErrorMessage(resource + " has been placed in a slot with a mismatched resource!");
+                                break cmdSwitch;
+                            }
+                        else {
+                            for(List<Resource> row : selectedResources.values()) {
+                                if (row.contains(resource)) {
+                                    getRenderer().showErrorMessage(resource + " has been stored in 2 different rows!");
+                                    break cmdSwitch;
+                                }
+                            }
                             selectedResources.put(slot, new ArrayList<>(Collections.singleton(resource)));
+                        }
+
+                        if(selectedResources.containsKey(1)) {
+                            if (selectedResources.get(1).size() > 1) {
+                                getRenderer().showErrorMessage("Top row overflow!");
+                                break cmdSwitch;
+                            }
+                        }
                     }
 
                     getClient().send(new InitialSelectionPlayerActionEvent(this.selectedLeaderCards, selectedResources));
