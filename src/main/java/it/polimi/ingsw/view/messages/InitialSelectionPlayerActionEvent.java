@@ -1,22 +1,25 @@
 package it.polimi.ingsw.view.messages;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
-import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
+public class InitialSelectionPlayerActionEvent extends PlayerActionEvent {
     @Serial
     private static final long serialVersionUID = -4349081220755030803L;
 
     private final List<UUID> selectedLeadersUUID;
+    private final Map<Integer, List<Resource>> selectedResources;
 
-    public SelectLeadersPlayerActionEvent(List<UUID> selectedLeadersUUID) {
+    public InitialSelectionPlayerActionEvent(List<UUID> selectedLeadersUUID,  Map<Integer, List<Resource>> selectedResources) {
         this.selectedLeadersUUID = selectedLeadersUUID;
+        this.selectedResources = selectedResources;
     }
 
     @Override
@@ -30,6 +33,6 @@ public class SelectLeadersPlayerActionEvent extends PlayerActionEvent {
             }
             cards.add(card);
         }
-        controller.getPlayerController().selectInitialLeaders(getPlayer(), cards);
+        controller.getPlayerController().handleInitialSelection(getPlayer(), cards, selectedResources);
     }
 }

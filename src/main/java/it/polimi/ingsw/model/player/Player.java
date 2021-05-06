@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.model.messages.FaithUpdate;
+import it.polimi.ingsw.model.messages.InitialTurnUpdate;
 import it.polimi.ingsw.model.messages.OwnedLeadersUpdate;
 import it.polimi.ingsw.model.messages.PopeFavourUpdate;
 import it.polimi.ingsw.observer.Observable;
@@ -23,6 +24,7 @@ public class Player extends Observable<IServerPacket> {
     private Map<LeaderCard, Boolean> leaderCards;
     private final PlayerBoard board;
 
+    private int initialResourcesToPick;
 
     /**
      * Constructor: creates a new Player with the given nick.
@@ -99,6 +101,15 @@ public class Player extends Observable<IServerPacket> {
     }
 
     /**
+     * Gets the number of resources that this Player can pick in the first turn.
+     *
+     * @return the amount of initial resources to pick
+     */
+    public int getInitialResourcesToPick() {
+        return initialResourcesToPick;
+    }
+
+    /**
      * Checks if the given LeaderCard is active.
      *
      * @param card the card to check
@@ -123,6 +134,22 @@ public class Player extends Observable<IServerPacket> {
 
         leaderCards.put(leaderCard, true);
         notify(new OwnedLeadersUpdate(getNick(), leaderCards));
+    }
+
+    /**
+     * Notifies this Player of the start of the game, sending him all necessary information.
+     *
+     * @param leaderCards the initial leader cards to give to the player
+     * @param resourcesToPick the number of resources that the player can pick
+     * @param faithPointsGiven the amount of faith points initially given to the player
+     */
+    public void notifyInitialTurn(List<LeaderCard> leaderCards, int resourcesToPick, int faithPointsGiven) {
+        for (LeaderCard leaderCard : leaderCards) {
+            this.leaderCards.put(leaderCard, false);
+        }
+        this.initialResourcesToPick = resourcesToPick;
+        addFaithPoints(faithPointsGiven);
+        notify(new InitialTurnUpdate(getNick(), getLeaderCards(), resourcesToPick));
     }
 
     /**
@@ -224,17 +251,27 @@ public class Player extends Observable<IServerPacket> {
     }
 
     /**
+     * Checks if the given leader cards are a valid selection. Used during first turn of the Player to avoid cheating
+     * and state inconsistency.
+     *
+     * @param selected the leader cards that the player wants to keep
+     * @return true if the selected leader cards are valid, false otherwise
+     */
+    public boolean isLeaderSelectionValid(List<LeaderCard> selected) {
+        for(LeaderCard card : selected) {
+            if(!leaderCards.containsKey(card))
+                return false;
+        }
+        return true;
+    }
+
+    /**
      * Keeps the given leader cards and removes the others from the player's hand.
      *
      * @param selected the leader cards that the player wants to keep
-     * @throws IllegalArgumentException if the selected cards contains one or more cards not possessed by the player
      */
     public void keepLeaders(List<LeaderCard> selected) throws IllegalArgumentException {
         Map<LeaderCard, Boolean> selectedLeaders = new HashMap<>();
-        for(LeaderCard card : selected) {
-            if(!leaderCards.containsKey(card))
-                throw new IllegalArgumentException("You don't own this leader card!");
-        }
         selectedLeaders.put(selected.get(0), false);
         selectedLeaders.put(selected.get(1), false);
 

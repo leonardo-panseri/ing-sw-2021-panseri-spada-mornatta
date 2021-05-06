@@ -42,6 +42,17 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         }
     }
 
+    @Override
+    public void handleInitialTurn(String playerName, Map<LeaderCard, Boolean> leaderCards, int resourceToChoose) {
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
+        }
+
+        updateLeaderCards(playerName, leaderCards);
+        player.setInitialResourcesToChoose(resourceToChoose);
+    }
+
     /**
      * Updates the LeaderCards of the given player if his GamePhase is {@link GamePhase#PLAYING}.
      *

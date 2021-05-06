@@ -118,6 +118,17 @@ public class Deposit extends Observable<IServerPacket> {
     }
 
     /**
+     * Set the initial resources chosen by the Player.
+     *
+     * @param selectedResources the resources that the player has selected
+     */
+    public void setInitialResources(Map<Integer, List<Resource>> selectedResources) {
+        checkBoundaries(selectedResources);
+
+        setNewRows(selectedResources);
+    }
+
+    /**
      * Applies the given changes to this player deposit, checking if they are legal.
      *
      * @param changes        a map representing changes to be applied, the key is the identifier of the row (1 -> top,
@@ -131,6 +142,18 @@ public class Deposit extends Observable<IServerPacket> {
         checkBoundaries(changes);
         checkLeaderDeposit(leadersDeposit);
 
+        leadersDeposit.forEach((leaderSlot, resourceList) ->
+                this.leadersDeposit.merge(leaderSlot, resourceList, (originalList, modifiedList) -> modifiedList));
+
+        setNewRows(changes);
+    }
+
+    /**
+     * Overrides current deposit rows with new ones.
+     *
+     * @param changes a map representing the changes to be made to the deposit
+     */
+    private void setNewRows(Map<Integer, List<Resource>> changes) {
         int modifiedLength = changes.keySet().size();
         int[] modifiedRows = new int[modifiedLength];
         int index = 0;
@@ -139,15 +162,12 @@ public class Deposit extends Observable<IServerPacket> {
                 if (i == 1) {
                     if (!changes.get(i).isEmpty()) topRow = changes.get(i).get(0);
                     else topRow = null;
-                } else if (i == 2) middleRow = changes.get(i);
-                else bottomRow = changes.get(i);
+                } else if (i == 2) middleRow = new ArrayList<>(changes.get(i));
+                else bottomRow = new ArrayList<>(changes.get(i));
                 modifiedRows[index] = i;
                 index++;
             }
         }
-
-        leadersDeposit.forEach((leaderSlot, resourceList) ->
-                this.leadersDeposit.merge(leaderSlot, resourceList, (originalList, modifiedList) -> modifiedList));
 
         notifyDepositUpdate(modifiedRows);
     }

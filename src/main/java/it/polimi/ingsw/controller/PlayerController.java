@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Handles the actions performed by each player during the game,
@@ -368,7 +369,7 @@ public class PlayerController {
      * @param cards a list of cards that has been selected, the length of this list must be 2, otherwise prints an error
      *              to console and returns
      */
-    public synchronized void selectInitialLeaders(Player player, List<LeaderCard> cards) {
+    public synchronized void handleInitialSelection(Player player, List<LeaderCard> cards,  Map<Integer, List<Resource>> selectedResources) {
         gameController.checkTurn(player);
 
         if (cards.size() != 2) {
@@ -376,12 +377,28 @@ public class PlayerController {
             return;
         }
 
-        try {
-            player.keepLeaders(cards);
-        } catch (IllegalArgumentException e) {
-            gameController.getGame().notifyInvalidAction(player, e.getMessage());
+        ArrayList<Resource> resources = new ArrayList<>();
+        selectedResources.values().forEach(resources::addAll);
+        int resourcesCount = resources.size();
+        if(resourcesCount != player.getInitialResourcesToPick()) {
+            gameController.getGame().notifyInvalidAction(player, "You have selected an invalid number of initial resources!");
             return;
         }
+
+        if(!player.isLeaderSelectionValid(cards)) {
+            gameController.getGame().notifyInvalidAction(player, "One of the leader cards that you have selected is invalid!");
+            return;
+        }
+
+        if(resourcesCount > 0)
+            try {
+                player.getBoard().getDeposit().setInitialResources(selectedResources);
+            } catch (IllegalArgumentException e) {
+                gameController.getGame().notifyInvalidAction(player, e.getMessage());
+                return;
+            }
+
+        player.keepLeaders(cards);
 
         if (gameController.getGame().isLastPlayerTurn())
             gameController.getGame().setGamePhase(GamePhase.PLAYING);

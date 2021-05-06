@@ -21,6 +21,8 @@ public abstract class ModelUpdateHandler {
 
     public abstract void updateGamePhase(GamePhase gamePhase);
 
+    public abstract void handleInitialTurn(String playerName, Map<LeaderCard, Boolean> leaderCards, int resourceToChoose);
+
     public abstract void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders);
 
     public abstract void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot);

@@ -13,8 +13,10 @@ import java.util.Map;
 public class MockPlayer {
     private final String name;
     private final boolean localPlayer;
-    int faithPoints;
-    int popeFavours;
+    private int faithPoints;
+    private int popeFavours;
+
+    private int initialResourcesToChoose;
 
     private Map<LeaderCard, Boolean> leaderCards;
     private final MockPlayerBoard playerBoard;
@@ -146,5 +148,23 @@ public class MockPlayer {
      */
     public MockDeposit getDeposit() {
         return playerBoard.getDeposit();
+    }
+
+    /**
+     * Gets the amount of resources that this player can choose in its first turn.
+     *
+     * @return the amount of initial resources to choose
+     */
+    public int getInitialResourcesToChoose() {
+        return initialResourcesToChoose;
+    }
+
+    /**
+     * Sets the amount of resources that this player can choose in its first turn.
+     *
+     * @param resourceToChoose the amount of initial resources to choose
+     */
+    public void setInitialResourcesToChoose(int resourceToChoose) {
+        this.initialResourcesToChoose = resourceToChoose;
     }
 }
