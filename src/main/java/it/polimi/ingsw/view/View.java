@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.beans.MockModel;
 import it.polimi.ingsw.view.beans.MockPlayer;
 
@@ -142,8 +143,15 @@ public abstract class View extends Thread {
     }
 
     public void handleSetPlayersToStart() {
-        setGameState(GameState.WAITING_PLAYERS);
+        setGameState(GameState.CHOOSING_GAME_CONFIG);
         getRenderer().showGameMessage(ViewString.PLAYERS_TO_START_SET);
+        getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
+                " otherwise input 'n':");
+    }
+
+    public void handleSetGameConfig() {
+        setGameState(GameState.WAITING_PLAYERS);
+        getRenderer().showGameMessage("Choice confirmed!");
     }
 
     public void handlePlayerDisconnect(String playerName) {
@@ -151,7 +159,9 @@ public abstract class View extends Thread {
                                               ViewString.PLAYER_DISCONNECT_WITH_NAME.formatted(playerName));
     }
 
-    public void handleGameStart() {
+    public void handleGameStart(GameConfig gameConfig) {
+        getModel().setGameConfig(gameConfig);
+
         setGameState(GameState.STARTING);
         getRenderer().showLobbyMessage(ViewString.GAME_STARTING);
     }

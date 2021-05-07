@@ -55,6 +55,15 @@ public class Game extends Observable<IServerPacket> {
     }
 
     /**
+     * Gets the base production power for this Game.
+     *
+     * @return the base production power
+     */
+    public BaseProductionPower getBaseProductionPower() {
+        return baseProductionPower;
+    }
+
+    /**
      * Gets the singleplayer opponent.
      *
      * @return the lorenzo that is the current singleplayer opponent, if the game is not singleplayer return

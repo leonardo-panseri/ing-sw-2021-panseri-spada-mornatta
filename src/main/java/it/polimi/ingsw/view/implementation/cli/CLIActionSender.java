@@ -227,7 +227,7 @@ public class CLIActionSender extends ActionSender {
      * @param outputResource a Resource representing the output of the base production.
      */
     @Override
-    public void useBaseProduction(List<Resource> inputResource, Resource outputResource) {
+    public void useBaseProduction(List<Resource> inputResource, List<Resource> outputResource) {
         getView().setAlreadyPlayed(true);
         getView().setUsingProductions(true);
         addPendingProduction(new BaseProduction(inputResource, outputResource));

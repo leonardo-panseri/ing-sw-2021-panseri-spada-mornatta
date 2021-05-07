@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.implementation.cli;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.messages.GameConfigMessage;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.constant.AnsiColor;
@@ -11,6 +12,11 @@ import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.messages.InitialSelectionPlayerActionEvent;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class CLI extends View {
@@ -58,6 +64,25 @@ public class CLI extends View {
                     }
 
                     getClient().send(new PlayersToStartMessage(playersToStart));
+                }
+                case CHOOSING_GAME_CONFIG -> {
+                    if(command.equalsIgnoreCase("n")) {
+                        getClient().send(new GameConfigMessage(null));
+                        return;
+                    }
+                    File configFile = new File(command);
+
+                    String serializedGameConfig;
+                    try {
+                        FileInputStream is = new FileInputStream(configFile);
+                        byte[] encoded = is.readAllBytes();
+                        serializedGameConfig = new String(encoded, StandardCharsets.UTF_8);
+                    } catch (IOException e) {
+                        getRenderer().showErrorMessage("The given path is not valid!");
+                        break;
+                    }
+
+                    getClient().send(new GameConfigMessage(serializedGameConfig));
                 }
                 case WAITING_PLAYERS -> getRenderer().showGameMessage(ViewString.WAITING_PLAYERS);
                 case SELECT_LEADERS -> {

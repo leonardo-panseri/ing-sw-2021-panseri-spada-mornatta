@@ -1,10 +1,10 @@
 {
   "baseProductionPower": {
     "input": [
+      null,
       null
     ],
     "output": [
-      null,
       null
     ]
   },

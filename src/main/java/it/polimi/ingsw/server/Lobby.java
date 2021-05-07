@@ -134,11 +134,25 @@ public class Lobby extends Observable<IServerPacket> {
         notify(new PlayersToStartSetMessage(connection));
     }
 
+    public void setCustomGameConfig(SocketClientConnection connection, GameConfig gameConfig) {
+        if(connections.indexOf(connection) != 0) {
+            notify(new ErrorMessage(connection, "Only the first player that connected to the lobby can set the number of players needed to start the game"));
+            return;
+        }
+        if(gameConfig == null) {
+            notify(new ErrorMessage(connection, "The game configuration file that you have chosen is invalid!"));
+            return;
+        }
+
+        this.customGameConfig = gameConfig;
+        notify(new GameConfigSetMessage(connection));
+    }
+
     /**
      * Notifies all connected clients of game start.
      */
     public synchronized void startGame() {
-        notify(new GameStartMessage());
+        notify(new GameStartMessage(customGameConfig == null ? GameConfig.loadDefaultGameConfig() : customGameConfig));
     }
 
     /**

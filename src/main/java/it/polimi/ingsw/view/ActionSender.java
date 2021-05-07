@@ -63,7 +63,7 @@ public abstract class ActionSender {
 
     public abstract void useDevelopmentProduction(int cardIndex);
 
-    public abstract void useBaseProduction(List<Resource> inputResource, Resource outputResource);
+    public abstract void useBaseProduction(List<Resource> inputResource, List<Resource> outputResource);
 
     public abstract void executeProductions();
 

@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Resource;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class CommandHandler {
     private final CLI cli;
@@ -301,12 +298,15 @@ public class CommandHandler {
                 cli.getActionSender().useDevelopmentProduction(index);
             }
             case "base" -> {
-                if (args.length != 4) {
+                List<Resource> expectedInput = cli.getModel().getGameConfig().getBaseProductionPower().getInput();
+                List<Resource> expectedOutput = cli.getModel().getGameConfig().getBaseProductionPower().getOutput();
+                int numOfArgs = 1 + expectedInput.size() + expectedOutput.size();
+                if (args.length != numOfArgs) {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_BASE_PRODUCTION);
                     return;
                 }
                 List<Resource> inputResources = new ArrayList<>();
-                for (int i = 1; i < 3; i++) {
+                for (int i = 1; i <= expectedInput.size(); i++) {
                     try {
                         Resource resource = Resource.valueOf(args[i].toUpperCase());
                         inputResources.add(resource);
@@ -315,15 +315,17 @@ public class CommandHandler {
                         return;
                     }
                 }
-                Resource outputResource;
-                try {
-                    outputResource = Resource.valueOf(args[3].toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    cli.getRenderer().showErrorMessage("Output resource is not a valid resource");
-                    return;
+                List<Resource> outputResources = new ArrayList<>();
+                for(int i = expectedInput.size()+1; i < numOfArgs; i++) {
+                    try {
+                        outputResources.add(Resource.valueOf(args[i].toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        cli.getRenderer().showErrorMessage("Output resource " + i + " is not a valid resource");
+                        return;
+                    }
                 }
 
-                cli.getActionSender().useBaseProduction(inputResources, outputResource);
+                cli.getActionSender().useBaseProduction(inputResources, outputResources);
             }
         }
     }

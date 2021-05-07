@@ -75,6 +75,18 @@ public class LobbyController {
             return;
         }
         currentLobby.setPlayersToStart(connection, playersToStart);
+    }
+
+    public synchronized void setGameConfig(SocketClientConnection connection, String serializedGameConfig) {
+        if(serializedGameConfig == null) {
+            if(currentLobby.canStart())
+                startGame();
+            return;
+        }
+
+        GameConfig gameConfig = GameConfig.deserialize(serializedGameConfig);
+
+        currentLobby.setCustomGameConfig(connection, gameConfig);
 
         if(currentLobby.canStart())
             startGame();

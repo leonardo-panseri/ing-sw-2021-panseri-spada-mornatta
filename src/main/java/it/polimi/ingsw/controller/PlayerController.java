@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.BaseProductionPower;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -251,43 +252,77 @@ public class PlayerController {
      * @param baseProductionOutput the output resource
      * @return a map containing the output resource
      */
-    public synchronized Map<Resource, Integer> useBaseProduction(Player player, List<Resource> baseProductionInput, Resource baseProductionOutput) {
+    public synchronized Map<Resource, Integer> useBaseProduction(Player player, List<Resource> baseProductionInput, List<Resource> baseProductionOutput) {
         gameController.checkTurn(player);
+        BaseProductionPower baseProductionPower = gameController.getGame().getBaseProductionPower();
 
-        if (baseProductionInput.size() != 2) {
+        List<Resource> expectedInput = baseProductionPower.getInput();
+        List<Resource> expectedOutput = baseProductionPower.getOutput();
+
+        if (baseProductionInput.size() != expectedInput.size()) {
             throw new IllegalArgumentException("wrong base production format!");
         }
-        if (baseProductionOutput == null) {
+        if (baseProductionOutput.size() != expectedOutput.size()) {
             throw new IllegalArgumentException("wrong base production format!");
         }
 
         Map<Resource, Integer> cost = new HashMap<>();
-        if (baseProductionInput.get(0) == baseProductionInput.get(1)) {
-            Resource resource = baseProductionInput.get(0);
-            if (player.getBoard().getDeposit().getAmountOfResource(resource) < 2) {
+        if(!isBaseProductionValid(expectedInput, baseProductionInput, cost))
+            throw new IllegalArgumentException("One of your base production input resources is invalid!");
+
+        if(!isBaseProductionValid(expectedOutput, baseProductionOutput, null))
+            throw new IllegalArgumentException("One of your base production output resources is invalid!");
+
+        for(Resource resource : cost.keySet()) {
+            if (player.getBoard().getDeposit().getAmountOfResource(resource) < cost.get(resource)) {
                 throw new IllegalArgumentException("you don't have enough " + resource + "!");
             }
-
-            cost.put(resource, 2);
-        } else {
-            Resource resource1 = baseProductionInput.get(0);
-            Resource resource2 = baseProductionInput.get(1);
-            if (player.getBoard().getDeposit().getAmountOfResource(resource1) < 1) {
-                throw new IllegalArgumentException("you don't have enough " + resource1 + "!");
-            }
-            if (player.getBoard().getDeposit().getAmountOfResource(resource2) < 1) {
-                throw new IllegalArgumentException("you don't have enough " + resource2 + "!");
-            }
-
-            cost.put(resource1, 1);
-            cost.put(resource2, 1);
         }
 
         player.getBoard().getDeposit().removeResources(cost);
 
         Map<Resource, Integer> result = new HashMap<>();
-        result.put(baseProductionOutput, 1);
+        for(Resource resource : baseProductionOutput) {
+            if(result.containsKey(resource)) {
+                int previous = result.get(resource);
+                result.put(resource, previous + 1);
+            } else {
+                result.put(resource, 1);
+            }
+        }
         return result;
+    }
+
+    /**
+     * Checks if the actual base production uses is valid, comparing it with the expected one. Optionally add resources
+     * to the cost map
+     *
+     * @param expected the list of expected resources, null represents that any resource is valid
+     * @param actual the list of actual resources
+     * @param cost the map where to add resources with their quantity, if it is null this will not be done
+     * @return true if the actual production is valid, false otherwise
+     */
+    private boolean isBaseProductionValid(List<Resource> expected, List<Resource> actual, Map<Resource, Integer> cost) {
+        for(Resource resource : actual) {
+            int index = expected.lastIndexOf(resource);
+            if(index == -1) {
+                int indexNull = expected.lastIndexOf(null);
+                if(indexNull == -1)
+                    return false;
+                else
+                    expected.remove(indexNull);
+            } else
+                expected.remove(index);
+
+            if(cost != null)
+                if(cost.containsKey(resource)) {
+                    int previous = cost.get(resource);
+                    cost.put(resource, previous + 1);
+                } else {
+                    cost.put(resource, 1);
+                }
+        }
+        return true;
     }
 
     /**

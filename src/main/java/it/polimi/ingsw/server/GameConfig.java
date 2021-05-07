@@ -9,10 +9,14 @@ import it.polimi.ingsw.model.card.LeaderCard;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class GameConfig {
+public class GameConfig implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5450385480341924714L;
     private static final String DEFAULT_GAMECONFIG_PATH = "default_gameconfig.json";
 
     /**

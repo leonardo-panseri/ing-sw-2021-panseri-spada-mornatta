@@ -13,9 +13,9 @@ public class BaseProduction extends Production {
     private static final long serialVersionUID = 348693205829788376L;
 
     private final List<Resource> baseProductionInput;
-    private final Resource baseProductionOutput;
+    private final List<Resource> baseProductionOutput;
 
-    public BaseProduction(List<Resource> baseProductionInput, Resource baseProductionOutput) {
+    public BaseProduction(List<Resource> baseProductionInput, List<Resource> baseProductionOutput) {
         this.baseProductionInput = baseProductionInput;
         this.baseProductionOutput = baseProductionOutput;
     }

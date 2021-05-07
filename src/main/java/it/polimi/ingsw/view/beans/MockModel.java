@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.beans;
 
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.server.GameConfig;
 
 import java.util.*;
 
@@ -12,6 +13,7 @@ public class MockModel {
     private MockPlayer localPlayer;
     private final Map<String, MockPlayer> players;
 
+    private GameConfig gameConfig;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
     private final MockMarket market;
 
@@ -22,6 +24,14 @@ public class MockModel {
         localPlayer = null;
         players = new HashMap<>();
         market = new MockMarket();
+    }
+
+    public GameConfig getGameConfig() {
+        return gameConfig;
+    }
+
+    public void setGameConfig(GameConfig gameConfig) {
+        this.gameConfig = gameConfig;
     }
 
     /**
