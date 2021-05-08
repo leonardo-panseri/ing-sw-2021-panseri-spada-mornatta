@@ -150,6 +150,7 @@ public abstract class View extends Thread {
     }
 
     public void handleSetGameConfig() {
+
         setGameState(GameState.WAITING_PLAYERS);
         getRenderer().showGameMessage("Choice confirmed!");
     }

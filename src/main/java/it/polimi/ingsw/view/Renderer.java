@@ -43,9 +43,13 @@ public abstract class Renderer {
 
     public abstract void printOthersFaith(String playerName);
 
+    public abstract void printOthersFavours(String playerName);
+
     public abstract void printDevelopmentDeck();
 
     public abstract void printFaith(int faith);
+
+    public abstract void printFavours(int popeFavours);
 
     public abstract void printMarketResult();
 

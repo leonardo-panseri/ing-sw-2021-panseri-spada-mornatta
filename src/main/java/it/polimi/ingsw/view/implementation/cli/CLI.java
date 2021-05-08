@@ -68,7 +68,8 @@ public class CLI extends View {
                 case CHOOSING_GAME_CONFIG -> {
                     if(command.equalsIgnoreCase("n")) {
                         getClient().send(new GameConfigMessage(null));
-                        return;
+                        System.out.println("Playing using the default game rules!");
+                        break;
                     }
                     File configFile = new File(command);
 

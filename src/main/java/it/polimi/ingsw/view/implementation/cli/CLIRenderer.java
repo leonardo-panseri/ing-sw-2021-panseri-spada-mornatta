@@ -172,7 +172,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the faith points of the given player.
      *
-     * @param playerName the name of the player whose
+     * @param playerName the name of the player whose faith to print
      */
     @Override
     public void printOthersFaith(String playerName) {
@@ -183,6 +183,22 @@ public class CLIRenderer extends Renderer {
         }
 
         printFaith(otherPlayer.getFaithPoints());
+    }
+
+    /**
+     * Prints the cumulated pope favours of the given player.
+     *
+     * @param playerName the name of the player whose favours to print
+     */
+    @Override
+    public void printOthersFavours(String playerName) {
+        MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
+        if (otherPlayer == null) {
+            System.err.println(playerName + " not found in local model!");
+            return;
+        }
+
+        printFavours(otherPlayer.getFaithPoints());
     }
 
     /**
@@ -366,6 +382,16 @@ public class CLIRenderer extends Renderer {
         System.out.println("Other " + pointsToWin + " needed to win.");
 
 
+    }
+
+    /**
+     * Prints the cumulated favours of a player.
+     *
+     * @param popeFavours the number of pope favours of the player
+     */
+    @Override
+    public void printFavours(int popeFavours) {
+        System.out.println("Amount of cumulated pope favours: " + AnsiColor.YELLOW + popeFavours + AnsiColor.RESET);
     }
 
     /**

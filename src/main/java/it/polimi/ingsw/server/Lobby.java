@@ -17,6 +17,7 @@ public class Lobby extends Observable<IServerPacket> {
     private SocketClientConnection firstConnection;
     private final List<SocketClientConnection> connections;
     private int playersToStart;
+    private boolean isGameConfigSet;
 
     private GameConfig customGameConfig;
 
@@ -29,6 +30,7 @@ public class Lobby extends Observable<IServerPacket> {
         this.connections = new ArrayList<>();
         this.playersToStart = -1;
         this.customGameConfig = null;
+        this.isGameConfigSet = false;
     }
 
     /**
@@ -145,7 +147,15 @@ public class Lobby extends Observable<IServerPacket> {
         }
 
         this.customGameConfig = gameConfig;
+        setGameConfigSet();
         notify(new GameConfigSetMessage(connection));
+    }
+
+    /**
+     * Sets to true if the master player has already chosen the desired game config
+     */
+    public void setGameConfigSet() {
+        isGameConfigSet = true;
     }
 
     /**
@@ -201,6 +211,7 @@ public class Lobby extends Observable<IServerPacket> {
         for(SocketClientConnection conn : connections)
             if(conn.getPlayerName() == null)
                 return false;
+        if (!isGameConfigSet) return false;
         return playersToStart == connections.size();
     }
 

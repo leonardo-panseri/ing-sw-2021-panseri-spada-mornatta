@@ -75,6 +75,7 @@ public class CommandHandler {
 
     public void viewFaith() {
         cli.getRenderer().printFaith(cli.getModel().getLocalPlayer().getFaithPoints());
+        cli.getRenderer().printFavours(cli.getModel().getLocalPlayer().getPopeFavours());
     }
 
     public void buy(String[] args) {
@@ -143,7 +144,10 @@ public class CommandHandler {
             case "leaders" -> cli.getRenderer().printOthersLeaderCards(playerName);
             case "development" -> cli.getRenderer().printOthersDevelopmentCards(playerName);
             case "deposit" -> cli.getRenderer().printOthersDeposit(playerName);
-            case "faith" -> cli.getRenderer().printOthersFaith(playerName);
+            case "faith" -> {
+                cli.getRenderer().printOthersFaith(playerName);
+                cli.getRenderer().printOthersFavours(playerName);
+            }
         }
     }
 
