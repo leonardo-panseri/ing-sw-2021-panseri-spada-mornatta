@@ -14,6 +14,10 @@ public class GameConfigMessage extends ClientMessage {
         this.serializedGameConfig = serializedGameConfig;
     }
 
+    public String getSerializedGameConfig() {
+        return serializedGameConfig;
+    }
+
     @Override
     public void process(LobbyController controller) {
         controller.setGameConfig(getClientConnection(), serializedGameConfig);

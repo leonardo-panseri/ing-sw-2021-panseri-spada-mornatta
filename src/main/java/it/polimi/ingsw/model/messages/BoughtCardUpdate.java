@@ -30,6 +30,5 @@ public class BoughtCardUpdate extends PlayerPropertyUpdate {
     @Override
     public void process(View view) {
         view.getModelUpdateHandler().updateDevelopmentCards(getPlayerName(), developmentCard, slot);
-        view.setAlreadyPlayed(true);
     }
 }

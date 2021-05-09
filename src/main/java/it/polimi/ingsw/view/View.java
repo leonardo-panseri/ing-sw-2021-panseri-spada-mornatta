@@ -20,7 +20,6 @@ public abstract class View extends Thread {
     private String playerName;
     private boolean lobbyMaster;
     private boolean ownTurn;
-    private boolean alreadyPlayed;
     private boolean usingProductions;
 
 
@@ -28,7 +27,6 @@ public abstract class View extends Thread {
         this.client = client;
         this.gameState = GameState.CONNECTING;
         this.ownTurn = false;
-        this.alreadyPlayed = false;
         this.usingProductions = false;
         this.model = new MockModel();
     }
@@ -70,10 +68,6 @@ public abstract class View extends Thread {
         return ownTurn;
     }
 
-    public boolean hasAlreadyPlayed() {
-        return alreadyPlayed;
-    }
-
     public boolean isUsingProductions() {
         return usingProductions;
     }
@@ -104,10 +98,6 @@ public abstract class View extends Thread {
 
     public void setOwnTurn(boolean ownTurn) {
         this.ownTurn = ownTurn;
-    }
-
-    public void setAlreadyPlayed(boolean alreadyPlayed) {
-        this.alreadyPlayed = alreadyPlayed;
     }
 
     public void setUsingProductions(boolean usingProductions) {
@@ -174,8 +164,8 @@ public abstract class View extends Thread {
     }
 
     public void handleEndGame(Map<String, Integer> scores, String winnerName) {
-        client.terminate();
         getRenderer().printFinalScores(scores, winnerName);
+        client.terminate();
     }
 
     public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {

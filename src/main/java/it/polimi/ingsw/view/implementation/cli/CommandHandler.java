@@ -41,6 +41,7 @@ public class CommandHandler {
             }
         } catch (NoSuchMethodException | SecurityException |
                 IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
             throw new IllegalArgumentException("Command does not exists.");
         }
     }
@@ -79,10 +80,6 @@ public class CommandHandler {
     }
 
     public void buy(String[] args) {
-        if (cli.hasAlreadyPlayed()) {
-            cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
-            return;
-        }
         int cardIndex;
         try {
             cardIndex = Integer.parseInt(args[0]);
@@ -105,11 +102,7 @@ public class CommandHandler {
     }
 
     public void draw(String[] args) {
-        if (cli.hasAlreadyPlayed()) {
-            cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
-            return;
-        }
-        int marketIndex;
+                int marketIndex;
         try {
             marketIndex = Integer.parseInt(args[0]);
             if (marketIndex < 1 || marketIndex > 7) throw new IllegalArgumentException("incorrect_format");
@@ -247,10 +240,6 @@ public class CommandHandler {
     }
 
     public void production(String[] args) {
-        if (cli.hasAlreadyPlayed() && !cli.isUsingProductions()) {
-            cli.getRenderer().showErrorMessage(ViewString.ALREADY_PLAYED);
-            return;
-        }
         if (args.length < 1) {
             cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
             return;

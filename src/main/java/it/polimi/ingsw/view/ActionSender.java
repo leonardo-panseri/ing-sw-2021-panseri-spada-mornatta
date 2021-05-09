@@ -49,12 +49,8 @@ public abstract class ActionSender {
             view.getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
             return;
         }
-        if(!view.hasAlreadyPlayed()) {
-            view.getRenderer().showErrorMessage(ViewString.NOT_ALREADY_PLAYED);
-            return;
-        }
+
         view.getClient().send(new EndTurnPlayerActionEvent());
-        view.setAlreadyPlayed(false);
         view.setUsingProductions(false);
     }
     public abstract void setActive(int cardIndex);

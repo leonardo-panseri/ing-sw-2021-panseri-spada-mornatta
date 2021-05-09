@@ -36,6 +36,12 @@ public class CLI extends View {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(AnsiColor.BLUE + Constants.MASTER + AnsiColor.RESET);
+
+        if(!getClient().isNoServer())
+            getRenderer().showGameMessage("Enter the server ip and port (leave blank for localhost):");
+        else
+            addToLobby(false);
+
         String command;
         while (getClient().isActive()) {
             command = scanner.nextLine();
@@ -45,6 +51,32 @@ public class CLI extends View {
 
             cmdSwitch :
             switch (getGameState()) {
+                case CONNECTING -> {
+                    if(command.isBlank()) {
+                        getClient().startConnection();
+                        break;
+                    }
+
+                    String[] ipAndPort = command.split(":");
+
+                    if(ipAndPort.length != 2) {
+                        getRenderer().showErrorMessage("Invalid format, please type \"serverip:port\"!");
+                        break;
+                    }
+
+                    String ip = ipAndPort[0];
+                    int port;
+                    try {
+                        port = Integer.parseInt(ipAndPort[1]);
+                    } catch (NumberFormatException e) {
+                        getRenderer().showErrorMessage("The port should be a number!");
+                        break;
+                    }
+
+                    getClient().setIp(ip);
+                    getClient().setPort(port);
+                    getClient().startConnection();
+                }
                 case CHOOSING_NAME -> {
                     setPlayerName(command);
                     getClient().send(new PlayerNameMessage(command));
@@ -128,7 +160,8 @@ public class CLI extends View {
                         setGameState(GameState.CHOOSING_RESOURCES);
                     } else {
                         getClient().send(new InitialSelectionPlayerActionEvent(this.selectedLeaderCards, new HashMap<>()));
-                        setGameState(GameState.WAIT_SELECT_LEADERS);
+                        if(!getClient().isNoServer())
+                            setGameState(GameState.WAIT_SELECT_LEADERS);
                     }
                 }
                 case CHOOSING_RESOURCES -> {

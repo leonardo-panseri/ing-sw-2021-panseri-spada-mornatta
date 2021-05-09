@@ -22,6 +22,10 @@ public class PlayerNameMessage extends ClientMessage {
         this.playerName = playerName;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
     @Override
     public void process(LobbyController lobbyController) {
         lobbyController.setPlayerName(getClientConnection(), playerName);

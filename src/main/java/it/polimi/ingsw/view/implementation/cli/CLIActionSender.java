@@ -48,7 +48,6 @@ public class CLIActionSender extends ActionSender {
      */
     @Override
     public void draw(int marketIndex, List<Resource> whiteConversions) {
-        getView().setAlreadyPlayed(true);
         getView().getClient().send(new MarketPlayerActionEvent(marketIndex - 1, whiteConversions));
     }
 
@@ -122,7 +121,7 @@ public class CLIActionSender extends ActionSender {
             }
         }
 
-        getView().getClient().send(new DepositPlayerActionEvent(changes, deposit.getMarketResult(), leadersDepositChanges));
+        getView().getClient().send(new DepositPlayerActionEvent(changes, new ArrayList<>(deposit.getMarketResult()), leadersDepositChanges));
     }
 
     /** Activates a LeaderCard:  If you satisfy the requirement of a Leader Card in your hand, you can play
@@ -191,7 +190,6 @@ public class CLIActionSender extends ActionSender {
             getView().getRenderer().showErrorMessage("This leader card does not have a production ability");
             return;
         }
-        getView().setAlreadyPlayed(true);
         getView().setUsingProductions(true);
         addPendingProduction(new LeaderProduction(leaderCard.getUuid(), desiredResource));
         getView().getRenderer().showGameMessage(ViewString.PRODUCTION_QUEUED);
@@ -213,7 +211,6 @@ public class CLIActionSender extends ActionSender {
             return;
         }
 
-        getView().setAlreadyPlayed(true);
         getView().setUsingProductions(true);
         addPendingProduction(new DevelopmentProduction(developmentCard.getUuid()));
         getView().getRenderer().showGameMessage(ViewString.PRODUCTION_QUEUED);
@@ -228,7 +225,6 @@ public class CLIActionSender extends ActionSender {
      */
     @Override
     public void useBaseProduction(List<Resource> inputResource, List<Resource> outputResource) {
-        getView().setAlreadyPlayed(true);
         getView().setUsingProductions(true);
         addPendingProduction(new BaseProduction(inputResource, outputResource));
         getView().getRenderer().showGameMessage(ViewString.PRODUCTION_QUEUED);

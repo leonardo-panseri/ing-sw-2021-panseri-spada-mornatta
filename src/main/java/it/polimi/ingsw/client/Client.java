@@ -1,37 +1,68 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.messages.GameConfigMessage;
+import it.polimi.ingsw.client.messages.PlayerNameMessage;
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.messages.PropertyUpdate;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.server.GameConfig;
+import it.polimi.ingsw.server.IServerPacket;
+import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.server.messages.AddToLobbyMessage;
+import it.polimi.ingsw.server.messages.GameStartMessage;
+import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.cli.CLI;
+import it.polimi.ingsw.view.messages.PlayerActionEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 /**
  * Main client instance.
  */
 public class Client {
-    private final String ip;
-    private final int port;
+    private String ip = "localhost";
+    private int port = 12345;
+
+    private final boolean startCli, noServer;
+
+    private final Object lock = new Object();
+
     private SocketClientWrite writeThread;
     private SocketClientRead readThread;
+
+    private GameController localGameController;
+    private String localPlayerName;
+    private GameConfig localGameConfig = null;
+    private ExecutorService localExecutor;
 
     private View view;
 
     private boolean active = true;
 
     /**
-     * Constructs a new Client that will connect to the given ip and port.
+     * Constructs a new Client with the given arguments.
      *
-     * @param ip the ip of the server
-     * @param port the port of the server
+     * @param startCli a boolean indicating if the client should be started in CLI mode
+     * @param noServer a boolean indicating if the client should not connect to the server and play locally
      */
-    public Client(String ip, int port){
-        this.ip = ip;
-        this.port = port;
+    public Client(boolean startCli, boolean noServer){
+        this.startCli = startCli;
+        this.noServer = noServer;
+
+        if(noServer)
+            localExecutor = Executors.newFixedThreadPool(16);
     }
 
     /**
@@ -48,10 +79,12 @@ public class Client {
      */
     public synchronized void terminate(){
         this.active = false;
-        writeThread.interrupt();
-        System.out.flush();
-        readThread.interrupt();
-        System.out.println("Press ENTER to exit...");
+        if(!isNoServer()) {
+            writeThread.interrupt();
+            System.out.flush();
+            readThread.interrupt();
+        }
+        System.exit(0);
     }
 
     /**
@@ -63,13 +96,35 @@ public class Client {
         return view;
     }
 
+    public boolean isNoServer() {
+        return noServer;
+    }
+
     /**
      * Sends a message to the Server.
      *
      * @param message the message that will be sent to the server
      */
     public void send(Object message) {
-        writeThread.send(message);
+        if (noServer) {
+            if (message instanceof PlayerNameMessage) {
+                localPlayerName = ((PlayerNameMessage) message).getPlayerName();
+                getView().setGameState(GameState.CHOOSING_GAME_CONFIG);
+                MockPlayer localPlayer = getView().getModel().addPlayer(getView().getPlayerName(), true);
+                getView().getModel().setLocalPlayer(localPlayer);
+                getView().getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
+                        " otherwise input 'n':");
+            } else if (message instanceof GameConfigMessage) {
+                localGameConfig = GameConfig.deserialize(((GameConfigMessage) message).getSerializedGameConfig());
+                initializeLocalGame();
+            } else {
+                PlayerActionEvent event = (PlayerActionEvent) message;
+                event.setPlayer(localGameController.getGame().getCurrentPlayer());
+
+                localExecutor.submit(() -> localGameController.update(event));
+            }
+        } else
+            writeThread.send(message);
     }
 
     /**
@@ -78,47 +133,94 @@ public class Client {
      * @throws IOException if the creation of the socket input or output stream fails
      */
     public void run() throws IOException {
-        Socket socket = new Socket(ip, port);
-        System.out.println("Connection established");
-        ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-
         try{
-            Scanner stdin = new Scanner(System.in);
-            String input;
-            int chosen = -1;
-            while (chosen != 1 && chosen != 2){
-                System.out.println("Choose interface: \n" +
-                        "1) CLI");
-                input = stdin.nextLine();
-                try{
-                    chosen = Integer.parseInt(input);
-                } catch (NumberFormatException e){
-                    System.out.println("Please input 1 or 2");
-                }
-            }
-
-            if(chosen == 1) {
+            if(startCli) {
                 view = new CLI(this);
             } else view = new CLI(this);
+
+            view.start();
+
+            if(!noServer) {
+                synchronized (lock) {
+                    lock.wait();
+                }
+                connect();
+            }
+
+            view.join();
+        } catch(InterruptedException | NoSuchElementException e){
+            System.out.println("View thread terminated");
+        }
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    private void connect() {
+        try (Socket socket = new Socket(ip, port);
+             ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
+             ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream())) {
+            System.out.println("Connection established");
 
             readThread = new SocketClientRead(this, socketIn);
             writeThread = new SocketClientWrite(this, socketOut);
             readThread.start();
             writeThread.start();
 
-            view.start();
-
             writeThread.join();
             readThread.join();
-            view.join();
-        } catch(InterruptedException | NoSuchElementException e){
+        } catch (NoSuchElementException | IOException | InterruptedException e) {
             System.out.println("Connection closed from the client side");
-        } finally {
-            socketIn.close();
-            socketOut.close();
-            socket.close();
+            e.printStackTrace();
         }
     }
 
+    public void startConnection() {
+        synchronized (lock) {
+            lock.notifyAll();
+        }
+    }
+
+    private void initializeLocalGame() {
+        Lobby localLobby = new Lobby();
+        try {
+            Field playersToStart = localLobby.getClass().getDeclaredField("playersToStart");
+            playersToStart.setAccessible(true);
+            playersToStart.set(localLobby, 1);
+
+            Field gameConfig = localLobby.getClass().getDeclaredField("customGameConfig");
+            gameConfig.setAccessible(true);
+            gameConfig.set(localLobby, localGameConfig);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("Something went wrong!");
+            e.printStackTrace();
+            return;
+        }
+
+        localGameController = new GameController(localLobby);
+        Player player = new Player(localPlayerName);
+        localGameController.addPlayer(player);
+
+        Observer<IServerPacket> localObserver = update -> update.process(getView());
+
+        localGameController.getGame().addObserver(localObserver);
+        localGameController.getGame().getDeck().addObserver(localObserver);
+        localGameController.getGame().getMarket().addObserver(localObserver);
+
+        localGameController.getGame().createLorenzo().addObserver(localObserver);
+
+        player.addObserver(localObserver);
+        player.getBoard().addObserver(localObserver);
+        player.getBoard().getDeposit().addObserver(localObserver);
+
+        (new GameStartMessage(localGameConfig == null ? GameConfig.loadDefaultGameConfig() : localGameConfig)).process(getView());
+        localGameController.getGame().getMarket().initializeMarket();
+        localGameController.getGame().getDeck().shuffleDevelopmentDeck();
+        localGameController.getTurnController().start();
+    }
 }
