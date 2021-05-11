@@ -23,6 +23,7 @@ public class Player extends Observable<IServerPacket> {
     private int popeFavours;
     private Map<LeaderCard, Boolean> leaderCards;
     private final PlayerBoard board;
+    private boolean hasAlreadyPlayed;
 
     private int initialResourcesToPick;
 
@@ -37,6 +38,7 @@ public class Player extends Observable<IServerPacket> {
         popeFavours = 0;
         leaderCards = new HashMap<>();
         board = new PlayerBoard(this);
+        hasAlreadyPlayed = false;
     }
 
     /**
@@ -325,6 +327,14 @@ public class Player extends Observable<IServerPacket> {
                 canAfford = false;
         }
         return canAfford;
+    }
+
+    public boolean hasAlreadyPlayed() {
+        return hasAlreadyPlayed;
+    }
+
+    public void setHasAlreadyPlayed(boolean hasAlreadyPlayed) {
+        this.hasAlreadyPlayed = hasAlreadyPlayed;
     }
 
     @Override

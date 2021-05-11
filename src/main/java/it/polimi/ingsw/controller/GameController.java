@@ -179,4 +179,18 @@ public class GameController implements Observer<PlayerActionEvent> {
             throw new IllegalStateException(errorMessage);
         }
     }
+
+    /**
+     * Checks if the player has already performed one of the three major actions.
+     *
+     * @param player the player to check
+     * @throws IllegalStateException if the player has already performed one of the three major actions
+     */
+    synchronized void checkAlreadyPlayed(Player player) throws  IllegalStateException {
+        if(player.hasAlreadyPlayed()) {
+            String errorMessage = "You have already done one of the three major actions!";
+            game.notifyInvalidAction(player, errorMessage);
+            throw new IllegalStateException(errorMessage);
+        }
+    }
 }

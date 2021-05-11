@@ -45,6 +45,11 @@ public class TurnController {
     public synchronized void endTurn(Player player) {
         gameController.checkTurn(player);
 
+        if (!player.hasAlreadyPlayed()) {
+            gameController.getGame().notifyInvalidAction(player, "You must perform at least an action before ending your turn");
+            return;
+        }
+
         int discardedMarketResults = player.getBoard().getDeposit().getUnusedMarketResults();
         if(discardedMarketResults > 0) {
             if(gameController.isSinglePlayer()) {
@@ -59,6 +64,8 @@ public class TurnController {
             }
             player.getBoard().getDeposit().clearMarketResults();
         }
+
+        player.setHasAlreadyPlayed(false);
 
         if(!gameController.isSinglePlayer() && gameController.getGame().isLastRound() &&
                 gameController.getGame().isLastPlayerTurn()) {

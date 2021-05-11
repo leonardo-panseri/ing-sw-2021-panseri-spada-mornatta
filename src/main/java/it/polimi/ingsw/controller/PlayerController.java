@@ -64,6 +64,7 @@ public class PlayerController {
      */
     public synchronized void buyDevelopmentCard(Player player, DevelopmentCard developmentCard, int slot) {
         gameController.checkTurn(player);
+        gameController.checkAlreadyPlayed(player);
 
         if (gameController.getGame().getDeck().getDevelopmentCardByUuid(developmentCard.getUuid()) == null) {
             gameController.getGame().notifyInvalidAction(player, "This development card is not in the deck!");
@@ -97,6 +98,8 @@ public class PlayerController {
         }
 
         player.getBoard().addCard(slot, developmentCard);
+
+        player.setHasAlreadyPlayed(true);
 
         boolean endGame = player.getBoard().getNumberOfDevelopmentCards() > 6;
         if (endGame)
@@ -160,6 +163,7 @@ public class PlayerController {
      */
     public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {
         gameController.checkTurn(player);
+        gameController.checkAlreadyPlayed(player);
 
         if(selection < 0 || selection > 6) {
             gameController.getGame().notifyInvalidAction(player, "You have specified an invalid index for the market!");
@@ -205,6 +209,8 @@ public class PlayerController {
         }
 
         player.getBoard().getDeposit().setMarketResults(marketResults);
+
+        player.setHasAlreadyPlayed(true);
     }
 
     /**
@@ -219,6 +225,7 @@ public class PlayerController {
      */
     public synchronized void useProductions(Player player, List<Production> productions) {
         gameController.checkTurn(player);
+        gameController.checkAlreadyPlayed(player);
 
         Map<Resource, Integer> result = new HashMap<>();
         for (Production production : productions) {
@@ -238,6 +245,7 @@ public class PlayerController {
             checkFaithPoints(player);
         }
         player.getBoard().getDeposit().addMultipleToStrongbox(result);
+        player.setHasAlreadyPlayed(true);
     }
 
     /**
@@ -264,6 +272,9 @@ public class PlayerController {
         }
         if (baseProductionOutput.size() != expectedOutput.size()) {
             throw new IllegalArgumentException("wrong base production format!");
+        }
+        if (baseProductionInput.contains(Resource.FAITH)) {
+            throw new IllegalArgumentException("cannot use faith in base productions");
         }
 
         Map<Resource, Integer> cost = new HashMap<>();

@@ -285,6 +285,8 @@ public class CLIRenderer extends Renderer {
      */
     @Override
     public String renderResource(Resource res) {
+        if (res == null)
+            return "WHITE " + AnsiSymbol.EMPTY;
         switch (res) {
             case COIN -> {
                 return AnsiColor.getResourceColor(res) + AnsiSymbol.COIN + AnsiColor.RESET;
@@ -598,5 +600,6 @@ public class CLIRenderer extends Renderer {
         market = market.concat(Constants.BOTTOMINDEX);
 
         System.out.println(market);
+        System.out.println("Slide resource: " + renderResource(slideResource));
     }
 }
