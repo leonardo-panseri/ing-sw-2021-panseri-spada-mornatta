@@ -198,10 +198,6 @@ public class PlayerTest {
         assertTrue(player.getLeaderCards().containsKey(testLeaderCard));
         assertTrue(player.getLeaderCards().containsKey(cardPresent));
         assertFalse(player.getLeaderCards().containsKey(cardNotPresent));
-
-        chosen.remove(1);
-        chosen.add(cardNotPresent);
-        assertThrows(IllegalArgumentException.class, () -> player.keepLeaders(chosen));
     }
 
     @Test

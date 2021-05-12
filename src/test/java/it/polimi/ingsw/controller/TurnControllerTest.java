@@ -81,8 +81,10 @@ class TurnControllerTest {
     @Test
     void endGameMulti() {
         turnController.start();
+        game.getCurrentPlayer().setHasAlreadyPlayed(true);
         turnController.endTurn(game.getCurrentPlayer());
         game.setGamePhase(GamePhase.LAST_ROUND);
+        game.getCurrentPlayer().setHasAlreadyPlayed(true);
         turnController.endTurn(game.getCurrentPlayer());
 
         assertEquals(GamePhase.END, game.getGamePhase());
@@ -132,6 +134,7 @@ class TurnControllerTest {
         @Test
         void endGameSingle() {
             turnController.start();
+            game.getCurrentPlayer().setHasAlreadyPlayed(true);
             game.setGamePhase(GamePhase.LAST_ROUND);
             turnController.endTurn(game.getCurrentPlayer());
 

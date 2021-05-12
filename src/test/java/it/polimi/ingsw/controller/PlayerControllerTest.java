@@ -96,6 +96,7 @@ class PlayerControllerTest {
         p1.getBoard().getDeposit().addMultipleToStrongbox(cheat);
         playerController.buyDevelopmentCard(p1, card, 1);
         assertTrue(p1.getBoard().hasCardOfColorAndLevel(CardColor.GREEN, 1));
+        p1.setHasAlreadyPlayed(false);
 
         //Player cannot place the card in the board
         DevelopmentCard card2 = DeckTest.getCardByLevel(2, gc.getGame().getDeck());
@@ -163,13 +164,16 @@ class PlayerControllerTest {
         //Index out of bound
         playerController.useMarket(p1, 7, new ArrayList<>());
         assertTrue(updates.get(0) instanceof InvalidActionUpdate);
+        p1.setHasAlreadyPlayed(false);
 
         //Player does not have the requested white conversions
         playerController.useMarket(p1, 2, Arrays.asList(Resource.STONE, Resource.SERVANT));
         assertTrue(updates.get(1) instanceof InvalidActionUpdate);
+        p1.setHasAlreadyPlayed(false);
 
         //Player draws a row
         playerController.useMarket(p1, 5, new ArrayList<>());
+        p1.setHasAlreadyPlayed(false);
 
         //Player draws a column
         playerController.useMarket(p1, 2, new ArrayList<>());

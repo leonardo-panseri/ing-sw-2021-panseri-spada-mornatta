@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.messages.EndTurnPlayerActionEvent;
+import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
 import it.polimi.ingsw.view.messages.PlayerActionEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,12 +72,19 @@ class GameControllerTest {
         Player test2 = new Player("test2");
         PlayerActionEvent act = new EndTurnPlayerActionEvent();
         act.setPlayer(test);
+        controllerTest.getGame().getMarket().initializeMarket();
+        PlayerActionEvent draw = new MarketPlayerActionEvent(1, new ArrayList<>()); // Draw move to allow player to end turn
+        draw.setPlayer(test);
 
         controllerTest.getGame().addPlayer(test);
         controllerTest.getGame().addPlayer(test2);
         controllerTest.getGame().setCurrentPlayer(test);
 
+        controllerTest.update(act);
+        assertEquals("test", controllerTest.getGame().getCurrentPlayer().getNick());
+
         //Update turn setting the next current player correctly
+        controllerTest.update(draw);
         controllerTest.update(act);
         assertEquals("test2", controllerTest.getGame().getCurrentPlayer().getNick());
 

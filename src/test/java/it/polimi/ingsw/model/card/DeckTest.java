@@ -14,7 +14,7 @@ public class DeckTest {
     private static Deck testDeck;
 
     public static DevelopmentCard getCardByLevel(int level, Deck deck) {
-        return deck.getDevelopmentCards().get(level-1).get(CardColor.GREEN).get(0);
+        return deck.getDevelopmentCards().get(level-1).get(CardColor.GREEN).peek();
     }
 
     @BeforeEach
