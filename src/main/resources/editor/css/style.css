@@ -21,3 +21,25 @@
 .edit-leader-cards {
 
 }
+.leaderCard {
+    -fx-background-image: url("../../images/leader_card_front.png");
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-height: 294.0;
+    -fx-pref-width: 195.0;
+}
+.leaderCard #lcRequirements {
+    -fx-pref-height: 35.0;
+    -fx-pref-width: 81.0;
+}
+.leaderCard #lcRequirements .hbox {
+    -fx-pref-height: 35.0;
+    -fx-pref-width: 42.0;
+}
+.leaderCard #lcRequirements .label {
+    -fx-pref-height: 35.0;
+    -fx-pref-width: 12.0;
+}
+.leaderCard #lcVictoryPoints {
+    -fx-alignment: center;
+}

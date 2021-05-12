@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FXMLUtils {
     public static <T extends Parent> void loadFXML(T component) {
-        String fileName = component.getClass().getSimpleName() + ".fxml";
+        String fileName = "/editor/" + component.getClass().getSimpleName() + ".fxml";
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fileName));
         loader.setRoot(component);
         loader.setControllerFactory(theClass -> component);
