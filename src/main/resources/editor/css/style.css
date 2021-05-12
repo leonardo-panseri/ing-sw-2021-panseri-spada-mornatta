@@ -1,0 +1,23 @@
+.home {
+    -fx-pref-width: 700;
+    -fx-pref-height: 500;
+    -fx-min-width: 700;
+    -fx-min-height: 500;
+}
+.home .label {
+    -fx-pref-width: inherit;
+    -fx-pref-height: 62;
+    -fx-font-size: 24;
+    -fx-alignment: center;
+}
+.home .buttons-container {
+    -fx-alignment: center;
+    -fx-spacing: 40;
+    -fx-font-size: 18;
+}
+.home .buttons-container .button {
+    -fx-pref-width: 216;
+}
+.edit-leader-cards {
+
+}
