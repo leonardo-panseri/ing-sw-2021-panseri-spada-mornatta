@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox fx:id="leaderCardsContainer" stylesheets="@css/style.css" styleClass="edit-leader-cards" fx:controller="it.polimi.ingsw.editor.controller.EditLeaderCards"
+<VBox fx:id="leaderCardsContainer" stylesheets="@css/style.css" fx:controller="it.polimi.ingsw.editor.controller.EditLeaderCards"
       xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <Button mnemonicParsing="false" text="Back To Home" onAction="#goToHome"/>
 </VBox>

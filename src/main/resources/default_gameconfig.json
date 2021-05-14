@@ -36,7 +36,8 @@
     {
       "cardRequirements": {
         "resourceRequirements": {
-          "STONE": 2
+          "STONE": 2,
+          "COIN": 1
         },
         "cardColorRequirements": {},
         "cardLevelRequirements": {}
@@ -52,7 +53,9 @@
         "resourceRequirements": {
           "STONE": 2
         },
-        "cardColorRequirements": {},
+        "cardColorRequirements": {
+          "GREEN": 1
+        },
         "cardLevelRequirements": {}
       },
       "specialAbility": {
@@ -67,7 +70,9 @@
           "STONE": 2
         },
         "cardColorRequirements": {},
-        "cardLevelRequirements": {}
+        "cardLevelRequirements": {
+          "PURPLE": 2
+        }
       },
       "specialAbility": {
         "type": "DEPOT",

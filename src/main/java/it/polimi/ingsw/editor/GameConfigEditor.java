@@ -1,5 +1,6 @@
 package it.polimi.ingsw.editor;
 
+import it.polimi.ingsw.editor.controller.EditLeaderCard;
 import it.polimi.ingsw.server.GameConfig;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -53,6 +54,10 @@ public class GameConfigEditor {
 
     public static void goToEditFaithTrack() {
         scene.setRoot(editFaithTrackPage);
+    }
+
+    public static void goToEditLeaderCard(EditLeaderCard editLeaderCard) {
+        scene.setRoot(editLeaderCard);
     }
 
     public static GameConfig getGameConfig() {

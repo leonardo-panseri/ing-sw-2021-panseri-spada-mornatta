@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<fx:root type="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <Label text="Requirements">
+               <HBox.margin>
+                  <Insets right="20.0"/>
+               </HBox.margin>
+            </Label>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <Label text="Resources"/>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Stone"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Shield"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Coin"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Servant"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <Label text="Card Color"/>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Green"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Blue"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Purple"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Yellow"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <Label text="Card Level"/>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Green"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Blue"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Purple"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <CheckBox mnemonicParsing="false" text="Yellow"/>
+                  <TextField prefWidth="20.0"/>
+               </HBox>
+            </VBox>
+         </HBox>
+         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <Label text="Victory Points">
+               <HBox.margin>
+                  <Insets right="20.0"/>
+               </HBox.margin>
+            </Label>
+            <TextField/>
+         </HBox>
+         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <Label text="Special Ability">
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="20.0"/>
+               </HBox.margin>
+            </Label>
+            <ChoiceBox prefWidth="150.0">
+               <HBox.margin>
+                  <Insets right="20.0"/>
+               </HBox.margin>
+            </ChoiceBox>
+            <ChoiceBox prefWidth="150.0"/>
+         </HBox>
+      </VBox>
+   </center>
+</fx:root>
