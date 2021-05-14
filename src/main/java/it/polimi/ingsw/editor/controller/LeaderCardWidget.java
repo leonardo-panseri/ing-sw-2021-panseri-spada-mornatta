@@ -32,6 +32,10 @@ public class LeaderCardWidget extends AnchorPane {
         FXMLUtils.loadFXML(this);
     }
 
+    public LeaderCard getLeaderCard() {
+        return leaderCard;
+    }
+
     @FXML
     private void initialize() {
         LeaderCardRequirement requirements = leaderCard.getCardRequirements();

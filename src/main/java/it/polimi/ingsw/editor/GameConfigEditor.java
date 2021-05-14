@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.GameConfig;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
 public class GameConfigEditor {
@@ -62,5 +63,15 @@ public class GameConfigEditor {
 
     public static GameConfig getGameConfig() {
         return gameConfig;
+    }
+
+    public static TextFormatter<String> getNumberInputTextFormatter() {
+        return new TextFormatter<>(change -> {
+            String text = change.getText();
+            if (text.matches("[0-9]*")) {
+                return change;
+            }
+            return null;
+        });
     }
 }
