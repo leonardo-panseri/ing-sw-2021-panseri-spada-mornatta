@@ -10,7 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 
 
+<?import javafx.scene.control.Button?>
 <fx:root type="BorderPane" prefHeight="500.0" prefWidth="700.0" fx:controller="it.polimi.ingsw.editor.controller.EditLeaderCard" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Button mnemonicParsing="false" text="Back To List" onAction="#goToEditLeaderCards"/>
+   </top>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <HBox spacing="20.0" prefHeight="100.0" prefWidth="200.0">
@@ -48,4 +52,13 @@
          </HBox>
       </VBox>
    </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT">
+         <Button mnemonicParsing="false" text="SAVE" onAction="#saveLeaderCard">
+            <HBox.margin>
+               <Insets right="20.0" bottom="20.0"/>
+            </HBox.margin>
+         </Button>
+      </HBox>
+   </bottom>
 </fx:root>

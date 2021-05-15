@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class LeaderCardWidget extends AnchorPane {
     @FXML
@@ -48,8 +49,8 @@ public class LeaderCardWidget extends AnchorPane {
 
         lcVictoryPoints.textProperty().set(Integer.toString(leaderCard.getVictoryPoints()));
 
-        Image bgImage = new Image(getClass().getResourceAsStream(
-                "/images/leaders/" + leaderCard.getSpecialAbility().getType().toString().toLowerCase() + "Leader.png"),
+        Image bgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/images/leaders/" + leaderCard.getSpecialAbility().getType().toString().toLowerCase() + "Leader.png")),
                 195.0, 294.0, true, true); //production.png
         Background background = new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
@@ -66,7 +67,7 @@ public class LeaderCardWidget extends AnchorPane {
 
         VBox imageBox = new VBox();
         imageBox.setAlignment(Pos.CENTER);
-        ImageView image = new ImageView(new Image(getClass().getResourceAsStream("/images/" + imageName + ".png")));
+        ImageView image = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + imageName + ".png"))));
         image.setFitHeight(36.0);
         image.setFitWidth(23.0);
         image.setPreserveRatio(true);
@@ -81,9 +82,9 @@ public class LeaderCardWidget extends AnchorPane {
         List<ImageView> results = new ArrayList<>();
         switch (specialAbility.getType()) {
             case PRODUCTION -> {
-                ImageView input = new ImageView(new Image(image,33.0, 41.0, true, true));
-                input.setLayoutX(22);
-                input.setLayoutY(235);
+                ImageView input = new ImageView(new Image(image,30.0, 41.0, true, true));
+                input.setLayoutX(35);
+                input.setLayoutY(237);
                 results.add(input);
             }
             case DISCOUNT -> {

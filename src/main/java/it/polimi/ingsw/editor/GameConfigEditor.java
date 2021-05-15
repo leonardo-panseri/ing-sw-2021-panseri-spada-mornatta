@@ -6,7 +6,10 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class GameConfigEditor {
     private final Application app;
@@ -27,7 +30,6 @@ public class GameConfigEditor {
 
     public void start(Stage stage) throws Exception {
         homePage = FXMLUtils.loadFXML("/editor/Home");
-        editLeaderCardsPage = FXMLUtils.loadFXML("/editor/EditLeaderCards");
         editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
         editBaseProductionPage = FXMLUtils.loadFXML("/editor/EditBaseProduction");
         editFaithTrackPage = FXMLUtils.loadFXML("/editor/EditFaithTrack");
@@ -41,7 +43,12 @@ public class GameConfigEditor {
         scene.setRoot(homePage);
     }
 
-    public static void goToEditLeaderCards() {
+    public static void goToEditLeaderCards()  {
+        try{
+            editLeaderCardsPage = FXMLUtils.loadFXML("/editor/EditLeaderCards");
+        }catch (IOException e) {
+            System.out.println("Unable to load leader cards list");
+        }
         scene.setRoot(editLeaderCardsPage);
     }
 
@@ -63,6 +70,11 @@ public class GameConfigEditor {
 
     public static GameConfig getGameConfig() {
         return gameConfig;
+    }
+
+    public static void setSavable() {
+        VBox commandVBox = (VBox) homePage.getChildrenUnmodifiable().get(homePage.getChildrenUnmodifiable().size()-1);
+        commandVBox.getChildren().get(commandVBox.getChildren().size() - 1).setDisable(false);
     }
 
     public static TextFormatter<String> getNumberInputTextFormatter() {

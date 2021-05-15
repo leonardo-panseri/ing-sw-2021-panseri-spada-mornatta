@@ -1,14 +1,25 @@
+@font-face {
+    font-family: 'Girassol';
+    src: url('../../fonts/Girassol-Regular.ttf');
+}
+
 .home {
     -fx-pref-width: 700;
     -fx-pref-height: 500;
     -fx-min-width: 700;
     -fx-min-height: 500;
+    -fx-background-image: url("../../images/homebg.jpg");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 700 500;
 }
 .home .label {
     -fx-pref-width: inherit;
     -fx-pref-height: 62;
-    -fx-font-size: 24;
+    -fx-font-size: 40;
     -fx-alignment: center;
+    -fx-text-fill: saddlebrown;
+    -fx-font-family: 'Girassol', cursive;
 }
 .home .buttons-container {
     -fx-alignment: center;

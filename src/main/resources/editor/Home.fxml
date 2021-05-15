@@ -16,6 +16,7 @@
            <Button mnemonicParsing="false" text="Edit Development Cards" onAction="#goToEditDevelopmentCards" />
            <Button mnemonicParsing="false" text="Edit Base Production" onAction="#goToEditBaseProduction" />
            <Button mnemonicParsing="false" text="Edit Faith Track" onAction="#goToEditFaithTrack" />
+           <Button fx:id="saveButton" mnemonicParsing="false" text="Save Configuration" onAction="#saveConfig" />
        </VBox>
    </center>
 </BorderPane>

@@ -55,7 +55,7 @@ public class GameConfig implements Serializable {
         builder.addSerializationExclusionStrategy(new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-                return fieldAttributes.getDeclaringClass().getSuperclass() == Card.class
+                return fieldAttributes.getDeclaringClass() == Card.class
                         && fieldAttributes.getName().equals("uuid");
             }
 
@@ -91,5 +91,9 @@ public class GameConfig implements Serializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void modifyLeaderCard(LeaderCard oldCard, LeaderCard newCard) {
+        getLeaderCards().set(getLeaderCards().indexOf(oldCard), newCard);
     }
 }

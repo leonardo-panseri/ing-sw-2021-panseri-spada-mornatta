@@ -3,13 +3,11 @@ package it.polimi.ingsw.editor.controller;
 import it.polimi.ingsw.editor.FXMLUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.card.CardColor;
-import it.polimi.ingsw.model.card.SpecialAbilityType;
+import it.polimi.ingsw.model.card.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -33,10 +31,10 @@ public class EditLeaderCard extends BorderPane {
     public ChoiceBox<String> specialAbilityResource;
 
 
-    private final LeaderCardWidget leaderCardWidget;
-    private final Map<Resource, List<Node>> resourceRequirementsControls;
-    private final Map<CardColor, List<Node>> cardColorRequirementsControls;
-    private final Map<CardColor, List<Node>> cardLevelRequirementsControls;
+    private LeaderCardWidget leaderCardWidget;
+    private final Map<Resource, BorderPane> resourceRequirementsControls;
+    private final Map<CardColor, BorderPane> cardColorRequirementsControls;
+    private final Map<CardColor, BorderPane> cardLevelRequirementsControls;
 
     public EditLeaderCard(LeaderCardWidget leaderCardWidget) {
         this.leaderCardWidget = leaderCardWidget;
@@ -74,23 +72,80 @@ public class EditLeaderCard extends BorderPane {
         specialAbilityResource.getSelectionModel().select(leaderCardWidget.getLeaderCard().getSpecialAbility().getTargetResource().toString());
     }
 
+    @FXML
+    public void goToEditLeaderCards() {
+        GameConfigEditor.goToEditLeaderCards();
+    }
+
+    @FXML
+    public void saveLeaderCard() {
+        int victoryPoints = 0;
+        Map<Resource, Integer> resourceRequirements = new HashMap<>();
+        Map<CardColor, Integer> cardColorRequirements = new HashMap<>();
+        Map<CardColor, Integer> cardLevelRequirements = new HashMap<>();
+        SpecialAbilityType specialAbilityType;
+        Resource targetResource;
+
+        try {
+            victoryPoints = Integer.parseInt(this.victoryPoints.getText());
+        }catch (NumberFormatException ignored) {}
+
+        resourceRequirementsControls.forEach((resource, control) -> {
+            int quantity = saveQuantity(control);
+            if (quantity!=0) resourceRequirements.put(resource, quantity);
+        });
+
+        cardLevelRequirementsControls.forEach((color, control) -> {
+            int quantity = saveQuantity(control);
+            if (quantity!=0) cardLevelRequirements.put(color, quantity);
+        });
+
+        cardColorRequirementsControls.forEach((color, control) -> {
+            int quantity = saveQuantity(control);
+            if (quantity!=0) cardColorRequirements.put(color, quantity);
+        });
+
+        specialAbilityType = SpecialAbilityType.valueOf(this.specialAbilityType.getSelectionModel().getSelectedItem());
+        targetResource = Resource.valueOf(this.specialAbilityResource.getSelectionModel().getSelectedItem());
+
+        LeaderCardRequirement requirement = new LeaderCardRequirement(resourceRequirements, cardColorRequirements,
+                cardLevelRequirements);
+        SpecialAbility specialAbility = new SpecialAbility(specialAbilityType, targetResource);
+
+        LeaderCard modifiedCard = new LeaderCard(victoryPoints, requirement, specialAbility);
+        LeaderCardWidget modifiedWidget = new LeaderCardWidget(modifiedCard);
+
+        VBox box = new VBox(modifiedWidget);
+        VBox.setMargin(modifiedWidget, new Insets(0, 20, 0, 20));
+        box.setAlignment(Pos.CENTER);
+        setLeft(box);
+
+        GameConfigEditor.getGameConfig().modifyLeaderCard(leaderCardWidget.getLeaderCard(), modifiedCard);
+        GameConfigEditor.setSavable();
+
+        this.leaderCardWidget = modifiedWidget;
+    }
+
     private void constructRequirementsControls() {
         Map<Resource, Integer> resReq = leaderCardWidget.getLeaderCard().getCardRequirements().getResourceRequirements();
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
-            resourceRequirements.getChildren().add(
-                    buildRequirementControl(resource.toString(), resReq.getOrDefault(resource, -1)));
+            BorderPane control = buildRequirementControl(resource.toString(), resReq.getOrDefault(resource, -1));
+            resourceRequirements.getChildren().add(control);
+            resourceRequirementsControls.put(resource, control);
         });
 
         Map<CardColor, Integer> colorReq = leaderCardWidget.getLeaderCard().getCardRequirements().getCardColorRequirements();
         Arrays.stream(CardColor.values()).forEach(color -> {
-            cardColorRequirements.getChildren().add(
-                    buildRequirementControl(color.toString(), colorReq.getOrDefault(color, -1)));
+            BorderPane control = buildRequirementControl(color.toString(), colorReq.getOrDefault(color, -1));
+            cardColorRequirements.getChildren().add(control);
+            cardColorRequirementsControls.put(color, control);
         });
 
         Map<CardColor, Integer> levelReq = leaderCardWidget.getLeaderCard().getCardRequirements().getCardLevelRequirements();
         Arrays.stream(CardColor.values()).forEach(color -> {
-            cardLevelRequirements.getChildren().add(
-                    buildRequirementControl(color.toString(), levelReq.getOrDefault(color, -1)));
+            BorderPane control = buildRequirementControl(color.toString(), levelReq.getOrDefault(color, -1));
+            cardLevelRequirements.getChildren().add(control);
+            cardLevelRequirementsControls.put(color, control);
         });
     }
 
@@ -119,4 +174,17 @@ public class EditLeaderCard extends BorderPane {
         box.setRight(input);
         return box;
     }
+
+    private int saveQuantity(BorderPane control) {
+        int quantity = 0;
+        if (((CheckBox)control.getLeft()).isSelected()) {
+            TextField textField = (TextField) control.getRight();
+            try {
+                quantity = Integer.parseInt(textField.getText());
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return quantity;
+    }
+
 }
