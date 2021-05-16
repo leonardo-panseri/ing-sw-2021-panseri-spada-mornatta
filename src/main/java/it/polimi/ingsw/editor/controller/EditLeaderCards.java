@@ -1,7 +1,6 @@
 package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.editor.GameConfigEditor;
-import it.polimi.ingsw.model.card.LeaderCard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

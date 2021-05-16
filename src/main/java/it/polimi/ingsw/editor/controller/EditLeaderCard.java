@@ -1,6 +1,7 @@
 package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.editor.FXMLUtils;
+import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.*;
@@ -54,7 +55,7 @@ public class EditLeaderCard extends BorderPane {
 
         constructRequirementsControls();
 
-        victoryPoints.setTextFormatter(GameConfigEditor.getNumberInputTextFormatter());
+        victoryPoints.setTextFormatter(GUIUtils.getNumberInputTextFormatter());
         victoryPoints.setText("" + leaderCardWidget.getLeaderCard().getVictoryPoints());
 
         List<String> abilityTypes = new ArrayList<>();
@@ -88,20 +89,20 @@ public class EditLeaderCard extends BorderPane {
 
         try {
             victoryPoints = Integer.parseInt(this.victoryPoints.getText());
-        }catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {}
 
         resourceRequirementsControls.forEach((resource, control) -> {
-            int quantity = saveQuantity(control);
+            int quantity = GUIUtils.getSelectedQuantityForControl(control);
             if (quantity!=0) resourceRequirements.put(resource, quantity);
         });
 
         cardLevelRequirementsControls.forEach((color, control) -> {
-            int quantity = saveQuantity(control);
+            int quantity = GUIUtils.getSelectedQuantityForControl(control);
             if (quantity!=0) cardLevelRequirements.put(color, quantity);
         });
 
         cardColorRequirementsControls.forEach((color, control) -> {
-            int quantity = saveQuantity(control);
+            int quantity = GUIUtils.getSelectedQuantityForControl(control);
             if (quantity!=0) cardColorRequirements.put(color, quantity);
         });
 
@@ -129,62 +130,23 @@ public class EditLeaderCard extends BorderPane {
     private void constructRequirementsControls() {
         Map<Resource, Integer> resReq = leaderCardWidget.getLeaderCard().getCardRequirements().getResourceRequirements();
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
-            BorderPane control = buildRequirementControl(resource.toString(), resReq.getOrDefault(resource, -1));
+            BorderPane control = GUIUtils.buildControl(resource.toString(), resReq.getOrDefault(resource, -1));
             resourceRequirements.getChildren().add(control);
             resourceRequirementsControls.put(resource, control);
         });
 
         Map<CardColor, Integer> colorReq = leaderCardWidget.getLeaderCard().getCardRequirements().getCardColorRequirements();
         Arrays.stream(CardColor.values()).forEach(color -> {
-            BorderPane control = buildRequirementControl(color.toString(), colorReq.getOrDefault(color, -1));
+            BorderPane control = GUIUtils.buildControl(color.toString(), colorReq.getOrDefault(color, -1));
             cardColorRequirements.getChildren().add(control);
             cardColorRequirementsControls.put(color, control);
         });
 
         Map<CardColor, Integer> levelReq = leaderCardWidget.getLeaderCard().getCardRequirements().getCardLevelRequirements();
         Arrays.stream(CardColor.values()).forEach(color -> {
-            BorderPane control = buildRequirementControl(color.toString(), levelReq.getOrDefault(color, -1));
+            BorderPane control = GUIUtils.buildControl(color.toString(), levelReq.getOrDefault(color, -1));
             cardLevelRequirements.getChildren().add(control);
             cardLevelRequirementsControls.put(color, control);
         });
     }
-
-    private BorderPane buildRequirementControl(String name, int quantity) {
-        CheckBox checkBox = new CheckBox(name);
-        TextField input = new TextField();
-        input.setTextFormatter(GameConfigEditor.getNumberInputTextFormatter());
-        input.setPrefWidth(25);
-
-        checkBox.setOnAction(actionEvent -> {
-            input.setEditable(checkBox.isSelected());
-            if(!checkBox.isSelected()) input.setText("" + 0);
-        });
-
-        if(quantity != -1) {
-            checkBox.setSelected(true);
-            input.setText("" + quantity);
-        } else {
-            input.setEditable(false);
-            input.setText("" + 0);
-        }
-
-        BorderPane box = new BorderPane();
-        box.setPrefWidth(70);
-        box.setLeft(checkBox);
-        box.setRight(input);
-        return box;
-    }
-
-    private int saveQuantity(BorderPane control) {
-        int quantity = 0;
-        if (((CheckBox)control.getLeft()).isSelected()) {
-            TextField textField = (TextField) control.getRight();
-            try {
-                quantity = Integer.parseInt(textField.getText());
-            } catch (NumberFormatException ignored) {
-            }
-        }
-        return quantity;
-    }
-
 }

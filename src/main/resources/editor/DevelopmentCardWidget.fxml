@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<fx:root fx:id="developmentCardPane" prefHeight="294.0" prefWidth="195.0" styleClass="development-card"
+         stylesheets="@css/style.css" type="AnchorPane" xmlns="http://javafx.com/javafx/16"
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.editor.controller.DevelopmentCardWidget">
+    <FlowPane fx:id="cost" alignment="CENTER" layoutX="56.0" layoutY="9.0" prefHeight="39.0" prefWidth="81.0"/>
+    <VBox fx:id="input" alignment="CENTER" layoutX="27.0" layoutY="155.0" prefHeight="73.0" prefWidth="51.0"/>
+    <VBox fx:id="output" alignment="CENTER" layoutX="109.0" layoutY="153.0" prefHeight="73.0" prefWidth="51.0"/>
+    <Label fx:id="victoryPoints" alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="253.0" prefHeight="17.0" prefWidth="17.0"
+           text="10"/>
+</fx:root>

@@ -6,8 +6,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<VBox fx:id="developmentCardsContainer" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label text="Edit DC" />
-</AnchorPane>
+            prefHeight="400.0" prefWidth="600.0" fx:controller="it.polimi.ingsw.editor.controller.EditDevelopmentCards">
+    <Button mnemonicParsing="false" text="Back To Home" onAction="#goToHome"/>
+</VBox>

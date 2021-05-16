@@ -1,11 +1,11 @@
 package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.editor.FXMLUtils;
+import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.LeaderCardRequirement;
 import it.polimi.ingsw.model.card.SpecialAbility;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +26,6 @@ public class LeaderCardWidget extends AnchorPane {
 
     private final LeaderCard leaderCard;
 
-
     public LeaderCardWidget(LeaderCard leaderCard) {
         this.leaderCard = leaderCard;
 
@@ -41,11 +40,11 @@ public class LeaderCardWidget extends AnchorPane {
     private void initialize() {
         LeaderCardRequirement requirements = leaderCard.getCardRequirements();
         requirements.getResourceRequirements().forEach((resource, quantity) ->
-                lcRequirements.getChildren().add(buildRequirement("resources/" + resource.toString(), quantity))); //stone.png
+                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString(), quantity))); //stone.png
         requirements.getCardColorRequirements().forEach((color, quantity) ->
-                lcRequirements.getChildren().add(buildRequirement("leaders/flags/" + color.toString(), quantity))); //blue.png
+                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("leaders/flags/" + color.toString(), quantity))); //blue.png
         requirements.getCardLevelRequirements().forEach((color, level) ->
-                lcRequirements.getChildren().add(buildRequirement("leaders/flags/" + color.toString() + level, 1))); //red1.png
+                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("leaders/flags/" + color.toString() + level, 1))); //red1.png
 
         lcVictoryPoints.textProperty().set(Integer.toString(leaderCard.getVictoryPoints()));
 
@@ -58,22 +57,6 @@ public class LeaderCardWidget extends AnchorPane {
         leaderPane.setBackground(background);
         List<ImageView> specialAbility = buildSpecialAbility(leaderCard.getSpecialAbility());
         leaderPane.getChildren().addAll(specialAbility);
-    }
-
-    private HBox buildRequirement(String imageName, int quantity) {
-        HBox box = new HBox();
-        box.getStyleClass().add("hbox");
-        box.getChildren().add(new Label("" + quantity));
-
-        VBox imageBox = new VBox();
-        imageBox.setAlignment(Pos.CENTER);
-        ImageView image = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + imageName + ".png"))));
-        image.setFitHeight(36.0);
-        image.setFitWidth(23.0);
-        image.setPreserveRatio(true);
-        imageBox.getChildren().add(image);
-        box.getChildren().add(imageBox);
-        return box;
     }
 
     private List<ImageView> buildSpecialAbility(SpecialAbility specialAbility) {

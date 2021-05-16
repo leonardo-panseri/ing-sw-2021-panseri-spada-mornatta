@@ -6,8 +6,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label text="Edit BP" />
-</AnchorPane>
+<?import javafx.geometry.Insets?>
+<fx:root type="BorderPane" fx:controller="it.polimi.ingsw.editor.controller.EditBaseProduction" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <Button mnemonicParsing="false" text="Back To Home" onAction="#goToHome"/>
+    </top>
+    <left>
+        <VBox alignment="CENTER" fx:id="baseProductionDisplay"/>
+    </left>
+    <center>
+        <VBox alignment="CENTER">
+            <HBox spacing="20.0" prefHeight="100.0" prefWidth="200.0">
+                <VBox fx:id="inputResources" prefHeight="200.0" prefWidth="100.0">
+                    <Label text="Input Resources"/>
+                </VBox>
+                <VBox fx:id="outputResources" prefHeight="200.0" prefWidth="100.0">
+                    <Label text="Output Resources"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT">
+            <Button mnemonicParsing="false" text="SAVE" onAction="#saveBaseProduction">
+                <HBox.margin>
+                    <Insets right="20.0" bottom="20.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </bottom>
+</fx:root>

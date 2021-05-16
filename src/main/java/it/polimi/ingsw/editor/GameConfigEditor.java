@@ -1,5 +1,6 @@
 package it.polimi.ingsw.editor;
 
+import it.polimi.ingsw.editor.controller.EditBaseProduction;
 import it.polimi.ingsw.editor.controller.EditLeaderCard;
 import it.polimi.ingsw.server.GameConfig;
 import javafx.application.Application;
@@ -32,7 +33,6 @@ public class GameConfigEditor {
     public void start(Stage stage) throws Exception {
         homePage = FXMLUtils.loadFXML("/editor/Home");
         editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
-        editBaseProductionPage = FXMLUtils.loadFXML("/editor/EditBaseProduction");
         editFaithTrackPage = FXMLUtils.loadFXML("/editor/EditFaithTrack");
 
         Font.loadFont(getClass().getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
@@ -47,10 +47,10 @@ public class GameConfigEditor {
     }
 
     public static void goToEditLeaderCards()  {
-        try{
+        try {
             editLeaderCardsPage = FXMLUtils.loadFXML("/editor/EditLeaderCards");
-        }catch (IOException e) {
-            System.out.println("Unable to load leader cards list");
+        } catch (IOException e) {
+            System.err.println("Unable to load leader cards list");
         }
         scene.setRoot(editLeaderCardsPage);
     }
@@ -60,6 +60,7 @@ public class GameConfigEditor {
     }
 
     public static void goToEditBaseProduction() {
+        editBaseProductionPage = new EditBaseProduction();
         scene.setRoot(editBaseProductionPage);
     }
 
@@ -78,15 +79,5 @@ public class GameConfigEditor {
     public static void setSavable() {
         VBox commandVBox = (VBox) homePage.getChildrenUnmodifiable().get(homePage.getChildrenUnmodifiable().size()-1);
         commandVBox.getChildren().get(commandVBox.getChildren().size() - 1).setDisable(false);
-    }
-
-    public static TextFormatter<String> getNumberInputTextFormatter() {
-        return new TextFormatter<>(change -> {
-            String text = change.getText();
-            if (text.matches("[0-9]*")) {
-                return change;
-            }
-            return null;
-        });
     }
 }
