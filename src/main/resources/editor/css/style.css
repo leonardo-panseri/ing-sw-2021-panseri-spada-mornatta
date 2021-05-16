@@ -1,8 +1,3 @@
-@font-face {
-    font-family: 'Girassol';
-    src: url('../../fonts/Girassol-Regular.ttf');
-}
-
 .home {
     -fx-pref-width: 700;
     -fx-pref-height: 500;

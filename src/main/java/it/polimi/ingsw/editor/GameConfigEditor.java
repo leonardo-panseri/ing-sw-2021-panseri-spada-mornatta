@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class GameConfigEditor {
         editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
         editBaseProductionPage = FXMLUtils.loadFXML("/editor/EditBaseProduction");
         editFaithTrackPage = FXMLUtils.loadFXML("/editor/EditFaithTrack");
+
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
 
         scene = new Scene(homePage);
         stage.setScene(scene);
