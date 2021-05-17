@@ -10,8 +10,6 @@ import javafx.scene.layout.*;
 
 public class DevelopmentCardWidget extends AnchorPane {
     @FXML
-    public AnchorPane developmentCardPane;
-    @FXML
     public FlowPane cost;
     @FXML
     public VBox input;

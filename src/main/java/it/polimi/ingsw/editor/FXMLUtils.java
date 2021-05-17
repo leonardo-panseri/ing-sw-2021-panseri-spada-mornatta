@@ -16,7 +16,7 @@ public class FXMLUtils {
         try {
             loader.load();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

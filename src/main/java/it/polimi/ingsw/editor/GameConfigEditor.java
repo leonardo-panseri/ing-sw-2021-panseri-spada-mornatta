@@ -1,6 +1,7 @@
 package it.polimi.ingsw.editor;
 
 import it.polimi.ingsw.editor.controller.EditBaseProduction;
+import it.polimi.ingsw.editor.controller.EditDevelopmentCard;
 import it.polimi.ingsw.editor.controller.EditLeaderCard;
 import it.polimi.ingsw.server.GameConfig;
 import javafx.application.Application;
@@ -74,6 +75,10 @@ public class GameConfigEditor {
 
     public static void goToEditLeaderCard(EditLeaderCard editLeaderCard) {
         scene.setRoot(editLeaderCard);
+    }
+
+    public static void goToEditDevelopmentCard(EditDevelopmentCard editDevelopmentCard) {
+        scene.setRoot(editDevelopmentCard);
     }
 
     public static GameConfig getGameConfig() {

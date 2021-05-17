@@ -38,6 +38,9 @@ public class EditDevelopmentCards {
                 ListView<DevelopmentCardWidget> devCardView = new ListView<>(FXCollections.observableList(cards));
                 devCardView.getStyleClass().add("dev-cards-list");
                 devCardView.setOrientation(Orientation.HORIZONTAL);
+                devCardView.setOnMouseClicked(mouseEvent ->
+                        goToDevelopmentCardEdit(devCardView.getSelectionModel().getSelectedItem()));
+
                 TitledPane colorPane = new TitledPane(color.toString(), devCardView);
                 colorsAccordion.getPanes().add(colorPane);
                 colorsAccordion.getStyleClass().add("dev-cards-colors");
@@ -46,8 +49,11 @@ public class EditDevelopmentCards {
             TitledPane levelPane = new TitledPane("Level " + (i+1), colorsAccordion);
             levelsAccordion.getPanes().add(levelPane);
         }
+    }
 
-
+    private void goToDevelopmentCardEdit(DevelopmentCardWidget widget) {
+        EditDevelopmentCard edit = new EditDevelopmentCard(widget);
+        GameConfigEditor.goToEditDevelopmentCard(edit);
     }
 
     @FXML

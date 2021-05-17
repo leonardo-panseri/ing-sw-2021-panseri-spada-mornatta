@@ -94,10 +94,17 @@ public class GameConfig implements Serializable {
     }
 
     public void modifyLeaderCard(LeaderCard oldCard, LeaderCard newCard) {
-        getLeaderCards().set(getLeaderCards().indexOf(oldCard), newCard);
+        leaderCards.set(getLeaderCards().indexOf(oldCard), newCard);
     }
 
     public void modifyBaseProduction(BaseProductionPower modifiedBaseProduction) {
         baseProductionPower = modifiedBaseProduction;
+    }
+
+    public void modifyDevelopmentCard(DevelopmentCard oldCard, DevelopmentCard newCard) {
+        int level = oldCard.getLevel();
+        CardColor color = oldCard.getColor();
+        Stack<DevelopmentCard> pile = developmentCards.get(level - 1).get(color);
+        pile.set(pile.indexOf(oldCard), newCard);
     }
 }

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<fx:root fx:id="leaderPane" styleClass="leader-card" stylesheets="@css/style.css" type="AnchorPane"
+<fx:root styleClass="leader-card" stylesheets="@css/style.css" type="AnchorPane"
          prefHeight="294.0" prefWidth="195.0"
          fx:controller="it.polimi.ingsw.editor.controller.LeaderCardWidget"
          xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
