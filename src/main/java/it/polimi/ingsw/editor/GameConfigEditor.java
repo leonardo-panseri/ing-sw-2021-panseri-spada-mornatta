@@ -32,7 +32,6 @@ public class GameConfigEditor {
 
     public void start(Stage stage) throws Exception {
         homePage = FXMLUtils.loadFXML("/editor/Home");
-        editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
         editFaithTrackPage = FXMLUtils.loadFXML("/editor/EditFaithTrack");
 
         Font.loadFont(getClass().getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
@@ -56,6 +55,11 @@ public class GameConfigEditor {
     }
 
     public static void goToEditDevelopmentCards() {
+        try {
+            editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
+        } catch (IOException e) {
+            System.err.println("Unable to load leader cards list");
+        }
         scene.setRoot(editDevelopmentCardsPage);
     }
 
