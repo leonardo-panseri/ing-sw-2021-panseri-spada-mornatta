@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.GameConfig;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -39,6 +38,7 @@ public class GameConfigEditor {
 
         scene = new Scene(homePage);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

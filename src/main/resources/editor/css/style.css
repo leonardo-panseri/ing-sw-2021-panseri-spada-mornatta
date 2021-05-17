@@ -16,6 +16,12 @@
     -fx-text-fill: saddlebrown;
     -fx-font-family: 'Girassol', cursive;
 }
+
+.home .label .text {
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+}
+
 .home .buttons-container {
     -fx-alignment: center;
     -fx-spacing: 40;

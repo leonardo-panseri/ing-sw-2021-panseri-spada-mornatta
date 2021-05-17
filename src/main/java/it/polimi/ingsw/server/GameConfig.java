@@ -97,6 +97,14 @@ public class GameConfig implements Serializable {
         getLeaderCards().set(getLeaderCards().indexOf(oldCard), newCard);
     }
 
+    public void addNewLeaderCard(LeaderCard card) {
+        getLeaderCards().add(card);
+    }
+
+    public void deleteLeaderCard(LeaderCard card) {
+        getLeaderCards().remove(card);
+    }
+
     public void modifyBaseProduction(BaseProductionPower modifiedBaseProduction) {
         baseProductionPower = modifiedBaseProduction;
     }

@@ -9,11 +9,12 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -59,16 +60,12 @@ public class EditLeaderCard extends BorderPane {
         victoryPoints.setText("" + leaderCardWidget.getLeaderCard().getVictoryPoints());
 
         List<String> abilityTypes = new ArrayList<>();
-        Arrays.stream(SpecialAbilityType.values()).forEach(type -> {
-            abilityTypes.add(type.toString());
-        });
+        Arrays.stream(SpecialAbilityType.values()).forEach(type -> abilityTypes.add(type.toString()));
         specialAbilityType.setItems(FXCollections.observableList(abilityTypes));
         specialAbilityType.getSelectionModel().select(leaderCardWidget.getLeaderCard().getSpecialAbility().getType().toString());
 
         List<String> abilityResources = new ArrayList<>();
-        Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
-            abilityResources.add(resource.toString());
-        });
+        Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> abilityResources.add(resource.toString()));
         specialAbilityResource.setItems(FXCollections.observableList(abilityResources));
         specialAbilityResource.getSelectionModel().select(leaderCardWidget.getLeaderCard().getSpecialAbility().getTargetResource().toString());
     }
@@ -125,6 +122,27 @@ public class EditLeaderCard extends BorderPane {
         GameConfigEditor.setSavable();
 
         this.leaderCardWidget = modifiedWidget;
+    }
+
+    @FXML
+    public void deleteLeaderCard() {
+        Stage dialog = new Stage();
+
+        dialog.initOwner(getScene().getWindow());
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setResizable(false);
+        dialog.setHeight(300);
+        dialog.setWidth(400);
+
+        Scene scene = new Scene(new DeleteLeaderCard(this));
+        dialog.setScene(scene);
+        dialog.showAndWait();
+
+        goToEditLeaderCards();
+    }
+
+    public LeaderCardWidget getLeaderCardWidget() {
+        return leaderCardWidget;
     }
 
     private void constructRequirementsControls() {

@@ -13,7 +13,14 @@
 <?import javafx.scene.control.Button?>
 <fx:root type="BorderPane" prefHeight="500.0" prefWidth="700.0" fx:controller="it.polimi.ingsw.editor.controller.EditLeaderCard" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Button mnemonicParsing="false" text="Back To List" onAction="#goToEditLeaderCards"/>
+      <BorderPane>
+         <left>
+            <Button mnemonicParsing="false" text="Back To List" onAction="#goToEditLeaderCards"/>
+         </left>
+         <right>
+            <Button mnemonicParsing="false" text="Delete Leader" onAction="#deleteLeaderCard"/>
+         </right>
+      </BorderPane>
    </top>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
