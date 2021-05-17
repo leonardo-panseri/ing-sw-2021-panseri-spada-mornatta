@@ -61,3 +61,7 @@
 .dev-cards-colors {
     -fx-padding: 0 0 0 20;
 }
+
+.edit-faith-track .faith-track {
+    -fx-padding: 20 0 20 0;
+}
