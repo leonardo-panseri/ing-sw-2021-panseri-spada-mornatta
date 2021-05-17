@@ -18,8 +18,6 @@ import java.util.Objects;
 
 public class LeaderCardWidget extends AnchorPane {
     @FXML
-    public AnchorPane leaderPane;
-    @FXML
     public FlowPane lcRequirements;
     @FXML
     public Label lcVictoryPoints;
@@ -54,9 +52,9 @@ public class LeaderCardWidget extends AnchorPane {
         Background background = new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT));
-        leaderPane.setBackground(background);
+        setBackground(background);
         List<ImageView> specialAbility = buildSpecialAbility(leaderCard.getSpecialAbility());
-        leaderPane.getChildren().addAll(specialAbility);
+        getChildren().addAll(specialAbility);
     }
 
     private List<ImageView> buildSpecialAbility(SpecialAbility specialAbility) {

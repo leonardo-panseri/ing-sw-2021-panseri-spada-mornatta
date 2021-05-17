@@ -37,7 +37,7 @@ public class DevelopmentCard extends Card {
      * @param productionOutput a map of resources produced by the production power
      * @param color the color of the card
      */
-    DevelopmentCard(int victoryPoints, Map<Resource, Integer> cost, int level, Map<Resource, Integer> productionInput,
+    public DevelopmentCard(int victoryPoints, Map<Resource, Integer> cost, int level, Map<Resource, Integer> productionInput,
                            Map<Resource, Integer> productionOutput, CardColor color) {
         super(victoryPoints);
         this.cost = cost;

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="developmentCardsContainer" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0" fx:controller="it.polimi.ingsw.editor.controller.EditDevelopmentCards">
-    <Button mnemonicParsing="false" text="Back To Home" onAction="#goToHome"/>
+<VBox fx:id="developmentCardsContainer" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.editor.controller.EditDevelopmentCards">
+    <Button mnemonicParsing="false" onAction="#goToHome" text="Back To Home" />
+   <Accordion fx:id="levelsAccordion" />
 </VBox>
