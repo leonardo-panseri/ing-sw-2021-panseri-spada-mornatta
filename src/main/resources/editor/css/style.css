@@ -53,3 +53,7 @@
     -fx-background-image: url("../../images/devCards/blue1.png");
     -fx-background-size: 195 294;
 }
+
+.edit-faith-track .faith-track {
+    -fx-padding: 20 0 20 0;
+}
