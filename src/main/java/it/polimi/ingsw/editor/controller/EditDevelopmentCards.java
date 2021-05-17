@@ -52,6 +52,9 @@ public class EditDevelopmentCards {
     }
 
     private void goToDevelopmentCardEdit(DevelopmentCardWidget widget) {
+        if(widget == null)
+            return;
+
         EditDevelopmentCard edit = new EditDevelopmentCard(widget);
         GameConfigEditor.goToEditDevelopmentCard(edit);
     }

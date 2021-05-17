@@ -70,6 +70,9 @@ public class EditLeaderCards {
     }
 
     private void goToLeaderCardEdit(LeaderCardWidget leaderCardWidget) {
+        if(leaderCardWidget == null)
+            return;
+
         EditLeaderCard editLeaderCard = new EditLeaderCard(leaderCardWidget);
         GameConfigEditor.goToEditLeaderCard(editLeaderCard);
     }
