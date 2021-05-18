@@ -28,6 +28,7 @@ public class EditFaithTrack {
         this.popeReportsControls = new HashMap<>();
     }
 
+
     @FXML
     private void initialize() {
         Map<Integer, Integer> victoryPoints = GameConfigEditor.getGameConfig().getFaithTrackPoints();
