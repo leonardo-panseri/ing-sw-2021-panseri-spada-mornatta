@@ -119,7 +119,7 @@ public class EditLeaderCard extends BorderPane {
         setLeft(box);
 
         GameConfigEditor.getGameConfig().modifyLeaderCard(leaderCardWidget.getLeaderCard(), modifiedCard);
-        GameConfigEditor.setSavable();
+        GameConfigEditor.setSavable(true);
 
         this.leaderCardWidget = modifiedWidget;
     }

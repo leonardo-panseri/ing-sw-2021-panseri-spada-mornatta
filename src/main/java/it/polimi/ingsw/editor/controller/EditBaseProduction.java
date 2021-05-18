@@ -90,7 +90,7 @@ public class EditBaseProduction extends BorderPane {
         VBox.setMargin(modifiedWidget, new Insets(0, 20, 0, 20));
 
         GameConfigEditor.getGameConfig().modifyBaseProduction(modifiedBaseProduction);
-        GameConfigEditor.setSavable();
+        GameConfigEditor.setSavable(true);
 
         this.baseProductionWidget = modifiedWidget;
     }

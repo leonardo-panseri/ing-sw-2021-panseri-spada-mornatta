@@ -85,8 +85,8 @@ public class GameConfigEditor {
         return gameConfig;
     }
 
-    public static void setSavable() {
+    public static void setSavable(boolean savable) {
         VBox commandVBox = (VBox) homePage.getChildrenUnmodifiable().get(homePage.getChildrenUnmodifiable().size()-1);
-        commandVBox.getChildren().get(commandVBox.getChildren().size() - 1).setDisable(false);
+        commandVBox.getChildren().get(commandVBox.getChildren().size() - 1).setDisable(!savable);
     }
 }

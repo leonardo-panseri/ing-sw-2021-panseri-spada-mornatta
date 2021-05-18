@@ -51,7 +51,10 @@ public class Home {
             alert.setContentText("Ooops, unable to save custom configuration!");
 
             alert.showAndWait();
+            return;
         }
+
+        GameConfigEditor.setSavable(false);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");

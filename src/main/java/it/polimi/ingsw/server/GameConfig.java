@@ -115,4 +115,9 @@ public class GameConfig implements Serializable {
         Stack<DevelopmentCard> pile = developmentCards.get(level - 1).get(color);
         pile.set(pile.indexOf(oldCard), newCard);
     }
+
+    public void modifyFaithTrack(Map<Integer, List<Integer>> newPopeReports, Map<Integer, Integer> newVictoryPoints) {
+        popeReports = newPopeReports;
+        faithTrackPoints = newVictoryPoints;
+    }
 }

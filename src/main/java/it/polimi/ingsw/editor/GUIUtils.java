@@ -18,7 +18,7 @@ public class GUIUtils {
         CheckBox checkBox = new CheckBox(name);
         TextField input = new TextField();
         input.setTextFormatter(getNumberInputTextFormatter());
-        input.setPrefWidth(25);
+        input.setPrefWidth(30);
 
         checkBox.setOnAction(actionEvent -> {
             input.setEditable(checkBox.isSelected());
@@ -46,8 +46,7 @@ public class GUIUtils {
             TextField textField = (TextField) control.getRight();
             try {
                 quantity = Integer.parseInt(textField.getText());
-            } catch (NumberFormatException ignored) {
-            }
+            } catch (NumberFormatException ignored) {}
         }
         return quantity;
     }
@@ -59,7 +58,7 @@ public class GUIUtils {
 
         VBox imageBox = new VBox();
         imageBox.setAlignment(Pos.CENTER);
-        ImageView image = new ImageView(new Image(GUIUtils.class.getResourceAsStream("/images/" + imageName + ".png")));
+        ImageView image = new ImageView(new Image(Objects.requireNonNull(GUIUtils.class.getResourceAsStream("/images/" + imageName + ".png"))));
         image.setFitHeight(36.0);
         image.setFitWidth(23.0);
         image.setPreserveRatio(true);

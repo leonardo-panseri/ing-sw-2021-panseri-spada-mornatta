@@ -105,7 +105,7 @@ public class EditDevelopmentCard extends BorderPane {
         devCardDisplay.getChildren().setAll(modifiedWidget);
 
         GameConfigEditor.getGameConfig().modifyDevelopmentCard(oldCard, modifiedCard);
-        GameConfigEditor.setSavable();
+        GameConfigEditor.setSavable(true);
 
         this.developmentCardWidget = modifiedWidget;
         VBox.setMargin(developmentCardWidget, new Insets(0, 20, 0, 20));
