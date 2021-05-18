@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,6 +61,12 @@ public class LeaderCardWidget extends AnchorPane {
     private List<ImageView> buildSpecialAbility(SpecialAbility specialAbility) {
         String resource = specialAbility.getTargetResource().toString().toLowerCase();
         InputStream image = getClass().getResourceAsStream("/images/resources/" + resource + ".png");
+
+        if(image == null) {
+            System.err.println("Can't find image for " + resource);
+            return Collections.emptyList();
+        }
+
         List<ImageView> results = new ArrayList<>();
         switch (specialAbility.getType()) {
             case PRODUCTION -> {

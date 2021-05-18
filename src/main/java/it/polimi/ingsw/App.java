@@ -32,7 +32,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         if(startEditor) {
-            GameConfigEditor editor = new GameConfigEditor(this);
+            GameConfigEditor editor = new GameConfigEditor();
             editor.start(stage);
             return;
         }

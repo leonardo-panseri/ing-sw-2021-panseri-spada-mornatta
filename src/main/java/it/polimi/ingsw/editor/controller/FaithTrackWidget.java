@@ -1,15 +1,11 @@
 package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.editor.FXMLUtils;
-import it.polimi.ingsw.editor.GUIUtils;
-import it.polimi.ingsw.editor.GameConfigEditor;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import it.polimi.ingsw.model.Game;
 
 import java.util.List;
 import java.util.Map;
@@ -25,14 +21,6 @@ public class FaithTrackWidget extends GridPane {
         this.faithTrackPoints = faithTrackPoints;
         this.popeReports = popeReports;
         FXMLUtils.loadFXML(this);
-    }
-
-    public Map<Integer, List<Integer>> getPopeReports() {
-        return popeReports;
-    }
-
-    public Map<Integer, Integer> getFaithTrackPoints() {
-        return faithTrackPoints;
     }
 
     @FXML

@@ -4,7 +4,6 @@ import it.polimi.ingsw.editor.controller.EditBaseProduction;
 import it.polimi.ingsw.editor.controller.EditDevelopmentCard;
 import it.polimi.ingsw.editor.controller.EditLeaderCard;
 import it.polimi.ingsw.server.GameConfig;
-import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -14,19 +13,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GameConfigEditor {
-    private final Application app;
     private static Scene scene;
 
     private static Parent homePage;
     private static Parent editLeaderCardsPage;
     private static Parent editDevelopmentCardsPage;
-    private static Parent editBaseProductionPage;
     private static Parent editFaithTrackPage;
 
     private static GameConfig gameConfig;
 
-    public GameConfigEditor(Application app) {
-        this.app = app;
+    public GameConfigEditor() {
         gameConfig = GameConfig.loadDefaultGameConfig();
     }
 
@@ -65,7 +61,7 @@ public class GameConfigEditor {
     }
 
     public static void goToEditBaseProduction() {
-        editBaseProductionPage = new EditBaseProduction();
+        Parent editBaseProductionPage = new EditBaseProduction();
         scene.setRoot(editBaseProductionPage);
     }
 

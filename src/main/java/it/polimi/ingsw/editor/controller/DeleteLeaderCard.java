@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 
 public class DeleteLeaderCard extends VBox {
 
-    EditLeaderCard cardEditor;
+    private final EditLeaderCard cardEditor;
 
     public DeleteLeaderCard(EditLeaderCard cardEditor) {
         this.cardEditor = cardEditor;

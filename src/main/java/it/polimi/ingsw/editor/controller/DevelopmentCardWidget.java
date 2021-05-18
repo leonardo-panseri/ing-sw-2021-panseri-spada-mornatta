@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
+import java.util.Objects;
+
 public class DevelopmentCardWidget extends AnchorPane {
     @FXML
     public FlowPane cost;
@@ -42,8 +44,8 @@ public class DevelopmentCardWidget extends AnchorPane {
 
         victoryPoints.textProperty().set(Integer.toString(developmentCard.getVictoryPoints()));
 
-        Image bgImage = new Image(getClass().getResourceAsStream(
-                "/images/devCards/" + developmentCard.getColor().toString().toLowerCase() + developmentCard.getLevel() + ".png"),
+        Image bgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/images/devCards/" + developmentCard.getColor().toString().toLowerCase() + developmentCard.getLevel() + ".png")),
                 195.0, 294.0, true, true);
         Background background = new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,

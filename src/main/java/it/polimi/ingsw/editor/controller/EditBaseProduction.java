@@ -4,7 +4,6 @@ import it.polimi.ingsw.editor.FXMLUtils;
 import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.BaseProductionPower;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
