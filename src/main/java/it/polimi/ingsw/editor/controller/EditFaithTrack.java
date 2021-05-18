@@ -13,6 +13,7 @@ public class EditFaithTrack {
     @FXML
     public HBox box;
 
+
     @FXML
     private void initialize() {
         FaithTrackWidget faithTrackWidget = new FaithTrackWidget(GameConfigEditor.getGameConfig().getPopeReports(),

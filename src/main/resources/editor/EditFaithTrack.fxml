@@ -9,5 +9,6 @@
 <AnchorPane xmlns="http://javafx.com/javafx"  fx:controller="it.polimi.ingsw.editor.controller.EditFaithTrack"
             xmlns:fx="http://javafx.com/fxml" fx:id="pane" styleClass="edit-faith-track" stylesheets="@css/style.css"
             prefHeight="400.0" prefWidth="700.0" >
+
     <HBox fx:id="box" alignment="CENTER" prefWidth="700.0" />
 </AnchorPane>
