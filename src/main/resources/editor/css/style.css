@@ -67,9 +67,9 @@
 }
 
 .special-tile .text {
-    -fx-fill: #0044ef;
+    -fx-font-size: 20;
     -fx-stroke: black;
-    -fx-stroke-width: 0.3;
+    -fx-stroke-width: 0.8;
 }
 
 .in-range {
@@ -83,6 +83,14 @@
 .last-in-range{
     -fx-border-color: #0044EFFF;
     -fx-border-width: 1 0 1 1;
+    -fx-border-style: solid;
+    -fx-border-radius: 0 0;
+    -fx-border-insets: 0 0 0 0 0;
+}
+
+.first-in-range{
+    -fx-border-color: #0044EFFF;
+    -fx-border-width: 1 1 1 0;
     -fx-border-style: solid;
     -fx-border-radius: 0 0;
     -fx-border-insets: 0 0 0 0 0;
