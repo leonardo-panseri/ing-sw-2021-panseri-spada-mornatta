@@ -51,7 +51,7 @@ public class FaithTrackWidget extends GridPane {
                                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
         Image goldenPopeTile = new Image(Objects.requireNonNull(getClass().
-                getResourceAsStream("/images/faithTrack/goldenPopeTile.png")), 25, 25, false, false);
+                getResourceAsStream("/images/faithTrack/goldenPopeTile.png")), 25, 38, false, false);
         Background backgroundGoldenPopeTile = new Background(
                 new BackgroundImage(goldenPopeTile, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
@@ -76,15 +76,19 @@ public class FaithTrackWidget extends GridPane {
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
         for (int i = 0; i < 25; i++) {
-            HBox box = new HBox();
+            VBox box = new VBox();
             box.setPrefWidth(25);
-            box.setPrefHeight(25);
             box.setAlignment(Pos.CENTER);
             String labelText = "";
+            String additionalLabelText = "";
             String labelClass = "";
             String boxClass = "";
+
             if (faithTrackPoints.containsKey(i) && popeReports.containsKey(i)) {
                 box.setBackground(backgroundGoldenPopeTile);
+                labelText = faithTrackPoints.get(i).toString();
+                additionalLabelText = popeReports.get(i).get(0).toString();
+                labelClass = "special-tile";
             } else if (faithTrackPoints.containsKey(i)) {
                 box.setBackground(backgroundGoldenTile);
                 labelText = faithTrackPoints.get(i).toString();
@@ -99,11 +103,14 @@ public class FaithTrackWidget extends GridPane {
                 box.setBackground(backgroundBasicTile);
                 labelText = "" + i;
             }
+
             int rangeResult = isInRange(i);
             if (rangeResult == 0) {
                 boxClass = "last-in-range";
             } else if (rangeResult == 1) {
                 boxClass = "in-range";
+            } else if (rangeResult == 2) {
+                boxClass = "first-in-range";
             }
 
             if (i != 0) {
@@ -111,6 +118,13 @@ public class FaithTrackWidget extends GridPane {
                 if (!labelClass.isBlank())
                     label.getStyleClass().add(labelClass);
                 box.getChildren().add(label);
+
+                if (!additionalLabelText.isBlank()) {
+                    Label additionalLabel = new Label(labelText);
+                    if (!labelClass.isBlank())
+                        additionalLabel.getStyleClass().add(labelClass);
+                    box.getChildren().add(additionalLabel);
+                }
                 box.getStyleClass().add(boxClass);
             }
             addColumn(i, box);
@@ -123,6 +137,7 @@ public class FaithTrackWidget extends GridPane {
             int range = popeReports.get(popeReport).get(1);
             for (int i = popeReport; i > popeReport - range; i--) {
                 if (index == i) {
+                    if (i == popeReport) return 2;
                     if (i == popeReport - range + 1) return 0;
                     else return 1;
                 }
