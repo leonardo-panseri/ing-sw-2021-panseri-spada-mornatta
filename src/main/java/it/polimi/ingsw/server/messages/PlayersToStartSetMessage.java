@@ -12,17 +12,21 @@ public class PlayersToStartSetMessage extends DirectServerMessage {
     @Serial
     private static final long serialVersionUID = -4320604017996942648L;
 
+    private final int playersToStart;
+
     /**
      * Constructs a new PlayersToStartSetMessage.
      *
      * @param recipient the client to send this message to
+     * @param playersToStart number that has been set
      */
-    public PlayersToStartSetMessage(SocketClientConnection recipient) {
+    public PlayersToStartSetMessage(SocketClientConnection recipient, int playersToStart) {
         super(recipient);
+        this.playersToStart = playersToStart;
     }
 
     @Override
     public void process(View view) {
-        view.handleSetPlayersToStart();
+        view.handleSetPlayersToStart(playersToStart);
     }
 }

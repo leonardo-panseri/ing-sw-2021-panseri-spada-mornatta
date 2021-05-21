@@ -11,15 +11,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class GameConfigEditor {
     private static Scene scene;
 
     private static Parent homePage;
-    private static Parent editLeaderCardsPage;
-    private static Parent editDevelopmentCardsPage;
-    private static Parent editFaithTrackPage;
 
     private static GameConfig gameConfig;
 
@@ -29,7 +24,6 @@ public class GameConfigEditor {
 
     public void start(Stage stage) throws Exception {
         homePage = FXMLUtils.loadFXML("/editor/Home");
-        editFaithTrackPage = FXMLUtils.loadFXML("/editor/EditFaithTrack");
 
         Font.loadFont(getClass().getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
 
@@ -44,20 +38,12 @@ public class GameConfigEditor {
     }
 
     public static void goToEditLeaderCards()  {
-        try {
-            editLeaderCardsPage = FXMLUtils.loadFXML("/editor/EditLeaderCards");
-        } catch (IOException e) {
-            System.err.println("Unable to load leader cards list");
-        }
+        Parent editLeaderCardsPage = FXMLUtils.loadFXML("/editor/EditLeaderCards");
         scene.setRoot(editLeaderCardsPage);
     }
 
     public static void goToEditDevelopmentCards() {
-        try {
-            editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
-        } catch (IOException e) {
-            System.err.println("Unable to load leader cards list");
-        }
+        Parent editDevelopmentCardsPage = FXMLUtils.loadFXML("/editor/EditDevelopmentCards");
         scene.setRoot(editDevelopmentCardsPage);
     }
 
@@ -67,6 +53,7 @@ public class GameConfigEditor {
     }
 
     public static void goToEditFaithTrack() {
+        Parent editFaithTrackPage = FXMLUtils.loadFXML("/editor/EditFaithTrack");
         scene.setRoot(editFaithTrackPage);
     }
 

@@ -3,6 +3,11 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.server.GameConfig;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -10,8 +15,11 @@ import java.util.*;
  * Local copy of the game model.
  */
 public class MockModel {
+    private IntegerProperty currentPlayers;
+    private IntegerProperty playersToStart;
+
     private MockPlayer localPlayer;
-    private final Map<String, MockPlayer> players;
+    private final ObservableMap<String, MockPlayer> players;
 
     private GameConfig gameConfig;
     private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
@@ -21,8 +29,11 @@ public class MockModel {
      * Constructs a new MockModel initializing the players map and the market, and setting the local player to null.
      */
     public MockModel() {
+        currentPlayers = new SimpleIntegerProperty(-1);
+        playersToStart = new SimpleIntegerProperty(-1);
+
         localPlayer = null;
-        players = new HashMap<>();
+        players = FXCollections.observableHashMap();
         market = new MockMarket();
     }
 
@@ -107,5 +118,22 @@ public class MockModel {
      */
     public MockMarket getMarket() {
         return market;
+    }
+
+    public IntegerProperty currentPlayersProperty() {
+        return currentPlayers;
+    }
+
+    public IntegerProperty playersToStartProperty() {
+        return playersToStart;
+    }
+
+    public ObservableMap<String, MockPlayer> getPlayers() {
+        return players;
+    }
+
+    public void updatePlayerCount(int currentPlayers, int playersToStart) {
+        this.currentPlayers.setValue(currentPlayers);
+        this.playersToStart.setValue(playersToStart);
     }
 }

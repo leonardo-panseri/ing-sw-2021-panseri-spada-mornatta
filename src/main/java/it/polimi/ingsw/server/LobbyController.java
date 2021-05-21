@@ -79,7 +79,7 @@ public class LobbyController {
 
     public synchronized void setGameConfig(SocketClientConnection connection, String serializedGameConfig) {
         if(serializedGameConfig == null) {
-            currentLobby.setGameConfigSet();
+            currentLobby.setGameConfigSet(connection);
             if(currentLobby.canStart())
                 startGame();
             return;

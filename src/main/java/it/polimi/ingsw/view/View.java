@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.beans.MockModel;
@@ -96,6 +97,7 @@ public abstract class View {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+        getClient().send(new PlayerNameMessage(playerName));
     }
 
     public void setOwnTurn(boolean ownTurn) {
@@ -113,20 +115,14 @@ public abstract class View {
         setGameState(GameState.CHOOSING_NAME);
         if(isFirstConnection)
             lobbyMaster = true;
-        getRenderer().showGameMessage(ViewString.CHOOSE_NAME);
     }
 
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
-        boolean playersToStartSet = playersToStart != -1;
-        getRenderer().showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
-                ViewString.PLAYER_CONNECTED.formatted(playerName));
-
         if(playerName.equals(getPlayerName())) {
             MockPlayer localPlayer = getModel().addPlayer(getPlayerName(), true);
             getModel().setLocalPlayer(localPlayer);
             if (isLobbyMaster()) {
                 setGameState(GameState.CHOOSING_PLAYERS);
-                getRenderer().showGameMessage(ViewString.CHOOSE_PLAYERS_TO_START);
             } else
                 setGameState(GameState.WAITING_PLAYERS);
         } else {
@@ -134,17 +130,12 @@ public abstract class View {
         }
     }
 
-    public void handleSetPlayersToStart() {
+    public void handleSetPlayersToStart(int playersToStart) {
         setGameState(GameState.CHOOSING_GAME_CONFIG);
-        getRenderer().showGameMessage(ViewString.PLAYERS_TO_START_SET);
-        getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
-                " otherwise input 'n':");
     }
 
     public void handleSetGameConfig() {
-
         setGameState(GameState.WAITING_PLAYERS);
-        getRenderer().showGameMessage("Choice confirmed!");
     }
 
     public void handlePlayerDisconnect(String playerName) {

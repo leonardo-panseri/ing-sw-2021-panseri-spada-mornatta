@@ -32,6 +32,37 @@ public class CLI extends View {
     }
 
     @Override
+    public void addToLobby(boolean isFirstConnection) {
+        super.addToLobby(isFirstConnection);
+        getRenderer().showGameMessage(ViewString.CHOOSE_NAME);
+    }
+
+    @Override
+    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
+        super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
+        boolean playersToStartSet = playersToStart != -1;
+        getRenderer().showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
+                ViewString.PLAYER_CONNECTED.formatted(playerName));
+
+        if(playerName.equals(getPlayerName()) && isLobbyMaster())
+            getRenderer().showGameMessage(ViewString.CHOOSE_PLAYERS_TO_START);
+    }
+
+    @Override
+    public void handleSetPlayersToStart(int playersToStart) {
+        super.handleSetPlayersToStart(playersToStart);
+        getRenderer().showGameMessage(ViewString.PLAYERS_TO_START_SET);
+        getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
+                " otherwise input 'n':");
+    }
+
+    @Override
+    public void handleSetGameConfig() {
+        super.handleSetGameConfig();
+        getRenderer().showGameMessage("Choice confirmed!");
+    }
+
+    @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(AnsiColor.BLUE + Constants.MASTER + AnsiColor.RESET);
@@ -81,7 +112,6 @@ public class CLI extends View {
                 }
                 case CHOOSING_NAME -> {
                     setPlayerName(command);
-                    getClient().send(new PlayerNameMessage(command));
                 }
                 case CHOOSING_PLAYERS -> {
                     int playersToStart;
@@ -97,27 +127,16 @@ public class CLI extends View {
                         break;
                     }
 
-                    getClient().send(new PlayersToStartMessage(playersToStart));
+                    getActionSender().setPlayersToStart(playersToStart);
                 }
                 case CHOOSING_GAME_CONFIG -> {
                     if(command.equalsIgnoreCase("n")) {
-                        getClient().send(new GameConfigMessage(null));
-                        System.out.println("Playing using the default game rules!");
+                        getActionSender().setGameConfig(null);
+                        getRenderer().showGameMessage("Playing using the default game rules!");
                         break;
                     }
                     File configFile = new File(command);
-
-                    String serializedGameConfig;
-                    try {
-                        FileInputStream is = new FileInputStream(configFile);
-                        byte[] encoded = is.readAllBytes();
-                        serializedGameConfig = new String(encoded, StandardCharsets.UTF_8);
-                    } catch (IOException e) {
-                        getRenderer().showErrorMessage("The given path is not valid!");
-                        break;
-                    }
-
-                    getClient().send(new GameConfigMessage(serializedGameConfig));
+                    getActionSender().setGameConfig(configFile);
                 }
                 case WAITING_PLAYERS -> getRenderer().showGameMessage(ViewString.WAITING_PLAYERS);
                 case SELECT_LEADERS -> {

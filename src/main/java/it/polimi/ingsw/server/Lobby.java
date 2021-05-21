@@ -133,7 +133,7 @@ public class Lobby extends Observable<IServerPacket> {
         }
 
         this.playersToStart = playersToStart;
-        notify(new PlayersToStartSetMessage(connection));
+        notify(new PlayersToStartSetMessage(connection, playersToStart));
     }
 
     public void setCustomGameConfig(SocketClientConnection connection, GameConfig gameConfig) {
@@ -147,15 +147,15 @@ public class Lobby extends Observable<IServerPacket> {
         }
 
         this.customGameConfig = gameConfig;
-        setGameConfigSet();
-        notify(new GameConfigSetMessage(connection));
+        setGameConfigSet(connection);
     }
 
     /**
      * Sets to true if the master player has already chosen the desired game config
      */
-    public void setGameConfigSet() {
+    public void setGameConfigSet(SocketClientConnection connection) {
         isGameConfigSet = true;
+        notify(new GameConfigSetMessage(connection));
     }
 
     /**

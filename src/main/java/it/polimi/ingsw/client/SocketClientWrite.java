@@ -41,7 +41,6 @@ public class SocketClientWrite extends Thread {
                 socketOut.flush();
             }
         } catch (InterruptedException ignored) {
-            ignored.printStackTrace();
         } catch(Exception e) {
             client.terminate();
             e.printStackTrace();

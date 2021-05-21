@@ -1,10 +1,16 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.client.messages.GameConfigMessage;
+import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.messages.EndTurnPlayerActionEvent;
 import it.polimi.ingsw.view.messages.production.Production;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +38,25 @@ public abstract class ActionSender {
 
     protected void clearPendingProductions() {
         pendingProductions.clear();
+    }
+
+    public void setPlayersToStart(int playersToStart) {
+        getView().getClient().send(new PlayersToStartMessage(playersToStart));
+    }
+
+    public void setGameConfig(File gameConfig) {
+        String serializedGameConfig = null;
+        if(gameConfig != null) {
+            try {
+                FileInputStream is = new FileInputStream(gameConfig);
+                byte[] encoded = is.readAllBytes();
+                serializedGameConfig = new String(encoded, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                getView().getRenderer().showErrorMessage("The given path is not valid!");
+            }
+        }
+
+        getView().getClient().send(new GameConfigMessage(serializedGameConfig));
     }
 
     /**
