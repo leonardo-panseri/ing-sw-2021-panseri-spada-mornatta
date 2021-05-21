@@ -1,6 +1,6 @@
 package it.polimi.ingsw.editor.controller;
 
-import it.polimi.ingsw.editor.FXMLUtils;
+import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.LeaderCardRequirement;

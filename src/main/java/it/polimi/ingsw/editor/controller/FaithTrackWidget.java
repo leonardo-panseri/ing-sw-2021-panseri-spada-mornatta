@@ -1,6 +1,6 @@
 package it.polimi.ingsw.editor.controller;
 
-import it.polimi.ingsw.editor.FXMLUtils;
+import it.polimi.ingsw.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

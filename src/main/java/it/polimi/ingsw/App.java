@@ -39,7 +39,7 @@ public class App extends Application {
 
         Client client;
         try {
-            client = new Client(startCli, noServer);
+            client = new Client(stage, startCli, noServer);
             client.run();
         } catch (IOException e) {
             System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");

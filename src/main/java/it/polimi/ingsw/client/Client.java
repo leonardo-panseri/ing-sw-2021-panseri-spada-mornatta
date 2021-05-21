@@ -15,13 +15,17 @@ import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.cli.CLI;
+import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.messages.PlayerActionEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
+import java.net.ConnectException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -35,9 +39,8 @@ public class Client {
     private String ip = "localhost";
     private int port = 12345;
 
+    private final Stage stage;
     private final boolean startCli, noServer;
-
-    private final Object lock = new Object();
 
     private SocketClientWrite writeThread;
     private SocketClientRead readThread;
@@ -57,7 +60,8 @@ public class Client {
      * @param startCli a boolean indicating if the client should be started in CLI mode
      * @param noServer a boolean indicating if the client should not connect to the server and play locally
      */
-    public Client(boolean startCli, boolean noServer){
+    public Client(Stage stage, boolean startCli, boolean noServer){
+        this.stage = stage;
         this.startCli = startCli;
         this.noServer = noServer;
 
@@ -123,8 +127,9 @@ public class Client {
 
                 localExecutor.submit(() -> localGameController.update(event));
             }
-        } else
+        } else {
             writeThread.send(message);
+        }
     }
 
     /**
@@ -133,23 +138,14 @@ public class Client {
      * @throws IOException if the creation of the socket input or output stream fails
      */
     public void run() throws IOException {
-        try{
-            if(startCli) {
-                view = new CLI(this);
-            } else view = new CLI(this);
+        if(startCli) {
+            view = new CLI(this);
+        } else view = new GUI(this, stage);
 
-            view.start();
-
-            if(!noServer) {
-                synchronized (lock) {
-                    lock.wait();
-                }
-                connect();
-            }
-
-            view.join();
-        } catch(InterruptedException | NoSuchElementException e){
-            System.out.println("View thread terminated");
+        try {
+            view.run();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -161,29 +157,24 @@ public class Client {
         this.port = port;
     }
 
-    private void connect() {
-        try (Socket socket = new Socket(ip, port);
-             ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
-             ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream())) {
-            System.out.println("Connection established");
+    public boolean connect() {
+        try {
+            Socket socket = new Socket(ip, port);
+            ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
 
             readThread = new SocketClientRead(this, socketIn);
             writeThread = new SocketClientWrite(this, socketOut);
             readThread.start();
             writeThread.start();
-
-            writeThread.join();
-            readThread.join();
-        } catch (NoSuchElementException | IOException | InterruptedException e) {
+            System.out.println("Connection established");
+        } catch (UnknownHostException | ConnectException e) {
+            return false;
+        } catch (NoSuchElementException | IOException e) {
             System.out.println("Connection closed from the client side");
             e.printStackTrace();
         }
-    }
-
-    public void startConnection() {
-        synchronized (lock) {
-            lock.notifyAll();
-        }
+        return true;
     }
 
     private void initializeLocalGame() {

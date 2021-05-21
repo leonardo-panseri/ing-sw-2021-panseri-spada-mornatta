@@ -53,8 +53,8 @@ public class SocketClientRead extends Thread {
                 }
             }
         } catch (Exception e){
-            client.terminate();
             e.printStackTrace();
+            client.terminate();
         }
     }
 }

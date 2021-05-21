@@ -1,5 +1,6 @@
 package it.polimi.ingsw.editor;
 
+import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.editor.controller.EditBaseProduction;
 import it.polimi.ingsw.editor.controller.EditDevelopmentCard;
 import it.polimi.ingsw.editor.controller.EditLeaderCard;

@@ -8,7 +8,7 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.Map;
 
-public abstract class View extends Thread {
+public abstract class View {
     private final Client client;
 
     private ModelUpdateHandler modelUpdateHandler;
@@ -30,6 +30,8 @@ public abstract class View extends Thread {
         this.usingProductions = false;
         this.model = new MockModel();
     }
+
+    public abstract void run();
 
     /**
      * Gets the client.

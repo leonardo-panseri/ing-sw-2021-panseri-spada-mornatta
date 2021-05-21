@@ -52,7 +52,8 @@ public class CLI extends View {
             switch (getGameState()) {
                 case CONNECTING -> {
                     if(command.isBlank()) {
-                        getClient().startConnection();
+                        if(!getClient().connect())
+                            getRenderer().showErrorMessage("Unknown host or port, please try again!");
                         break;
                     }
 
@@ -74,7 +75,9 @@ public class CLI extends View {
 
                     getClient().setIp(ip);
                     getClient().setPort(port);
-                    getClient().startConnection();
+
+                    if(!getClient().connect())
+                        getRenderer().showErrorMessage("Unknown host or port, please try again!");
                 }
                 case CHOOSING_NAME -> {
                     setPlayerName(command);
