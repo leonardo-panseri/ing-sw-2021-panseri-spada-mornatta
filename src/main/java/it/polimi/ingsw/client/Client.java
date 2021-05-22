@@ -42,6 +42,7 @@ public class Client {
     private final Stage stage;
     private final boolean startCli, noServer;
 
+    private Socket socket;
     private SocketClientWrite writeThread;
     private SocketClientRead readThread;
 
@@ -113,11 +114,8 @@ public class Client {
         if (noServer) {
             if (message instanceof PlayerNameMessage) {
                 localPlayerName = ((PlayerNameMessage) message).getPlayerName();
-                getView().setGameState(GameState.CHOOSING_GAME_CONFIG);
-                MockPlayer localPlayer = getView().getModel().addPlayer(getView().getPlayerName(), true);
-                getView().getModel().setLocalPlayer(localPlayer);
-                getView().getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
-                        " otherwise input 'n':");
+
+                getView().handlePlayerConnect(localPlayerName, 1, -1);
             } else if (message instanceof GameConfigMessage) {
                 localGameConfig = GameConfig.deserialize(((GameConfigMessage) message).getSerializedGameConfig());
                 initializeLocalGame();
@@ -159,7 +157,7 @@ public class Client {
 
     public boolean connect() {
         try {
-            Socket socket = new Socket(ip, port);
+            socket = new Socket(ip, port);
             ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
 
@@ -213,5 +211,18 @@ public class Client {
         localGameController.getGame().getMarket().initializeMarket();
         localGameController.getGame().getDeck().shuffleDevelopmentDeck();
         localGameController.getTurnController().start();
+    }
+
+    public void reset() {
+        ip = "localhost";
+        port = 12345;
+
+        writeThread.interrupt();
+        readThread.interrupt();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

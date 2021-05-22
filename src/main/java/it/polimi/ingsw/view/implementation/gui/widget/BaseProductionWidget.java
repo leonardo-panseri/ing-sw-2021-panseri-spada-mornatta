@@ -1,4 +1,4 @@
-package it.polimi.ingsw.editor.controller;
+package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.BaseProductionPower;
@@ -24,7 +24,7 @@ public class BaseProductionWidget extends AnchorPane {
     public BaseProductionWidget(BaseProductionPower baseProduction) {
         this.baseProduction = baseProduction;
 
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadWidgetFXML(this);
     }
 
     public BaseProductionPower getBaseProduction() {

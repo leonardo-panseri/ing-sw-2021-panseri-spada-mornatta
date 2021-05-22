@@ -3,6 +3,7 @@ package it.polimi.ingsw.editor.controller;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.view.implementation.gui.widget.DevelopmentCardWidget;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;

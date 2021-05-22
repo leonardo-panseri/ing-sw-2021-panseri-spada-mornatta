@@ -1,16 +1,13 @@
 package it.polimi.ingsw.view.implementation.gui;
 
-import it.polimi.ingsw.editor.controller.DeleteLeaderCard;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.Renderer;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.beans.MockPlayer;
-import javafx.scene.Scene;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
@@ -32,12 +29,14 @@ public class GUIRenderer extends Renderer {
 
     @Override
     public void showErrorMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
 
-        alert.showAndWait();
+            alert.showAndWait();
+        });
     }
 
     @Override

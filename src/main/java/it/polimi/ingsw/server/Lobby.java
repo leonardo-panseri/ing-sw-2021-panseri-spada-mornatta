@@ -171,6 +171,11 @@ public class Lobby extends Observable<IServerPacket> {
      * @param connection the connection to be removed from the lobby
      */
     public void disconnect(SocketClientConnection connection) {
+        if(connection == firstConnection) {
+            firstConnection = null;
+            playersToStart = -1;
+        }
+
         notify(new PlayerLeaveMessage(connection.getPlayerName()));
         connections.remove(connection);
     }

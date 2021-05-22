@@ -5,6 +5,7 @@ import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.*;
+import it.polimi.ingsw.view.implementation.gui.widget.LeaderCardWidget;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -44,7 +45,7 @@ public class EditLeaderCard extends BorderPane {
         this.cardColorRequirementsControls = new HashMap<>();
         this.cardLevelRequirementsControls = new HashMap<>();
 
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadEditorFXML(this);
     }
 
     @FXML

@@ -40,6 +40,12 @@ public class CLI extends View {
     @Override
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
         super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
+        if(getClient().isNoServer()) {
+            getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
+                    " otherwise input 'n':");
+            return;
+        }
+
         boolean playersToStartSet = playersToStart != -1;
         getRenderer().showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
                 ViewString.PLAYER_CONNECTED.formatted(playerName));
@@ -60,6 +66,19 @@ public class CLI extends View {
     public void handleSetGameConfig() {
         super.handleSetGameConfig();
         getRenderer().showGameMessage("Choice confirmed!");
+    }
+
+    @Override
+    public void handlePlayerDisconnect(String playerName) {
+        getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_DISCONNECT :
+                ViewString.PLAYER_DISCONNECT_WITH_NAME.formatted(playerName));
+    }
+
+    @Override
+    public void handlePlayerCrash(String playerName) {
+        getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_CRASH :
+                ViewString.PLAYER_CRASH_WITH_NAME.formatted(playerName));
+        getClient().terminate();
     }
 
     @Override

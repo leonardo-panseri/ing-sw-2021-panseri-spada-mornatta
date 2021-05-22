@@ -5,6 +5,7 @@ import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.view.implementation.gui.widget.DevelopmentCardWidget;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
@@ -38,7 +39,7 @@ public class EditDevelopmentCard extends BorderPane {
         inputResourcesControls = new HashMap<>();
         outputResourcesControls = new HashMap<>();
 
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadEditorFXML(this);
     }
 
     @FXML

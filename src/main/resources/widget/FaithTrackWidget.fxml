@@ -3,7 +3,7 @@
 
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<fx:root type="GridPane" fx:controller="it.polimi.ingsw.editor.controller.FaithTrackWidget" styleClass="faith-track" stylesheets="@css/style.css"
+<fx:root type="GridPane" fx:controller="it.polimi.ingsw.view.implementation.gui.widget.FaithTrackWidget" styleClass="faith-track" stylesheets="@css/style.css"
          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />

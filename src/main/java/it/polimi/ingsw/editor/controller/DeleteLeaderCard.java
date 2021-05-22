@@ -11,7 +11,7 @@ public class DeleteLeaderCard extends VBox {
 
     public DeleteLeaderCard(EditLeaderCard cardEditor) {
         this.cardEditor = cardEditor;
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadEditorFXML(this);
     }
 
     @FXML

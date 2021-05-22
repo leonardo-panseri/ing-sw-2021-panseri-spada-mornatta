@@ -3,6 +3,7 @@ package it.polimi.ingsw.editor.controller;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.*;
+import it.polimi.ingsw.view.implementation.gui.widget.LeaderCardWidget;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

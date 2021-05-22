@@ -5,6 +5,7 @@ import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.BaseProductionPower;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.view.implementation.gui.widget.BaseProductionWidget;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
@@ -29,7 +30,7 @@ public class EditBaseProduction extends BorderPane {
         inputControls = new HashMap<>();
         outputControls = new HashMap<>();
 
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadEditorFXML(this);
     }
 
     @FXML

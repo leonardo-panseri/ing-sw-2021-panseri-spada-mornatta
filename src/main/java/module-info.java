@@ -10,4 +10,5 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.model to com.google.gson;
     opens it.polimi.ingsw.model.card to com.google.gson;
     exports it.polimi.ingsw;
+    opens it.polimi.ingsw.view.implementation.gui.widget to javafx.fxml;
 }

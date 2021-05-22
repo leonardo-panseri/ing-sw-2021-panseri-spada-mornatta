@@ -1,4 +1,4 @@
-package it.polimi.ingsw.editor.controller;
+package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.editor.GUIUtils;
@@ -28,7 +28,7 @@ public class LeaderCardWidget extends AnchorPane {
     public LeaderCardWidget(LeaderCard leaderCard) {
         this.leaderCard = leaderCard;
 
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadWidgetFXML(this);
     }
 
     public LeaderCard getLeaderCard() {

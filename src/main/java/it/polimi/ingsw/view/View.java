@@ -15,7 +15,7 @@ public abstract class View {
     private ModelUpdateHandler modelUpdateHandler;
     private Renderer renderer;
     private ActionSender actionSender;
-    private final MockModel model;
+    private MockModel model;
 
     private GameState gameState;
     private String playerName;
@@ -121,7 +121,9 @@ public abstract class View {
         if(playerName.equals(getPlayerName())) {
             MockPlayer localPlayer = getModel().addPlayer(getPlayerName(), true);
             getModel().setLocalPlayer(localPlayer);
-            if (isLobbyMaster()) {
+            if(getClient().isNoServer()) {
+                setGameState(GameState.CHOOSING_GAME_CONFIG);
+            } else if (isLobbyMaster()) {
                 setGameState(GameState.CHOOSING_PLAYERS);
             } else
                 setGameState(GameState.WAITING_PLAYERS);
@@ -138,10 +140,7 @@ public abstract class View {
         setGameState(GameState.WAITING_PLAYERS);
     }
 
-    public void handlePlayerDisconnect(String playerName) {
-        getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_DISCONNECT :
-                                              ViewString.PLAYER_DISCONNECT_WITH_NAME.formatted(playerName));
-    }
+    public abstract void handlePlayerDisconnect(String playerName);
 
     public void handleGameStart(GameConfig gameConfig) {
         getModel().setGameConfig(gameConfig);
@@ -150,11 +149,7 @@ public abstract class View {
         getRenderer().showLobbyMessage(ViewString.GAME_STARTING);
     }
 
-    public void handlePlayerCrash(String playerName) {
-        getRenderer().showLobbyMessage(playerName == null ? ViewString.PLAYER_CRASH :
-                                              ViewString.PLAYER_CRASH_WITH_NAME.formatted(playerName));
-        client.terminate();
-    }
+    public abstract void handlePlayerCrash(String playerName);
 
     public void handleEndGame(Map<String, Integer> scores, String winnerName) {
         getRenderer().printFinalScores(scores, winnerName);
@@ -164,6 +159,15 @@ public abstract class View {
     public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
         getRenderer().printSingleplayerFinalScore(lorenzoWin, loseReason, playerScore);
         client.terminate();
+    }
+
+    protected void reset() {
+        this.gameState = GameState.CONNECTING;
+        this.ownTurn = false;
+        this.usingProductions = false;
+        this.model = new MockModel();
+
+        getClient().reset();
     }
 }
 

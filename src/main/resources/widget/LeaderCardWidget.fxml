@@ -6,7 +6,7 @@
 
 <fx:root styleClass="leader-card" stylesheets="@css/style.css" type="AnchorPane"
          prefHeight="294.0" prefWidth="195.0"
-         fx:controller="it.polimi.ingsw.editor.controller.LeaderCardWidget"
+         fx:controller="it.polimi.ingsw.view.implementation.gui.widget.LeaderCardWidget"
          xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <FlowPane fx:id="lcRequirements" layoutX="13.0" layoutY="10.0" />
    <Label fx:id="lcVictoryPoints" layoutX="87.0" layoutY="162.0" prefHeight="25.0" prefWidth="20.0" text="0" />

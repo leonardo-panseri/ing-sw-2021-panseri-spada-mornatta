@@ -9,8 +9,17 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 
 public class FXMLUtils {
-    public static <T extends Parent> void loadFXML(T component) {
+    public static <T extends Parent> void loadEditorFXML(T component) {
         String fileName = "/editor/" + component.getClass().getSimpleName() + ".fxml";
+        loadFXMLComponent(component, fileName);
+    }
+
+    public static <T extends Parent> void loadWidgetFXML(T component) {
+        String fileName = "/widget/" + component.getClass().getSimpleName() + ".fxml";
+        loadFXMLComponent(component, fileName);
+    }
+
+    public static <T extends Parent> void loadFXMLComponent(T component, String fileName) {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fileName));
         loader.setRoot(component);
         loader.setControllerFactory(theClass -> component);

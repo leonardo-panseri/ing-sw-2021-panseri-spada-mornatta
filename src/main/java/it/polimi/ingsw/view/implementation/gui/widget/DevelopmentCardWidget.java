@@ -1,4 +1,4 @@
-package it.polimi.ingsw.editor.controller;
+package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.editor.GUIUtils;
@@ -25,7 +25,7 @@ public class DevelopmentCardWidget extends AnchorPane {
     public DevelopmentCardWidget(DevelopmentCard developmentCard) {
         this.developmentCard = developmentCard;
 
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadWidgetFXML(this);
     }
 
     public DevelopmentCard getDevelopmentCard() {

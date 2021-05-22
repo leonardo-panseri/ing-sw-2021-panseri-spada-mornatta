@@ -3,9 +3,7 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.server.GameConfig;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
@@ -15,8 +13,8 @@ import java.util.*;
  * Local copy of the game model.
  */
 public class MockModel {
-    private IntegerProperty currentPlayers;
-    private IntegerProperty playersToStart;
+    private final IntegerProperty currentPlayers;
+    private final IntegerProperty playersToStart;
 
     private MockPlayer localPlayer;
     private final ObservableMap<String, MockPlayer> players;

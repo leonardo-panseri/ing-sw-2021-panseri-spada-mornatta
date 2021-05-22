@@ -6,13 +6,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.implementation.gui.controller.PlayersToStartSelection">
+            fx:controller="it.polimi.ingsw.view.implementation.gui.controller.PlayersToStartSelection"
+            stylesheets="@css/style.css">
     <center>
-        <VBox alignment="CENTER">
+        <VBox alignment="CENTER" styleClass="font-20">
             <Label>Enter the number of players needed to start the game:</Label>
-            <TextField maxWidth="100" fx:id="playersToStart" />
+            <TextField maxWidth="100" fx:id="playersToStart">
+                <VBox.margin>
+                    <Insets bottom="20" />
+                </VBox.margin>
+            </TextField>
             <Button fx:id="choose">Choose</Button>
         </VBox>
     </center>

@@ -39,6 +39,10 @@ public class MockPlayer {
         return localPlayer;
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * Gets faith points of the player.
      *

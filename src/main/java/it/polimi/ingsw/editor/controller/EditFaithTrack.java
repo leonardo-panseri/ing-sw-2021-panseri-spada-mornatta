@@ -2,6 +2,7 @@ package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
+import it.polimi.ingsw.view.implementation.gui.widget.FaithTrackWidget;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

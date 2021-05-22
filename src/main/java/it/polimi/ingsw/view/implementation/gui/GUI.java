@@ -2,13 +2,10 @@ package it.polimi.ingsw.view.implementation.gui;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.cli.CLIActionSender;
-import it.polimi.ingsw.view.implementation.cli.CLIModelUpdateHandler;
-import it.polimi.ingsw.view.implementation.cli.CLIRenderer;
-import javafx.beans.property.IntegerProperty;
-import javafx.collections.ObservableList;
+import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -45,6 +42,12 @@ public class GUI extends View {
     @Override
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
         super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
+        if(getClient().isNoServer()) {
+            Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
+            scene.setRoot(gameConfigSelection);
+            return;
+        }
+
         getModel().updatePlayerCount(currentPlayers, playersToStart);
 
         if(playerName.equals(getPlayerName())) {
@@ -75,6 +78,27 @@ public class GUI extends View {
     }
 
     @Override
+    public void handlePlayerDisconnect(String playerName) {
+        getModel().getPlayers().remove(playerName);
+    }
+
+    @Override
+    public void handlePlayerCrash(String playerName) {
+        getRenderer().showErrorMessage("Player " + playerName + " crashed! The game is over!");
+        reset();
+
+        Parent homePage = FXMLUtils.loadFXML("/gui/Home");
+        scene.setRoot(homePage);
+    }
+
+    @Override
+    public void handleGameStart(GameConfig gameConfig) {
+        super.handleGameStart(gameConfig);
+        PlayerBoardWidget localPlayerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());
+        scene.setRoot(localPlayerBoard);
+    }
+
+    @Override
     public void run() {
         Parent homePage = FXMLUtils.loadFXML("/gui/Home");
 
@@ -84,6 +108,9 @@ public class GUI extends View {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        if(getClient().isNoServer())
+            addToLobby(false);
     }
 
     public Scene getScene() {

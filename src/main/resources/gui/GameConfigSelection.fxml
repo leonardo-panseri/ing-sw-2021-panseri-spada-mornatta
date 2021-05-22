@@ -6,15 +6,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.implementation.gui.controller.GameConfigSelection">
+            fx:controller="it.polimi.ingsw.view.implementation.gui.controller.GameConfigSelection"
+            stylesheets="@css/style.css">
     <center>
-        <VBox alignment="CENTER">
+        <VBox alignment="CENTER" styleClass="font-20">
             <Label>Choose a custom configuration file:</Label>
-            <TextField fx:id="config" />
-            <HBox>
-                <Button onAction="#skip">Skip</Button>
+            <TextField fx:id="config" maxWidth="200">
+                <VBox.margin>
+                    <Insets bottom="20"/>
+                </VBox.margin>
+            </TextField>
+            <HBox maxWidth="200">
+                <Button onAction="#skip">
+                    <VBox.margin><Insets right="10" /></VBox.margin>
+                    Skip
+                </Button>
                 <Button fx:id="choose">Choose</Button>
             </HBox>
         </VBox>

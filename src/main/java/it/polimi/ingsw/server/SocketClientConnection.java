@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -201,6 +202,7 @@ class WriteThread extends Thread {
                 out.writeObject(object);
                 out.flush();
             }
+        } catch (EOFException ignored) {
         } catch(Exception e) {
             System.err.println("Error in SocketClientConnection WriteThread");
             clientConnection.setInactive();

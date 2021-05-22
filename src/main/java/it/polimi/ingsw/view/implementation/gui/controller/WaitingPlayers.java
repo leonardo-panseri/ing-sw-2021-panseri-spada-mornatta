@@ -2,14 +2,12 @@ package it.polimi.ingsw.view.implementation.gui.controller;
 
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 

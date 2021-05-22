@@ -1,4 +1,4 @@
-package it.polimi.ingsw.editor.controller;
+package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ public class FaithTrackWidget extends GridPane {
     public FaithTrackWidget(Map<Integer, List<Integer>> popeReports, Map<Integer, Integer> faithTrackPoints) {
         this.faithTrackPoints = faithTrackPoints;
         this.popeReports = popeReports;
-        FXMLUtils.loadFXML(this);
+        FXMLUtils.loadWidgetFXML(this);
     }
 
     @FXML
