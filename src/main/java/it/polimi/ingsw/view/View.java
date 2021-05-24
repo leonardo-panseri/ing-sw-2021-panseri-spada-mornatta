@@ -6,6 +6,8 @@ import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.beans.MockModel;
 import it.polimi.ingsw.view.beans.MockPlayer;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public abstract class View {
     private ActionSender actionSender;
     private MockModel model;
 
-    private GameState gameState;
+    private ObjectProperty<GameState> gameState;
     private String playerName;
     private boolean lobbyMaster;
     private boolean ownTurn;
@@ -26,7 +28,7 @@ public abstract class View {
 
     public View(Client client) {
         this.client = client;
-        this.gameState = GameState.CONNECTING;
+        this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);
         this.ownTurn = false;
         this.usingProductions = false;
         this.model = new MockModel();
@@ -56,6 +58,10 @@ public abstract class View {
     }
 
     public GameState getGameState() {
+        return gameState.get();
+    }
+
+    public ObjectProperty<GameState> gameStateProperty() {
         return gameState;
     }
 
@@ -92,7 +98,7 @@ public abstract class View {
     }
 
     public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+        this.gameState.setValue(gameState);
     }
 
     public void setPlayerName(String playerName) {
@@ -162,7 +168,7 @@ public abstract class View {
     }
 
     protected void reset() {
-        this.gameState = GameState.CONNECTING;
+        this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);
         this.ownTurn = false;
         this.usingProductions = false;
         this.model = new MockModel();

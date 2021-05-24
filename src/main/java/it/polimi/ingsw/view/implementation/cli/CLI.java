@@ -199,7 +199,7 @@ public class CLI extends View {
                                 "; you can type more using comma as a separator:");
                         setGameState(GameState.CHOOSING_RESOURCES);
                     } else {
-                        getClient().send(new InitialSelectionPlayerActionEvent(this.selectedLeaderCards, new HashMap<>()));
+                        getActionSender().selectLeaders(this.selectedLeaderCards, new HashMap<>());
                         if(!getClient().isNoServer())
                             setGameState(GameState.WAIT_SELECT_LEADERS);
                     }
@@ -265,7 +265,7 @@ public class CLI extends View {
                         }
                     }
 
-                    getClient().send(new InitialSelectionPlayerActionEvent(this.selectedLeaderCards, selectedResources));
+                    getActionSender().selectLeaders(this.selectedLeaderCards, selectedResources);
 
                     setGameState(GameState.WAIT_SELECT_LEADERS);
                 }

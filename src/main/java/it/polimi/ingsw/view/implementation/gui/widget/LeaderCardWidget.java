@@ -17,16 +17,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class LeaderCardWidget extends AnchorPane {
+public class LeaderCardWidget extends StackPane {
+    @FXML
+    public AnchorPane cardPane;
     @FXML
     public FlowPane lcRequirements;
     @FXML
     public Label lcVictoryPoints;
+    @FXML
+    public Pane cardBack;
 
     private final LeaderCard leaderCard;
+    private boolean cardFlipped;
 
     public LeaderCardWidget(LeaderCard leaderCard) {
         this.leaderCard = leaderCard;
+        this.cardFlipped = false;
 
         FXMLUtils.loadWidgetFXML(this);
     }
@@ -53,9 +59,9 @@ public class LeaderCardWidget extends AnchorPane {
         Background background = new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT));
-        setBackground(background);
+        cardPane.setBackground(background);
         List<ImageView> specialAbility = buildSpecialAbility(leaderCard.getSpecialAbility());
-        getChildren().addAll(specialAbility);
+        cardPane.getChildren().addAll(specialAbility);
     }
 
     private List<ImageView> buildSpecialAbility(SpecialAbility specialAbility) {
@@ -102,5 +108,14 @@ public class LeaderCardWidget extends AnchorPane {
             }
         }
         return results;
+    }
+
+    public void flipCard() {
+        cardFlipped = !cardFlipped;
+        cardBack.setVisible(cardFlipped);
+    }
+
+    public boolean isCardFlipped() {
+        return cardFlipped;
     }
 }

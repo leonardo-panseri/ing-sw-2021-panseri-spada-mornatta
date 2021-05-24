@@ -1,9 +1,12 @@
 package it.polimi.ingsw.view.implementation.gui;
 
+import it.polimi.ingsw.constant.AnsiColor;
+import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.ModelUpdateHandler;
 import it.polimi.ingsw.view.View;
 
@@ -16,28 +19,8 @@ public class GUIModelUpdateHandler extends ModelUpdateHandler {
     }
 
     @Override
-    public void updateGamePhase(GamePhase gamePhase) {
-
-    }
-
-    @Override
-    public void handleInitialTurn(String playerName, Map<LeaderCard, Boolean> leaderCards, int resourceToChoose) {
-
-    }
-
-    @Override
-    public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
-
-    }
-
-    @Override
-    public void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot) {
-
-    }
-
-    @Override
     public void updateTurn(String playerName) {
-
+        super.updateTurn(playerName);
     }
 
     @Override

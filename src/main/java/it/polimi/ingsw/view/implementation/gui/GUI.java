@@ -2,14 +2,20 @@ package it.polimi.ingsw.view.implementation.gui;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.cli.CLIActionSender;
 import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GUI extends View {
     private static GUI instance;
@@ -35,16 +41,21 @@ public class GUI extends View {
     @Override
     public void addToLobby(boolean isFirstConnection) {
         super.addToLobby(isFirstConnection);
-        Parent nameSelectionPage = FXMLUtils.loadFXML("/gui/NameSelection");
-        scene.setRoot(nameSelectionPage);
+
+        Platform.runLater(() -> {
+            Parent nameSelectionPage = FXMLUtils.loadFXML("/gui/NameSelection");
+            scene.setRoot(nameSelectionPage);
+        });
     }
 
     @Override
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
         super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
         if(getClient().isNoServer()) {
-            Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
-            scene.setRoot(gameConfigSelection);
+            Platform.runLater(() -> {
+                Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
+                scene.setRoot(gameConfigSelection);
+            });
             return;
         }
 
@@ -52,11 +63,15 @@ public class GUI extends View {
 
         if(playerName.equals(getPlayerName())) {
             if(isLobbyMaster()) {
-                Parent playersToStartSelection = FXMLUtils.loadFXML("/gui/PlayersToStartSelection");
-                scene.setRoot(playersToStartSelection);
+                Platform.runLater(() -> {
+                    Parent playersToStartSelection = FXMLUtils.loadFXML("/gui/PlayersToStartSelection");
+                    scene.setRoot(playersToStartSelection);
+                });
             } else {
-                Parent waitingPlayers = FXMLUtils.loadFXML("/gui/WaitingPlayers");
-                scene.setRoot(waitingPlayers);
+                Platform.runLater(() -> {
+                    Parent waitingPlayers = FXMLUtils.loadFXML("/gui/WaitingPlayers");
+                    scene.setRoot(waitingPlayers);
+                });
             }
         }
     }
@@ -66,15 +81,19 @@ public class GUI extends View {
         super.handleSetPlayersToStart(playersToStart);
         getModel().updatePlayerCount(getModel().getPlayers().size(), playersToStart);
 
-        Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
-        scene.setRoot(gameConfigSelection);
+        Platform.runLater(() -> {
+            Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
+            scene.setRoot(gameConfigSelection);
+        });
     }
 
     @Override
     public void handleSetGameConfig() {
         super.handleSetGameConfig();
-        Parent waitingPlayers = FXMLUtils.loadFXML("/gui/WaitingPlayers");
-        scene.setRoot(waitingPlayers);
+        Platform.runLater(() -> {
+            Parent waitingPlayers = FXMLUtils.loadFXML("/gui/WaitingPlayers");
+            scene.setRoot(waitingPlayers);
+        });
     }
 
     @Override
@@ -86,16 +105,19 @@ public class GUI extends View {
     public void handlePlayerCrash(String playerName) {
         getRenderer().showErrorMessage("Player " + playerName + " crashed! The game is over!");
         reset();
-
-        Parent homePage = FXMLUtils.loadFXML("/gui/Home");
-        scene.setRoot(homePage);
+        Platform.runLater(() -> {
+            Parent homePage = FXMLUtils.loadFXML("/gui/Home");
+            scene.setRoot(homePage);
+        });
     }
 
     @Override
     public void handleGameStart(GameConfig gameConfig) {
         super.handleGameStart(gameConfig);
-        PlayerBoardWidget localPlayerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());
-        scene.setRoot(localPlayerBoard);
+        Platform.runLater(() -> {
+            PlayerBoardWidget localPlayerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());
+            scene.setRoot(localPlayerBoard);
+        });
     }
 
     @Override
@@ -108,6 +130,15 @@ public class GUI extends View {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getModel().getLocalPlayer().getDeposit().setRow(1, Arrays.asList(Resource.STONE, Resource.STONE));
+                getModel().getLocalPlayer().getDeposit().setRow(2, Arrays.asList(Resource.SHIELD, Resource.SHIELD, Resource.SHIELD));
+            }
+        }, 9000L);
 
         if(getClient().isNoServer())
             addToLobby(false);

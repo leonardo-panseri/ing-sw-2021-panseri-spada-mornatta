@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="HBox" alignment="CENTER" xmlns="http://javafx.com/javafx"
+         stylesheets="@css/style.css"
+         styleClass="leader-selection"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.view.implementation.gui.widget.LeaderSelectionWidget"
+            prefHeight="720.0" prefWidth="1080.0">
+    <VBox alignment="CENTER">
+        <BorderPane styleClass="selection-box" prefHeight="400.0" prefWidth="1000.0">
+            <top>
+                <HBox alignment="CENTER">
+                    <Label styleClass="leader-select-title">Choose the 2 Leader cards that you want to discard:</Label>
+                </HBox>
+            </top>
+            <center>
+                <HBox alignment="CENTER" spacing="20" fx:id="leadersDisplay"/>
+            </center>
+            <bottom>
+                <HBox alignment="CENTER_RIGHT"><Button fx:id="confirmButton" disable="true">Confirm</Button></HBox>
+            </bottom>
+        </BorderPane>
+    </VBox>
+</fx:root>

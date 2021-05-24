@@ -17,6 +17,11 @@
 .leader-card #lcVictoryPoints {
     -fx-alignment: center;
 }
+.leader-card-back {
+    -fx-background-image: url("../../images/leaders/back.png");
+    -fx-background-size: 195 294;
+    -fx-background-position: center;
+}
 .base-production {
     -fx-background-image: url("../../images/base-production.png");
 }
@@ -55,3 +60,18 @@
      -fx-stroke: black;
      -fx-stroke-width: 0.8;
  }
+
+.leader-selection {
+    -fx-background-color: rgba(20, 20, 20, 0.4);
+}
+.leader-selection .selection-box {
+    -fx-background-color: rgba(20, 20, 20, 0.4);
+}
+.leader-selection .selection-box .leader-select-title {
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+}
+.deposit {
+    -fx-background-image: url("../../images/deposit.png");
+    -fx-background-size: contain;
+}

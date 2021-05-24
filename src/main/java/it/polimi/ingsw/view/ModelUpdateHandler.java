@@ -1,9 +1,12 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.constant.AnsiColor;
+import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.List;
 import java.util.Map;
@@ -19,15 +22,94 @@ public abstract class ModelUpdateHandler {
         return view;
     }
 
-    public abstract void updateGamePhase(GamePhase gamePhase);
+    /**
+     * Updates the gamePhase. The different states in which the game can be are: {@link GamePhase#SELECTING_LEADERS},
+     * {@link GamePhase#PLAYING}, {@link GamePhase#END}.
+     *
+     * @param gamePhase The different states in which the game can be are: {@link GamePhase#SELECTING_LEADERS},
+     *        {@link GamePhase#PLAYING}, {@link GamePhase#END}
+     */
+    public void updateGamePhase(GamePhase gamePhase) {
+        switch (gamePhase) {
+            case SELECTING_LEADERS -> {
+                if (getView().isOwnTurn()) {
+                    getView().setGameState(GameState.SELECT_LEADERS);
+                } else {
+                    getView().setGameState(GameState.WAIT_SELECT_LEADERS);
+                }
+            }
+            case PLAYING -> getView().setGameState(GameState.PLAYING);
+        }
+    }
 
-    public abstract void handleInitialTurn(String playerName, Map<LeaderCard, Boolean> leaderCards, int resourceToChoose);
+    public void handleInitialTurn(String playerName, Map<LeaderCard, Boolean> leaderCards, int resourceToChoose) {
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
+        }
 
-    public abstract void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders);
+        updateLeaderCards(playerName, leaderCards);
+        player.setInitialResourcesToChoose(resourceToChoose);
+    }
 
-    public abstract void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot);
+    /**
+     * Updates the LeaderCards of the given player if his GamePhase is {@link GamePhase#PLAYING}.
+     *
+     * @param playerName the name of the given player
+     * @param ownedLeaders a map representing the LeaderCards owned by the given player {@link GamePhase#PLAYING},
+     *                     with a boolean attribute that indicates if the LeaderCard is active
+     */
+    public void updateLeaderCards(String playerName, Map<LeaderCard, Boolean> ownedLeaders) {
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
+        }
 
-    public abstract void updateTurn(String playerName);
+        if (player.isLocalPlayer()) {
+            if(getView().getGameState() == GameState.PLAYING) {
+                if(ownedLeaders.size() == player.getLeaderCards().size())
+                    getView().getRenderer().showGameMessage("Leader card successfully activated");
+                else
+                    getView().getRenderer().showGameMessage("Leader card discarded (+1 Faith)");
+            }
+        }
+
+        player.setLeaderCards(ownedLeaders);
+    }
+
+    /**
+     * Updates the development cards of the given player.
+     *
+     * @param playerName the name of the given player
+     * @param card the development card to set
+     * @param slot the slot in which the development card will be set
+     */
+    public void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot) {
+        MockPlayer player = getView().getModel().getPlayer(playerName);
+        if (player == null) {
+            player = getView().getModel().addPlayer(playerName, false);
+        }
+
+        player.getPlayerBoard().setNewDevelopmentCard(card, slot);
+    }
+
+    /**
+     * Updates the turn of the given player. The states of the game are {@link GameState#CONNECTING},
+     * {@link GameState#PLAYING}, {@link GameState#SELECT_LEADERS}, {@link GameState#WAIT_SELECT_LEADERS},
+     * {@link GameState#STARTING}, {@link GameState#CHOOSING_NAME}, {@link GameState#CHOOSING_PLAYERS}.
+     *
+     * @param playerName the name of the player to update the turn
+     */
+    public void updateTurn(String playerName) {
+        if (playerName.equals(getView().getPlayerName())) {
+            getView().setOwnTurn(true);
+            if (getView().getGameState() == GameState.WAIT_SELECT_LEADERS) {
+                getView().setGameState(GameState.SELECT_LEADERS);
+            }
+        } else {
+            getView().setOwnTurn(false);
+        }
+    }
 
     public abstract void updateMarket(int index, List<Resource> changes, Resource slideResource);
 

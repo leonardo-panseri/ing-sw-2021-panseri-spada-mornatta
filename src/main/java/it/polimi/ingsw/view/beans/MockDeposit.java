@@ -3,11 +3,12 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Local copy of a Player's deposit.
@@ -15,7 +16,7 @@ import java.util.Map;
 public class MockDeposit {
     private final MockPlayer player;
 
-    private final List<List<Resource>> deposit;
+    private final ObservableList<List<Resource>> deposit;
     private Map<Resource, Integer> strongbox;
     private Map<Integer, List<Resource>> leadersDeposit;
     private List<Resource> marketResult;
@@ -27,10 +28,7 @@ public class MockDeposit {
      */
     public MockDeposit(MockPlayer player) {
         this.player = player;
-        deposit = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            deposit.add(new ArrayList<>());
-        }
+        deposit = FXCollections.observableList(Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         strongbox = new HashMap<>();
         leadersDeposit = new HashMap<>();
         leadersDeposit.put(1, new ArrayList<>());
@@ -64,6 +62,10 @@ public class MockDeposit {
      * @return a list containing all rows (list[0] -> top row, list[1] -> middle row, list[2] -> bottom row)
      */
     public List<List<Resource>> getAllRows() {
+        return deposit;
+    }
+
+    public ObservableList<List<Resource>> depositProperty() {
         return deposit;
     }
 

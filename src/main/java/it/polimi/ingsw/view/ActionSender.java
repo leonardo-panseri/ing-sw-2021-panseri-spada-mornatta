@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.messages.EndTurnPlayerActionEvent;
+import it.polimi.ingsw.view.messages.InitialSelectionPlayerActionEvent;
 import it.polimi.ingsw.view.messages.production.Production;
 
 import java.io.File;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class ActionSender {
     private final View view;
@@ -57,6 +60,10 @@ public abstract class ActionSender {
         }
 
         getView().getClient().send(new GameConfigMessage(serializedGameConfig));
+    }
+
+    public void selectLeaders(List<UUID> leaderCards, Map<Integer, List<Resource>> selectedResources) {
+        getView().getClient().send(new InitialSelectionPlayerActionEvent(leaderCards, selectedResources));
     }
 
     /**
