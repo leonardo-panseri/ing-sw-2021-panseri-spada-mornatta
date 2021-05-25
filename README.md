@@ -6,6 +6,8 @@ Final project for the course Software Engineering 2020/2021 at Polimi.
 
 ## Tests coverage
 
+<img src="https://github.com/leonardo-panseri/ing-sw-2021-panseri-spada-mornatta/blob/main/github/coverage.png" />
+
 ## Team Members
 * [Leaonardo Panseri](https://github.com/leonardo-panseri)
 * [Davide Mornatta](https://github.com/davidemornattta)
