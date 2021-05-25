@@ -3,30 +3,37 @@ package it.polimi.ingsw.view.implementation.gui.widget;
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.beans.MockPlayer;
+import it.polimi.ingsw.view.implementation.gui.GUI;
+import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class DepositWidget extends AnchorPane {
     @FXML
-    public HBox topRow;
+    private HBox topRow;
     @FXML
-    public HBox middleRow;
+    private HBox middleRow;
     @FXML
-    public HBox bottomRow;
+    private HBox bottomRow;
 
     private final MockPlayer player;
+    private boolean dropAllowed;
+    private Consumer<DragEvent> dragDroppedHandler;
     public DepositWidget(MockPlayer player) {
         this.player = player;
+        this.dropAllowed = false;
 
         FXMLUtils.loadWidgetFXML(this);
     }
@@ -41,34 +48,93 @@ public class DepositWidget extends AnchorPane {
             }
         });
 
+        topRow.setOnDragDropped(dragEvent -> {
+            if(dropAllowed) {
+                dragDroppedHandler.accept(dragEvent);
+            }
+        });
+        middleRow.setOnDragDropped(dragEvent -> {
+            if(dropAllowed) {
+                dragDroppedHandler.accept(dragEvent);
+            }
+        });
+        bottomRow.setOnDragDropped(dragEvent -> {
+            if(dropAllowed) {
+                dragDroppedHandler.accept(dragEvent);
+            }
+        });
 
+        EventHandler<? super DragEvent> dragOverListener = event -> {
+            if (event.getGestureSource() instanceof ImageView &&
+                    event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.ANY);
+            }
+
+            event.consume();
+        };
+        topRow.setOnDragOver(dragOverListener);
+        middleRow.setOnDragOver(dragOverListener);
+        bottomRow.setOnDragOver(dragOverListener);
+
+        topRow.getChildren().add(buildEmptyImage());
+        for(int i = 0; i < 2; i++) {
+            middleRow.getChildren().add(buildEmptyImage());
+        }
+        for(int i = 0; i < 3; i++) {
+            bottomRow.getChildren().add(buildEmptyImage());
+        }
+
+        List<List<Resource>> rows = GUI.instance().getModel().getLocalPlayer().getDeposit().getAllRows();
+        for(int i = 0; i < 3; i++) {
+            updateRow(i, rows.get(i));
+        }
     }
 
     private void updateRow(int index, List<Resource> resources) {
         Platform.runLater(() -> {
+            Image img = resources.size() > 0 ? GUIUtils.getResourceImage(resources.get(0), 39.0, 33.0) : null;
             switch (index) {
                 case 0 -> {
-                    topRow.getChildren().clear();
-                    resources.forEach(resource -> topRow.getChildren().add(getResourceImage(resource)));
+                    ImageView view = ((ImageView) topRow.getChildren().get(0));
+                    if(resources.size() > 0)
+                        view.setImage(img);
+                    else
+                        view.setImage(null);
                 }
                 case 1 -> {
-                    middleRow.getChildren().clear();
-                    resources.forEach(resource -> middleRow.getChildren().add(getResourceImage(resource)));
+                    for(int i = 0; i < 2; i++) {
+                        ImageView view = ((ImageView) middleRow.getChildren().get(i));
+                        if(i < resources.size())
+                            view.setImage(img);
+                        else
+                            view.setImage(null);
+                    }
                 }
                 case 2 -> {
-                    bottomRow.getChildren().clear();
-                    resources.forEach(resource -> bottomRow.getChildren().add(getResourceImage(resource)));
+                    for(int i = 0; i < 3; i++) {
+                        ImageView view = ((ImageView) bottomRow.getChildren().get(i));
+                        if(i < resources.size())
+                            view.setImage(img);
+                        else
+                            view.setImage(null);
+                    }
                 }
             }
         });
     }
 
-    private ImageView getResourceImage(Resource resource) {
-        InputStream imgIs = getClass().getResourceAsStream("/images/resources/" + resource.toString().toLowerCase() + ".png");
-        if(imgIs == null) {
-            System.err.println("Image not found for " + resource);
-            return new ImageView();
-        }
-        return new ImageView(new Image(imgIs, 39.0, 33.0, true, true));
+    private ImageView buildEmptyImage() {
+        ImageView img = new ImageView();
+        img.setFitHeight(39);
+        img.setFitHeight(33);
+        return img;
+    }
+
+    public void setDropAllowed(boolean dropAllowed) {
+        this.dropAllowed = dropAllowed;
+    }
+
+    public void setOnDragDroppedHandler(Consumer<DragEvent> eventHandler) {
+        this.dragDroppedHandler = eventHandler;
     }
 }

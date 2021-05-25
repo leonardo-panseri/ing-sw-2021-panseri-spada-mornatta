@@ -20,9 +20,9 @@ import java.util.Stack;
 public class EditDevelopmentCards {
 
     @FXML
-    public VBox developmentCardsContainer;
+    private VBox developmentCardsContainer;
     @FXML
-    public Accordion levelsAccordion;
+    private Accordion levelsAccordion;
 
     @FXML
     private void initialize() {
@@ -61,7 +61,7 @@ public class EditDevelopmentCards {
     }
 
     @FXML
-    public void goToHome() {
+    private void goToHome() {
         GameConfigEditor.goToHome();
     }
 }

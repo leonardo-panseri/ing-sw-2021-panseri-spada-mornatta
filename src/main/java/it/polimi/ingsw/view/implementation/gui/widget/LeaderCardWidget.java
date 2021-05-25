@@ -19,13 +19,13 @@ import java.util.Objects;
 
 public class LeaderCardWidget extends StackPane {
     @FXML
-    public AnchorPane cardPane;
+    private AnchorPane cardPane;
     @FXML
-    public FlowPane lcRequirements;
+    private FlowPane lcRequirements;
     @FXML
-    public Label lcVictoryPoints;
+    private Label lcVictoryPoints;
     @FXML
-    public Pane cardBack;
+    private Pane cardBack;
 
     private final LeaderCard leaderCard;
     private boolean cardFlipped;

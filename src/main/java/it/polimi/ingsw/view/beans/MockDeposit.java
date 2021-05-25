@@ -46,6 +46,18 @@ public class MockDeposit {
         this.deposit.set(index, changes);
     }
 
+    public boolean addToRow(int index, Resource resource) {
+        if(deposit.get(index).size() >= index + 1)
+            return false;
+        List<Resource> row = deposit.get(index);
+        if(row.size() > 0)
+            if(resource != row.get(0))
+                return false;
+        row.add(resource);
+        setRow(index, row);
+        return true;
+    }
+
     /**
      * Gets the row at the given index.
      *

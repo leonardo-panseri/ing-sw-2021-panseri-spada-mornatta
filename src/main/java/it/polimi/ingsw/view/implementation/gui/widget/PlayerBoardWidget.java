@@ -7,18 +7,22 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+
+import java.net.URL;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
-    public HBox faithTrackDisplay;
+    private HBox faithTrackDisplay;
     @FXML
-    public Pane playerBoardDisplay;
+    private Pane playerBoardDisplay;
     @FXML
-    public Pane depositDisplay;
+    private Pane depositDisplay;
     @FXML
-    public Pane baseProductionDisplay;
+    private Pane baseProductionDisplay;
 
     private final MockPlayer player;
     public PlayerBoardWidget(MockPlayer player) {
@@ -43,20 +47,76 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionWidget.setScaleY(0.42);
         baseProductionDisplay.getChildren().add(baseProductionWidget);
 
-//        if(GUI.instance().gameStateProperty().get() == GameState.SELECT_LEADERS && GUI.instance().isOwnTurn())
-//            openLeaderSelection();
-//        GUI.instance().gameStateProperty().addListener((change, oldState, newState) -> {
-//            if(newState == GameState.SELECT_LEADERS && GUI.instance().isOwnTurn()) {
-//                openLeaderSelection();
-//            }
-//        });
+        if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
+            openLeaderSelection();
+        } else if(GUI.instance().getGameState() == GameState.WAIT_SELECT_LEADERS) {
+            openWaitForLeaderSelection();
+        }
+
+        if(GUI.instance().getGameState() != GameState.PLAYING) {
+            GUI.instance().gameStateProperty().addListener((change, oldState, newState) -> {
+                if ((oldState == GameState.SELECT_LEADERS && newState == GameState.WAIT_SELECT_LEADERS)
+                    || (oldState == GameState.CHOOSING_RESOURCES && newState == GameState.WAIT_SELECT_LEADERS)) {
+                    Platform.runLater(() -> {
+                        closeLeaderSelection();
+                        openWaitForLeaderSelection();
+                    });
+                } else if (oldState == GameState.WAIT_SELECT_LEADERS && newState == GameState.SELECT_LEADERS) {
+                    Platform.runLater(() -> {
+                        closeWaitForLeaderSelection();
+                        openLeaderSelection();
+                    });
+                } else if (newState == GameState.PLAYING) {
+                    Platform.runLater(this::closeWaitForLeaderSelection);
+                }
+            });
+        }
     }
 
     private void openLeaderSelection() {
-        Platform.runLater(() -> {
+        if(!isLeaderSelectionOpen()) {
             LeaderSelectionWidget selectionWidget = new LeaderSelectionWidget(GUI.instance().getModel().getLocalPlayer().getLeaderCards().keySet());
             getChildren().add(selectionWidget);
-            System.out.println("Added");;
-        });
+        } else
+            System.out.println("leader selection not open");
+    }
+
+    private void closeLeaderSelection() {
+        if(isLeaderSelectionOpen())
+            getChildren().remove(1);
+    }
+
+    private boolean isLeaderSelectionOpen() {
+        return getChildren().size() > 1 && getChildren().get(1) instanceof LeaderSelectionWidget;
+    }
+
+    private void openWaitForLeaderSelection() {
+        if(!isWaitForLeaderSelectionOpen()) {
+            Label text = new Label("Wait while other players select their Leader cards...");
+            text.getStyleClass().add("leader-select-title");
+            FlowPane pane = new FlowPane(text);
+            pane.getStyleClass().add("selection-box");
+            pane.setAlignment(Pos.CENTER);
+            pane.setPrefHeight(400);
+            pane.setPrefWidth(700);
+            VBox vBox = new VBox(pane);
+            vBox.setAlignment(Pos.CENTER);
+            HBox box = new HBox(vBox);
+            box.getStyleClass().add("leader-selection");
+            box.setAlignment(Pos.CENTER);
+            box.setPrefHeight(720);
+            box.setPrefWidth(1080);
+            getChildren().add(box);
+        } else
+            System.out.println("leader wait not open");
+    }
+
+    private void closeWaitForLeaderSelection() {
+        if(isWaitForLeaderSelectionOpen())
+            getChildren().remove(1);
+    }
+
+    private boolean isWaitForLeaderSelectionOpen() {
+        return getChildren().size() > 1 && getChildren().get(1) instanceof HBox;
     }
 }

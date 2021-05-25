@@ -475,6 +475,7 @@ public class Deposit extends Observable<IServerPacket> {
                 changes.put(i, row);
             }
         }
+
         notify(new DepositUpdate(player.getNick(), changes, leadersDeposit));
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.implementation.gui.controller;
 
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
@@ -15,15 +16,15 @@ import java.util.ArrayList;
 
 public class WaitingPlayers {
     @FXML
-    public VBox playersNumberDisplay;
+    private VBox playersNumberDisplay;
     @FXML
-    public Label currentPlayers;
+    private Label currentPlayers;
     @FXML
-    public Label playersToStart;
+    private Label playersToStart;
     @FXML
-    public ProgressIndicator progressIndicator;
+    private ProgressIndicator progressIndicator;
     @FXML
-    public ListView<String> playerList;
+    private ListView<String> playerList;
 
     private ObservableList<String> players;
 
@@ -45,7 +46,7 @@ public class WaitingPlayers {
         players = FXCollections.observableList(new ArrayList<>(gui.getModel().getPlayers().keySet()));
         gui.getModel().getPlayers().addListener((MapChangeListener<String, MockPlayer>) change -> {
             if(change.wasAdded())
-                players.addAll(change.getKey());
+                Platform.runLater(() -> players.addAll(change.getKey()));
         });
         playerList.setItems(players);
     }

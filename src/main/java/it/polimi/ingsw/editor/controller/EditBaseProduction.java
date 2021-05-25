@@ -15,11 +15,11 @@ import java.util.*;
 
 public class EditBaseProduction extends BorderPane {
     @FXML
-    public VBox baseProductionDisplay;
+    private VBox baseProductionDisplay;
     @FXML
-    public VBox inputResources;
+    private VBox inputResources;
     @FXML
-    public VBox outputResources;
+    private VBox outputResources;
 
     private BaseProductionWidget baseProductionWidget;
     private final Map<Resource, BorderPane> inputControls;
@@ -59,12 +59,12 @@ public class EditBaseProduction extends BorderPane {
     }
 
     @FXML
-    public void goToHome() {
+    private void goToHome() {
         GameConfigEditor.goToHome();
     }
 
     @FXML
-    public void saveBaseProduction() {
+    private void saveBaseProduction() {
         List<Resource> newInput = new ArrayList<>();
         List<Resource> newOutput = new ArrayList<>();
 

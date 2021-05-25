@@ -10,9 +10,9 @@ import java.io.File;
 
 public class GameConfigSelection {
     @FXML
-    public TextField config;
+    private TextField config;
     @FXML
-    public Button choose;
+    private Button choose;
 
     private File selectedFile;
 
@@ -31,7 +31,7 @@ public class GameConfigSelection {
     }
 
     @FXML
-    public void skip() {
+    private void skip() {
         GUI.instance().getActionSender().setGameConfig(null);
     }
 }

@@ -15,9 +15,9 @@ import java.util.Objects;
 
 public class BaseProductionWidget extends AnchorPane {
     @FXML
-    public VBox inputBox;
+    private VBox inputBox;
     @FXML
-    public VBox outputBox;
+    private VBox outputBox;
 
     private final BaseProductionPower baseProduction;
 

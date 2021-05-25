@@ -15,13 +15,13 @@ public class DeleteLeaderCard extends VBox {
     }
 
     @FXML
-    public void accept() {
+    private void accept() {
         GameConfigEditor.getGameConfig().deleteLeaderCard(cardEditor.getLeaderCardWidget().getLeaderCard());
         getScene().getWindow().hide();
     }
 
     @FXML
-    public void refuse() {
+    private void refuse() {
         getScene().getWindow().hide();
     }
 }

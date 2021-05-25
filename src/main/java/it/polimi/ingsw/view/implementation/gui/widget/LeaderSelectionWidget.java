@@ -5,34 +5,47 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.implementation.gui.GUI;
+import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import it.polimi.ingsw.view.messages.InitialSelectionPlayerActionEvent;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class LeaderSelectionWidget extends HBox {
     @FXML
-    public HBox leadersDisplay;
+    private HBox leadersDisplay;
     @FXML
-    public Button confirmButton;
+    private Button confirmButton;
 
     private final Set<LeaderCard> leaderCards;
     private final Map<LeaderCard, Boolean> cardsChoice;
     private boolean done;
 
-    private List<UUID> chosenCards;
+    private final List<UUID> chosenCards;
+    private final Map<Integer, List<Resource>> chosenResources;
+    private int chosenResourcesCount;
     public LeaderSelectionWidget(Set<LeaderCard> leaderCards) {
         this.leaderCards = leaderCards;
         this.cardsChoice = new HashMap<>();
+        this.chosenResources = new HashMap<>();
         leaderCards.forEach(card -> cardsChoice.put(card, false));
         this.done = false;
         this.chosenCards = new ArrayList<>();
+        this.chosenResourcesCount = 0;
 
         FXMLUtils.loadWidgetFXML(this);
     }
@@ -83,27 +96,127 @@ public class LeaderSelectionWidget extends HBox {
 
             gui.setGameState(GameState.CHOOSING_RESOURCES);
         } else {
-            gui.getActionSender().selectLeaders(chosenCards, new HashMap<>());
-            if(!gui.getClient().isNoServer())
-                gui.setGameState(GameState.WAIT_SELECT_LEADERS);
+            confirmSelection();
         }
     }
 
     private void goToChooseResources(int initialResourcesToChoose) {
-        VBox box = new VBox();
-        box.setAlignment(Pos.CENTER);
+        BorderPane box = new BorderPane();
+        box.getStyleClass().add("selection-box");
+        box.setPrefWidth(700);
+        box.setPrefHeight(400);
+        box.setMaxWidth(700);
+        box.setMaxHeight(400);
         int initialFaith = GUI.instance().getModel().getLocalPlayer().getFaithPoints();
+        String titleText = "";
         if(initialFaith != 0) {
-            Label faithLabel = new Label("You start with " + initialFaith + " faith point!");
-            box.getChildren().add(faithLabel);
+            titleText += "You start with " + initialFaith + " faith point!\n";
         }
 
-        Label chooseResLabel = new Label("You must choose " + initialResourcesToChoose + " starting resources!");
-        box.getChildren().add(chooseResLabel);
+        Label chooseResLabel = new Label(titleText + "You must choose " + initialResourcesToChoose + " starting resources!");
+        chooseResLabel.getStyleClass().add("leader-select-title");
+        HBox title = new HBox(chooseResLabel);
+        title.setAlignment(Pos.CENTER);
+        box.setTop(title);
 
-        HBox dragArea = new HBox();
+        Button chooseConfirmButton = new Button("Confirm");
+        chooseConfirmButton.setDisable(true);
+        chooseConfirmButton.setOnAction(actionEvent -> confirmSelection());
+
+        DepositWidget depositWidget = new DepositWidget(GUI.instance().getModel().getLocalPlayer());
+        depositWidget.setDropAllowed(true);
+        depositWidget.setOnDragDroppedHandler(buildOnDragDroppedListener(initialResourcesToChoose, chooseConfirmButton));
+
+        VBox resourcePicker = buildResourcePicker();
+        resourcePicker.setMaxHeight(depositWidget.getPrefHeight());
+        HBox dragArea = new HBox(depositWidget, resourcePicker);
         dragArea.setAlignment(Pos.CENTER);
-        Pane depositDisplay = new Pane();
+        dragArea.setSpacing(40);
+        box.setCenter(dragArea);
 
+        HBox buttonBox = new HBox(chooseConfirmButton);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        box.setBottom(buttonBox);
+
+        getChildren().clear();
+        getChildren().add(box);
+    }
+
+    private Consumer<DragEvent> buildOnDragDroppedListener(int initialResourcesToChoose, Button chooseConfirmButton) {
+        return event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            Resource res = null;
+            int rowIndex = -1;
+            if (db.hasString()) {
+                success = true;
+                try {
+                    res = Resource.valueOf(db.getString());
+
+                    String id = ((HBox)event.getGestureTarget()).getId();
+                    switch (id) {
+                        case "topRow" -> rowIndex = 0;
+                        case "middleRow" -> rowIndex = 1;
+                        case "bottomRow" -> rowIndex = 2;
+                        default -> throw new RuntimeException();
+                    }
+                } catch (Exception ignored) {
+                    success = false;
+                }
+            }
+            if(success) {
+                if(chosenResourcesCount < initialResourcesToChoose) {
+                    success = GUI.instance().getModel().getLocalPlayer().getDeposit().addToRow(rowIndex, res);
+
+                    if(success) {
+                        chosenResourcesCount++;
+
+                        if(chosenResourcesCount >= initialResourcesToChoose)
+                            Platform.runLater(() -> {
+                                chooseConfirmButton.setDisable(false);
+                            });
+
+                        if(chosenResources.containsKey(rowIndex + 1))
+                            chosenResources.get(rowIndex + 1).add(res);
+                        else
+                            chosenResources.put(rowIndex + 1, new ArrayList<>(Collections.singletonList(res)));
+                    }
+                } else
+                    success = false;
+            }
+            event.setDropCompleted(success);
+
+            event.consume();
+        };
+    }
+
+    private void confirmSelection() {
+        GUI.instance().getActionSender().selectLeaders(chosenCards, chosenResources);
+        if(!GUI.instance().getClient().isNoServer())
+            GUI.instance().setGameState(GameState.WAIT_SELECT_LEADERS);
+    }
+
+    private VBox buildResourcePicker() {
+        VBox box = new VBox();
+        for(Resource resource : Resource.values()) {
+            if(resource == Resource.FAITH)
+                continue;
+            ImageView img = new ImageView(GUIUtils.getResourceImage(resource, 50, 50));
+
+            img.setOnDragDetected(mouseEvent -> {
+                Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putString(resource.toString());
+                content.putImage(img.getImage());
+                db.setContent(content);
+
+                mouseEvent.consume();
+            });
+
+            box.getChildren().add(img);
+        }
+        box.setSpacing(20);
+        return box;
     }
 }

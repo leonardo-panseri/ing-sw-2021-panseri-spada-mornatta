@@ -18,15 +18,15 @@ import java.util.Map;
 
 public class EditDevelopmentCard extends BorderPane {
     @FXML
-    public VBox devCardDisplay;
+    private VBox devCardDisplay;
     @FXML
-    public VBox cost;
+    private VBox cost;
     @FXML
-    public TextField victoryPoints;
+    private TextField victoryPoints;
     @FXML
-    public VBox inputResources;
+    private VBox inputResources;
     @FXML
-    public VBox outputResources;
+    private VBox outputResources;
 
     private DevelopmentCardWidget developmentCardWidget;
     private final Map<Resource, BorderPane> costControls;
@@ -73,7 +73,7 @@ public class EditDevelopmentCard extends BorderPane {
     }
 
     @FXML
-    public void saveDevelopmentCard() {
+    private void saveDevelopmentCard() {
         Map<Resource, Integer> cost = new HashMap<>();
         int victoryPoints = 0;
         Map<Resource, Integer> prodInput = new HashMap<>();
@@ -113,7 +113,7 @@ public class EditDevelopmentCard extends BorderPane {
     }
 
     @FXML
-    public void goToEditDevelopmentCards() {
+    private void goToEditDevelopmentCards() {
         GameConfigEditor.goToEditDevelopmentCards();
     }
 }

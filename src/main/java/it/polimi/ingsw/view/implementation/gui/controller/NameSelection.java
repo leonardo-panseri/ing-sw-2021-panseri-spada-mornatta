@@ -7,9 +7,9 @@ import javafx.scene.control.TextField;
 
 public class NameSelection {
     @FXML
-    public TextField username;
+    private TextField username;
     @FXML
-    public Button choose;
+    private Button choose;
 
     @FXML
     private void initialize() {

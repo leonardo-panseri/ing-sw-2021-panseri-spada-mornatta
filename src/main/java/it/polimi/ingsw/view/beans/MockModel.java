@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.server.GameConfig;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -131,7 +132,9 @@ public class MockModel {
     }
 
     public void updatePlayerCount(int currentPlayers, int playersToStart) {
-        this.currentPlayers.setValue(currentPlayers);
-        this.playersToStart.setValue(playersToStart);
+        Platform.runLater(() -> {
+            this.currentPlayers.setValue(currentPlayers);
+            this.playersToStart.setValue(playersToStart);
+        });
     }
 }

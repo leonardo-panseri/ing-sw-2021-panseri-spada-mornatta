@@ -21,17 +21,17 @@ import java.util.*;
 
 public class EditLeaderCard extends BorderPane {
     @FXML
-    public VBox resourceRequirements;
+    private VBox resourceRequirements;
     @FXML
-    public VBox cardColorRequirements;
+    private VBox cardColorRequirements;
     @FXML
-    public VBox cardLevelRequirements;
+    private VBox cardLevelRequirements;
     @FXML
-    public TextField victoryPoints;
+    private TextField victoryPoints;
     @FXML
-    public ChoiceBox<String> specialAbilityType;
+    private ChoiceBox<String> specialAbilityType;
     @FXML
-    public ChoiceBox<String> specialAbilityResource;
+    private ChoiceBox<String> specialAbilityResource;
 
 
     private LeaderCardWidget leaderCardWidget;
@@ -72,12 +72,12 @@ public class EditLeaderCard extends BorderPane {
     }
 
     @FXML
-    public void goToEditLeaderCards() {
+    private void goToEditLeaderCards() {
         GameConfigEditor.goToEditLeaderCards();
     }
 
     @FXML
-    public void saveLeaderCard() {
+    private void saveLeaderCard() {
         int victoryPoints = 0;
         Map<Resource, Integer> resourceRequirements = new HashMap<>();
         Map<CardColor, Integer> cardColorRequirements = new HashMap<>();
@@ -126,7 +126,7 @@ public class EditLeaderCard extends BorderPane {
     }
 
     @FXML
-    public void deleteLeaderCard() {
+    private void deleteLeaderCard() {
         Stage dialog = new Stage();
 
         dialog.initOwner(getScene().getWindow());

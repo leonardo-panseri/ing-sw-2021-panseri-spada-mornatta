@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -111,12 +112,10 @@ public class GUI extends View {
         });
     }
 
-    @Override
-    public void handleGameStart(GameConfig gameConfig) {
-        super.handleGameStart(gameConfig);
+    public void showPlayerBoard() {
         Platform.runLater(() -> {
-            PlayerBoardWidget localPlayerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());
-            scene.setRoot(localPlayerBoard);
+            PlayerBoardWidget playerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());
+            scene.setRoot(playerBoard);
         });
     }
 
@@ -130,15 +129,6 @@ public class GUI extends View {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getModel().getLocalPlayer().getDeposit().setRow(1, Arrays.asList(Resource.STONE, Resource.STONE));
-                getModel().getLocalPlayer().getDeposit().setRow(2, Arrays.asList(Resource.SHIELD, Resource.SHIELD, Resource.SHIELD));
-            }
-        }, 9000L);
 
         if(getClient().isNoServer())
             addToLobby(false);
