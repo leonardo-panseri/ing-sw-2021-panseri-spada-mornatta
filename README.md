@@ -10,7 +10,7 @@ Final project for the course Software Engineering 2020/2021 at Polimi.
 
 ## Team Members
 * [Leaonardo Panseri](https://github.com/leonardo-panseri)
-* [Davide Mornatta](https://github.com/davidemornattta)
+* [Davide Mornatta](https://github.com/davidemornatta)
 * [Edoardo Spada](https://github.com/EdoardoSpada)
 
 ## Software used
