@@ -13,27 +13,27 @@ public class Home {
     private Button saveButton;
 
     @FXML
-    public void goToEditLeaderCards() {
+    private void goToEditLeaderCards() {
         GameConfigEditor.goToEditLeaderCards();
     }
 
     @FXML
-    public void goToEditDevelopmentCards() {
+    private void goToEditDevelopmentCards() {
         GameConfigEditor.goToEditDevelopmentCards();
     }
 
     @FXML
-    public void goToEditBaseProduction() {
+    private void goToEditBaseProduction() {
         GameConfigEditor.goToEditBaseProduction();
     }
 
     @FXML
-    public void goToEditFaithTrack() {
+    private void goToEditFaithTrack() {
         GameConfigEditor.goToEditFaithTrack();
     }
 
     @FXML
-    public void saveConfig() {
+    private void saveConfig() {
         File config = new File("custom_config_" + System.currentTimeMillis() + ".json");
         try{
             if(!config.createNewFile()) {
@@ -65,7 +65,7 @@ public class Home {
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         saveButton.setDisable(true);
     }
 }

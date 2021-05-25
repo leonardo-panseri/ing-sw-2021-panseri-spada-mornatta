@@ -6,7 +6,9 @@ import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.beans.MockModel;
 import it.polimi.ingsw.view.beans.MockPlayer;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.Map;
@@ -22,14 +24,14 @@ public abstract class View {
     private ObjectProperty<GameState> gameState;
     private String playerName;
     private boolean lobbyMaster;
-    private boolean ownTurn;
+    private BooleanProperty ownTurn;
     private boolean usingProductions;
 
 
     public View(Client client) {
         this.client = client;
         this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);
-        this.ownTurn = false;
+        this.ownTurn = new SimpleBooleanProperty(false);
         this.usingProductions = false;
         this.model = new MockModel();
     }
@@ -65,6 +67,10 @@ public abstract class View {
         return gameState;
     }
 
+    public BooleanProperty ownTurnProperty() {
+        return ownTurn;
+    }
+
     public String getPlayerName() {
         return playerName;
     }
@@ -74,7 +80,7 @@ public abstract class View {
     }
 
     public boolean isOwnTurn() {
-        return ownTurn;
+        return ownTurn.get();
     }
 
     public boolean isUsingProductions() {
@@ -107,7 +113,7 @@ public abstract class View {
     }
 
     public void setOwnTurn(boolean ownTurn) {
-        this.ownTurn = ownTurn;
+        this.ownTurn.setValue(ownTurn);
     }
 
     public void setUsingProductions(boolean usingProductions) {
@@ -169,7 +175,7 @@ public abstract class View {
 
     protected void reset() {
         this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);
-        this.ownTurn = false;
+        this.ownTurn = new SimpleBooleanProperty(false);
         this.usingProductions = false;
         this.model = new MockModel();
 

@@ -6,11 +6,11 @@ import javafx.scene.control.*;
 
 public class Home {
     @FXML
-    public TextField serverIp;
+    private TextField serverIp;
     @FXML
-    public Button connect;
+    private Button connect;
     @FXML
-    public Label errorDisplay;
+    private Label errorDisplay;
 
     @FXML
     private void initialize() {

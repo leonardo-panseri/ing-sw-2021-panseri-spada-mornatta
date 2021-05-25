@@ -12,13 +12,13 @@ import java.util.Objects;
 
 public class DevelopmentCardWidget extends AnchorPane {
     @FXML
-    public FlowPane cost;
+    private FlowPane cost;
     @FXML
-    public VBox input;
+    private VBox input;
     @FXML
-    public VBox output;
+    private VBox output;
     @FXML
-    public Label victoryPoints;
+    private Label victoryPoints;
 
     private final DevelopmentCard developmentCard;
 

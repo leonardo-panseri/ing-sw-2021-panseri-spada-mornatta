@@ -14,11 +14,11 @@ import java.util.*;
 
 public class EditFaithTrack {
     @FXML
-    public HBox faithTrackDisplay;
+    private HBox faithTrackDisplay;
     @FXML
-    public VBox victoryPoints;
+    private VBox victoryPoints;
     @FXML
-    public VBox popeReports;
+    private VBox popeReports;
 
     private final Map<Integer, BorderPane> victoryPointsControls;
     private final Map<Integer, BorderPane> popeReportsControls;
@@ -94,12 +94,12 @@ public class EditFaithTrack {
     }
 
     @FXML
-    public void goToHome() {
+    private void goToHome() {
         GameConfigEditor.goToHome();
     }
 
     @FXML
-    public void saveFaithTrack() {
+    private void saveFaithTrack() {
         Map<Integer, Integer> newVictoryPoints = new HashMap<>();
         Map<Integer, List<Integer>> newPopeReports = new HashMap<>();
 

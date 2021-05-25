@@ -7,9 +7,9 @@ import javafx.scene.control.TextField;
 
 public class PlayersToStartSelection {
     @FXML
-    public TextField playersToStart;
+    private TextField playersToStart;
     @FXML
-    public Button choose;
+    private Button choose;
 
     @FXML
     private void initialize() {

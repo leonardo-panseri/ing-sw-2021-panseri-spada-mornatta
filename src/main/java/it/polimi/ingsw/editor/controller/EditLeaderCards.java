@@ -20,17 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 public class EditLeaderCards {
-    private ListView<LeaderCardWidget> leaderCardsView;
     @FXML
-    public VBox leaderCardsContainer;
+    private VBox leaderCardsContainer;
+
+    private ListView<LeaderCardWidget> leaderCardsView;
 
     @FXML
-    public void goToHome() {
+    private void goToHome() {
         GameConfigEditor.goToHome();
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         List<LeaderCardWidget> leaderCardWidgets = new ArrayList<>();
         GameConfigEditor.getGameConfig().getLeaderCards().forEach(card -> leaderCardWidgets.add(new LeaderCardWidget(card)));
         ObservableList<LeaderCardWidget> observableLeaderCardWidgets = FXCollections.observableList(leaderCardWidgets);
@@ -46,7 +47,7 @@ public class EditLeaderCards {
     }
 
     @FXML
-    public void createNewLeaderCard() {
+    private void createNewLeaderCard() {
         int victoryPoints;
         Map<Resource, Integer> resourceRequirements = new HashMap<>();
         Map<CardColor, Integer> cardColorRequirements = new HashMap<>();
