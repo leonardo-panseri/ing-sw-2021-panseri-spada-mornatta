@@ -9,10 +9,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-
-import java.net.URL;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
@@ -118,5 +117,13 @@ public class PlayerBoardWidget extends StackPane {
 
     private boolean isWaitForLeaderSelectionOpen() {
         return getChildren().size() > 1 && getChildren().get(1) instanceof HBox;
+    }
+
+    @FXML
+    private void goToMarket() {
+        Platform.runLater(() -> {
+            MarketWidget marketWidget = new MarketWidget();
+            getScene().setRoot(marketWidget);
+        });
     }
 }

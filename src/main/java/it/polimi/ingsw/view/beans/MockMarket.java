@@ -1,6 +1,11 @@
 package it.polimi.ingsw.view.beans;
 
 import it.polimi.ingsw.model.Resource;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -8,8 +13,13 @@ import java.util.List;
  * Local copy of the game market.
  */
 public class MockMarket {
-    private List<List<Resource>> grid;
-    private Resource slideResource;
+    private final ObservableList<List<Resource>> grid;
+    private final ObjectProperty<Resource> slideResource;
+
+    public MockMarket() {
+        this.grid = FXCollections.observableArrayList();
+        this.slideResource = new SimpleObjectProperty<>();
+    }
 
     /**
      * Gets the grid of the market.
@@ -20,13 +30,17 @@ public class MockMarket {
         return grid;
     }
 
+    public ObservableList<List<Resource>> gridProperty() {
+        return grid;
+    }
+
     /**
      * Sets the grid of the market.
      *
      * @param grid list of lists representing the market
      */
     public void setGrid(List<List<Resource>> grid) {
-        this.grid = grid;
+        this.grid.setAll(grid);
     }
 
     /**
@@ -35,6 +49,10 @@ public class MockMarket {
      * @return the resource in the slide
      */
     public Resource getSlideResource() {
+        return slideResource.get();
+    }
+
+    public ObjectProperty<Resource> slideResourceProperty() {
         return slideResource;
     }
 
@@ -44,7 +62,7 @@ public class MockMarket {
      * @param slideResource the resource that will be set as the slide resource
      */
     public void setSlideResource(Resource slideResource) {
-        this.slideResource = slideResource;
+        this.slideResource.setValue(slideResource);
     }
 
     /**
@@ -54,8 +72,7 @@ public class MockMarket {
      * @param changes a List containing the resources that will be associated to the new row
      */
     public void updateMarketRow(int index, List<Resource> changes) {
-        getGrid().get(index).clear();
-        getGrid().get(index).addAll(changes);
+        this.grid.set(index, changes);
     }
 
     /**
@@ -65,9 +82,13 @@ public class MockMarket {
      * @param changes a List containing the resources that will be associated to the new column
      */
     public void updateMarketColumn(int index, List<Resource> changes) {
-        for (List<Resource> row : getGrid()) {
+        int i = 0;
+        for (List<Resource> row : grid) {
             row.remove(index);
             row.add(index, changes.get(getGrid().indexOf(row)));
+
+            grid.set(i, row); //Triggers the event listeners for this property
+            i++;
         }
     }
 

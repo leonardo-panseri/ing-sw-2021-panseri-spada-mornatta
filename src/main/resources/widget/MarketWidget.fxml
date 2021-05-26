@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.view.implementation.gui.widget.MarketWidget"
+            prefHeight="720.0" prefWidth="1080.0"
+            stylesheets="@css/style.css"
+            styleClass="market">
+    <HBox alignment="CENTER">
+        <VBox alignment="CENTER">
+            <GridPane fx:id="marketDisplay">
+
+            </GridPane>
+        </VBox>
+    </HBox>
+</fx:root>

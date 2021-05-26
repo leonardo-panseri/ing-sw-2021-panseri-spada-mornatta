@@ -66,7 +66,7 @@ public class DepositWidget extends AnchorPane {
 
         EventHandler<? super DragEvent> dragOverListener = event -> {
             if (event.getGestureSource() instanceof ImageView &&
-                    event.getDragboard().hasString()) {
+                    event.getDragboard().hasString() && dropAllowed) {
                 event.acceptTransferModes(TransferMode.ANY);
             }
 

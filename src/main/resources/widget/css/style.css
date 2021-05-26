@@ -75,3 +75,16 @@
     -fx-background-image: url("../../images/deposit.png");
     -fx-background-size: contain;
 }
+.market .table {
+    -fx-background-color: black;
+    -fx-padding: 20;
+}
+.market .slide {
+    -fx-background-color: grey;
+    -fx-padding: 20;
+}
+.market .margin {
+    -fx-background-color: saddlebrown;
+    -fx-padding: 20;
+    -fx-font-size: 50;
+}
