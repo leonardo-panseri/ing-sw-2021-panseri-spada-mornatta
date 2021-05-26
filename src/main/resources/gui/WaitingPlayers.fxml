@@ -6,21 +6,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.implementation.gui.controller.WaitingPlayers">
+            fx:controller="it.polimi.ingsw.view.implementation.gui.controller.WaitingPlayers"
+            stylesheets="@css/style.css">
     <center>
         <VBox alignment="CENTER">
-            <Label>Waiting for other players</Label>
-            <VBox fx:id="playersNumberDisplay" maxWidth="100">
-                <HBox>
-                    <Label fx:id="currentPlayers" />
-                    <Label>/</Label>
-                    <Label fx:id="playersToStart" />
-                </HBox>
-                <ProgressIndicator fx:id="progressIndicator" />
-            </VBox>
-            <ListView fx:id="playerList" maxWidth="100"/>
+            <HBox alignment="CENTER">
+                <ListView fx:id="playerList" maxWidth="100">
+                    <HBox.margin><Insets right="40" /></HBox.margin>
+                </ListView>
+                <VBox alignment="CENTER"  styleClass="font-20">
+                    <Label>Waiting for other players</Label>
+                    <VBox fx:id="playersNumberDisplay" maxWidth="100">
+                        <HBox alignment="CENTER">
+                            <Label fx:id="currentPlayers" />
+                            <Label>/</Label>
+                            <Label fx:id="playersToStart" />
+                        </HBox>
+                        <HBox alignment="CENTER">
+                            <ProgressIndicator fx:id="progressIndicator" />
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </HBox>
         </VBox>
     </center>
 </BorderPane>
