@@ -33,7 +33,7 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
         super.updateTurn(playerName);
         if (playerName.equals(getView().getPlayerName())) {
             getView().getRenderer().showGameMessage(ViewString.OWN_TURN);
-            if (getView().getGameState() == GameState.WAIT_SELECT_LEADERS) {
+            if (getView().getGameState() == GameState.SELECT_LEADERS) {
                 getView().getRenderer().showGameMessage(ViewString.SELECT_LEADERS);
                 getView().getRenderer().printOwnLeaders();
             } else if (getView().getGameState() == GameState.PLAYING) {

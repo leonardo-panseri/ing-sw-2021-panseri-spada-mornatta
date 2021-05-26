@@ -11,6 +11,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.util.List;
 import java.util.Map;
 
 public abstract class View {
@@ -129,7 +130,7 @@ public abstract class View {
             lobbyMaster = true;
     }
 
-    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
+    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
         if(playerName.equals(getPlayerName())) {
             MockPlayer localPlayer = getModel().addPlayer(getPlayerName(), true);
             getModel().setLocalPlayer(localPlayer);
@@ -139,6 +140,10 @@ public abstract class View {
                 setGameState(GameState.CHOOSING_PLAYERS);
             } else
                 setGameState(GameState.WAITING_PLAYERS);
+
+            if(!otherConnectedPlayers.isEmpty()) {
+                otherConnectedPlayers.forEach(player -> getModel().addPlayer(player, false));
+            }
         } else {
             getModel().addPlayer(playerName, false);
         }

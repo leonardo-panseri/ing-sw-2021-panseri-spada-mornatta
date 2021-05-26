@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -115,7 +116,7 @@ public class Client {
             if (message instanceof PlayerNameMessage) {
                 localPlayerName = ((PlayerNameMessage) message).getPlayerName();
 
-                getView().handlePlayerConnect(localPlayerName, 1, -1);
+                getView().handlePlayerConnect(localPlayerName, 1, -1, Collections.emptyList());
             } else if (message instanceof GameConfigMessage) {
                 localGameConfig = GameConfig.deserialize(((GameConfigMessage) message).getSerializedGameConfig());
                 initializeLocalGame();

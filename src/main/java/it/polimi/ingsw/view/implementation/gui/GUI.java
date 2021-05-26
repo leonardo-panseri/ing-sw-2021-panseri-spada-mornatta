@@ -13,10 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class GUI extends View {
     private static GUI instance;
@@ -50,8 +47,8 @@ public class GUI extends View {
     }
 
     @Override
-    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
-        super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
+    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
+        super.handlePlayerConnect(playerName, currentPlayers, playersToStart, otherConnectedPlayers);
         if(getClient().isNoServer()) {
             Platform.runLater(() -> {
                 Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");

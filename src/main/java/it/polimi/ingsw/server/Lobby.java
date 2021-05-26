@@ -106,7 +106,12 @@ public class Lobby extends Observable<IServerPacket> {
         }
 
         connection.setPlayerName(playerName);
-        notify(new PlayerConnectMessage(playerName, connections.size(), playersToStart));
+        List<String> otherNames = new ArrayList<>();
+        connections.forEach(con -> {
+            if(con.getPlayerName() != null)
+                otherNames.add(con.getPlayerName());
+        });
+        notify(new PlayerConnectMessage(playerName, connections.size(), playersToStart, otherNames));
     }
 
     /**

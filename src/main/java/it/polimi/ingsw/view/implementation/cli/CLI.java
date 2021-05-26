@@ -38,8 +38,8 @@ public class CLI extends View {
     }
 
     @Override
-    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
-        super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
+    public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
+        super.handlePlayerConnect(playerName, currentPlayers, playersToStart, otherConnectedPlayers);
         if(getClient().isNoServer()) {
             getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
                     " otherwise input 'n':");
