@@ -52,7 +52,7 @@ public class GUI extends View {
     @Override
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart) {
         super.handlePlayerConnect(playerName, currentPlayers, playersToStart);
-        if(getClient().isNoServer()) {
+        if (getClient().isNoServer()) {
             Platform.runLater(() -> {
                 Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
                 scene.setRoot(gameConfigSelection);
@@ -62,8 +62,8 @@ public class GUI extends View {
 
         getModel().updatePlayerCount(currentPlayers, playersToStart);
 
-        if(playerName.equals(getPlayerName())) {
-            if(isLobbyMaster()) {
+        if (playerName.equals(getPlayerName())) {
+            if (isLobbyMaster()) {
                 Platform.runLater(() -> {
                     Parent playersToStartSelection = FXMLUtils.loadFXML("/gui/PlayersToStartSelection");
                     scene.setRoot(playersToStartSelection);
@@ -130,7 +130,7 @@ public class GUI extends View {
         stage.setResizable(false);
         stage.show();
 
-        if(getClient().isNoServer())
+        if (getClient().isNoServer())
             addToLobby(false);
     }
 

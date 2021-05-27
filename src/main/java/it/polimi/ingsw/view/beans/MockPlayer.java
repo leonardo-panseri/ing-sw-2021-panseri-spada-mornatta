@@ -2,6 +2,9 @@ package it.polimi.ingsw.view.beans;
 
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +16,8 @@ import java.util.Map;
 public class MockPlayer {
     private final String name;
     private final boolean localPlayer;
-    private int faithPoints;
     private int popeFavours;
+    private IntegerProperty faithPoints;
 
     private int initialResourcesToChoose;
 
@@ -24,7 +27,7 @@ public class MockPlayer {
     public MockPlayer(String name, boolean localPlayer) {
         this.name = name;
         this.localPlayer = localPlayer;
-        this.faithPoints = 0;
+        faithPoints = new SimpleIntegerProperty(0);
         this.popeFavours = 0;
         this.leaderCards = new HashMap<>();
         this.playerBoard = new MockPlayerBoard(this);
@@ -49,7 +52,7 @@ public class MockPlayer {
      * @return the number of faith points held by the player
      */
     public int getFaithPoints() {
-        return this.faithPoints;
+        return this.faithPoints.get();
     }
 
     /**
@@ -58,7 +61,7 @@ public class MockPlayer {
      * @param faithPoints the number of faith points to set
      */
     public void setFaithPoints(int faithPoints) {
-        this.faithPoints = faithPoints;
+        this.faithPoints.set(faithPoints);
     }
 
     /**
@@ -170,5 +173,9 @@ public class MockPlayer {
      */
     public void setInitialResourcesToChoose(int resourceToChoose) {
         this.initialResourcesToChoose = resourceToChoose;
+    }
+
+    public IntegerProperty faithPointsProperty() {
+        return faithPoints;
     }
 }

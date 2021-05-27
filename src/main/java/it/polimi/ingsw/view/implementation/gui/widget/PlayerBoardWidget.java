@@ -34,7 +34,7 @@ public class PlayerBoardWidget extends StackPane {
     @FXML
     private void initialize() {
         GameConfig gameConfig = GUI.instance().getModel().getGameConfig();
-        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints());
+        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints(),player);
         faithTrackWidget.setScaleX(1.6);
         faithTrackWidget.setScaleY(1.6);
         faithTrackDisplay.getChildren().add(faithTrackWidget);
