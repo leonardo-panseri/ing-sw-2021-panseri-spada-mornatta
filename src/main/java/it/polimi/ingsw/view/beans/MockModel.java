@@ -30,7 +30,6 @@ public class MockModel {
     public MockModel() {
         currentPlayers = new SimpleIntegerProperty(-1);
         playersToStart = new SimpleIntegerProperty(-1);
-
         localPlayer = null;
         players = FXCollections.observableHashMap();
         market = new MockMarket();
@@ -137,4 +136,5 @@ public class MockModel {
             this.playersToStart.setValue(playersToStart);
         });
     }
+
 }

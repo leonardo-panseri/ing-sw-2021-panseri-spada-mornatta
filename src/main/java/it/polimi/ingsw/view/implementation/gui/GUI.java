@@ -59,8 +59,8 @@ public class GUI extends View {
 
         getModel().updatePlayerCount(currentPlayers, playersToStart);
 
-        if(playerName.equals(getPlayerName())) {
-            if(isLobbyMaster()) {
+        if (playerName.equals(getPlayerName())) {
+            if (isLobbyMaster()) {
                 Platform.runLater(() -> {
                     Parent playersToStartSelection = FXMLUtils.loadFXML("/gui/PlayersToStartSelection");
                     scene.setRoot(playersToStartSelection);
@@ -127,7 +127,7 @@ public class GUI extends View {
         stage.setResizable(false);
         stage.show();
 
-        if(getClient().isNoServer())
+        if (getClient().isNoServer())
             addToLobby(false);
     }
 

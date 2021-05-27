@@ -2,6 +2,7 @@ package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
+import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.widget.FaithTrackWidget;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -22,10 +23,12 @@ public class EditFaithTrack {
 
     private final Map<Integer, BorderPane> victoryPointsControls;
     private final Map<Integer, BorderPane> popeReportsControls;
+    private final MockPlayer player;
 
     public EditFaithTrack() {
         this.victoryPointsControls = new HashMap<>();
         this.popeReportsControls = new HashMap<>();
+        this.player = null;
     }
 
 
@@ -34,7 +37,7 @@ public class EditFaithTrack {
         Map<Integer, Integer> victoryPoints = GameConfigEditor.getGameConfig().getFaithTrackPoints();
         Map<Integer, List<Integer>> popeReports = GameConfigEditor.getGameConfig().getPopeReports();
 
-        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(popeReports, victoryPoints);
+        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(popeReports, victoryPoints,player);
         faithTrackDisplay.getChildren().add(faithTrackWidget);
 
         List<BorderPane> vpControls = new ArrayList<>();
@@ -123,7 +126,7 @@ public class EditFaithTrack {
             }
         });
 
-        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(newPopeReports, newVictoryPoints);
+        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(newPopeReports, newVictoryPoints,player);
         faithTrackDisplay.getChildren().setAll(faithTrackWidget);
 
         GameConfigEditor.getGameConfig().modifyFaithTrack(newPopeReports, newVictoryPoints);
