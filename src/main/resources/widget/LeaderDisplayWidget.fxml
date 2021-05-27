@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<fx:root type="VBox" fx:id="leaderDisplay" xmlns="https://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  fx:controller="it.polimi.ingsw.view.implementation.gui.widget.LeaderDisplayWidget"
+            prefHeight="720.0" prefWidth="200.0" alignment="CENTER">
+</fx:root>

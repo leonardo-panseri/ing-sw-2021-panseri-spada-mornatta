@@ -15,6 +15,8 @@ import javafx.scene.layout.*;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
+    public Pane leadersDisplay;
+    @FXML
     private HBox faithTrackDisplay;
     @FXML
     private Pane playerBoardDisplay;
@@ -40,6 +42,9 @@ public class PlayerBoardWidget extends StackPane {
 
         DepositWidget depositWidget = new DepositWidget(player);
         depositDisplay.getChildren().add(depositWidget);
+
+        LeaderDisplayWidget leaderDisplayWidget = new LeaderDisplayWidget(player);
+        leadersDisplay.getChildren().add(leaderDisplayWidget);
 
         BaseProductionWidget baseProductionWidget = new BaseProductionWidget(gameConfig.getBaseProductionPower());
         baseProductionWidget.setScaleX(0.42);

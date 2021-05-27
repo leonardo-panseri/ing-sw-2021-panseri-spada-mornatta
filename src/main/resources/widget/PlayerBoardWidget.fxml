@@ -11,7 +11,7 @@
 <fx:root prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/style.css" type="StackPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget">
     <AnchorPane styleClass="player-board" prefHeight="720.0" prefWidth="1080.0">
         <VBox prefWidth="1000.0" prefHeight="720.0" alignment="CENTER">
-            <AnchorPane.rightAnchor>10</AnchorPane.rightAnchor>
+            <AnchorPane.leftAnchor>10</AnchorPane.leftAnchor>
             <HBox fx:id="faithTrackDisplay" alignment="CENTER" prefWidth="1000.0" />
             <Pane fx:id="playerBoardDisplay" prefWidth="1000.0" prefHeight="507">
                 <VBox.margin><Insets top="30" /></VBox.margin>
@@ -20,5 +20,8 @@
             </Pane>
         </VBox>
         <Button onAction="#goToMarket">View Market</Button>
+        <Pane fx:id="leadersDisplay">
+            <AnchorPane.rightAnchor>160</AnchorPane.rightAnchor>
+        </Pane>
     </AnchorPane>
 </fx:root>

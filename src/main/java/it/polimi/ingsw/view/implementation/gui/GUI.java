@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.implementation.gui;
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.cli.CLIActionSender;
