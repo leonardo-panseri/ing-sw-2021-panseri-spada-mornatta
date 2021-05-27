@@ -101,7 +101,7 @@
           <artifactId>javafx-maven-plugin</artifactId>
           <version>${javafx.maven.plugin.version}</version>
           <configuration>
-            <mainClass>it.polimi.ingsw.editor.GameConfigEditor</mainClass>
+            <mainClass>it.polimi.ingsw.App</mainClass>
           </configuration>
         </plugin>
       </plugins>
