@@ -2,9 +2,10 @@ package it.polimi.ingsw.view.beans;
 
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ public class MockPlayer {
 
     private int initialResourcesToChoose;
 
-    private Map<LeaderCard, Boolean> leaderCards;
+    private final ObservableMap<LeaderCard, Boolean> leaderCards;
     private final MockPlayerBoard playerBoard;
 
     public MockPlayer(String name, boolean localPlayer) {
@@ -26,7 +27,7 @@ public class MockPlayer {
         this.localPlayer = localPlayer;
         this.faithPoints = 0;
         this.popeFavours = 0;
-        this.leaderCards = new HashMap<>();
+        this.leaderCards = FXCollections.observableHashMap();
         this.playerBoard = new MockPlayerBoard(this);
     }
 
@@ -89,6 +90,15 @@ public class MockPlayer {
     }
 
     /**
+     * Gets an observable map corresponding to the LeaderCards of the player.
+     *
+     * @return an observable map of the LeaderCards.
+     */
+    public ObservableMap<LeaderCard, Boolean> leaderCardsProperty() {
+        return leaderCards;
+    }
+
+    /**
      * Gets the LeaderCard at the given index.
      *
      * @param index the index of the leader card (should be 0 or 1)
@@ -119,7 +129,8 @@ public class MockPlayer {
      * @param leaderCards a map containing the LeaderCards that need to be set
      */
     public void setLeaderCards(Map<LeaderCard, Boolean> leaderCards) {
-        this.leaderCards = leaderCards;
+        this.leaderCards.clear();
+        this.leaderCards.putAll(leaderCards);
     }
 
     /**

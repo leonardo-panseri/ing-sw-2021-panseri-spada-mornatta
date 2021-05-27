@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.implementation.gui;
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.cli.CLIActionSender;
@@ -13,10 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class GUI extends View {
     private static GUI instance;
