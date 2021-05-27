@@ -6,6 +6,8 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.layout.FlowPane;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -51,9 +53,11 @@ public class LeaderDisplayWidget extends VBox {
     private void addLeader(LeaderCard newLeader) {
         Platform.runLater(() -> {
             LeaderCardWidget newWidget = new LeaderCardWidget(newLeader);
+
             newWidget.setScaleX(0.75);
             newWidget.setScaleY(0.75);
-            leaderDisplay.getChildren().add(newWidget);
+
+            leaderDisplay.getChildren().add(new Group(newWidget));
             leadersAndWidgets.put(newLeader, newWidget);
         });
     }
