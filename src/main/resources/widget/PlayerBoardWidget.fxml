@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
 <fx:root prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/style.css" type="StackPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget">
     <AnchorPane styleClass="player-board" prefHeight="720.0" prefWidth="1080.0">
-        <VBox prefWidth="1000.0" prefHeight="720.0" alignment="CENTER">
+        <VBox prefWidth="1000.0" prefHeight="650.0" alignment="CENTER">
             <AnchorPane.leftAnchor>10</AnchorPane.leftAnchor>
+            <AnchorPane.bottomAnchor>10</AnchorPane.bottomAnchor>
             <HBox fx:id="faithTrackDisplay" alignment="CENTER" prefWidth="1000.0" prefHeight="50" />
             <HBox>
                 <Pane fx:id="playerBoardDisplay" prefWidth="1000.0" prefHeight="507">
@@ -25,5 +22,17 @@
         </VBox>
         <Button onAction="#goToMarket">View Market</Button>
         <Button onAction="#goToDeck">View Deck</Button>
+        <VBox alignment="CENTER" styleClass="market-results">
+            <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>550</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>551</AnchorPane.rightAnchor>
+            <FlowPane alignment="CENTER" fx:id="marketResultsDisplay">
+
+            </FlowPane>
+            <HBox alignment="CENTER">
+                <Label style="-fx-font-size: 15;">Market Results</Label>
+            </HBox>
+        </VBox>
+
     </AnchorPane>
 </fx:root>

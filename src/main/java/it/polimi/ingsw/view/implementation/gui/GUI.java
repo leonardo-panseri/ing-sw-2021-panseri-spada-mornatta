@@ -2,9 +2,7 @@ package it.polimi.ingsw.view.implementation.gui;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.implementation.cli.CLIActionSender;
 import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -26,7 +24,7 @@ public class GUI extends View {
 
         this.setModelUpdateHandler(new GUIModelUpdateHandler(this));
         this.setRenderer(new GUIRenderer(this));
-        this.setActionSender(new CLIActionSender(this));
+        this.setActionSender(new GUIActionSender(this));
 
         instance = this;
     }
