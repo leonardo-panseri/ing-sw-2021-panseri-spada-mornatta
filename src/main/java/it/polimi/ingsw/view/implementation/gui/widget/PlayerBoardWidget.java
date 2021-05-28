@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.implementation.gui.GUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,7 +39,7 @@ public class PlayerBoardWidget extends StackPane {
         FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints(),player);
         faithTrackWidget.setScaleX(1.6);
         faithTrackWidget.setScaleY(1.6);
-        faithTrackDisplay.getChildren().add(faithTrackWidget);
+        faithTrackDisplay.getChildren().add(new Group(faithTrackWidget));
 
         DepositWidget depositWidget = new DepositWidget(player);
         depositDisplay.getChildren().add(depositWidget);

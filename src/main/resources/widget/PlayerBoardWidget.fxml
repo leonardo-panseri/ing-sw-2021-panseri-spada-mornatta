@@ -12,16 +12,17 @@
     <AnchorPane styleClass="player-board" prefHeight="720.0" prefWidth="1080.0">
         <VBox prefWidth="1000.0" prefHeight="720.0" alignment="CENTER">
             <AnchorPane.leftAnchor>10</AnchorPane.leftAnchor>
-            <HBox fx:id="faithTrackDisplay" alignment="CENTER" prefWidth="1000.0" />
-            <Pane fx:id="playerBoardDisplay" prefWidth="1000.0" prefHeight="507">
-                <VBox.margin><Insets top="30" /></VBox.margin>
-                <Pane fx:id="depositDisplay" layoutX="20.0" layoutY="36.5"/>
-                <Pane fx:id="baseProductionDisplay" layoutX="182.0" layoutY="250.0"/>
-            </Pane>
+            <HBox fx:id="faithTrackDisplay" alignment="CENTER" prefWidth="1000.0" prefHeight="50" />
+            <HBox>
+                <Pane fx:id="playerBoardDisplay" prefWidth="1000.0" prefHeight="507">
+                    <VBox.margin><Insets top="30" /></VBox.margin>
+                    <Pane fx:id="depositDisplay" layoutX="20.0" layoutY="36.5"/>
+                    <Pane fx:id="baseProductionDisplay" layoutX="182.0" layoutY="250.0"/>
+                </Pane>
+                <Pane fx:id="leadersDisplay" prefHeight="507">
+                </Pane>
+            </HBox>
         </VBox>
         <Button onAction="#goToMarket">View Market</Button>
-        <Pane fx:id="leadersDisplay">
-            <AnchorPane.rightAnchor>160</AnchorPane.rightAnchor>
-        </Pane>
     </AnchorPane>
 </fx:root>
