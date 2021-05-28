@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.GameConfig;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import java.util.*;
@@ -16,6 +17,8 @@ import java.util.*;
 public class MockModel {
     private final IntegerProperty currentPlayers;
     private final IntegerProperty playersToStart;
+
+    private ObservableList<String> chatMessages;
 
     private MockPlayer localPlayer;
     private final ObservableMap<String, MockPlayer> players;
@@ -33,6 +36,7 @@ public class MockModel {
         localPlayer = null;
         players = FXCollections.observableHashMap();
         market = new MockMarket();
+        chatMessages = FXCollections.observableArrayList("Jngl diff","Top diff","Jngl diffJngl diffJngl diffJngl diff","Jngl diffJngl diffJngl diffJngl diff","Jngl diff","Top diff","Jngl diffJngl diffJngl diffJngl diff","Jngl diffJngl diffJngl diffJngl diff");
     }
 
     public GameConfig getGameConfig() {
@@ -136,5 +140,11 @@ public class MockModel {
             this.playersToStart.setValue(playersToStart);
         });
     }
+    public void addChatMessage(String message){
+        chatMessages.add(message);
+    }
 
+    public ObservableList<String> getChatMessages(){
+        return chatMessages;
+    }
 }

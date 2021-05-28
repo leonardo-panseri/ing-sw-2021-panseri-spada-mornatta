@@ -54,4 +54,9 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
             getView().getRenderer().printMarketResult();
         }
     }
+
+    @Override
+    public void updateChat(String sender, String message) {
+        getView().getRenderer().printChatMessage(sender, message);
+    }
 }
