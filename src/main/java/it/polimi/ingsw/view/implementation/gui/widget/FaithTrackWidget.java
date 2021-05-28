@@ -85,9 +85,8 @@ public class FaithTrackWidget extends GridPane {
         createFaithTrack(0);
 
         if(player != null) {
-            player.faithPointsProperty().addListener((change, oldValue, newValue) -> {
-                updateFaithPoints(newValue.intValue());
-            });
+            updateFaithPoints(player.getFaithPoints());
+            player.faithPointsProperty().addListener((change, oldValue, newValue) -> updateFaithPoints(newValue.intValue()));
         }
     }
 
