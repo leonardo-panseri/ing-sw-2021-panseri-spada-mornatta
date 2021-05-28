@@ -105,10 +105,8 @@ public class MockMarket {
                 if (grid.get(i).get(index - 1) == null) result++;
             }
         } else if (index > 4 && index < 8) {
-            for (List<Resource> row : grid) {
-                for (Resource res : row) {
-                    if (res == null) result++;
-                }
+            for (Resource res : grid.get(index - 5)) {
+                if (res == null) result++;
             }
         }
         return result;

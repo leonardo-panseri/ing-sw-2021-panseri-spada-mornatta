@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.implementation.gui.widget;
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.beans.MockPlayer;
+import it.polimi.ingsw.view.implementation.gui.GUI;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
@@ -36,9 +37,14 @@ public class LeaderDisplayWidget extends VBox {
 
     @FXML
     private void initialize() {
+        if(player.leaderCardsProperty().size() != 4) // Do not load the leader cards if the player has not chosen what to discard yet
+            for(LeaderCard card : player.leaderCardsProperty().keySet()) {
+                addLeader(card, player.isLeaderCardActive(card));
+            }
+
         player.leaderCardsProperty().addListener((MapChangeListener<? super LeaderCard, ? super Boolean>) change -> {
             if (change.wasAdded() && !change.wasRemoved()) {
-                addLeader(change.getKey());
+                addLeader(change.getKey(), change.getValueAdded());
             } else if (change.wasRemoved() && change.wasAdded()) {
                 updateLeaders(change.getKey(), change.getValueRemoved());
             } else removeLeader(change.getKey());
@@ -52,7 +58,7 @@ public class LeaderDisplayWidget extends VBox {
         });
     }
 
-    private void addLeader(LeaderCard newLeader) {
+    private void addLeader(LeaderCard newLeader, boolean active) {
         Platform.runLater(() -> {
             LeaderCardWidget newWidget = new LeaderCardWidget(newLeader);
 
@@ -61,6 +67,9 @@ public class LeaderDisplayWidget extends VBox {
 
             leaderDisplay.getChildren().add(new Group(newWidget));
             leadersAndWidgets.put(newLeader, newWidget);
+
+            if(active)
+                newWidget.getStyleClass().add("leader-active");
         });
     }
 

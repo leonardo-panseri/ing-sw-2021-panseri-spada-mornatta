@@ -19,7 +19,7 @@ public class MockDeposit {
     private final ObservableList<List<Resource>> deposit;
     private Map<Resource, Integer> strongbox;
     private Map<Integer, List<Resource>> leadersDeposit;
-    private List<Resource> marketResult;
+    private final ObservableList<Resource> marketResult;
 
     /**
      * Constructs a new empty MockDeposit for the given MockPlayer.
@@ -33,7 +33,7 @@ public class MockDeposit {
         leadersDeposit = new HashMap<>();
         leadersDeposit.put(1, new ArrayList<>());
         leadersDeposit.put(2, new ArrayList<>());
-        marketResult = new ArrayList<>();
+        marketResult = FXCollections.observableArrayList();
     }
 
     /**
@@ -157,6 +157,10 @@ public class MockDeposit {
      * @param marketResult a list representing the result of a draw from the market
      */
     public void setMarketResult(List<Resource> marketResult) {
-        this.marketResult = marketResult;
+        this.marketResult.setAll(marketResult);
+    }
+
+    public ObservableList<Resource> marketResultProperty() {
+        return marketResult;
     }
 }

@@ -153,13 +153,7 @@ public class LeaderSelectionWidget extends HBox {
                 try {
                     res = Resource.valueOf(db.getString());
 
-                    String id = ((HBox)event.getGestureTarget()).getId();
-                    switch (id) {
-                        case "topRow" -> rowIndex = 0;
-                        case "middleRow" -> rowIndex = 1;
-                        case "bottomRow" -> rowIndex = 2;
-                        default -> throw new RuntimeException();
-                    }
+                    rowIndex = DepositWidget.getRowId(event.getGestureTarget());
                 } catch (Exception ignored) {
                     success = false;
                 }
@@ -172,9 +166,7 @@ public class LeaderSelectionWidget extends HBox {
                         chosenResourcesCount++;
 
                         if(chosenResourcesCount >= initialResourcesToChoose)
-                            Platform.runLater(() -> {
-                                chooseConfirmButton.setDisable(false);
-                            });
+                            Platform.runLater(() -> chooseConfirmButton.setDisable(false));
 
                         if(chosenResources.containsKey(rowIndex + 1))
                             chosenResources.get(rowIndex + 1).add(res);
@@ -206,10 +198,7 @@ public class LeaderSelectionWidget extends HBox {
             img.setOnDragDetected(mouseEvent -> {
                 Dragboard db = img.startDragAndDrop(TransferMode.ANY);
 
-                ClipboardContent content = new ClipboardContent();
-                content.putString(resource.toString());
-                content.putImage(img.getImage());
-                db.setContent(content);
+                db.setContent(GUIUtils.getClipboardForResource(resource, img));
 
                 mouseEvent.consume();
             });

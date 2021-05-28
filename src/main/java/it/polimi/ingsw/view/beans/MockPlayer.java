@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.beans;
 
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
 import javafx.beans.property.IntegerProperty;
@@ -10,6 +11,7 @@ import javafx.collections.ObservableMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,7 @@ public class MockPlayer {
     private final String name;
     private final boolean localPlayer;
     private int popeFavours;
-    private IntegerProperty faithPoints;
+    private final IntegerProperty faithPoints;
 
     private int initialResourcesToChoose;
 
@@ -189,5 +191,15 @@ public class MockPlayer {
 
     public IntegerProperty faithPointsProperty() {
         return faithPoints;
+    }
+
+    public List<Resource> getExchangeAbility() {
+        List<Resource> resources = new ArrayList<>();
+        for(LeaderCard card : leaderCards.keySet()) {
+            if(leaderCards.get(card) && card.getSpecialAbility().getType() == SpecialAbilityType.EXCHANGE) {
+                resources.add(card.getSpecialAbility().getTargetResource());
+            }
+        }
+        return resources;
     }
 }

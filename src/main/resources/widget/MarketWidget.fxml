@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.*?>
-
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.implementation.gui.widget.MarketWidget"
-            prefHeight="720.0" prefWidth="1080.0"
-            stylesheets="@css/style.css"
-            styleClass="market">
-    <HBox alignment="CENTER">
-        <VBox alignment="CENTER">
-            <GridPane fx:id="marketDisplay">
-
-            </GridPane>
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="it.polimi.ingsw.view.implementation.gui.widget.MarketWidget"
+         prefHeight="720.0" prefWidth="1080.0"
+         stylesheets="@css/style.css"
+         styleClass="market">
+    <AnchorPane prefHeight="720.0" prefWidth="1080.0">
+        <Button layoutX="10" layoutY="10" onAction="#goToPlayerBoard">Back</Button>
+        <VBox prefHeight="720.0" alignment="CENTER">
+            <AnchorPane.leftAnchor>300</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>300</AnchorPane.rightAnchor>
+            <GridPane fx:id="marketDisplay" />
         </VBox>
-    </HBox>
+    </AnchorPane>
+    <VBox visible="false" styleClass="exchange-modal" fx:id="exchangeModalContainer" prefHeight="720.0" prefWidth="1080.0"
+          alignment="CENTER" spacing="40">
+        <HBox prefHeight="720.0" prefWidth="1080.0" alignment="CENTER">
+            <FlowPane fx:id="exchangeModal" styleClass="exchange-modal-box" maxHeight="300" prefWidth="500" alignment="CENTER" orientation="VERTICAL">
+            </FlowPane>
+        </HBox>
+    </VBox>
 </fx:root>

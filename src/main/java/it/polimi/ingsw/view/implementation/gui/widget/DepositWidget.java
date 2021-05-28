@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -136,5 +137,19 @@ public class DepositWidget extends AnchorPane {
 
     public void setOnDragDroppedHandler(Consumer<DragEvent> eventHandler) {
         this.dragDroppedHandler = eventHandler;
+    }
+
+    public static int getRowId(Object node) throws IllegalArgumentException {
+        if(!(node instanceof  Node))
+            throw new IllegalArgumentException();
+        int rowIndex;
+        String id = ((Node) node).getId();
+        switch (id) {
+            case "topRow" -> rowIndex = 0;
+            case "middleRow" -> rowIndex = 1;
+            case "bottomRow" -> rowIndex = 2;
+            default -> throw new IllegalArgumentException();
+        }
+        return rowIndex;
     }
 }

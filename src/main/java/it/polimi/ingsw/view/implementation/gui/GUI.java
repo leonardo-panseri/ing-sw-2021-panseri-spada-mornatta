@@ -4,6 +4,9 @@ import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.card.LeaderCardRequirement;
+import it.polimi.ingsw.model.card.SpecialAbility;
+import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.cli.CLIActionSender;
@@ -28,7 +31,7 @@ public class GUI extends View {
 
         this.setModelUpdateHandler(new GUIModelUpdateHandler(this));
         this.setRenderer(new GUIRenderer(this));
-        this.setActionSender(new CLIActionSender(this));
+        this.setActionSender(new GUIActionSender(this));
 
         instance = this;
     }

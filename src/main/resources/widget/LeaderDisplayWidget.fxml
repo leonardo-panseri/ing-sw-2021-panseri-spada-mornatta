@@ -2,6 +2,6 @@
 
 <?import javafx.scene.layout.*?>
 
-<fx:root type="VBox" fx:id="leaderDisplay" xmlns="https://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  fx:controller="it.polimi.ingsw.view.implementation.gui.widget.LeaderDisplayWidget"
+<fx:root type="VBox" spacing="15" fx:id="leaderDisplay" xmlns="https://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  fx:controller="it.polimi.ingsw.view.implementation.gui.widget.LeaderDisplayWidget"
             prefHeight="507.0" prefWidth="200.0" alignment="CENTER">
 </fx:root>
