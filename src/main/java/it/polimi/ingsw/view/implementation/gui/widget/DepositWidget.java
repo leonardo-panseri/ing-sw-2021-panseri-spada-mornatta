@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.implementation.gui.widget;
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.beans.MockPlayer;
-import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -17,7 +16,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -85,7 +83,7 @@ public class DepositWidget extends AnchorPane {
             bottomRow.getChildren().add(buildEmptyImage());
         }
 
-        List<List<Resource>> rows = GUI.instance().getModel().getLocalPlayer().getDeposit().getAllRows();
+        List<List<Resource>> rows = player.getDeposit().getAllRows();
         for(int i = 0; i < 3; i++) {
             updateRow(i, rows.get(i));
         }

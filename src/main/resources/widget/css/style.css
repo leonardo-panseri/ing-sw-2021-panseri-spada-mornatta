@@ -125,3 +125,11 @@
 .market-results .margin-right  {
     -fx-border-width: 0 3 3 0 0;
 }
+
+.otherPlayersDisplay > * {
+    -fx-padding: 5;
+}
+.otherPlayersDisplay .selected {
+    -fx-border-color: gold;
+    -fx-border-width: 3;
+}
