@@ -19,16 +19,6 @@ public class CLIActionSender extends ActionSender {
     }
 
     @Override
-    public void buyDevelopmentCard(int cardIndex, int slotIndex) {
-        List<HashMap<CardColor, ObservableList<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
-        int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
-        int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
-
-        ArrayList<ObservableList<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).get(stacks.get(stackIndex).size()-1).getUuid(), slotIndex));
-    }
-
-    @Override
     public void useLeaderProduction(int cardIndex, Resource desiredResource) {
         try {
             super.useLeaderProduction(cardIndex, desiredResource);
