@@ -37,9 +37,6 @@ public class GUIUtils {
 
         VBox imageBox = new VBox();
         imageBox.setAlignment(Pos.CENTER);
-
-        System.out.println(imageName);
-
         ImageView image = new ImageView(new Image(Objects.requireNonNull(it.polimi.ingsw.editor.GUIUtils.class.getResourceAsStream("/images/" + imageName + ".png"))));
         image.setFitHeight(36.0);
         image.setFitWidth(23.0);

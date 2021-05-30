@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.*?>
 <fx:root prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/style.css" type="StackPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget">
     <AnchorPane styleClass="player-board" prefHeight="720.0" prefWidth="1080.0">
-        <VBox prefWidth="1000.0" prefHeight="650.0" alignment="CENTER">
+        <VBox prefWidth="1000.0" prefHeight="650.0" alignment="BOTTOM_CENTER">
             <AnchorPane.leftAnchor>10</AnchorPane.leftAnchor>
             <AnchorPane.bottomAnchor>10</AnchorPane.bottomAnchor>
             <HBox fx:id="faithTrackDisplay" alignment="CENTER" prefWidth="1000.0" prefHeight="50" />
             <HBox>
-                <Pane fx:id="playerBoardDisplay" prefWidth="1000.0" prefHeight="507">
+                <Pane fx:id="playerBoardDisplay" prefWidth="1200.0" prefHeight="508">
                     <VBox.margin><Insets top="30" /></VBox.margin>
                     <Pane fx:id="depositDisplay" layoutX="20.0" layoutY="36.5"/>
                     <Pane fx:id="baseProductionDisplay" layoutX="182.0" layoutY="250.0"/>
