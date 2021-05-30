@@ -16,10 +16,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class ChatWidget extends VBox {
-
+    @FXML
     private VBox chat;
     private Button button;
     private TextField textInput;
+    private ScrollPane scrollPane;
 
 
     public ChatWidget() {
@@ -30,15 +31,18 @@ public class ChatWidget extends VBox {
     @FXML
     private void initialize() {
 
-        ScrollPane scrollPane = new ScrollPane();
-        chat = new VBox();
+        scrollPane = new ScrollPane();
+        button = new Button("Send");
         chat.setSpacing(10);
         chat.setPrefWidth(150);
         getChildren().add(scrollPane);
-        button = new Button("Send");
         textInput = new TextField();
-        getChildren().add(textInput);
-        getChildren().add(button);
+        HBox hbox = new HBox();
+        hbox.getChildren().add(button);
+        button.getStyleClass().add("chat-button");
+        hbox.getChildren().add(textInput);
+        getChildren().add(hbox);
+
 
         button.setOnAction(e -> {
             if (!textInput.getText().isBlank()) {
