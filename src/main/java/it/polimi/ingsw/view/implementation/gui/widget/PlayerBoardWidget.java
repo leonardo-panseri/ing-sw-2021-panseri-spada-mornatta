@@ -132,4 +132,12 @@ public class PlayerBoardWidget extends StackPane {
             getScene().setRoot(marketWidget);
         });
     }
+
+    @FXML
+    private void goToDeck() {
+        Platform.runLater(() -> {
+            DeckWidget deckWidget = new DeckWidget();
+            getScene().setRoot(deckWidget);
+        });
+    }
 }

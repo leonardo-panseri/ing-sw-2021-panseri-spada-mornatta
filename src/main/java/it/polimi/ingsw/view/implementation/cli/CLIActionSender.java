@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.messages.*;
 import it.polimi.ingsw.view.messages.production.BaseProduction;
 import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
 import it.polimi.ingsw.view.messages.production.LeaderProduction;
+import javafx.collections.ObservableList;
 
 import java.util.*;
 
@@ -23,12 +24,12 @@ public class CLIActionSender extends ActionSender {
 
     @Override
     public void buyDevelopmentCard(int cardIndex, int slotIndex) {
-        List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
+        List<HashMap<CardColor, ObservableList<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
         int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
         int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
 
-        ArrayList<Stack<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).peek().getUuid(), slotIndex));
+        ArrayList<ObservableList<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
+        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).get(stacks.get(stackIndex).size()-1).getUuid(), slotIndex));
     }
 
     @Override

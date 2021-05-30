@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.Renderer;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.beans.MockPlayer;
+import javafx.collections.ObservableList;
 
 import java.util.*;
 
@@ -206,11 +207,11 @@ public class CLIRenderer extends Renderer {
      */
     @Override
     public void printDevelopmentDeck() {
-        List<HashMap<CardColor, Stack<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
+        List<HashMap<CardColor, ObservableList<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
         int index = 1;
-        for (HashMap<CardColor, Stack<DevelopmentCard>> map : deck) {
-            for (Stack<DevelopmentCard> stack : map.values()) {
-                if (!stack.isEmpty()) renderDevelopmentCard(stack.peek(), index);
+        for (HashMap<CardColor, ObservableList<DevelopmentCard>> map : deck) {
+            for (ObservableList<DevelopmentCard> stack : map.values()) {
+                if (!stack.isEmpty()) renderDevelopmentCard(stack.get(stack.size()-1), index);
                 index++;
             }
         }

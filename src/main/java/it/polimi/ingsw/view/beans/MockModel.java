@@ -3,9 +3,11 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.server.GameConfig;
+import it.polimi.ingsw.view.implementation.gui.GUI;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import java.util.*;
@@ -21,7 +23,7 @@ public class MockModel {
     private final ObservableMap<String, MockPlayer> players;
 
     private GameConfig gameConfig;
-    private List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck;
+    private final List<HashMap<CardColor, ObservableList<DevelopmentCard>>> developmentDeck;
     private final MockMarket market;
 
     /**
@@ -32,6 +34,7 @@ public class MockModel {
         playersToStart = new SimpleIntegerProperty(-1);
         localPlayer = null;
         players = FXCollections.observableHashMap();
+        developmentDeck = FXCollections.observableArrayList();
         market = new MockMarket();
     }
 
@@ -95,7 +98,7 @@ public class MockModel {
      *
      * @return a list representing the deck made up of development cards
      */
-    public List<HashMap<CardColor, Stack<DevelopmentCard>>> getDevelopmentDeck() {
+    public List<HashMap<CardColor, ObservableList<DevelopmentCard>>> getDevelopmentDeck() {
         return developmentDeck;
     }
 
@@ -106,7 +109,16 @@ public class MockModel {
      *                        3 cards
      */
     public void setDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck) {
-        this.developmentDeck = developmentDeck;
+        this.developmentDeck.clear();
+        developmentDeck.forEach(cardColorStackHashMap -> {
+                HashMap<CardColor, ObservableList<DevelopmentCard>> observableListHashMap = new HashMap<>();
+                cardColorStackHashMap.forEach((cardColor, developmentCards) -> {
+                    ObservableList<DevelopmentCard> observableStack = FXCollections.observableList(developmentCards);
+                    observableListHashMap.put(cardColor, observableStack);
+                });
+                this.developmentDeck.add(observableListHashMap);
+            }
+        );
     }
 
     /**

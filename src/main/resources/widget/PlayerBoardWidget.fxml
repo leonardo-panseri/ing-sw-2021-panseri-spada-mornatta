@@ -24,5 +24,6 @@
             </HBox>
         </VBox>
         <Button onAction="#goToMarket">View Market</Button>
+        <Button onAction="#goToDeck">View Deck</Button>
     </AnchorPane>
 </fx:root>

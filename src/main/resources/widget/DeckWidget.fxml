@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+
+<fx:root type="StackPane" xmlns="https://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="it.polimi.ingsw.view.implementation.gui.widget.DeckWidget"
+         prefHeight="720.0" prefWidth="1080.0"
+         stylesheets="@css/style.css"
+         styleClass="deck">
+</fx:root>
