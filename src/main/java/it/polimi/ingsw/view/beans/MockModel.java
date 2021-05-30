@@ -36,7 +36,7 @@ public class MockModel {
         localPlayer = null;
         players = FXCollections.observableHashMap();
         market = new MockMarket();
-        chatMessages = FXCollections.observableArrayList("Jngl diff","Top diff","Jngl diffJngl diffJngl diffJngl diff","Jngl diffJngl diffJngl diffJngl diff","Jngl diff","Top diff","Jngl diffJngl diffJngl diffJngl diff","Jngl diffJngl diffJngl diffJngl diff");
+        chatMessages = FXCollections.observableArrayList();
     }
 
     public GameConfig getGameConfig() {

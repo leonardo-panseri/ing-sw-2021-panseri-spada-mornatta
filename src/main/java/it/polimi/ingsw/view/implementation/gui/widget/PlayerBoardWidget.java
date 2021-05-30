@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 
 public class PlayerBoardWidget extends StackPane {
@@ -53,8 +54,13 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionWidget.setScaleY(0.42);
         baseProductionDisplay.getChildren().add(baseProductionWidget);
 
+        //***
+
         ChatWidget chatWidget = new ChatWidget();
         chatDisplay.getChildren().add(chatWidget);
+
+
+        //***
 
         if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
             openLeaderSelection();
