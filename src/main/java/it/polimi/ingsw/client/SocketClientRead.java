@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.IProcessablePacket;
 import it.polimi.ingsw.server.IServerPacket;
 import java.io.ObjectInputStream;
+import java.net.SocketException;
 
 /**
  * Thread responsible to read messages coming from the server and handling them.
@@ -52,6 +53,8 @@ public class SocketClientRead extends Thread {
                     System.err.println("Received object of unknown type");
                 }
             }
+        } catch (SocketException ignored) {
+
         } catch (Exception e){
             e.printStackTrace();
             client.terminate();

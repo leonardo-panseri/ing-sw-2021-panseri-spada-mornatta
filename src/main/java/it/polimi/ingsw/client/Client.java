@@ -86,6 +86,11 @@ public class Client {
     public synchronized void terminate(){
         this.active = false;
         if(!isNoServer()) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             writeThread.interrupt();
             System.out.flush();
             readThread.interrupt();

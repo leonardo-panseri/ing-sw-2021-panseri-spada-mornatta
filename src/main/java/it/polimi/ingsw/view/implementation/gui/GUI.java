@@ -124,6 +124,8 @@ public class GUI extends View {
         stage.setResizable(false);
         stage.show();
 
+        stage.setOnCloseRequest(windowEvent -> getClient().terminate());
+
         if (getClient().isNoServer())
             addToLobby(false);
     }
