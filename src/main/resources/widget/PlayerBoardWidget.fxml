@@ -24,11 +24,12 @@
             <AnchorPane.rightAnchor>0</AnchorPane.rightAnchor>
             <AnchorPane.bottomAnchor>0</AnchorPane.bottomAnchor>
         </Pane>
-        <VBox>
-            <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
-            <AnchorPane.rightAnchor>0</AnchorPane.rightAnchor>
-            <Button onAction="#goToMarket">View Market</Button>
-            <Button onAction="#goToDeck">View Deck</Button>
+        <VBox styleClass="nav-buttons" spacing="10">
+            <AnchorPane.topAnchor>20</AnchorPane.topAnchor>
+            <AnchorPane.rightAnchor>20</AnchorPane.rightAnchor>
+            <Label>Go to:</Label>
+            <Button onAction="#goToMarket">Market</Button>
+            <Button onAction="#goToDeck">Deck</Button>
         </VBox>
         <FlowPane fx:id="otherPlayersDisplay" styleClass="otherPlayersDisplay">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>

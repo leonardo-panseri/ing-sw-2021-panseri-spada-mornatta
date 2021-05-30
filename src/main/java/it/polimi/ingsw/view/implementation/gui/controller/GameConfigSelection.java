@@ -21,12 +21,18 @@ public class GameConfigSelection {
         choose.setDisable(true);
         choose.setOnAction(actionEvent -> GUI.instance().getActionSender().setGameConfig(selectedFile));
 
+        config.setEditable(false);
+        config.setOpacity(0.6);
+        config.setText("Click here to choose the file");
         config.setOnMouseClicked(mouseEvent -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Choose Custom Config");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Config files", "*.json"));
             selectedFile = fileChooser.showOpenDialog(GUI.instance().getScene().getWindow());
-            if(selectedFile != null) choose.setDisable(false);
+            if(selectedFile != null) {
+                choose.setDisable(false);
+                config.setText(selectedFile.getName());
+            }
         });
     }
 

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="it.polimi.ingsw.view.implementation.gui.controller.GameConfigSelection"
@@ -14,7 +12,7 @@
     <center>
         <VBox alignment="CENTER" styleClass="font-20">
             <Label>Choose a custom configuration file:</Label>
-            <TextField fx:id="config" maxWidth="200">
+            <TextField fx:id="config" maxWidth="400">
                 <VBox.margin>
                     <Insets bottom="20"/>
                 </VBox.margin>

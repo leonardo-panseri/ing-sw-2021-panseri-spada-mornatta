@@ -13,6 +13,9 @@ public class NameSelection {
 
     @FXML
     private void initialize() {
-        choose.setOnAction(actionEvent -> GUI.instance().setPlayerName(username.getText()));
+        choose.setOnAction(actionEvent -> {
+            if(!username.getText().isBlank())
+                GUI.instance().setPlayerName(username.getText());
+        });
     }
 }
