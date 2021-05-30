@@ -26,4 +26,9 @@ public class GUIModelUpdateHandler extends ModelUpdateHandler {
             GUI.instance().showPlayerBoard();
         }
     }
+
+    @Override
+    public void updateChat(String sender, String message) {
+        getView().getModel().addChatMessage(sender + ": " + message );
+    }
 }

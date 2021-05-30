@@ -34,6 +34,8 @@ public class PlayerBoardWidget extends StackPane {
     private Pane depositDisplay;
     @FXML
     private Pane baseProductionDisplay;
+    @FXML
+    private Pane chatDisplay;
 
     private final MockPlayer player;
     private DepositWidget depositWidget;
@@ -63,6 +65,14 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionWidget.setScaleX(0.42);
         baseProductionWidget.setScaleY(0.42);
         baseProductionDisplay.getChildren().add(baseProductionWidget);
+
+        //***
+
+        ChatWidget chatWidget = new ChatWidget();
+        chatDisplay.getChildren().add(chatWidget);
+
+
+        //***
 
         if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
             openLeaderSelection();

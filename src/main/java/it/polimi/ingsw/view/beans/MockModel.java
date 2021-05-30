@@ -19,6 +19,8 @@ public class MockModel {
     private final IntegerProperty currentPlayers;
     private final IntegerProperty playersToStart;
 
+    private ObservableList<String> chatMessages;
+
     private MockPlayer localPlayer;
     private final ObservableMap<String, MockPlayer> players;
 
@@ -36,6 +38,7 @@ public class MockModel {
         players = FXCollections.observableHashMap();
         developmentDeck = FXCollections.observableArrayList();
         market = new MockMarket();
+        chatMessages = FXCollections.observableArrayList();
     }
 
     public GameConfig getGameConfig() {
@@ -148,5 +151,11 @@ public class MockModel {
             this.playersToStart.setValue(playersToStart);
         });
     }
+    public void addChatMessage(String message){
+        chatMessages.add(message);
+    }
 
+    public ObservableList<String> getChatMessages(){
+        return chatMessages;
+    }
 }

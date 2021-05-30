@@ -18,6 +18,10 @@
                 </Pane>
                 <Pane fx:id="leadersDisplay" prefHeight="507">
                 </Pane>
+                <Pane fx:id="chatDisplay">
+                    <AnchorPane.rightAnchor>0</AnchorPane.rightAnchor>
+                    <AnchorPane.bottomAnchor>0</AnchorPane.bottomAnchor>
+                </Pane>
             </HBox>
         </VBox>
         <Button onAction="#goToMarket">View Market</Button>
