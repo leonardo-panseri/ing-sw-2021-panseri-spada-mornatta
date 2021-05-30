@@ -80,11 +80,11 @@ public class CLIRenderer extends Renderer {
             System.out.println("You don't have any development card");
             return;
         }
-        List<Stack<DevelopmentCard>> targetCards = getView().getModel().getLocalPlayer().getPlayerBoard().getDevelopmentCards();
+        List<ObservableList<DevelopmentCard>> targetCards = getView().getModel().getLocalPlayer().getPlayerBoard().getDevelopmentCards();
         int index = 1;
-        for (Stack<DevelopmentCard> stack : targetCards) {
+        for (ObservableList<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
-                if (stack.peek() == card) {
+                if (stack.get(stack.size()-1) == card) {
                     System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
                 }
                 renderDevelopmentCard(card, index);
@@ -142,10 +142,10 @@ public class CLIRenderer extends Renderer {
             return;
         }
 
-        List<Stack<DevelopmentCard>> targetCards = otherPlayer.getPlayerBoard().getDevelopmentCards();
-        for (Stack<DevelopmentCard> stack : targetCards) {
+        List<ObservableList<DevelopmentCard>> targetCards = otherPlayer.getPlayerBoard().getDevelopmentCards();
+        for (ObservableList<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
-                if (stack.peek() == card) {
+                if (stack.get(stack.size()-1) == card) {
                     System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
                 }
                 renderDevelopmentCard(card, -1);

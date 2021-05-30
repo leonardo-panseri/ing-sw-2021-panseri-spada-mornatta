@@ -27,6 +27,8 @@ public class PlayerBoardWidget extends StackPane {
     @FXML
     public FlowPane marketResultsDisplay;
     @FXML
+    public Pane developmentDisplay;
+    @FXML
     private HBox faithTrackDisplay;
     @FXML
     private Pane playerBoardDisplay;
@@ -56,6 +58,9 @@ public class PlayerBoardWidget extends StackPane {
 
         LeaderDisplayWidget leaderDisplayWidget = new LeaderDisplayWidget(player);
         leadersDisplay.getChildren().add(leaderDisplayWidget);
+
+        DevelopmentSlotsWidget developmentSlotsWidget = new DevelopmentSlotsWidget(player);
+        developmentDisplay.getChildren().add(developmentSlotsWidget);
 
         initializeMarketResultsDisplay();
 
