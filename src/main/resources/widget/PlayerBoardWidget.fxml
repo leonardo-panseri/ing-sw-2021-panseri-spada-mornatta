@@ -18,12 +18,12 @@
                 </Pane>
                 <Pane fx:id="leadersDisplay" prefHeight="507">
                 </Pane>
-                <Pane fx:id="chatDisplay">
-                    <AnchorPane.rightAnchor>0</AnchorPane.rightAnchor>
-                    <AnchorPane.bottomAnchor>0</AnchorPane.bottomAnchor>
-                </Pane>
             </HBox>
         </VBox>
+        <Pane fx:id="chatDisplay">
+            <AnchorPane.rightAnchor>0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>0</AnchorPane.bottomAnchor>
+        </Pane>
         <VBox>
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.rightAnchor>0</AnchorPane.rightAnchor>
@@ -36,8 +36,8 @@
         </FlowPane>
         <VBox alignment="CENTER" styleClass="market-results">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
-            <AnchorPane.leftAnchor>550</AnchorPane.leftAnchor>
-            <AnchorPane.rightAnchor>551</AnchorPane.rightAnchor>
+            <AnchorPane.leftAnchor>540</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>540</AnchorPane.rightAnchor>
             <FlowPane alignment="CENTER" fx:id="marketResultsDisplay">
 
             </FlowPane>

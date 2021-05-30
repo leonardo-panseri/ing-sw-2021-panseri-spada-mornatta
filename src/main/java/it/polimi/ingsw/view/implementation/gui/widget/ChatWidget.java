@@ -4,6 +4,7 @@ import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.view.beans.MockModel;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,18 +35,22 @@ public class ChatWidget extends VBox {
         chat.setSpacing(10);
         chat.setPrefWidth(150);
         getChildren().add(scrollPane);
-        scrollPane.setContent(chat);
         button = new Button("Send");
         textInput = new TextField();
         getChildren().add(textInput);
         getChildren().add(button);
 
         button.setOnAction(e -> {
-            button.setDisable(true);
-            GUI.instance().getActionSender().sendChatMessage(textInput.getText());
-            textInput.clear();
-            button.setDisable(false);
+            if (!textInput.getText().isBlank()) {
+                button.setDisable(true);
+                GUI.instance().getActionSender().sendChatMessage(textInput.getText());
+                textInput.clear();
+                button.setDisable(false);
+            }
         });
+
+        scrollPane.setContent(chat);
+        scrollPane.setMaxHeight(300);
 
 
         for (String s : GUI.instance().getModel().getChatMessages()) {
@@ -63,18 +68,13 @@ public class ChatWidget extends VBox {
     }
 
     public void showMessage(String message) {
-        Label label = new Label(message);
-        label.setWrapText(true);
-        label.setMaxWidth(150);
-        HBox content = new HBox(label);
-        chat.getChildren().add(content);
-    }
-    /*
-        TextField field = new TextField();
-        Button button = new Button();
-        button.setOnAction(e -> {
-
+        Platform.runLater(() -> {
+            Label label = new Label(message);
+            label.setWrapText(true);
+            label.setMaxWidth(150);
+            HBox content = new HBox(label);
+            chat.getChildren().add(content);
         });
-        chatDisplay.getChildren().addAll(button,field);
-     */
+    }
+
 }
