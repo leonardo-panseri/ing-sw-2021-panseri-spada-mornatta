@@ -35,16 +35,10 @@
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.leftAnchor>0</AnchorPane.leftAnchor>
         </FlowPane>
-        <VBox alignment="CENTER" styleClass="market-results">
+        <Pane fx:id="marketResultsDisplay"  >
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
-            <AnchorPane.leftAnchor>540</AnchorPane.leftAnchor>
-            <AnchorPane.rightAnchor>540</AnchorPane.rightAnchor>
-            <FlowPane alignment="CENTER" fx:id="marketResultsDisplay">
-
-            </FlowPane>
-            <HBox alignment="CENTER">
-                <Label style="-fx-font-size: 15;">Market Results</Label>
-            </HBox>
-        </VBox>
+            <AnchorPane.leftAnchor>570</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>570</AnchorPane.rightAnchor>
+        </Pane>
     </AnchorPane>
 </fx:root>

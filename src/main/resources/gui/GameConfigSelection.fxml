@@ -12,7 +12,7 @@
     <center>
         <VBox alignment="CENTER" styleClass="font-20">
             <Label>Choose a custom configuration file:</Label>
-            <TextField fx:id="config" maxWidth="400">
+            <TextField fx:id="config" maxWidth="300">
                 <VBox.margin>
                     <Insets bottom="20"/>
                 </VBox.margin>

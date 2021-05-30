@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="it.polimi.ingsw.view.implementation.gui.widget.MarketWidget"
@@ -13,8 +14,14 @@
         <VBox prefHeight="720.0" alignment="CENTER">
             <AnchorPane.leftAnchor>300</AnchorPane.leftAnchor>
             <AnchorPane.rightAnchor>300</AnchorPane.rightAnchor>
+            <Label styleClass="title">The Market</Label>
             <GridPane fx:id="marketDisplay" />
         </VBox>
+        <Label fx:id="instructions" visible="false" prefWidth="200" wrapText="true">
+            <AnchorPane.topAnchor>30</AnchorPane.topAnchor>
+            <AnchorPane.rightAnchor>30</AnchorPane.rightAnchor>
+            Drag the resource in the slide to the left and drop it on one of the arrows in the bottom or in the left of the table to draw that row/column from the market
+        </Label>
     </AnchorPane>
     <VBox visible="false" styleClass="exchange-modal" fx:id="exchangeModalContainer" prefHeight="720.0" prefWidth="1080.0"
           alignment="CENTER" spacing="40">

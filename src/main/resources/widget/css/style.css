@@ -116,6 +116,9 @@
     -fx-text-fill: white;
     -fx-text-alignment: center;
 }
+.market #instructions {
+    -fx-font-size: 15;
+}
 
 .leader-active {
     -fx-border-color: #0044EFFF;
@@ -149,4 +152,8 @@
 .otherPlayersDisplay .selected {
     -fx-border-color: gold;
     -fx-border-width: 3;
+}
+.title {
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
 }
