@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
-import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -35,16 +35,16 @@ public class DevelopmentCardWidget extends AnchorPane {
     @FXML
     private void initialize() {
         developmentCard.getCost().forEach((resource, quantity) ->
-            cost.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString(), quantity)));
+            cost.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity)));
 
         developmentCard.getProductionInput().forEach((resource, quantity) ->
-                input.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString(), quantity)));
+                input.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity)));
         developmentCard.getProductionOutput().forEach((resource, quantity) ->
-                output.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString(), quantity)));
+                output.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity)));
 
         victoryPoints.textProperty().set(Integer.toString(developmentCard.getVictoryPoints()));
 
-        Image bgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+        Image bgImage = new Image(Objects.requireNonNull(DevelopmentCardWidget.class.getResourceAsStream(
                 "/images/devCards/" + developmentCard.getColor().toString().toLowerCase() + developmentCard.getLevel() + ".png")),
                 195.0, 294.0, true, true);
         Background background = new Background(new BackgroundImage(bgImage,

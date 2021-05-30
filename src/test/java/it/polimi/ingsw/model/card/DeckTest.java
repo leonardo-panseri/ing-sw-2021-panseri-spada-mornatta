@@ -48,9 +48,7 @@ public class DeckTest {
         for(int i = 0; i < testDeck.getDevelopmentCards().size(); i++) {
             HashMap<CardColor, Stack<DevelopmentCard>> map = testDeck.getDevelopmentCards().get(i);
             int finalI = i;
-            map.forEach((color, stack) -> {
-                developmentCardsBefore.get(finalI).get(color).forEach(card -> assertTrue(stack.contains(card)));
-            });
+            map.forEach((color, stack) -> developmentCardsBefore.get(finalI).get(color).forEach(card -> assertTrue(stack.contains(card))));
         }
     }
 
@@ -87,9 +85,12 @@ public class DeckTest {
             testDeck.removeTwoDevelopmentCards(color);
             cardsAfter = getAllCardsOfColor(testDeck.getDevelopmentCards(), color);
 
-            for(int i = 2; i < cardsBefore.size(); i++) {
-                assertEquals(cardsBefore.get(i), cardsAfter.get(i - 2));
+            int notFound = 0;
+            for(DevelopmentCard card : cardsBefore) {
+                if(!cardsAfter.contains(card))
+                    notFound++;
             }
+            assertEquals(2, notFound);
         }
     }
 

@@ -117,7 +117,7 @@ public class GUI extends View {
     public void run() {
         Parent homePage = FXMLUtils.loadFXML("/gui/Home");
 
-        Font.loadFont(getClass().getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
+        Font.loadFont(GUI.class.getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
 
         scene = new Scene(homePage);
         stage.setScene(scene);

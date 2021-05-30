@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
-import it.polimi.ingsw.editor.GUIUtils;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.LeaderCardRequirement;
 import it.polimi.ingsw.model.card.SpecialAbility;
+import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -45,15 +45,15 @@ public class LeaderCardWidget extends StackPane {
     private void initialize() {
         LeaderCardRequirement requirements = leaderCard.getCardRequirements();
         requirements.getResourceRequirements().forEach((resource, quantity) ->
-                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString(), quantity))); //stone.png
+                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity))); //stone.png
         requirements.getCardColorRequirements().forEach((color, quantity) ->
-                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("leaders/flags/" + color.toString(), quantity))); //blue.png
+                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("leaders/flags/" + color.toString().toLowerCase(), quantity))); //blue.png
         requirements.getCardLevelRequirements().forEach((color, level) ->
-                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("leaders/flags/" + color.toString() + level, 1))); //red1.png
+                lcRequirements.getChildren().add(GUIUtils.buildResourceDisplay("leaders/flags/" + color.toString().toLowerCase() + level, 1))); //red1.png
 
         lcVictoryPoints.textProperty().set(Integer.toString(leaderCard.getVictoryPoints()));
 
-        Image bgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+        Image bgImage = new Image(Objects.requireNonNull(LeaderCardWidget.class.getResourceAsStream(
                 "/images/leaders/" + leaderCard.getSpecialAbility().getType().toString().toLowerCase() + "Leader.png")),
                 195.0, 294.0, true, true); //production.png
         Background background = new Background(new BackgroundImage(bgImage,
@@ -66,7 +66,7 @@ public class LeaderCardWidget extends StackPane {
 
     private List<ImageView> buildSpecialAbility(SpecialAbility specialAbility) {
         String resource = specialAbility.getTargetResource().toString().toLowerCase();
-        InputStream image = getClass().getResourceAsStream("/images/resources/" + resource + ".png");
+        InputStream image = LeaderCardWidget.class.getResourceAsStream("/images/resources/" + resource + ".png");
 
         if(image == null) {
             System.err.println("Can't find image for " + resource);

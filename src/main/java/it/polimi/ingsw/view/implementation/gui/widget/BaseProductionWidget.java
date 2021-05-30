@@ -42,7 +42,7 @@ public class BaseProductionWidget extends AnchorPane {
         Label quantityLabel = new Label("" + quantity);
         String imgPath = resource == null ? "/images/others/any.png" : "/images/resources/" + resource.toString().toLowerCase() + ".png";
         ImageView resourceImg = new ImageView(new Image(
-                Objects.requireNonNull(getClass().getResourceAsStream(imgPath)),
+                Objects.requireNonNull(BaseProductionWidget.class.getResourceAsStream(imgPath)),
                 79, 81, true, true));
         HBox box = new HBox(quantityLabel, resourceImg);
         box.setPrefWidth(106);

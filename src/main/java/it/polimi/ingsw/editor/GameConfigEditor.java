@@ -25,7 +25,7 @@ public class GameConfigEditor {
     public void start(Stage stage) throws Exception {
         homePage = FXMLUtils.loadFXML("/editor/Home");
 
-        Font.loadFont(getClass().getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
+        Font.loadFont(GameConfigEditor.class.getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
 
         scene = new Scene(homePage);
         stage.setScene(scene);

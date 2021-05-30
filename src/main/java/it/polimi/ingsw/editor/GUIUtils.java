@@ -51,22 +51,6 @@ public class GUIUtils {
         return quantity;
     }
 
-    public static HBox buildResourceDisplay(String imageName, int quantity) {
-        HBox box = new HBox();
-        box.getStyleClass().add("hbox");
-        box.getChildren().add(new Label("" + quantity));
-
-        VBox imageBox = new VBox();
-        imageBox.setAlignment(Pos.CENTER);
-        ImageView image = new ImageView(new Image(Objects.requireNonNull(GUIUtils.class.getResourceAsStream("/images/" + imageName + ".png"))));
-        image.setFitHeight(36.0);
-        image.setFitWidth(23.0);
-        image.setPreserveRatio(true);
-        imageBox.getChildren().add(image);
-        box.getChildren().add(imageBox);
-        return box;
-    }
-
     public static TextFormatter<String> getNumberInputTextFormatter() {
         return new TextFormatter<>(change -> {
             String text = change.getText();

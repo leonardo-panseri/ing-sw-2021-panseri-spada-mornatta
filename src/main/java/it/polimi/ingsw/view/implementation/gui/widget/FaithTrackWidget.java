@@ -44,40 +44,40 @@ public class FaithTrackWidget extends GridPane {
     @FXML
     private void initialize() {
 
-        Image basicTile = new Image(Objects.requireNonNull(getClass()
+        Image basicTile = new Image(Objects.requireNonNull(FaithTrackWidget.class
                 .getResourceAsStream("/images/faithTrack/basicTile.png")), 25, 25, false, false);
         backgroundBasicTile = new Background(new BackgroundImage
                 (basicTile, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
-        Image currentTile = new Image(Objects.requireNonNull(getClass().
-                getResourceAsStream("/images/faithTrack/currentTile.png")), 25, 25, false, false);
+        Image currentTile = new Image(Objects.requireNonNull(FaithTrackWidget.class
+                .getResourceAsStream("/images/faithTrack/currentTile.png")), 25, 25, false, false);
         backgroundCurrentTile = new Background(
                 new BackgroundImage
                         (currentTile,
                                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
-        Image goldenPopeTile = new Image(Objects.requireNonNull(getClass().
-                getResourceAsStream("/images/faithTrack/goldenPopeTile.png")), 25, 38, false, false);
+        Image goldenPopeTile = new Image(Objects.requireNonNull(FaithTrackWidget.class
+                .getResourceAsStream("/images/faithTrack/goldenPopeTile.png")), 25, 38, false, false);
         backgroundGoldenPopeTile = new Background(
                 new BackgroundImage(goldenPopeTile, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
-        Image goldenTile = new Image(Objects.requireNonNull(getClass().
-                getResourceAsStream("/images/faithTrack/goldenTile.png")), 25, 25, false, false);
+        Image goldenTile = new Image(Objects.requireNonNull(FaithTrackWidget.class
+                .getResourceAsStream("/images/faithTrack/goldenTile.png")), 25, 25, false, false);
         backgroundGoldenTile = new Background(
                 new BackgroundImage(goldenTile, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
-        Image popeFavour = new Image(Objects.requireNonNull(getClass().
-                getResourceAsStream("/images/faithTrack/popeFavour.png")), 25, 25, false, false);
+        Image popeFavour = new Image(Objects.requireNonNull(FaithTrackWidget.class
+                .getResourceAsStream("/images/faithTrack/popeFavour.png")), 25, 25, false, false);
         backgroundPopeFavour = new Background(
                 new BackgroundImage
                         (popeFavour, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
 
-        Image popeTile = new Image(Objects.requireNonNull(getClass().
-                getResourceAsStream("/images/faithTrack/popeTile.png")), 25, 25, false, false);
+        Image popeTile = new Image(Objects.requireNonNull(FaithTrackWidget.class
+                .getResourceAsStream("/images/faithTrack/popeTile.png")), 25, 25, false, false);
         backgroundPopeTile = new Background(
                 new BackgroundImage(popeTile, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
