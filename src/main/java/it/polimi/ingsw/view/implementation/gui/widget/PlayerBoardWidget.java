@@ -13,19 +13,24 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.TextAlignment;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
-    public Pane leadersDisplay;
+    private Pane leadersDisplay;
     @FXML
-    public FlowPane marketResultsDisplay;
+    private FlowPane marketResultsDisplay;
+    @FXML
+    private FlowPane otherPlayersDisplay;
     @FXML
     private HBox faithTrackDisplay;
     @FXML
@@ -58,6 +63,8 @@ public class PlayerBoardWidget extends StackPane {
         leadersDisplay.getChildren().add(leaderDisplayWidget);
 
         initializeMarketResultsDisplay();
+
+        initializeOtherPlayersDisplay();
 
         BaseProductionWidget baseProductionWidget = new BaseProductionWidget(gameConfig.getBaseProductionPower());
         baseProductionWidget.setScaleX(0.42);
@@ -107,9 +114,54 @@ public class PlayerBoardWidget extends StackPane {
                 .map(resToCast -> (Resource) resToCast).collect(Collectors.toList())));
     }
 
+    private void initializeOtherPlayersDisplay() {
+        String path = "/images/user.png" ;
+        InputStream imgIs = GUIUtils.class.getResourceAsStream(path);
+        if(imgIs == null) {
+            System.err.println("User image not found");
+            return;
+        }
+        Image image = new Image(imgIs, 50, 50, true, true);
+
+        ImageView currentPlayerImg = new ImageView(image);
+        BorderPane currentPlayerImgWrapper = new BorderPane(currentPlayerImg);
+        currentPlayerImgWrapper.setPrefHeight(60);
+        currentPlayerImgWrapper.setPrefWidth(60);
+        Label currentPlayerName = new Label("You");
+        VBox currentPlayerBox = new VBox(currentPlayerImgWrapper, currentPlayerName);
+        currentPlayerBox.setAlignment(Pos.CENTER);
+
+        if(player == GUI.instance().getModel().getLocalPlayer())
+            currentPlayerBox.getStyleClass().add("selected");
+
+        currentPlayerBox.setOnMouseClicked(mouseEvent ->
+                Platform.runLater(() ->
+                        getScene().setRoot(new PlayerBoardWidget(GUI.instance().getModel().getLocalPlayer()))));
+
+        otherPlayersDisplay.getChildren().add(currentPlayerBox);
+
+        for(MockPlayer player : GUI.instance().getModel().getPlayers().values()) {
+            if(player.isLocalPlayer())
+                continue;
+            ImageView img = new ImageView(image);
+            BorderPane imgWrapper = new BorderPane(img);
+            imgWrapper.setPrefHeight(60);
+            imgWrapper.setPrefWidth(60);
+            Label playerName = new Label(player.getName());
+            VBox playerBox = new VBox(imgWrapper, playerName);
+            playerBox.setAlignment(Pos.CENTER);
+
+            if(this.player == player)
+                playerBox.getStyleClass().add("selected");
+
+            playerBox.setOnMouseClicked(mouseEvent ->
+                    Platform.runLater(() -> getScene().setRoot(new PlayerBoardWidget(player))));
+
+            otherPlayersDisplay.getChildren().add(playerBox);
+        }
+    }
+
     private void updateMarketResults(List<Resource> resources) {
-
-
         for(int i = 0; i < 4; i++) {
             ImageView imageView = (ImageView) ((BorderPane) marketResultsDisplay.getChildren().get(i)).getCenter();
             if(i < resources.size()) {
