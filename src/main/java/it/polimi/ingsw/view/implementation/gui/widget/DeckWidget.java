@@ -11,6 +11,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -62,7 +66,7 @@ public class DeckWidget extends StackPane {
             getChildren().add(hBox);
         }
 
-        for (HashMap<CardColor, ObservableList<DevelopmentCard>> map : GUI.instance().getModel().getDevelopmentDeck()) {
+        for (HashMap<CardColor, ObservableList<DevelopmentCard>> map : developmentDeck) {
             for (ObservableList<DevelopmentCard> stack : map.values()) {
                 stack.addListener((ListChangeListener<? super DevelopmentCard>) change -> {
                     change.next();
@@ -73,6 +77,11 @@ public class DeckWidget extends StackPane {
                     }
                 });
             }
+        }
+
+        ObservableList<Node> childrens = layerGrids.get(3).getChildren();
+        for(Node node : childrens) {
+            setDraggableDevCard(node);
         }
 
     }
@@ -90,7 +99,8 @@ public class DeckWidget extends StackPane {
 
     private void removeCards(DevelopmentCard removedCard) {
         Platform.runLater(() -> {
-            GridPane modifiedLayer = layerGrids.get(layerGrids.size() - 1);
+            int modifiedLayerIndex = GUI.instance().getModel().getDevelopmentDeck().get(removedCard.getLevel()).get(removedCard.getColor()).size()-1;
+            GridPane modifiedLayer = layerGrids.get(modifiedLayerIndex);
             ObservableList<Node> childrens = modifiedLayer.getChildren();
             for(Node node : childrens) {
                 if(node instanceof BorderPane && GridPane.getRowIndex(node) == 3-removedCard.getLevel() && GridPane.getColumnIndex(node) == CardColor.valueOf(removedCard.getColor().toString()).ordinal()) {
@@ -98,6 +108,37 @@ public class DeckWidget extends StackPane {
                     modifiedLayer.getChildren().remove(pane);
                     break;
                 }
+            }
+            if (modifiedLayerIndex > 0) updateDraggable(modifiedLayerIndex-1, removedCard.getColor(), removedCard.getLevel());
+        });
+    }
+
+    private void updateDraggable(int layerToBeUpdated, CardColor color, int level) {
+        ObservableList<Node> childrens = layerGrids.get(layerToBeUpdated).getChildren();
+        for(Node node : childrens) {
+            if(node instanceof BorderPane && GridPane.getRowIndex(node) == 3-level && GridPane.getColumnIndex(node) == CardColor.valueOf(color.toString()).ordinal()) {
+                setDraggableDevCard(node);
+                break;
+            }
+        }
+    }
+
+    private void setDraggableDevCard(Node node) {
+        BorderPane pane = (BorderPane) node;
+        Group group = (Group) pane.getChildren().get(0);
+        DevelopmentCardWidget developmentCardWidget = (DevelopmentCardWidget) group.getChildren().get(0);
+        node.setOnDragDetected(mouseEvent -> {
+            if(GUI.instance().isOwnTurn()) {
+                Dragboard db = node.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                WritableImage snapshot = developmentCardWidget.snapshot(null, null);
+                content.putImage(snapshot);
+                db.setContent(content);
+
+                GUI.instance().getScene().setRoot(new PlayerBoardWidget(GUI.instance().getModel().getLocalPlayer()));
+
+                mouseEvent.consume();
             }
         });
     }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.beans;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -13,7 +15,7 @@ import java.util.Stack;
 public class MockPlayerBoard {
     private final MockDeposit mockDeposit;
 
-    private final List<Stack<DevelopmentCard>> developmentCards;
+    private final List<ObservableList<DevelopmentCard>> developmentCards;
 
     /**
      * Constructs a new MockPlayerBoard and a new MockPlayerDeposit, initializing all attributes.
@@ -24,7 +26,7 @@ public class MockPlayerBoard {
         mockDeposit = new MockDeposit(player);
         developmentCards = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            developmentCards.add(new Stack<>());
+            developmentCards.add(FXCollections.observableList(new Stack<>()));
         }
     }
 
@@ -42,7 +44,7 @@ public class MockPlayerBoard {
      *
      * @return a list representing the development cards of the player
      */
-    public List<Stack<DevelopmentCard>> getDevelopmentCards() {
+    public List<ObservableList<DevelopmentCard>> getDevelopmentCards() {
         return developmentCards;
     }
 
@@ -57,7 +59,7 @@ public class MockPlayerBoard {
             return null;
 
         try {
-            return developmentCards.get(slot).peek();
+            return developmentCards.get(slot).get(developmentCards.get(slot).size()-1);
         } catch (EmptyStackException ignored) {
         }
         return null;
@@ -70,7 +72,7 @@ public class MockPlayerBoard {
      *         the player does not have any.
      */
     public boolean hasOwnDevelopmentCard() {
-        for (Stack<DevelopmentCard> stack : developmentCards) {
+        for (ObservableList<DevelopmentCard> stack : developmentCards) {
             if (!stack.isEmpty()) return true;
         }
         return false;
@@ -83,6 +85,6 @@ public class MockPlayerBoard {
      * @param slot the slot in which the card will be put
      */
     public void setNewDevelopmentCard(DevelopmentCard card, int slot) {
-        developmentCards.get(slot - 1).push(card);
+        developmentCards.get(slot - 1).add(card);
     }
 }

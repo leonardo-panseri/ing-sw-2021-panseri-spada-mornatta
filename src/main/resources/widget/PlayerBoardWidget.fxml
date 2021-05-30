@@ -15,6 +15,7 @@
                     <VBox.margin><Insets top="30" /></VBox.margin>
                     <Pane fx:id="depositDisplay" layoutX="20.0" layoutY="36.5"/>
                     <Pane fx:id="baseProductionDisplay" layoutX="182.0" layoutY="250.0"/>
+                    <Pane fx:id="developmentDisplay" layoutX="380.0" layoutY="70"/>
                 </Pane>
                 <Pane fx:id="leadersDisplay" prefHeight="507">
                 </Pane>
