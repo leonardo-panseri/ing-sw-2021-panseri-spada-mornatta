@@ -27,6 +27,8 @@ import java.util.List;
 
 public class MarketWidget extends StackPane {
     @FXML
+    private Label instructions;
+    @FXML
     private GridPane marketDisplay;
     @FXML
     private VBox exchangeModalContainer;
@@ -61,6 +63,10 @@ public class MarketWidget extends StackPane {
             }
         });
         slideResource.addListener((change, oldValue, newValue) -> updateSlideResource(newValue));
+
+        if(GUI.instance().isOwnTurn())
+            instructions.setVisible(true);
+        GUI.instance().ownTurnProperty().addListener((change, oldVal, newVal) -> instructions.setVisible(newVal));
     }
 
     private void initializeGrid() {

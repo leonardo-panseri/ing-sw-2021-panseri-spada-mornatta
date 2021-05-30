@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<fx:root type="VBox" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="it.polimi.ingsw.view.implementation.gui.widget.MarketResultsWidget"
+         styleClass="market-results"
+         stylesheets="@css/style.css"
+         alignment="CENTER"
+         maxWidth="260">
+    <FlowPane  style="-fx-border-color: blue;" alignment="CENTER" fx:id="marketResultsDisplay">
+    </FlowPane>
+    <HBox style="-fx-border-color: green;" alignment="CENTER">
+        <Label style="-fx-font-size: 15;">Market Results</Label>
+    </HBox>
+</fx:root>

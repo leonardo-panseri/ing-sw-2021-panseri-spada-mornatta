@@ -34,6 +34,23 @@
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
 }
+.player-board .nav-buttons {
+    -fx-font-size: 20;
+    -fx-pref-width: 150;
+}
+.player-board .nav-buttons .label {
+    -fx-alignment: center;
+    -fx-pref-width: 150;
+}
+.player-board .nav-buttons .button {
+    -fx-pref-width: 150;
+    -fx-font-size: 20;
+    -fx-background-image: url("../../images/main-button.png");
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: white;
+}
 .faith-track .in-range {
     -fx-border-color: #0044EFFF;
     -fx-border-width: 1 0;
@@ -99,6 +116,9 @@
     -fx-text-fill: white;
     -fx-text-alignment: center;
 }
+.market #instructions {
+    -fx-font-size: 15;
+}
 
 .leader-active {
     -fx-border-color: #0044EFFF;
@@ -132,4 +152,8 @@
 .otherPlayersDisplay .selected {
     -fx-border-color: gold;
     -fx-border-width: 3;
+}
+.title {
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
 }
