@@ -19,7 +19,9 @@ public class MockModel {
     private final IntegerProperty currentPlayers;
     private final IntegerProperty playersToStart;
 
-    private ObservableList<String> chatMessages;
+    private final ObservableList<String> chatMessages;
+
+    private final StringProperty currentPlayerName;
 
     private MockPlayer localPlayer;
     private final ObservableMap<String, MockPlayer> players;
@@ -34,6 +36,7 @@ public class MockModel {
     public MockModel() {
         currentPlayers = new SimpleIntegerProperty(-1);
         playersToStart = new SimpleIntegerProperty(-1);
+        currentPlayerName = new SimpleStringProperty();
         localPlayer = null;
         players = FXCollections.observableHashMap();
         developmentDeck = FXCollections.observableArrayList();
@@ -157,5 +160,9 @@ public class MockModel {
 
     public ObservableList<String> getChatMessages(){
         return chatMessages;
+    }
+
+    public StringProperty currentPlayerNameProperty() {
+        return currentPlayerName;
     }
 }

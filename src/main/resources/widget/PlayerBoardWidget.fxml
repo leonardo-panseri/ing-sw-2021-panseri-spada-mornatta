@@ -40,10 +40,14 @@
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.leftAnchor>0</AnchorPane.leftAnchor>
         </FlowPane>
-        <Pane fx:id="marketResultsDisplay"  >
+        <Pane fx:id="marketResultsDisplay">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.leftAnchor>570</AnchorPane.leftAnchor>
             <AnchorPane.rightAnchor>570</AnchorPane.rightAnchor>
         </Pane>
+        <Label fx:id="messageDisplay">
+            <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>540</AnchorPane.leftAnchor>
+        </Label>
     </AnchorPane>
 </fx:root>

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.constant.AnsiColor;
-import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -75,8 +73,10 @@ public abstract class ModelUpdateHandler {
             } else {
                 if(ownedLeaders.size() == 2) { // When the player leader card selection is confirmed
                     for (LeaderCard card : ownedLeaders.keySet()) {
-                        if (card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT)
+                        if (card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) {
                             player.getDeposit().registerLeaderCardToDeposit(card);
+                            System.out.println("Registered card for " + playerName + " at index " + player.getDeposit().getLeaderDepositIndexForCard(card));
+                        }
                     }
                 }
             }
@@ -117,6 +117,7 @@ public abstract class ModelUpdateHandler {
         } else {
             getView().setOwnTurn(false);
         }
+        getView().getModel().currentPlayerNameProperty().setValue(playerName);
     }
 
     /**

@@ -110,7 +110,7 @@ public class LeaderCardWidget extends StackPane {
                 if(GUI.instance() != null) {
                     if(GUI.instance().getScene().getRoot() instanceof PlayerBoardWidget) {
                         PlayerBoardWidget playerBoard = (PlayerBoardWidget) GUI.instance().getScene().getRoot();
-                        if(playerBoard.getPlayer().isLocalPlayer()) {
+                        if(playerBoard.getPlayer().isLocalPlayer() && GUI.instance().getGameState() == GameState.PLAYING) {
                             registerDepositHandler(Arrays.asList(depot1, depot2), playerBoard);
                         }
                     }

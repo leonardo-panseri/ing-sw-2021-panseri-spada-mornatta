@@ -19,6 +19,8 @@ import java.io.InputStream;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
+    private Label messageDisplay;
+    @FXML
     private Pane leadersDisplay;
     @FXML
     private Pane marketResultsDisplay;
@@ -79,6 +81,13 @@ public class PlayerBoardWidget extends StackPane {
 
 
         //***
+
+        GUI.instance().getModel().currentPlayerNameProperty().addListener((change, oldVal, newVal) -> Platform.runLater(() -> {
+            if(GUI.instance().isOwnTurn())
+                messageDisplay.setText("It's your turn");
+            else
+                messageDisplay.setText("It's " + newVal + " turn");
+        }));
 
         if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
             openLeaderSelection();
