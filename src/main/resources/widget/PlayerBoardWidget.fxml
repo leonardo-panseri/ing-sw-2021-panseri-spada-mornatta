@@ -31,6 +31,10 @@
             <Label>Go to:</Label>
             <Button onAction="#goToMarket">Market</Button>
             <Button onAction="#goToDeck">Deck</Button>
+            <Button onAction="#endTurn">
+                <VBox.margin><Insets top="20" /></VBox.margin>
+                End Turn
+            </Button>
         </VBox>
         <FlowPane fx:id="otherPlayersDisplay" styleClass="otherPlayersDisplay">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>

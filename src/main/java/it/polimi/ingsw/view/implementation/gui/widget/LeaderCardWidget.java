@@ -1,21 +1,28 @@
 package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.LeaderCardRequirement;
 import it.polimi.ingsw.model.card.SpecialAbility;
+import it.polimi.ingsw.view.GameState;
+import it.polimi.ingsw.view.beans.MockPlayer;
+import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
+import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class LeaderCardWidget extends StackPane {
     @FXML
@@ -99,6 +106,15 @@ public class LeaderCardWidget extends StackPane {
                 depot2.setLayoutY(233);
                 depot2.setOpacity(0.4);
                 results.add(depot2);
+
+                if(GUI.instance() != null) {
+                    if(GUI.instance().getScene().getRoot() instanceof PlayerBoardWidget) {
+                        PlayerBoardWidget playerBoard = (PlayerBoardWidget) GUI.instance().getScene().getRoot();
+                        if(playerBoard.getPlayer().isLocalPlayer()) {
+                            registerDepositHandler(Arrays.asList(depot1, depot2), playerBoard);
+                        }
+                    }
+                }
             }
             case EXCHANGE -> {
                 ImageView exchange = new ImageView(new Image(image, 47, 55, true, true));
@@ -108,6 +124,88 @@ public class LeaderCardWidget extends StackPane {
             }
         }
         return results;
+    }
+
+    private void registerDepositHandler(List<ImageView> images, PlayerBoardWidget playerBoard) {
+        int depositIndex = playerBoard.getPlayer().getDeposit().getLeaderDepositIndexForCard(leaderCard);
+        updateDeposit(images, playerBoard.getPlayer().getDeposit().getLeadersDeposit(depositIndex));
+        playerBoard.getPlayer().getDeposit().leaderDepositProperty().addListener(
+            (MapChangeListener<? super Integer, ? super List<Resource>>) change -> {
+                if(change.getKey() == depositIndex && change.wasAdded()) {
+                    updateDeposit(images, change.getValueAdded());
+                }
+            });
+
+        for(ImageView img : images) {
+            img.setOnDragDetected(mouseEvent -> {
+                if(img.getOpacity() == 1 && playerBoard.getPlayer().isLocalPlayer() && GUI.instance().isOwnTurn()) {
+                    Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString("leaderDeposit" + depositIndex);
+                    content.putImage(img.getImage());
+                    db.setContent(content);
+
+                    playerBoard.getDepositWidget().setDropAllowed(true);
+                    playerBoard.getDepositWidget().setOnDragDroppedHandler(depositResourceMoveHandler(depositIndex));
+
+                    mouseEvent.consume();
+                }
+            });
+            img.setOnDragDone(dragEvent -> playerBoard.getDepositWidget().setDropAllowed(false));
+
+            img.setOnDragOver(dragEvent -> {
+                if(dragEvent.getGestureSource() instanceof ImageView && GUI.instance().isOwnTurn()) {
+                    dragEvent.acceptTransferModes(TransferMode.ANY);
+                }
+
+                dragEvent.consume();
+            });
+            img.setOnDragDropped(dragEvent -> {
+                boolean success = true;
+                int rowIndex = -1;
+                try {
+                    rowIndex = DepositWidget.getRowId(dragEvent.getGestureSource());
+                } catch (IllegalArgumentException e) {
+                    success = false;
+                }
+
+                if(success) {
+                    GUI.instance().getActionSender().move(rowIndex + 1, depositIndex + 4);
+                }
+
+                dragEvent.setDropCompleted(success);
+                dragEvent.consume();
+            });
+        }
+    }
+
+    private Consumer<DragEvent> depositResourceMoveHandler(int depositIndex) {
+        return dragEvent -> {
+            boolean success = true;
+            int rowIndex = -1;
+            try {
+                rowIndex = DepositWidget.getRowId(dragEvent.getGestureTarget());
+            } catch (IllegalArgumentException e) {
+                success = false;
+            }
+
+            if(success) {
+                GUI.instance().getActionSender().move(depositIndex + 4, rowIndex + 1);
+            }
+
+            dragEvent.setDropCompleted(success);
+            dragEvent.consume();
+        };
+    }
+
+    private void updateDeposit(List<ImageView> images, List<Resource> resources) {
+        for(int i = 1; i <= 2; i++) {
+            if(i <= resources.size())
+                images.get(i - 1).setOpacity(1);
+            else
+                images.get(i - 1).setOpacity(0.4);
+        }
     }
 
     public void flipCard() {

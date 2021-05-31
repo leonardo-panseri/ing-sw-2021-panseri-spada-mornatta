@@ -3,10 +3,9 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -18,8 +17,10 @@ public class MockDeposit {
 
     private final ObservableList<List<Resource>> deposit;
     private Map<Resource, Integer> strongbox;
-    private Map<Integer, List<Resource>> leadersDeposit;
+    private final ObservableMap<Integer, List<Resource>> leadersDeposit;
     private final ObservableList<Resource> marketResult;
+
+    private final Map<UUID, Integer> leaderCardtoDepositLink;
 
     /**
      * Constructs a new empty MockDeposit for the given MockPlayer.
@@ -30,10 +31,12 @@ public class MockDeposit {
         this.player = player;
         deposit = FXCollections.observableList(Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         strongbox = new HashMap<>();
-        leadersDeposit = new HashMap<>();
+        leadersDeposit = FXCollections.observableHashMap();
         leadersDeposit.put(1, new ArrayList<>());
         leadersDeposit.put(2, new ArrayList<>());
         marketResult = FXCollections.observableArrayList();
+
+        this.leaderCardtoDepositLink = new HashMap<>();
     }
 
     /**
@@ -139,7 +142,8 @@ public class MockDeposit {
      * @param leadersDeposit a Map showing the deposit of the leaders
      */
     public void setLeadersDeposit(Map<Integer, List<Resource>> leadersDeposit) {
-        this.leadersDeposit = leadersDeposit;
+        this.leadersDeposit.clear();
+        this.leadersDeposit.putAll(leadersDeposit);
     }
 
     /**
@@ -162,5 +166,20 @@ public class MockDeposit {
 
     public ObservableList<Resource> marketResultProperty() {
         return marketResult;
+    }
+
+    public ObservableMap<Integer, List<Resource>> leaderDepositProperty() {
+        return leadersDeposit;
+    }
+
+    public void registerLeaderCardToDeposit(LeaderCard card) {
+        if(leaderCardtoDepositLink.containsValue(1))
+            leaderCardtoDepositLink.put(card.getUuid(), 2);
+        else
+            leaderCardtoDepositLink.put(card.getUuid(), 1);
+    }
+
+    public int getLeaderDepositIndexForCard(LeaderCard card) {
+        return leaderCardtoDepositLink.get(card.getUuid());
     }
 }
