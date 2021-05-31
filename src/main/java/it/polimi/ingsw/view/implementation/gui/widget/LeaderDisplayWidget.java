@@ -4,19 +4,14 @@ import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
+import it.polimi.ingsw.view.messages.ActivateLeaderPlayerActionEvent;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.layout.FlowPane;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.Group;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +32,8 @@ public class LeaderDisplayWidget extends VBox {
 
     @FXML
     private void initialize() {
-        if(player.leaderCardsProperty().size() != 4) // Do not load the leader cards if the player has not chosen what to discard yet
-            for(LeaderCard card : player.leaderCardsProperty().keySet()) {
+        if (player.leaderCardsProperty().size() != 4) // Do not load the leader cards if the player has not chosen what to discard yet
+            for (LeaderCard card : player.leaderCardsProperty().keySet()) {
                 addLeader(card, player.isLeaderCardActive(card));
             }
 
@@ -68,8 +63,14 @@ public class LeaderDisplayWidget extends VBox {
             leaderDisplay.getChildren().add(new Group(newWidget));
             leadersAndWidgets.put(newLeader, newWidget);
 
-            if(active)
+            if (active)
                 newWidget.getStyleClass().add("leader-active");
+            else {
+                ContextMenu contextMenu = buildContextMenu(newWidget);
+                newWidget.setOnMousePressed(event -> {
+                    if(!contextMenu.isShowing()) contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
+                });
+            }
         });
     }
 
@@ -77,9 +78,17 @@ public class LeaderDisplayWidget extends VBox {
         Platform.runLater(() -> {
             if (!previousValue) {
                 leadersAndWidgets.get(modifiedCard).getStyleClass().add("leader-active");
-            }
-            else leadersAndWidgets.get(modifiedCard).getStyleClass().remove("leader-active");
+            } else leadersAndWidgets.get(modifiedCard).getStyleClass().remove("leader-active");
         });
     }
 
+    private ContextMenu buildContextMenu(LeaderCardWidget cardWidget) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem menuItem1 = new MenuItem("Activate Leader");
+
+        menuItem1.setOnAction((event) -> GUI.instance().getClient().send(new ActivateLeaderPlayerActionEvent(cardWidget.getLeaderCard().getUuid())));
+
+        contextMenu.getItems().addAll(menuItem1);
+        return contextMenu;
+    }
 }
