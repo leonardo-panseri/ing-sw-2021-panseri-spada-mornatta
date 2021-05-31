@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.implementation.gui;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
@@ -11,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.List;
+import java.util.*;
 
 public class GUI extends View {
     private static GUI instance;
@@ -124,6 +125,14 @@ public class GUI extends View {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getModel().getLocalPlayer().getDeposit().setLeadersDeposit(Map.of(1, Arrays.asList(Resource.STONE, Resource.STONE), 2, Arrays.asList(Resource.STONE, Resource.STONE)));
+            }
+        }, 9000);
 
         stage.setOnCloseRequest(windowEvent -> getClient().terminate());
 

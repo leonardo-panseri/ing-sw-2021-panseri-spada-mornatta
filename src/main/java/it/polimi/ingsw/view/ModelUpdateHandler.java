@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.List;
@@ -71,6 +72,13 @@ public abstract class ModelUpdateHandler {
                     getView().getRenderer().showGameMessage("Leader card successfully activated");
                 else
                     getView().getRenderer().showGameMessage("Leader card discarded (+1 Faith)");
+            } else {
+                if(ownedLeaders.size() == 2) { // When the player leader card selection is confirmed
+                    for (LeaderCard card : ownedLeaders.keySet()) {
+                        if (card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT)
+                            player.getDeposit().registerLeaderCardToDeposit(card);
+                    }
+                }
             }
         }
 
