@@ -216,6 +216,11 @@ public class PlayerBoardWidget extends StackPane {
         });
     }
 
+    @FXML
+    private void endTurn() {
+        GUI.instance().getActionSender().endTurn();
+    }
+
     protected MockPlayer getPlayer() {
         return player;
     }

@@ -55,25 +55,28 @@ public class MarketResultsWidget extends VBox {
                 imageView.setImage(GUIUtils.getResourceImage(resources.get(i), 50, 50));
                 int finalI = i;
                 imageView.setOnDragDetected(mouseEvent -> {
-                    playerBoard.getDepositWidget().setDropAllowed(true);
-                    playerBoard.getDepositWidget().setOnDragDroppedHandler(marketResultHandler());
+                    if(playerBoard.getPlayer().isLocalPlayer()) {
+                        playerBoard.getDepositWidget().setDropAllowed(true);
+                        playerBoard.getDepositWidget().setOnDragDroppedHandler(storeMarketResultHandler());
 
-                    Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+                        Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
-                    ClipboardContent content = new ClipboardContent();
-                    content.putString("marketResult" + (finalI + 1));
-                    content.putImage(imageView.getImage());
-                    db.setContent(content);
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString("marketResult" + (finalI + 1));
+                        content.putImage(imageView.getImage());
+                        db.setContent(content);
 
-                    mouseEvent.consume();
+                        mouseEvent.consume();
+                    }
                 });
+                imageView.setOnDragDone(dragEvent -> playerBoard.getDepositWidget().setDropAllowed(false));
             } else {
                 imageView.setImage(null);
             }
         }
     }
 
-    private Consumer<DragEvent> marketResultHandler() {
+    private Consumer<DragEvent> storeMarketResultHandler() {
         return dragEvent -> {
             Dragboard db = dragEvent.getDragboard();
 

@@ -11,9 +11,9 @@
          stylesheets="@css/style.css"
          alignment="CENTER"
          maxWidth="260">
-    <FlowPane  style="-fx-border-color: blue;" alignment="CENTER" fx:id="marketResultsDisplay">
+    <FlowPane alignment="CENTER" fx:id="marketResultsDisplay">
     </FlowPane>
-    <HBox style="-fx-border-color: green;" alignment="CENTER">
+    <HBox alignment="CENTER">
         <Label style="-fx-font-size: 15;">Market Results</Label>
     </HBox>
 </fx:root>
