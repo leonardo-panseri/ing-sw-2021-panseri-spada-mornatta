@@ -42,7 +42,7 @@ public class LeaderSelectionWidget extends HBox {
         this.leaderCards = leaderCards;
         this.cardsChoice = new HashMap<>();
         this.chosenResources = new HashMap<>();
-        leaderCards.forEach(card -> cardsChoice.put(card, false));
+        leaderCards.forEach(card -> cardsChoice.put(card, true));
         this.done = false;
         this.chosenCards = new ArrayList<>();
         this.chosenResourcesCount = 0;
@@ -74,7 +74,7 @@ public class LeaderSelectionWidget extends HBox {
     private void checkIfDone() {
         int found = 0;
         for(boolean active : cardsChoice.values()) {
-            if(active) found++;
+            if(!active) found++;
         }
         done = found > 1;
         confirmButton.setDisable(!done);

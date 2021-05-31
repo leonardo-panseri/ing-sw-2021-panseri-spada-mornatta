@@ -126,14 +126,6 @@ public class GUI extends View {
         stage.setResizable(false);
         stage.show();
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getModel().getLocalPlayer().getDeposit().setLeadersDeposit(Map.of(1, Arrays.asList(Resource.STONE, Resource.STONE), 2, Arrays.asList(Resource.STONE, Resource.STONE)));
-            }
-        }, 9000);
-
         stage.setOnCloseRequest(windowEvent -> getClient().terminate());
 
         if (getClient().isNoServer())
