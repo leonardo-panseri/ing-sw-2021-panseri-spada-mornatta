@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.implementation.gui.GUI;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class StrongBoxWidget extends FlowPane {
 
-    private Map <Resource,Integer> strongBox;
+    private Map<Resource, Integer> strongBox;
     private final MockPlayer player;
 
     public StrongBoxWidget(MockPlayer player) {
@@ -25,22 +26,25 @@ public class StrongBoxWidget extends FlowPane {
     }
 
     @FXML
-    private void initialize(){
-       player.getDeposit().strongBoxProperty().addListener((MapChangeListener<? super Resource, ? super Integer>) change -> {
-           if(change.wasAdded() && !change.wasRemoved()) {
+    private void initialize() {
+        player.getDeposit().strongBoxProperty().addListener((MapChangeListener<? super Resource, ? super Integer>) change -> {
+            int numberOf = change.getValueAdded();
+            Resource resType = change.getKey();
 
-           } else if (change.wasRemoved() && change.wasAdded()){
 
-           } else{
-
-           }
-       });
+        });
 
     }
 
-    public void updateStrongBox(){
+    public void updateStrongBox(Resource resType, int numberOf) {
 
         Platform.runLater(() -> {
+
+            Image img = GUIUtils.getResourceImage(resType,15,15);
+            switch(resType) {
+
+            }
+
 
         });
 
