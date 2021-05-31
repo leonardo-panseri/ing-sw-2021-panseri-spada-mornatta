@@ -57,6 +57,12 @@ public class DevelopmentSlotsWidget extends StackPane {
 
         List<ObservableList<DevelopmentCard>> stacks = player.getPlayerBoard().getDevelopmentCards();
         for (int i = 0; i < stacks.size(); i++) {
+            for (DevelopmentCard card : stacks.get(i)) {
+                pushCard(card, i);
+            }
+        }
+
+        for (int i = 0; i < stacks.size(); i++) {
             int finalI = i;
             stacks.get(i).addListener((ListChangeListener<? super DevelopmentCard>) change -> {
                 while (change.next()) {
@@ -75,11 +81,13 @@ public class DevelopmentSlotsWidget extends StackPane {
             if (checkSlotEmpty(layerGrids.get(layerGrids.size() - 1), slotIndex) != null) {
                 layerGrids.add(new GridPane());
                 initGrid(layerGrids.get(layerGrids.size() - 1));
-                layerGrids.get(layerGrids.size() - 1).setTranslateY(-10.0);
+                layerGrids.get(layerGrids.size() - 1).setTranslateY(-40.0);
                 getChildren().add(layerGrids.get(layerGrids.size() - 1));
             }
             GridPane chosenLayer = layerGrids.get(layerGrids.size() - 1);
             DevelopmentCardWidget card = new DevelopmentCardWidget(addedItem);
+            card.setScaleX(0.8);
+            card.setScaleY(0.8);
             gridSlots.get(chosenLayer).get(slotIndex).getChildren().add(card);
         });
     }

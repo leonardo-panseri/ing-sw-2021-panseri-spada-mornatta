@@ -78,7 +78,8 @@ public class LeaderDisplayWidget extends VBox {
         Platform.runLater(() -> {
             if (!previousValue) {
                 leadersAndWidgets.get(modifiedCard).getStyleClass().add("leader-active");
-            } else leadersAndWidgets.get(modifiedCard).getStyleClass().remove("leader-active");
+                leadersAndWidgets.get(modifiedCard).setOnMouseClicked(null);
+            }
         });
     }
 
