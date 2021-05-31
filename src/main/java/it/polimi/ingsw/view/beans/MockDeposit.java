@@ -7,6 +7,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class MockDeposit {
     private final MockPlayer player;
 
     private final ObservableList<List<Resource>> deposit;
-    private Map<Resource, Integer> strongbox;
+    private ObservableMap<Resource, Integer> strongbox;
     private Map<Integer, List<Resource>> leadersDeposit;
     private final ObservableList<Resource> marketResult;
 
@@ -29,7 +30,7 @@ public class MockDeposit {
     public MockDeposit(MockPlayer player) {
         this.player = player;
         deposit = FXCollections.observableList(Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
-        strongbox = new HashMap<>();
+        strongbox = FXCollections.observableHashMap();
         leadersDeposit = new HashMap<>();
         leadersDeposit.put(1, new ArrayList<>());
         leadersDeposit.put(2, new ArrayList<>());
@@ -86,7 +87,7 @@ public class MockDeposit {
      *
      * @return a map associating the resources with the number of that type of resource that is present in the strongbox
      */
-    public Map<Resource, Integer> getStrongbox() {
+    public ObservableMap<Resource, Integer> strongBoxProperty() {
         return strongbox;
     }
 
@@ -98,7 +99,8 @@ public class MockDeposit {
      *                  represents the number of times the resource is present in the strongbox
      */
     public void setStrongbox(Map<Resource, Integer> strongbox) {
-        this.strongbox = strongbox;
+        this.strongbox.clear();
+        this.strongbox.putAll(strongbox);
     }
 
     /**

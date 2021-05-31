@@ -172,5 +172,10 @@
     -fx-padding: 3 30 3 30;
     -fx-text-fill: #242d35;
     -fx-font-size: 14px;
+    -fx-background-image: url("../../images/sendArrow2.png");
+    -fx-background-size: 25px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 50%;
+
 }
 

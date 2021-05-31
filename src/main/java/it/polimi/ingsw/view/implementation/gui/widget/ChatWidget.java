@@ -31,8 +31,10 @@ public class ChatWidget extends VBox {
     @FXML
     private void initialize() {
 
+        setMaxWidth(150);
+
         scrollPane = new ScrollPane();
-        button = new Button("Send");
+        button = new Button();
         chat.setSpacing(10);
         chat.setPrefWidth(150);
         getChildren().add(scrollPane);
@@ -54,7 +56,8 @@ public class ChatWidget extends VBox {
         });
 
         scrollPane.setContent(chat);
-        scrollPane.setMaxHeight(300);
+        scrollPane.setMaxHeight(150);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 
         for (String s : GUI.instance().getModel().getChatMessages()) {
