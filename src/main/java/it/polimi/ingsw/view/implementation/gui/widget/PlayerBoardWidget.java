@@ -36,6 +36,8 @@ public class PlayerBoardWidget extends StackPane {
     private Pane baseProductionDisplay;
     @FXML
     private Pane chatDisplay;
+    @FXML
+    private Pane strongBoxDisplay;
 
     private final MockPlayer player;
     private DepositWidget depositWidget;
@@ -76,6 +78,10 @@ public class PlayerBoardWidget extends StackPane {
 
         ChatWidget chatWidget = new ChatWidget();
         chatDisplay.getChildren().add(chatWidget);
+
+        StrongBoxWidget strongBoxWidget = new StrongBoxWidget(player);
+        strongBoxDisplay.getChildren().add(strongBoxWidget);
+
 
 
         //***

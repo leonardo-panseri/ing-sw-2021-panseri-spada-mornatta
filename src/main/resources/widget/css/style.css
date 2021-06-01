@@ -179,3 +179,13 @@
 
 }
 
+.strongbox-root  {
+    -fx-background-color: transparent;
+}
+
+.strongbox-root .label{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+
