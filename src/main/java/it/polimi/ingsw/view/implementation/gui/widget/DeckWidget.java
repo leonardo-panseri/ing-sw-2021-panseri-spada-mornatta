@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -66,6 +67,15 @@ public class DeckWidget extends StackPane {
             getChildren().add(hBox);
         }
 
+        Button goBackButton = new Button("Back");
+        goBackButton.setOnAction(event -> goToPlayerBoard());
+        AnchorPane container = new AnchorPane();
+        AnchorPane.setLeftAnchor(goBackButton, 10.0);
+        AnchorPane.setTopAnchor(goBackButton, 10.0);
+        container.getChildren().add(goBackButton);
+        container.setPickOnBounds(false);
+        getChildren().add(container);
+
         for (HashMap<CardColor, ObservableList<DevelopmentCard>> map : developmentDeck) {
             for (ObservableList<DevelopmentCard> stack : map.values()) {
                 stack.addListener((ListChangeListener<? super DevelopmentCard>) change -> {
@@ -83,7 +93,6 @@ public class DeckWidget extends StackPane {
         for(Node node : childrens) {
             setDraggableDevCard(node);
         }
-
     }
 
     private BorderPane createPane(CardColor color, DevelopmentCardWidget card) {
@@ -143,5 +152,9 @@ public class DeckWidget extends StackPane {
         });
     }
 
+    @FXML
+    private void goToPlayerBoard() {
+        GUI.instance().getScene().setRoot(new PlayerBoardWidget(GUI.instance().getModel().getLocalPlayer()));
+    }
 }
 

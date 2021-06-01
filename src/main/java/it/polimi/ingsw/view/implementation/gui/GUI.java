@@ -7,10 +7,12 @@ import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GUI extends View {
     private static GUI instance;
@@ -122,6 +124,8 @@ public class GUI extends View {
         scene = new Scene(homePage);
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.setTitle("Masters Of Renaissance");
+        stage.getIcons().add(new Image(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/app-icon.png"))));
         stage.show();
 
         stage.setOnCloseRequest(windowEvent -> getClient().terminate());
