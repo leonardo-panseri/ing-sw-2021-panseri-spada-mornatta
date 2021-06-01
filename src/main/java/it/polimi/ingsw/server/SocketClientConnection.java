@@ -206,6 +206,7 @@ class WriteThread extends Thread {
             }
         } catch (EOFException ignored) {
         } catch(Exception e) {
+            e.printStackTrace();
             System.err.println("Error in SocketClientConnection WriteThread");
             clientConnection.setInactive();
         }

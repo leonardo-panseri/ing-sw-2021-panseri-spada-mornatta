@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
+import it.polimi.ingsw.model.lorenzo.action.LorenzoAction;
 import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.List;
@@ -220,5 +221,9 @@ public abstract class ModelUpdateHandler {
         }
 
         player.getDeposit().setMarketResult(result);
+    }
+
+    public void handleLorenzoAction(LorenzoAction action) {
+        getView().getModel().lorenzoActionProperty().set(action.toString());
     }
 }

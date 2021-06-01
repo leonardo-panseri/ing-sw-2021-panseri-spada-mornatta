@@ -3,14 +3,18 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.server.GameConfig;
-import it.polimi.ingsw.view.implementation.gui.GUI;
 import javafx.application.Platform;
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Local copy of the game model.
@@ -20,6 +24,7 @@ public class MockModel {
     private final IntegerProperty playersToStart;
 
     private final ObservableList<String> chatMessages;
+    private final NotifySetStringProperty lorenzoAction;
 
     private final StringProperty currentPlayerName;
 
@@ -42,6 +47,7 @@ public class MockModel {
         developmentDeck = FXCollections.observableArrayList();
         market = new MockMarket();
         chatMessages = FXCollections.observableArrayList();
+        lorenzoAction = new NotifySetStringProperty("");
     }
 
     public GameConfig getGameConfig() {
@@ -164,5 +170,33 @@ public class MockModel {
 
     public StringProperty currentPlayerNameProperty() {
         return currentPlayerName;
+    }
+
+    public NotifySetStringProperty lorenzoActionProperty() {
+        return lorenzoAction;
+    }
+
+    public static class NotifySetStringProperty extends SimpleStringProperty {
+        private OnSetValueListener valueListener;
+
+        NotifySetStringProperty(String initialValue) {
+            super(initialValue);
+        }
+
+        @Override
+        public void set(String newValue) {
+            super.set(newValue);
+            if(valueListener != null) {
+                valueListener.onValueSet(newValue);
+            }
+        }
+
+        public void setValueListener(OnSetValueListener valueListener) {
+            this.valueListener = valueListener;
+        }
+
+        public interface OnSetValueListener {
+            void onValueSet(String value);
+        }
     }
 }

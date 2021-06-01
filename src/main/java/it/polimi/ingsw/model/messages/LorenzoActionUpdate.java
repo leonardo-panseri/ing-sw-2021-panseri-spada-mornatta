@@ -24,6 +24,6 @@ public class LorenzoActionUpdate extends PropertyUpdate{
 
     @Override
     public void process(View view) {
-        view.getRenderer().showGameMessage(action.toString());
+        view.getModelUpdateHandler().handleLorenzoAction(action);
     }
 }

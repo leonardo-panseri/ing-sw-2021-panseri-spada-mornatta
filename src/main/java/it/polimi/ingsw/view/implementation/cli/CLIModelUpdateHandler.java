@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.lorenzo.action.LorenzoAction;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.ModelUpdateHandler;
 import it.polimi.ingsw.view.View;
@@ -58,5 +59,11 @@ public class CLIModelUpdateHandler extends ModelUpdateHandler {
     @Override
     public void updateChat(String sender, String message) {
         getView().getRenderer().printChatMessage(sender, message);
+    }
+
+    @Override
+    public void handleLorenzoAction(LorenzoAction action) {
+        super.handleLorenzoAction(action);
+        getView().getRenderer().showGameMessage(action.toString());
     }
 }
