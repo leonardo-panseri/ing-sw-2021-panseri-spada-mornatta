@@ -7,6 +7,9 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -14,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+
 
 import java.io.InputStream;
 
@@ -82,11 +86,15 @@ public class PlayerBoardWidget extends StackPane {
 
         //***
 
+        Platform.runLater(() -> messageDisplay.setText(
+                GUI.instance().isOwnTurn() ? "It's your turn" :
+                        "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + " turn"));
         GUI.instance().getModel().currentPlayerNameProperty().addListener((change, oldVal, newVal) -> Platform.runLater(() -> {
-            if(GUI.instance().isOwnTurn())
+            if (GUI.instance().getPlayerName().equals(newVal)) {
                 messageDisplay.setText("It's your turn");
-            else
+            } else {
                 messageDisplay.setText("It's " + newVal + " turn");
+            }
         }));
 
         if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {

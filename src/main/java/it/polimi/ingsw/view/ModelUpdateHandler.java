@@ -75,7 +75,6 @@ public abstract class ModelUpdateHandler {
                     for (LeaderCard card : ownedLeaders.keySet()) {
                         if (card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) {
                             player.getDeposit().registerLeaderCardToDeposit(card);
-                            System.out.println("Registered card for " + playerName + " at index " + player.getDeposit().getLeaderDepositIndexForCard(card));
                         }
                     }
                 }

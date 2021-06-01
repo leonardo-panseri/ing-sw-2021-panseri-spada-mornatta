@@ -45,9 +45,9 @@
             <AnchorPane.leftAnchor>570</AnchorPane.leftAnchor>
             <AnchorPane.rightAnchor>570</AnchorPane.rightAnchor>
         </Pane>
-        <Label fx:id="messageDisplay">
+        <Label fx:id="messageDisplay" prefHeight="100" alignment="CENTER">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
-            <AnchorPane.leftAnchor>540</AnchorPane.leftAnchor>
+            <AnchorPane.leftAnchor>350</AnchorPane.leftAnchor>
         </Label>
     </AnchorPane>
 </fx:root>
