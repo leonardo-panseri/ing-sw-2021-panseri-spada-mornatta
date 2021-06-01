@@ -178,3 +178,10 @@
     -fx-font-size: 14px;
 }
 
+.game-background {
+    -fx-background-image: url("../../images/background.jpg");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+

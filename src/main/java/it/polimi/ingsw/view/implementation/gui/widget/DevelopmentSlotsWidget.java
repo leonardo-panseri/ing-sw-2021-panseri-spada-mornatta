@@ -128,10 +128,10 @@ public class DevelopmentSlotsWidget extends StackPane {
             Group group;
             DevelopmentCardWidget developmentCardWidget;
             DevelopmentCard card = null;
-            if (event.getGestureTarget() instanceof BorderPane && GUI.instance().isOwnTurn()) {
+            if (event.getGestureSource() instanceof BorderPane && GUI.instance().isOwnTurn()) {
                 if(player.isLocalPlayer()){
                     success = true;
-                    pane = (BorderPane) event.getGestureTarget();
+                    pane = (BorderPane) event.getGestureSource();
                     group = (Group) pane.getChildren().get(0);
                     developmentCardWidget = (DevelopmentCardWidget) group.getChildren().get(0);
                     card = developmentCardWidget.getDevelopmentCard();
