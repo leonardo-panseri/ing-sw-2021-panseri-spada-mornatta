@@ -57,7 +57,7 @@
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-background-color: white;
+    -fx-background-color: transparent;
 }
 .faith-track .in-range {
     -fx-border-color: #0044EFFF;
