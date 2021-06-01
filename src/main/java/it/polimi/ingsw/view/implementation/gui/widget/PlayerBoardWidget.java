@@ -7,9 +7,6 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -17,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-
 
 import java.io.InputStream;
 
@@ -44,6 +40,8 @@ public class PlayerBoardWidget extends StackPane {
     private Pane chatDisplay;
     @FXML
     private Pane strongBoxDisplay;
+    @FXML
+    private Label lorenzoActionDisplay;
 
     private final MockPlayer player;
     private DepositWidget depositWidget;
@@ -80,17 +78,11 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionWidget.setScaleY(0.42);
         baseProductionDisplay.getChildren().add(baseProductionWidget);
 
-        //***
-
         ChatWidget chatWidget = new ChatWidget();
         chatDisplay.getChildren().add(chatWidget);
 
         StrongBoxWidget strongBoxWidget = new StrongBoxWidget(player);
         strongBoxDisplay.getChildren().add(strongBoxWidget);
-
-
-
-        //***
 
         Platform.runLater(() -> messageDisplay.setText(
                 GUI.instance().isOwnTurn() ? "It's your turn" :
@@ -102,6 +94,9 @@ public class PlayerBoardWidget extends StackPane {
                 messageDisplay.setText("It's " + newVal + " turn");
             }
         }));
+
+        GUI.instance().getModel().lorenzoActionProperty().setValueListener(value ->
+                Platform.runLater(() -> lorenzoActionDisplay.setText(value)));
 
         if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
             openLeaderSelection();

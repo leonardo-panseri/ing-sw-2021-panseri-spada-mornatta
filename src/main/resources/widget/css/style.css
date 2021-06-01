@@ -38,6 +38,10 @@
     -fx-font-size: 20;
     -fx-font-weight: bold;
 }
+.player-board #lorenzoActionDisplay {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
 .player-board .nav-buttons {
     -fx-font-size: 20;
     -fx-pref-width: 150;
