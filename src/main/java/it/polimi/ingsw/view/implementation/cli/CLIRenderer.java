@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.Renderer;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -270,7 +271,7 @@ public class CLIRenderer extends Renderer {
      */
     @Override
     public void renderStrongbox(MockPlayer player) {
-        Map<Resource, Integer> strongbox = player.getDeposit().getStrongbox();
+        ObservableMap<Resource, Integer> strongbox = player.getDeposit().strongBoxProperty();
         for (Resource res : strongbox.keySet()) {
             String strongboxRow = "";
             strongboxRow = strongboxRow.concat(renderResource(res) + " " + AnsiColor.getResourceColor(res) + res + AnsiColor.RESET + ": " + strongbox.get(res));

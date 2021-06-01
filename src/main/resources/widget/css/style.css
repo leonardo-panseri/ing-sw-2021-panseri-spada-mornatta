@@ -176,7 +176,22 @@
     -fx-padding: 3 30 3 30;
     -fx-text-fill: #242d35;
     -fx-font-size: 14px;
+    -fx-background-image: url("../../images/sendArrow2.png");
+    -fx-background-size: 25px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 50%;
+
 }
+
+.strongbox-root  {
+    -fx-background-color: transparent;
+}
+
+.strongbox-root .label{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
 
 .game-background {
     -fx-background-image: url("../../images/background.jpg");
