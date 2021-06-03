@@ -3,9 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.messages.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Models a lobby, holding the list of connected clients, the first connected client and the number of players needed to
@@ -194,12 +192,19 @@ public class Lobby extends Observable<IServerPacket> {
         connections.remove(crashedConnection);
 
         notify(new PlayerCrashMessage(crashedConnection.getPlayerName()));
-        for(SocketClientConnection conn : connections) {
-            if(conn != null) {
-                conn.closeConnection();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for(SocketClientConnection conn : connections) {
+                    if(conn != null) {
+                        conn.closeConnection();
+                    }
+                    connections.remove(conn);
+                }
             }
-            connections.remove(conn);
-        }
+        }, 5000);
     }
 
     /**

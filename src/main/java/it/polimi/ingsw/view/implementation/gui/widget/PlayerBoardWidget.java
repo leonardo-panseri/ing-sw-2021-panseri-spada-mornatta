@@ -77,7 +77,10 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionWidget.setScaleX(0.42);
         baseProductionWidget.setScaleY(0.42);
         baseProductionDisplay.getChildren().add(baseProductionWidget);
-        baseProductionWidget.setOnMouseClicked(mouseEvent -> openProductionModal());
+        baseProductionWidget.setOnMouseClicked(mouseEvent -> {
+            if (player.isLocalPlayer())
+                openProductionModal();
+        });
 
         ChatWidget chatWidget = new ChatWidget();
         chatDisplay.getChildren().add(chatWidget);
