@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
+import it.polimi.ingsw.view.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -19,7 +20,11 @@ public class MockDeposit {
     private final ObservableMap<Integer, List<Resource>> leadersDeposit;
     private final ObservableList<Resource> marketResult;
 
-    private final Map<UUID, Integer> leaderCardtoDepositLink;
+    private final Map<UUID, Integer> leaderCardToDepositLink;
+
+    private final List<List<Resource>> depositBackup;
+    private final Map<Resource, Integer> strongboxBackup;
+    private final Map<Integer, List<Resource>> leadersDepositBackup;
 
     /**
      * Constructs a new empty MockDeposit for the given MockPlayer.
@@ -35,7 +40,11 @@ public class MockDeposit {
         leadersDeposit.put(2, new ArrayList<>());
         marketResult = FXCollections.observableArrayList();
 
-        this.leaderCardtoDepositLink = new HashMap<>();
+        this.leaderCardToDepositLink = new HashMap<>();
+
+        this.depositBackup = new ArrayList<>();
+        this.strongboxBackup = new HashMap<>();
+        this.leadersDepositBackup = new HashMap<>();
     }
 
     /**
@@ -173,13 +182,102 @@ public class MockDeposit {
     }
 
     public void registerLeaderCardToDeposit(LeaderCard card) {
-        if(leaderCardtoDepositLink.containsValue(1))
-            leaderCardtoDepositLink.put(card.getUuid(), 2);
+        if(leaderCardToDepositLink.containsValue(1))
+            leaderCardToDepositLink.put(card.getUuid(), 2);
         else
-            leaderCardtoDepositLink.put(card.getUuid(), 1);
+            leaderCardToDepositLink.put(card.getUuid(), 1);
     }
 
     public int getLeaderDepositIndexForCard(LeaderCard card) {
-        return leaderCardtoDepositLink.get(card.getUuid());
+        return leaderCardToDepositLink.get(card.getUuid());
+    }
+
+    public void saveCurrentState() {
+        deepCopy(depositBackup, deposit, strongboxBackup, strongbox, leadersDepositBackup, leadersDeposit);
+    }
+
+    public void restoreSavedState() {
+        deepCopy(deposit, depositBackup, strongbox, strongboxBackup, leadersDeposit, leadersDepositBackup);
+    }
+
+    private void deepCopy(List<List<Resource>> depositBackup, List<List<Resource>> deposit,
+                          Map<Resource, Integer> strongboxBackup, Map<Resource, Integer> strongbox, Map<Integer,
+                          List<Resource>> leadersDepositBackup, Map<Integer, List<Resource>> leadersDeposit) {
+        depositBackup.clear();
+        for(List<Resource> row : deposit) {
+            depositBackup.add(new ArrayList<>(row));
+        }
+        strongboxBackup.clear();
+        strongboxBackup.putAll(strongbox);
+        leadersDepositBackup.clear();
+        for(Integer index : leadersDeposit.keySet()) {
+            leadersDepositBackup.put(index, new ArrayList<>(leadersDeposit.get(index)));
+        }
+    }
+
+    public void removeResources(View view, Map<Resource, Integer> resources) {
+        for (Resource res : resources.keySet()) {
+            int removed = 0;
+            while (removed < resources.get(res)) {
+                int row = findResource(res);
+                if(row == -1) {
+                    view.getRenderer().showErrorMessage("You don't have the resources for this production!");
+                    break;
+                }
+                removed += removeResource(row, res);
+            }
+        }
+    }
+
+    int removeResource(int row, Resource resource) {
+        if (row >= 1 && row <= 3) {
+            deposit.get(row - 1).remove(resource);
+            return 1;
+        } else if (row == 4) {
+            if (leadersDeposit.get(1).remove(resource)) return 1;
+        } else if (row == 5) {
+            if (leadersDeposit.get(2).remove(resource)) return 1;
+        } else if (row == 6) {
+            if(strongbox.get(resource) > 0) {
+                int newQuantity = strongbox.get(resource) - 1;
+                if(newQuantity == 0)
+                    strongbox.remove(resource);
+                else
+                    strongbox.put(resource, newQuantity);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    int findResource(Resource res) {
+        for(int i = 0; i < 3; i++) {
+            if(deposit.get(i).contains(res))
+                return i + 1;
+        }
+        if (leadersDeposit.get(1).contains(res)) return 4;
+        if (leadersDeposit.get(2).contains(res)) return 5;
+        if (strongbox.containsKey(res)) {
+            if (strongbox.get(res) > 0) return 6;
+        }
+        return -1;
+    }
+
+    public int countResource(Resource resource) {
+        int count = 0;
+        for(int i = 0; i < 3; i++) {
+            for(Resource res : deposit.get(i))
+                if(resource == res)
+                    count++;
+        }
+        for(Resource res : leadersDeposit.get(1))
+            if(resource == res)
+                count++;
+        for(Resource res : leadersDeposit.get(2))
+            if(resource == res)
+                count++;
+        if(strongbox.containsKey(resource))
+            count += strongbox.get(resource);
+        return count;
     }
 }

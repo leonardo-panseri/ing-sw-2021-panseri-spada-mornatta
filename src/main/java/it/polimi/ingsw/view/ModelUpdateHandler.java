@@ -117,6 +117,7 @@ public abstract class ModelUpdateHandler {
         } else {
             getView().setOwnTurn(false);
         }
+        view.setUsingProductions(false);
         getView().getModel().currentPlayerNameProperty().setValue(playerName);
     }
 

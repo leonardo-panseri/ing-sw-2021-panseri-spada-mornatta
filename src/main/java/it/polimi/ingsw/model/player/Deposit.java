@@ -365,6 +365,12 @@ public class Deposit extends Observable<IServerPacket> {
             int removed = 0;
             while (removed < resources.get(res)) {
                 int row = findResource(res);
+
+                if(row == -1) {
+                    System.err.println("Trying to remove too much resources from deposit");
+                    break;
+                }
+
                 removed += removeResource(row, res);
                 if (row != 4 && row != 5 && row != 6) {
                     if (!changedRows.contains(row)) changedRows.add(row);

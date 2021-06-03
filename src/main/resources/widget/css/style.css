@@ -215,3 +215,7 @@
     -fx-font-size: 30;
     -fx-text-fill: white;
 }
+.production #resourcesDisplay .label {
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}

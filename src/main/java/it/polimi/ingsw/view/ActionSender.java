@@ -212,7 +212,6 @@ public abstract class ActionSender {
         }
 
         view.getClient().send(new EndTurnPlayerActionEvent());
-        view.setUsingProductions(false);
     }
 
     /**
@@ -246,6 +245,8 @@ public abstract class ActionSender {
         }
         getView().setUsingProductions(true);
         addPendingProduction(new LeaderProduction(leaderCard.getUuid(), desiredResource));
+
+        getView().getModel().getLocalPlayer().getDeposit().removeResources(getView(), Map.of(leaderCard.getSpecialAbility().getTargetResource(), 1));
     }
 
     /**
@@ -265,6 +266,8 @@ public abstract class ActionSender {
 
         getView().setUsingProductions(true);
         addPendingProduction(new DevelopmentProduction(developmentCard.getUuid()));
+
+        getView().getModel().getLocalPlayer().getDeposit().removeResources(getView(), developmentCard.getCost());
     }
 
     /**
@@ -278,6 +281,15 @@ public abstract class ActionSender {
     public void useBaseProduction(List<Resource> inputResource, List<Resource> outputResource) {
         getView().setUsingProductions(true);
         addPendingProduction(new BaseProduction(inputResource, outputResource));
+
+        Map<Resource, Integer> cost = new HashMap<>();
+        for(Resource res : inputResource) {
+            if(cost.containsKey(res))
+                cost.put(res, cost.get(res) + 1);
+            else
+                cost.put(res, 1);
+        }
+        getView().getModel().getLocalPlayer().getDeposit().removeResources(getView(), cost);
     }
 
     /**
