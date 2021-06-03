@@ -77,6 +77,7 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionWidget.setScaleX(0.42);
         baseProductionWidget.setScaleY(0.42);
         baseProductionDisplay.getChildren().add(baseProductionWidget);
+        baseProductionWidget.setOnMouseClicked(mouseEvent -> openProductionModal());
 
         ChatWidget chatWidget = new ChatWidget();
         chatDisplay.getChildren().add(chatWidget);
@@ -216,6 +217,24 @@ public class PlayerBoardWidget extends StackPane {
 
     private boolean isWaitForLeaderSelectionOpen() {
         return getChildren().size() > 1 && getChildren().get(1) instanceof HBox;
+    }
+
+    private void openProductionModal() {
+        if(!isProductionModalOpen()) {
+            Platform.runLater(() -> {
+                ProductionWidget productionWidget = new ProductionWidget(this);
+                getChildren().add(productionWidget);
+            });
+        }
+    }
+
+    protected void closeProductionModal() {
+        if(isProductionModalOpen())
+            Platform.runLater(() -> getChildren().remove(1));
+    }
+
+    private boolean isProductionModalOpen() {
+        return getChildren().size() > 1 && getChildren().get(1) instanceof ProductionWidget;
     }
 
     @FXML

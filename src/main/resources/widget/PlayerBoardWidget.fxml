@@ -50,7 +50,7 @@
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.leftAnchor>350</AnchorPane.leftAnchor>
         </Label>
-        <Label fx:id="lorenzoActionDisplay" wrapText="true" maxWidth="250" textAlignment="CENTER">
+        <Label fx:id="lorenzoActionDisplay" wrapText="true" maxWidth="250" prefHeight="100" alignment="CENTER" textAlignment="CENTER">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.rightAnchor>200</AnchorPane.rightAnchor>
         </Label>

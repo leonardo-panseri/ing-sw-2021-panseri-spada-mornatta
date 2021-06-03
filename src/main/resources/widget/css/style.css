@@ -204,3 +204,14 @@
     -fx-background-size: cover;
 }
 
+.production {
+    -fx-background-color: rgba(20, 20, 20, 0.4);
+}
+
+.production .production-box {
+    -fx-background-color: rgba(20, 20, 20, 0.4);
+}
+.production .production-title {
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+}
