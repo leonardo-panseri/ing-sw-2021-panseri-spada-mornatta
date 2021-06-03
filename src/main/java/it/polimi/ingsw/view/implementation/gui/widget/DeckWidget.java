@@ -39,38 +39,38 @@ public class DeckWidget extends StackPane {
             VBox vBox = new VBox();
             vBox.getChildren().add(layerGrids.get(i));
             vBox.setAlignment(Pos.CENTER);
-
             HBox hBox = new HBox();
             hBox.getChildren().add(vBox);
             hBox.setAlignment(Pos.CENTER);
+            hBox.setTranslateX(i*10);
+            getChildren().add(hBox);
+        }
 
+        for (int i=0; i<4; i++) {
             for (CardColor color : CardColor.values()) {
                 if(developmentDeck.get(0).get(color).size() <= i)
-                    break;
-                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(0).get(color).get(i));
+                    continue;
+                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(0).get(color).get(developmentDeck.get(0).get(color).size()-i-1));
                 BorderPane pane = createPane(color, card);
                 GridPane.setRowIndex(pane, 2);
-                layerGrids.get(i).getChildren().add(pane);
+                layerGrids.get(3-i).getChildren().add(pane);
             }
             for (CardColor color : CardColor.values()) {
                 if(developmentDeck.get(1).get(color).size() <= i)
-                    break;
-                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(1).get(color).get(i));
+                    continue;
+                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(1).get(color).get(developmentDeck.get(1).get(color).size()-i-1));
                 BorderPane pane = createPane(color, card);
                 GridPane.setRowIndex(pane, 1);
-                layerGrids.get(i).getChildren().add(pane);
+                layerGrids.get(3-i).getChildren().add(pane);
             }
             for (CardColor color : CardColor.values()) {
                 if(developmentDeck.get(2).get(color).size() <= i)
-                    break;
-                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(2).get(color).get(i));
+                    continue;
+                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(2).get(color).get(developmentDeck.get(2).get(color).size()-i-1));
                 BorderPane pane = createPane(color, card);
                 GridPane.setRowIndex(pane, 0);
-                layerGrids.get(i).getChildren().add(pane);
+                layerGrids.get(3-i).getChildren().add(pane);
             }
-
-            hBox.setTranslateX(i*10);
-            getChildren().add(hBox);
         }
 
         Button goBackButton = new Button("Back");
@@ -95,8 +95,8 @@ public class DeckWidget extends StackPane {
             }
         }
 
-        ObservableList<Node> childrens = layerGrids.get(3).getChildren();
-        for(Node node : childrens) {
+        ObservableList<Node> children = layerGrids.get(3).getChildren();
+        for(Node node : children) {
             setDraggableDevCard(node);
         }
     }
@@ -116,8 +116,8 @@ public class DeckWidget extends StackPane {
         Platform.runLater(() -> {
             int modifiedLayerIndex = GUI.instance().getModel().getDevelopmentDeck().get(removedCard.getLevel()).get(removedCard.getColor()).size()-1;
             GridPane modifiedLayer = layerGrids.get(modifiedLayerIndex);
-            ObservableList<Node> childrens = modifiedLayer.getChildren();
-            for(Node node : childrens) {
+            ObservableList<Node> children = modifiedLayer.getChildren();
+            for(Node node : children) {
                 if(node instanceof BorderPane && GridPane.getRowIndex(node) == 3-removedCard.getLevel() && GridPane.getColumnIndex(node) == CardColor.valueOf(removedCard.getColor().toString()).ordinal()) {
                     BorderPane pane = new BorderPane(node);
                     modifiedLayer.getChildren().remove(pane);
@@ -129,8 +129,8 @@ public class DeckWidget extends StackPane {
     }
 
     private void updateDraggable(int layerToBeUpdated, CardColor color, int level) {
-        ObservableList<Node> childrens = layerGrids.get(layerToBeUpdated).getChildren();
-        for(Node node : childrens) {
+        ObservableList<Node> children = layerGrids.get(layerToBeUpdated).getChildren();
+        for(Node node : children) {
             if(node instanceof BorderPane && GridPane.getRowIndex(node) == 3-level && GridPane.getColumnIndex(node) == CardColor.valueOf(color.toString()).ordinal()) {
                 setDraggableDevCard(node);
                 break;

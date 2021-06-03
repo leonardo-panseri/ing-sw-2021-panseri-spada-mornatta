@@ -8,9 +8,10 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import javafx.scene.media.Media;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public class GUI extends View {
 
     private final Stage stage;
     private Scene scene;
+    private MediaPlayer mediaPlayer;
 
     public GUI(Client client, Stage stage) {
         super(client);
@@ -120,6 +122,11 @@ public class GUI extends View {
         Parent homePage = FXMLUtils.loadFXML("/gui/Home");
 
         Font.loadFont(GUI.class.getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
+
+        Media media = new Media(Objects.requireNonNull(GUI.class.getResource("/media/soundtrack.mp3")).toExternalForm());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setVolume(0.05);
 
         scene = new Scene(homePage);
         stage.setScene(scene);
