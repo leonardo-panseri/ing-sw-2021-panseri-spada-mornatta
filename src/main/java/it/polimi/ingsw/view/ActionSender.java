@@ -236,17 +236,16 @@ public abstract class ActionSender {
      * When you activate the production, you can freely use this power as usual.
      * You will receive a Resource of your choosing and 1 Faith Point.
      *
-     * @param cardIndex the index of the card to be used
+     * @param leaderCard the card to be used
      * @param desiredResource the desired Resource of your choosing to receive
      */
 
-    public void useLeaderProduction(int cardIndex, Resource desiredResource) throws IllegalArgumentException {
-        LeaderCard leaderCard = getView().getModel().getLocalPlayer().getLeaderCardAt(cardIndex - 1);
+    public void useLeaderProduction(LeaderCard leaderCard, Resource desiredResource) throws IllegalArgumentException {
         if(!getView().getModel().getLocalPlayer().isLeaderCardActive(leaderCard)) {
-            throw new IllegalArgumentException("not_active");
+            throw new IllegalArgumentException("This leader card is not active!");
         }
         if(leaderCard.getSpecialAbility().getType() != SpecialAbilityType.PRODUCTION) {
-            throw new IllegalArgumentException("no_ability");
+            throw new IllegalArgumentException("This leader card does not have a production ability!");
         }
         getView().setUsingProductions(true);
         addPendingProduction(new LeaderProduction(leaderCard.getUuid(), desiredResource));
@@ -259,12 +258,10 @@ public abstract class ActionSender {
      * When you activate the production, you can pay the Resources required to receive the Resources given by the
      * LeaderCard.
      *
-     * @param cardIndex the index of the DevelopmentCard to use
+     * @param developmentCard the DevelopmentCard to use
      */
 
-    public void useDevelopmentProduction(int cardIndex) throws IllegalArgumentException {
-        DevelopmentCard developmentCard = getView().getModel().getLocalPlayer().getPlayerBoard()
-                .getTopDevelopmentCardAt(cardIndex - 1);
+    public void useDevelopmentProduction(DevelopmentCard developmentCard) throws IllegalArgumentException {
         if(developmentCard == null) {
             throw new IllegalArgumentException();
         }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.beans.MockPlayer;
@@ -123,10 +124,10 @@ public class PlayerBoardWidget extends StackPane {
         depositWidget = new DepositWidget(player);
         depositDisplay.getChildren().add(depositWidget);
 
-        LeaderDisplayWidget leaderDisplayWidget = new LeaderDisplayWidget(player);
+        LeaderDisplayWidget leaderDisplayWidget = new LeaderDisplayWidget(this);
         leadersDisplay.getChildren().add(leaderDisplayWidget);
 
-        DevelopmentSlotsWidget developmentSlotsWidget = new DevelopmentSlotsWidget(player);
+        DevelopmentSlotsWidget developmentSlotsWidget = new DevelopmentSlotsWidget(this);
         developmentDisplay.getChildren().add(developmentSlotsWidget);
 
         MarketResultsWidget marketResultsWidget = new MarketResultsWidget(this);
@@ -140,7 +141,8 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionDisplay.getChildren().add(baseProductionWidget);
         baseProductionWidget.setOnMouseClicked(mouseEvent -> {
             if (player.isLocalPlayer())
-                openProductionModal(baseProductionWidget.getBaseProduction().getInput(), baseProductionWidget.getBaseProduction().getOutput());
+                openProductionModal(baseProductionWidget.getBaseProduction().getInput(), baseProductionWidget.getBaseProduction().getOutput(),
+                        BaseProduction.class, null);
         });
 
         ChatWidget chatWidget = new ChatWidget();
@@ -244,10 +246,10 @@ public class PlayerBoardWidget extends StackPane {
         return getChildren().size() > 1 && getChildren().get(1) instanceof HBox;
     }
 
-    private void openProductionModal(List<Resource> input, List<Resource> output) {
+    protected void openProductionModal(List<Resource> input, List<Resource> output, Class<? extends Production> prodType, Card card) {
         if(!isProductionModalOpen()) {
             Platform.runLater(() -> {
-                ProductionWidget productionWidget = new ProductionWidget(this, input, output, BaseProduction.class);
+                ProductionWidget productionWidget = new ProductionWidget(this, input, output, prodType, card);
                 getChildren().add(productionWidget);
             });
         }

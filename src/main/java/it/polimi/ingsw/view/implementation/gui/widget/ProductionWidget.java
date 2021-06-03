@@ -2,11 +2,11 @@ package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.Card;
+import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
-import it.polimi.ingsw.view.messages.production.BaseProduction;
-import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
-import it.polimi.ingsw.view.messages.production.LeaderProduction;
 import it.polimi.ingsw.view.messages.production.Production;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -41,7 +41,7 @@ public class ProductionWidget extends FlowPane {
     private final List<Resource> input;
     private final List<Resource> output;
     private final Class<? extends Production> productionType;
-    private int cardIndex;
+    private Card card;
 
     private final List<Resource> desiredInput;
     private final List<Resource> desiredOutput;
@@ -60,9 +60,9 @@ public class ProductionWidget extends FlowPane {
     }
 
     public ProductionWidget(PlayerBoardWidget playerBoard, List<Resource> input, List<Resource> output,
-                            Class<? extends Production> productionType, int cardIndex) {
+                            Class<? extends Production> productionType, Card card) {
         this(playerBoard, input, output, productionType);
-        this.cardIndex = cardIndex;
+        this.card = card;
     }
 
     @FXML
@@ -188,8 +188,8 @@ public class ProductionWidget extends FlowPane {
     private void queueProduction() {
         switch (productionType.getSimpleName()) {
             case "BaseProduction" -> GUI.instance().getActionSender().useBaseProduction(desiredInput, desiredOutput);
-            case "DevelopmentProduction" -> GUI.instance().getActionSender().useDevelopmentProduction(cardIndex);
-            case "LeaderProduction" -> GUI.instance().getActionSender().useLeaderProduction(cardIndex, desiredOutput.get(0));
+            case "DevelopmentProduction" -> GUI.instance().getActionSender().useDevelopmentProduction((DevelopmentCard) card);
+            case "LeaderProduction" -> GUI.instance().getActionSender().useLeaderProduction((LeaderCard) card, desiredOutput.get(0));
         }
         closeProductionModal();
     }

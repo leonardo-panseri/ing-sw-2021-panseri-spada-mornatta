@@ -45,18 +45,24 @@ public class DeckWidget extends StackPane {
             hBox.setAlignment(Pos.CENTER);
 
             for (CardColor color : CardColor.values()) {
+                if(developmentDeck.get(0).get(color).size() <= i)
+                    break;
                 DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(0).get(color).get(i));
                 BorderPane pane = createPane(color, card);
                 GridPane.setRowIndex(pane, 2);
                 layerGrids.get(i).getChildren().add(pane);
             }
             for (CardColor color : CardColor.values()) {
+                if(developmentDeck.get(1).get(color).size() <= i)
+                    break;
                 DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(1).get(color).get(i));
                 BorderPane pane = createPane(color, card);
                 GridPane.setRowIndex(pane, 1);
                 layerGrids.get(i).getChildren().add(pane);
             }
             for (CardColor color : CardColor.values()) {
+                if(developmentDeck.get(2).get(color).size() <= i)
+                    break;
                 DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(2).get(color).get(i));
                 BorderPane pane = createPane(color, card);
                 GridPane.setRowIndex(pane, 0);

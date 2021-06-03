@@ -1,10 +1,13 @@
 package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.messages.ActivateLeaderPlayerActionEvent;
+import it.polimi.ingsw.view.messages.production.LeaderProduction;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
@@ -13,6 +16,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,11 +25,13 @@ public class LeaderDisplayWidget extends VBox {
     @FXML
     public VBox leaderDisplay;
 
+    private final PlayerBoardWidget playerBoard;
     private final MockPlayer player;
     private final Map<LeaderCard, LeaderCardWidget> leadersAndWidgets;
 
-    public LeaderDisplayWidget(MockPlayer player) {
-        this.player = player;
+    public LeaderDisplayWidget(PlayerBoardWidget playerBoard) {
+        this.playerBoard = playerBoard;
+        this.player = playerBoard.getPlayer();
         this.leadersAndWidgets = new HashMap<>();
 
         FXMLUtils.loadWidgetFXML(this);
@@ -71,6 +78,12 @@ public class LeaderDisplayWidget extends VBox {
                     if(!contextMenu.isShowing()) contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
                 });
             }
+
+            if(active && newLeader.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
+                newWidget.setOnMouseClicked(mouseEvent -> playerBoard.openProductionModal(
+                        Collections.singletonList(newLeader.getSpecialAbility().getTargetResource()),
+                        Arrays.asList(null, Resource.FAITH), LeaderProduction.class, newLeader));
+            }
         });
     }
 
@@ -79,6 +92,12 @@ public class LeaderDisplayWidget extends VBox {
             if (!previousValue) {
                 leadersAndWidgets.get(modifiedCard).getStyleClass().add("leader-active");
                 leadersAndWidgets.get(modifiedCard).setOnMouseClicked(null);
+
+                if(modifiedCard.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
+                    leadersAndWidgets.get(modifiedCard).setOnMouseClicked(mouseEvent -> playerBoard.openProductionModal(
+                            Collections.singletonList(modifiedCard.getSpecialAbility().getTargetResource()),
+                            Arrays.asList(null, Resource.FAITH), LeaderProduction.class, modifiedCard));
+                }
             }
         });
     }

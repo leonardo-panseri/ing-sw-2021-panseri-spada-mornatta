@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.implementation.cli;
 
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.model.card.LeaderCard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -220,7 +222,7 @@ public class CommandHandler {
         if (args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
         }
-        int index = 0;
+        int index ;
         try {
             index = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
@@ -249,7 +251,7 @@ public class CommandHandler {
                     cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_LEADER_PRODUCTION);
                     return;
                 }
-                int index = 0;
+                int index;
                 try {
                     index = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
@@ -260,7 +262,7 @@ public class CommandHandler {
                     cli.getRenderer().showErrorMessage("Index out of bounds");
                     return;
                 }
-                Resource toReceive = null;
+                Resource toReceive;
                 try {
                     toReceive = Resource.valueOf(args[2].toUpperCase());
                 } catch (IllegalArgumentException e) {
@@ -268,7 +270,8 @@ public class CommandHandler {
                     return;
                 }
 
-                cli.getActionSender().useLeaderProduction(index, toReceive);
+                LeaderCard leaderCard = cli.getModel().getLocalPlayer().getLeaderCardAt(index - 1);
+                cli.getActionSender().useLeaderProduction(leaderCard, toReceive);
             }
             case "development" -> {
                 if (args.length != 2) {
@@ -287,7 +290,9 @@ public class CommandHandler {
                     return;
                 }
 
-                cli.getActionSender().useDevelopmentProduction(index);
+                DevelopmentCard developmentCard = cli.getModel().getLocalPlayer().getPlayerBoard()
+                        .getTopDevelopmentCardAt(index - 1);
+                cli.getActionSender().useDevelopmentProduction(developmentCard);
             }
             case "base" -> {
                 List<Resource> expectedInput = cli.getModel().getGameConfig().getBaseProductionPower().getInput();

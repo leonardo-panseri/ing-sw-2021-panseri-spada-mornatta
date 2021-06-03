@@ -1,10 +1,13 @@
 package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
+import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
+import it.polimi.ingsw.view.messages.production.LeaderProduction;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,21 +22,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DevelopmentSlotsWidget extends StackPane {
     private final List<GridPane> layerGrids;
     private final Map<GridPane, List<VBox>> gridSlots;
-    private final MockPlayer player;
     private EventHandler<? super DragEvent> dragOverListener;
 
-    public DevelopmentSlotsWidget(MockPlayer player) {
+    private final PlayerBoardWidget playerBoard;
+    private final MockPlayer player;
+
+    public DevelopmentSlotsWidget(PlayerBoardWidget playerBoard) {
+        this.playerBoard = playerBoard;
         layerGrids = new ArrayList<>();
         gridSlots = new HashMap<>();
-        this.player = player;
+        this.player = playerBoard.getPlayer();
 
         FXMLUtils.loadWidgetFXML(this);
     }
@@ -78,7 +81,9 @@ public class DevelopmentSlotsWidget extends StackPane {
 
     private void pushCard(DevelopmentCard addedItem, int slotIndex) {
         Platform.runLater(() -> {
-            if (checkSlotEmpty(layerGrids.get(layerGrids.size() - 1), slotIndex) != null) {
+            Node prevCard = checkSlotEmpty(layerGrids.get(layerGrids.size() - 1), slotIndex);
+            if (prevCard != null) {
+                prevCard.setOnMouseClicked(null);
                 layerGrids.add(new GridPane());
                 initGrid(layerGrids.get(layerGrids.size() - 1));
                 layerGrids.get(layerGrids.size() - 1).setTranslateY(-40.0);
@@ -86,6 +91,22 @@ public class DevelopmentSlotsWidget extends StackPane {
             }
             GridPane chosenLayer = layerGrids.get(layerGrids.size() - 1);
             DevelopmentCardWidget card = new DevelopmentCardWidget(addedItem);
+
+            List<Resource> input = new ArrayList<>();
+            List<Resource> output = new ArrayList<>();
+            addedItem.getProductionInput().forEach((res, quantity) -> {
+                for(int i = 0; i < quantity; i++) {
+                    input.add(res);
+                }
+            });
+            addedItem.getProductionOutput().forEach((res, quantity) -> {
+                for(int i = 0; i < quantity; i++) {
+                    output.add(res);
+                }
+            });
+            card.setOnMouseClicked(mouseEvent ->
+                playerBoard.openProductionModal(input, output, DevelopmentProduction.class, addedItem));
+
             card.setScaleX(0.8);
             card.setScaleY(0.8);
             gridSlots.get(chosenLayer).get(slotIndex).getChildren().add(card);
