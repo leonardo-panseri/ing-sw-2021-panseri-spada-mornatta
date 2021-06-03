@@ -234,7 +234,7 @@ public class PlayerController {
                 productionResult.forEach(
                         (resource, quantity) -> result.merge(resource, quantity, Integer::sum));
             } catch (IllegalArgumentException e) {
-                gameController.getGame().notifyInvalidAction(player, "Error during " + production + ": " + e.getMessage());
+                gameController.getGame().notifyInvalidAction(player, "Error during production " + production + ": " + e.getMessage());
             }
         }
 

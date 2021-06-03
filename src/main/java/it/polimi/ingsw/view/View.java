@@ -118,6 +118,8 @@ public abstract class View {
     }
 
     public void setUsingProductions(boolean usingProductions) {
+        if(!this.usingProductions && usingProductions)
+            getModel().getLocalPlayer().getDeposit().saveCurrentState();
         this.usingProductions = usingProductions;
     }
 
@@ -167,6 +169,13 @@ public abstract class View {
     }
 
     public abstract void handlePlayerCrash(String playerName);
+
+    public void handleInvalidAction(String errorMessage) {
+        getRenderer().showErrorMessage(errorMessage);
+        if(isUsingProductions() && errorMessage.startsWith("Error during production"))
+            getModel().getLocalPlayer().getDeposit().restoreSavedState();
+        setUsingProductions(false);
+    }
 
     public void handleEndGame(Map<String, Integer> scores, String winnerName) {
         getRenderer().printFinalScores(scores, winnerName);

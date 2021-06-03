@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.beans.MockPlayer;
@@ -16,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
@@ -79,7 +81,7 @@ public class PlayerBoardWidget extends StackPane {
         baseProductionDisplay.getChildren().add(baseProductionWidget);
         baseProductionWidget.setOnMouseClicked(mouseEvent -> {
             if (player.isLocalPlayer())
-                openProductionModal();
+                openProductionModal(baseProductionWidget.getBaseProduction().getInput(), baseProductionWidget.getBaseProduction().getOutput());
         });
 
         ChatWidget chatWidget = new ChatWidget();
@@ -222,10 +224,10 @@ public class PlayerBoardWidget extends StackPane {
         return getChildren().size() > 1 && getChildren().get(1) instanceof HBox;
     }
 
-    private void openProductionModal() {
+    private void openProductionModal(List<Resource> input, List<Resource> output) {
         if(!isProductionModalOpen()) {
             Platform.runLater(() -> {
-                ProductionWidget productionWidget = new ProductionWidget(this);
+                ProductionWidget productionWidget = new ProductionWidget(this, input, output);
                 getChildren().add(productionWidget);
             });
         }

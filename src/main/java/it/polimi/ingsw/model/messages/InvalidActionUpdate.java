@@ -37,7 +37,6 @@ public class InvalidActionUpdate extends PropertyUpdate {
 
     @Override
     public void process(View view) {
-        view.getRenderer().showErrorMessage(errorMessage);
-        view.setUsingProductions(false);
+        view.handleInvalidAction(errorMessage);
     }
 }
