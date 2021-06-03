@@ -24,8 +24,8 @@
             </center>
             <bottom>
                 <HBox alignment="CENTER_RIGHT">
-                    <Button fx:id="exitButton" onAction="#closeProductionModal">Exit</Button>
-                    <Button fx:id="confirmButton" disable="true">Confirm</Button>
+                    <Button onAction="#closeProductionModal">Exit</Button>
+                    <Button fx:id="confirmButton" onAction="#queueProduction" disable="true">Confirm</Button>
                 </HBox>
             </bottom>
         </BorderPane>

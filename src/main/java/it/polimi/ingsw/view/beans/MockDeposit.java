@@ -231,12 +231,23 @@ public class MockDeposit {
 
     int removeResource(int row, Resource resource) {
         if (row >= 1 && row <= 3) {
-            deposit.get(row - 1).remove(resource);
-            return 1;
+            List<Resource> newRow = new ArrayList<>(deposit.get(row - 1));
+            if(newRow.remove(resource)) {
+                deposit.set(row - 1, newRow);
+                return 1;
+            }
         } else if (row == 4) {
-            if (leadersDeposit.get(1).remove(resource)) return 1;
+            List<Resource> newRow = new ArrayList<>(leadersDeposit.get(1));
+            if (newRow.remove(resource)) {
+                leadersDeposit.put(1, newRow);
+                return 1;
+            }
         } else if (row == 5) {
-            if (leadersDeposit.get(2).remove(resource)) return 1;
+            List<Resource> newRow = new ArrayList<>(leadersDeposit.get(2));
+            if (newRow.remove(resource)) {
+                leadersDeposit.put(2, newRow);
+                return 1;
+            }
         } else if (row == 6) {
             if(strongbox.get(resource) > 0) {
                 int newQuantity = strongbox.get(resource) - 1;

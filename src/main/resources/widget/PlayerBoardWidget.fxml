@@ -32,6 +32,10 @@
             <Label>Go to:</Label>
             <Button onAction="#goToMarket">Market</Button>
             <Button onAction="#goToDeck">Deck</Button>
+            <VBox fx:id="productionExecute" visible="false">
+                <Label fx:id="productionLabel" />
+                <Button onAction="#executeProductions">Execute Productions</Button>
+            </VBox>
             <Button onAction="#endTurn">
                 <VBox.margin><Insets top="20" /></VBox.margin>
                 End Turn

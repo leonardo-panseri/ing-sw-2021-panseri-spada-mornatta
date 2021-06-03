@@ -7,7 +7,10 @@ import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
+import it.polimi.ingsw.view.messages.production.BaseProduction;
+import it.polimi.ingsw.view.messages.production.Production;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -44,6 +47,10 @@ public class PlayerBoardWidget extends StackPane {
     private Pane strongBoxDisplay;
     @FXML
     private Label lorenzoActionDisplay;
+    @FXML
+    private Label productionLabel;
+    @FXML
+    private VBox productionExecute;
 
     private final MockPlayer player;
     private DepositWidget depositWidget;
@@ -55,6 +62,58 @@ public class PlayerBoardWidget extends StackPane {
 
     @FXML
     private void initialize() {
+        initializeWidgets();
+
+        messageDisplay.setText(GUI.instance().isOwnTurn() ? "It's your turn" :
+                        "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + " turn");
+        GUI.instance().getModel().currentPlayerNameProperty().addListener((change, oldVal, newVal) -> Platform.runLater(() -> {
+            if (GUI.instance().getPlayerName().equals(newVal)) {
+                messageDisplay.setText("It's your turn");
+            } else {
+                messageDisplay.setText("It's " + newVal + " turn");
+            }
+        }));
+
+        GUI.instance().getModel().lorenzoActionProperty().setValueListener(value ->
+                Platform.runLater(() -> lorenzoActionDisplay.setText(value)));
+
+        GUI.instance().getActionSender().pendingProductionsProperty().addListener(
+                (ListChangeListener<? super Production>) change -> Platform.runLater(() -> {
+                    if(change.getList().size() > 0) {
+                        productionLabel.setText("You have " + change.getList().size() + " queued productions:");
+                        productionExecute.setVisible(true);
+                    } else {
+                        productionExecute.setVisible(false);
+                    }
+                }));
+
+        if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
+            openLeaderSelection();
+        } else if(GUI.instance().getGameState() == GameState.WAIT_SELECT_LEADERS) {
+            openWaitForLeaderSelection();
+        }
+
+        if(GUI.instance().getGameState() != GameState.PLAYING) {
+            GUI.instance().gameStateProperty().addListener((change, oldState, newState) -> {
+                if ((oldState == GameState.SELECT_LEADERS && newState == GameState.WAIT_SELECT_LEADERS)
+                    || (oldState == GameState.CHOOSING_RESOURCES && newState == GameState.WAIT_SELECT_LEADERS)) {
+                    Platform.runLater(() -> {
+                        closeLeaderSelection();
+                        openWaitForLeaderSelection();
+                    });
+                } else if (oldState == GameState.WAIT_SELECT_LEADERS && newState == GameState.SELECT_LEADERS) {
+                    Platform.runLater(() -> {
+                        closeWaitForLeaderSelection();
+                        openLeaderSelection();
+                    });
+                } else if (newState == GameState.PLAYING) {
+                    Platform.runLater(this::closeWaitForLeaderSelection);
+                }
+            });
+        }
+    }
+
+    private void initializeWidgets() {
         GameConfig gameConfig = GUI.instance().getModel().getGameConfig();
         FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints(),player);
         faithTrackWidget.setScaleX(1.6);
@@ -89,45 +148,6 @@ public class PlayerBoardWidget extends StackPane {
 
         StrongBoxWidget strongBoxWidget = new StrongBoxWidget(player);
         strongBoxDisplay.getChildren().add(strongBoxWidget);
-
-        Platform.runLater(() -> messageDisplay.setText(
-                GUI.instance().isOwnTurn() ? "It's your turn" :
-                        "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + " turn"));
-        GUI.instance().getModel().currentPlayerNameProperty().addListener((change, oldVal, newVal) -> Platform.runLater(() -> {
-            if (GUI.instance().getPlayerName().equals(newVal)) {
-                messageDisplay.setText("It's your turn");
-            } else {
-                messageDisplay.setText("It's " + newVal + " turn");
-            }
-        }));
-
-        GUI.instance().getModel().lorenzoActionProperty().setValueListener(value ->
-                Platform.runLater(() -> lorenzoActionDisplay.setText(value)));
-
-        if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
-            openLeaderSelection();
-        } else if(GUI.instance().getGameState() == GameState.WAIT_SELECT_LEADERS) {
-            openWaitForLeaderSelection();
-        }
-
-        if(GUI.instance().getGameState() != GameState.PLAYING) {
-            GUI.instance().gameStateProperty().addListener((change, oldState, newState) -> {
-                if ((oldState == GameState.SELECT_LEADERS && newState == GameState.WAIT_SELECT_LEADERS)
-                    || (oldState == GameState.CHOOSING_RESOURCES && newState == GameState.WAIT_SELECT_LEADERS)) {
-                    Platform.runLater(() -> {
-                        closeLeaderSelection();
-                        openWaitForLeaderSelection();
-                    });
-                } else if (oldState == GameState.WAIT_SELECT_LEADERS && newState == GameState.SELECT_LEADERS) {
-                    Platform.runLater(() -> {
-                        closeWaitForLeaderSelection();
-                        openLeaderSelection();
-                    });
-                } else if (newState == GameState.PLAYING) {
-                    Platform.runLater(this::closeWaitForLeaderSelection);
-                }
-            });
-        }
     }
 
     private void initializeOtherPlayersDisplay() {
@@ -227,7 +247,7 @@ public class PlayerBoardWidget extends StackPane {
     private void openProductionModal(List<Resource> input, List<Resource> output) {
         if(!isProductionModalOpen()) {
             Platform.runLater(() -> {
-                ProductionWidget productionWidget = new ProductionWidget(this, input, output);
+                ProductionWidget productionWidget = new ProductionWidget(this, input, output, BaseProduction.class);
                 getChildren().add(productionWidget);
             });
         }
@@ -261,6 +281,11 @@ public class PlayerBoardWidget extends StackPane {
     @FXML
     private void endTurn() {
         GUI.instance().getActionSender().endTurn();
+    }
+
+    @FXML
+    private void executeProductions() {
+        GUI.instance().getActionSender().executeProductions();
     }
 
     protected MockPlayer getPlayer() {

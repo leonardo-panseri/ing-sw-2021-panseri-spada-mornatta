@@ -14,6 +14,7 @@ import it.polimi.ingsw.view.messages.production.BaseProduction;
 import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
 import it.polimi.ingsw.view.messages.production.LeaderProduction;
 import it.polimi.ingsw.view.messages.production.Production;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
@@ -25,11 +26,11 @@ import java.util.*;
 public abstract class ActionSender {
     private final View view;
 
-    private final List<Production> pendingProductions;
+    private final ObservableList<Production> pendingProductions;
 
     public ActionSender(View view) {
         this.view = view;
-        this.pendingProductions = new ArrayList<>();
+        this.pendingProductions = FXCollections.observableArrayList();
     }
 
     public View getView() {
@@ -37,6 +38,10 @@ public abstract class ActionSender {
     }
 
     public List<Production> getPendingProductions() {
+        return pendingProductions;
+    }
+
+    public ObservableList<Production> pendingProductionsProperty() {
         return pendingProductions;
     }
 
