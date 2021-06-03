@@ -12,10 +12,8 @@ import java.util.concurrent.Executors;
  */
 public class Server {
     private static final int PORT = 12345;
-    private static final int THREADS_NUM = 64;
 
     private final ServerSocket serverSocket;
-    private final ExecutorService executor;
 
     private final  LobbyController lobbyController;
 
@@ -26,17 +24,7 @@ public class Server {
      */
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(PORT);
-        this.executor = Executors.newFixedThreadPool(THREADS_NUM);
         this.lobbyController = new LobbyController(this);
-    }
-
-    /**
-     * Gets the FixedThreadPool executor.
-     *
-     * @return the executor service
-     */
-    ExecutorService getExecutor() {
-        return executor;
     }
 
     /**
@@ -52,7 +40,8 @@ public class Server {
                 System.out.println("Accepted new connection");
 
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, lobbyController);
-                executor.submit(socketConnection);
+                Thread t = new Thread(socketConnection);
+                t.start();
             } catch (IOException e) {
                 System.err.println("Connection Error!");
             } catch (Exception e) {

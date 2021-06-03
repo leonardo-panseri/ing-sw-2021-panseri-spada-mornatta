@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Thread to start a new Game instance.
  */
-public class GameInstance extends Thread {
+public class GameInstance implements Runnable {
     private final Lobby lobby;
 
     /**
