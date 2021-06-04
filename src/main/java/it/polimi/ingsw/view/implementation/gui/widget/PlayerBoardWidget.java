@@ -22,6 +22,7 @@ import javafx.scene.layout.*;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerBoardWidget extends StackPane {
     @FXML
@@ -296,5 +297,15 @@ public class PlayerBoardWidget extends StackPane {
 
     protected DepositWidget getDepositWidget() {
         return depositWidget;
+    }
+
+    public void openEndGameModal(Map<String, Integer> scores, String winnerName) {
+        EndGameWidget endGameWidget = new EndGameWidget(scores, winnerName);
+        getChildren().add(endGameWidget);
+    }
+
+    public void openEndGameModal(boolean lorenzoWin, String loseReason, int playerScore) {
+        EndGameWidget endGameWidget = new EndGameWidget(lorenzoWin, loseReason, playerScore);
+        getChildren().add(endGameWidget);
     }
 }

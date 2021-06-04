@@ -82,6 +82,18 @@ public class CLI extends View {
     }
 
     @Override
+    public void handleEndGame(Map<String, Integer> scores, String winnerName) {
+        getRenderer().printFinalScores(scores, winnerName);
+        getClient().terminate();
+    }
+
+    @Override
+    public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
+        getRenderer().printSingleplayerFinalScore(lorenzoWin, loseReason, playerScore);
+        getClient().terminate();
+    }
+
+    @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(AnsiColor.BLUE + Constants.MASTER + AnsiColor.RESET);
@@ -129,9 +141,7 @@ public class CLI extends View {
                     if(!getClient().connect())
                         getRenderer().showErrorMessage("Unknown host or port, please try again!");
                 }
-                case CHOOSING_NAME -> {
-                    setPlayerName(command);
-                }
+                case CHOOSING_NAME -> setPlayerName(command);
                 case CHOOSING_PLAYERS -> {
                     int playersToStart;
                     try {

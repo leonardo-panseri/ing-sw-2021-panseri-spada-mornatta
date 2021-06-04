@@ -177,15 +177,9 @@ public abstract class View {
         setUsingProductions(false);
     }
 
-    public void handleEndGame(Map<String, Integer> scores, String winnerName) {
-        getRenderer().printFinalScores(scores, winnerName);
-        client.terminate();
-    }
+    public abstract void handleEndGame(Map<String, Integer> scores, String winnerName);
 
-    public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
-        getRenderer().printSingleplayerFinalScore(lorenzoWin, loseReason, playerScore);
-        client.terminate();
-    }
+    public abstract void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore);
 
     protected void reset() {
         this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);

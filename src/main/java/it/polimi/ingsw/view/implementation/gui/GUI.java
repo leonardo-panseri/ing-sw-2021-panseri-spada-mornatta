@@ -13,6 +13,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
+
+import java.sql.Time;
 import java.util.*;
 
 public class GUI extends View {
@@ -103,6 +105,10 @@ public class GUI extends View {
     @Override
     public void handlePlayerCrash(String playerName) {
         getRenderer().showErrorMessage("Player " + playerName + " crashed! The game is over!");
+        resetAndGoHome();
+    }
+
+    public void resetAndGoHome() {
         reset();
         Platform.runLater(() -> {
             Parent homePage = FXMLUtils.loadFXML("/gui/Home");
@@ -114,6 +120,24 @@ public class GUI extends View {
         Platform.runLater(() -> {
             PlayerBoardWidget playerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());
             scene.setRoot(playerBoard);
+        });
+    }
+
+    @Override
+    public void handleEndGame(Map<String, Integer> scores, String winnerName) {
+        Platform.runLater(() -> {
+            PlayerBoardWidget playerBoardWidget = new PlayerBoardWidget(getModel().getLocalPlayer());
+            scene.setRoot(playerBoardWidget);
+            playerBoardWidget.openEndGameModal(scores, winnerName);
+        });
+    }
+
+    @Override
+    public void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore) {
+        Platform.runLater(() -> {
+            PlayerBoardWidget playerBoardWidget = new PlayerBoardWidget(getModel().getLocalPlayer());
+            scene.setRoot(playerBoardWidget);
+            playerBoardWidget.openEndGameModal(lorenzoWin, loseReason, playerScore);
         });
     }
 

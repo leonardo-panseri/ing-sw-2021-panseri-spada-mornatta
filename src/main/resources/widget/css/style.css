@@ -249,3 +249,15 @@
     -fx-font-size: 20;
     -fx-text-fill: white;
 }
+.end-game-container {
+    -fx-background-color: rgba(20, 20, 20, 0.4);
+}
+.end-game-container .end-game-box {
+    -fx-background-color: rgba(20, 20, 20, 0.4);
+    -fx-padding: 0 50;
+}
+.end-game-container .label {
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
