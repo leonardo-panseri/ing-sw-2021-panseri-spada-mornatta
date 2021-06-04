@@ -238,6 +238,28 @@
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
 
+.chat {
+    -fx-background-color: #8c916e;
+}
+
+.chat-box {
+    -fx-background-color: #8c916e;
+}
+
+.chat-scroll-pane {
+    -fx-background: #8c916e;
+    -fx-border-color: black;
+}
+
+.chat-input {
+    -fx-background-color: #7d8968;
+    -fx-border-color: black;
+}
+
+.chat-label {
+    -fx-font-family: "Times New Roman", Georgia, serif;
+}
+
 .production .production-box {
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
