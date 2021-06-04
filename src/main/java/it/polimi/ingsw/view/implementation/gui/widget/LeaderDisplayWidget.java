@@ -76,10 +76,12 @@ public class LeaderDisplayWidget extends VBox {
             if (active)
                 newWidget.getStyleClass().add("leader-active");
             else {
-                ContextMenu contextMenu = buildContextMenu(newWidget);
-                newWidget.setOnMousePressed(event -> {
-                    if(!contextMenu.isShowing()) contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
-                });
+                if(player.isLocalPlayer()){
+                    ContextMenu contextMenu = buildContextMenu(newWidget);
+                    newWidget.setOnMousePressed(event -> {
+                        if(!contextMenu.isShowing()) contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
+                    });
+                }
             }
 
             if(active && newLeader.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
