@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.implementation.gui;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
 import javafx.application.Platform;
@@ -12,8 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class GUI extends View {
     private static GUI instance;
@@ -136,6 +136,19 @@ public class GUI extends View {
         stage.show();
 
         stage.setOnCloseRequest(windowEvent -> getClient().terminate());
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Map<Resource,Integer> map = new HashMap<>();
+                map.put(Resource.SHIELD,2);
+                map.put(Resource.STONE,5);
+                map.put(Resource.SERVANT,2);
+                map.put(Resource.COIN,12);
+                getModel().getLocalPlayer().getDeposit().setStrongbox(map);
+            }
+        },10000);
 
         if (getClient().isNoServer())
             addToLobby(false);
