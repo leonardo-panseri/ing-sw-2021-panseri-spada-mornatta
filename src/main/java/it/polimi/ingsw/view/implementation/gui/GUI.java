@@ -143,24 +143,15 @@ public class GUI extends View {
 
         stage.setOnCloseRequest(windowEvent -> getClient().terminate());
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Map<Resource,Integer> map = new HashMap<>();
-                map.put(Resource.SHIELD,2);
-                map.put(Resource.STONE,5);
-                map.put(Resource.SERVANT,2);
-                map.put(Resource.COIN,12);
-                getModel().getLocalPlayer().getDeposit().setStrongbox(map);
-            }
-        },10000);
-
         if (getClient().isNoServer())
             addToLobby(false);
     }
 
     public Scene getScene() {
         return scene;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 }

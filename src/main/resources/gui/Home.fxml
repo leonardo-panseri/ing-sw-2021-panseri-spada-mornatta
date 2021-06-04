@@ -21,6 +21,7 @@
            <HBox.margin>
                <Insets left="20.0" right="20.0"/>
            </HBox.margin>
+           <Button styleClass="music-button" onAction="#toggleMusic"/>
        </VBox>
        <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1068.0" HBox.hgrow="ALWAYS" styleClass="home-bg">
            <Label styleClass="title" text="Masters Of Renaissance" />
