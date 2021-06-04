@@ -10,7 +10,7 @@
 
 <FlowPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.implementation.gui.controller.Home">
    <HBox prefHeight="720">
-       <VBox alignment="CENTER" styleClass="font-20">
+       <VBox fx:id="leftVBox" alignment="CENTER" styleClass="font-20">
            <Label>Enter the server ip and port:</Label>
            <TextField fx:id="serverIp" maxWidth="200.0">
                <VBox.margin>
@@ -21,7 +21,6 @@
            <HBox.margin>
                <Insets left="20.0" right="20.0"/>
            </HBox.margin>
-           <Button styleClass="music-button" onAction="#toggleMusic"/>
        </VBox>
        <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1068.0" HBox.hgrow="ALWAYS" styleClass="home-bg">
            <Label styleClass="title" text="Masters Of Renaissance" />

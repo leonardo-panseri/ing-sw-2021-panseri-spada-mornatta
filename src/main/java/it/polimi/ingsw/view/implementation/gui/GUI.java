@@ -2,18 +2,19 @@ package it.polimi.ingsw.view.implementation.gui;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.implementation.gui.widget.PlayerBoardWidget;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import java.util.*;
+
+import java.util.List;
+import java.util.Objects;
 
 public class GUI extends View {
     private static GUI instance;
@@ -21,6 +22,7 @@ public class GUI extends View {
     private final Stage stage;
     private Scene scene;
     private MediaPlayer mediaPlayer;
+    private boolean wasPlayingMusicBefore;
 
     public GUI(Client client, Stage stage) {
         super(client);
@@ -50,7 +52,7 @@ public class GUI extends View {
     @Override
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
         super.handlePlayerConnect(playerName, currentPlayers, playersToStart, otherConnectedPlayers);
-        if(getClient().isNoServer()) {
+        if (getClient().isNoServer()) {
             Platform.runLater(() -> {
                 Parent gameConfigSelection = FXMLUtils.loadFXML("/gui/GameConfigSelection");
                 scene.setRoot(gameConfigSelection);
@@ -128,9 +130,14 @@ public class GUI extends View {
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setVolume(0.05);
         stage.focusedProperty().addListener((change, oldVal, newVal) -> {
-            if(oldVal && !newVal)
-                mediaPlayer.pause();
-            else if(!oldVal && newVal)
+            if (oldVal && !newVal) {
+                if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.pause();
+                    wasPlayingMusicBefore = true;
+                } else {
+                    wasPlayingMusicBefore = false;
+                }
+            } else if (!oldVal && newVal && wasPlayingMusicBefore)
                 mediaPlayer.play();
         });
 

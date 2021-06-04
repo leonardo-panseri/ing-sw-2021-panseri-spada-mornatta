@@ -1,30 +1,37 @@
 .leader-card .label {
     -fx-font-size: 16;
 }
+
 .leader-card #lcRequirements {
     -fx-pref-height: 35.0;
     -fx-pref-width: 90.0;
 }
+
 .leader-card #lcRequirements .hbox {
     -fx-pref-height: 35.0;
     -fx-pref-width: 42.0;
 }
+
 .leader-card #lcRequirements .label {
     -fx-pref-height: 35.0;
     -fx-pref-width: 12.0;
     -fx-text-fill: white;
 }
+
 .leader-card #lcVictoryPoints {
     -fx-alignment: center;
 }
+
 .leader-card-back {
     -fx-background-image: url("../../images/leaders/back.png");
     -fx-background-size: 195 294;
     -fx-background-position: center;
 }
+
 .base-production {
     -fx-background-image: url("../../images/base-production.png");
 }
+
 .base-production .label {
     -fx-font-size: 50;
 }
@@ -33,27 +40,33 @@
     -fx-background-image: url("../../images/player_board.png");
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .player-board #faithTrackDisplay {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .player-board #messageDisplay {
     -fx-font-size: 20;
     -fx-font-weight: bold;
 }
+
 .player-board #lorenzoActionDisplay {
     -fx-font-size: 20;
     -fx-font-weight: bold;
 }
+
 .player-board .nav-buttons {
     -fx-font-size: 20;
     -fx-pref-width: 150;
 }
+
 .player-board .nav-buttons .label {
     -fx-alignment: center;
     -fx-pref-width: 150;
 }
+
 .player-board .nav-buttons .button {
     -fx-pref-width: 150;
     -fx-font-size: 20;
@@ -63,15 +76,18 @@
     -fx-background-position: center;
     -fx-background-color: transparent;
 }
+
 .leaders-display {
     -fx-background-color: saddlebrown;
     -fx-border-color: #6a2e01;
     -fx-border-width: 3 3 3 0;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .leaders-display .leader-card {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .faith-track .in-range {
     -fx-border-color: #0044EFFF;
     -fx-border-width: 1 0;
@@ -79,73 +95,89 @@
     -fx-border-radius: 0 0;
     -fx-border-insets: 0 0 0 0 0;
 }
-.faith-track .last-in-range{
+
+.faith-track .last-in-range {
     -fx-border-color: #0044EFFF;
     -fx-border-width: 1 0 1 1;
     -fx-border-style: solid;
     -fx-border-radius: 0 0;
     -fx-border-insets: 0 0 0 0 0;
 }
-.faith-track .first-in-range{
+
+.faith-track .first-in-range {
     -fx-border-color: #0044EFFF;
     -fx-border-width: 1 1 1 0;
     -fx-border-style: solid;
     -fx-border-radius: 0 0;
     -fx-border-insets: 0 0 0 0 0;
 }
+
 .faith-track .special-tile .text {
-     -fx-font-size: 20;
-     -fx-stroke: black;
-     -fx-stroke-width: 0.8;
- }
+    -fx-font-size: 20;
+    -fx-stroke: black;
+    -fx-stroke-width: 0.8;
+}
 
 .leader-selection {
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
+
 .leader-selection .selection-box {
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
+
 .leader-selection .selection-box .leader-select-title {
     -fx-font-size: 30;
     -fx-text-fill: white;
 }
+
 .leader-selection .leader-card {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .leader-selection .choose-resources {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .deposit {
     -fx-background-image: url("../../images/deposit.png");
     -fx-background-size: contain;
 }
+
 .market #marketDisplay {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .market .table {
     -fx-background-color: black;
     -fx-padding: 20;
 }
+
 .market .slide {
     -fx-background-color: grey;
     -fx-padding: 20;
 }
+
 .market .margin {
     -fx-background-color: saddlebrown;
     -fx-padding: 20;
     -fx-font-size: 50;
 }
+
 .market .exchange-modal {
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
+
 .market .exchange-modal-box {
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
+
 .market .exchange-modal-box .label {
     -fx-font-size: 20;
     -fx-text-fill: white;
     -fx-text-alignment: center;
 }
+
 .market #instructions {
     -fx-font-size: 15;
 }
@@ -158,39 +190,45 @@
     -fx-border-insets: 0 0 0 0 0;
 }
 
-.deck .table{
+.deck .table {
     -fx-padding: 20;
 }
+
 .deck .development-card {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
 
 .market-results {
     -fx-background-color: saddlebrown;
     -fx-border-color: black;
     -fx-border-width: 0 2 2 2;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .market-results .resource-box {
     -fx-padding: 5;
     -fx-border-color: #6a2e01;
     -fx-border-width: 0 0 3 0 0;
 }
+
 .market-results .resource-box > * {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
-.market-results .margin-right  {
+
+.market-results .margin-right {
     -fx-border-width: 0 3 3 0 0;
 }
 
 .otherPlayersDisplay > * {
     -fx-padding: 5;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
 .otherPlayersDisplay .selected {
     -fx-border-color: gold;
     -fx-border-width: 3;
 }
+
 .title {
     -fx-font-size: 30;
     -fx-font-weight: bold;
@@ -201,12 +239,11 @@
 }
 
 .chat .chat-button {
-    -fx-background-color:
-            rgba(0,0,0,0.08),
-            linear-gradient(#5a61af, #51536d),
-            linear-gradient(#e4fbff 0%,#cee6fb 10%, #a5d3fb 50%, #88c6fb 51%, #d5faff 100%);
-    -fx-background-insets: 0 0 -1 0,0,1;
-    -fx-background-radius: 5,5,4;
+    -fx-background-color: rgba(0, 0, 0, 0.08),
+    linear-gradient(#5a61af, #51536d),
+    linear-gradient(#e4fbff 0%, #cee6fb 10%, #a5d3fb 50%, #88c6fb 51%, #d5faff 100%);
+    -fx-background-insets: 0 0 -1 0, 0, 1;
+    -fx-background-radius: 5, 5, 4;
     -fx-padding: 3 30 3 30;
     -fx-text-fill: #242d35;
     -fx-font-size: 14px;
@@ -217,11 +254,11 @@
 
 }
 
-.strongbox-root  {
+.strongbox-root {
     -fx-background-color: transparent;
 }
 
-.strongbox-root .label{
+.strongbox-root .label {
     -fx-font-size: 20;
     -fx-text-fill: white;
 }
@@ -241,11 +278,31 @@
 .production .production-box {
     -fx-background-color: rgba(20, 20, 20, 0.4);
 }
+
 .production .production-title {
     -fx-font-size: 30;
     -fx-text-fill: white;
 }
+
 .production #resourcesDisplay .label {
     -fx-font-size: 20;
     -fx-text-fill: white;
+}
+
+.music-button {
+    -fx-background-image: url("../../images/music.png");
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 5, 0, 0, 0);
+}
+
+.music-button-pause {
+    -fx-background-image: url("../../images/music-pause.png");
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 5, 0, 0, 0);
 }
