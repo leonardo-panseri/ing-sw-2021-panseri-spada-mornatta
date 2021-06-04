@@ -33,6 +33,10 @@
     -fx-background-image: url("../../images/player_board.png");
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+.player-board #faithTrackDisplay {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 .player-board #messageDisplay {
     -fx-font-size: 20;
@@ -58,6 +62,15 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
+}
+.leaders-display {
+    -fx-background-color: saddlebrown;
+    -fx-border-color: #6a2e01;
+    -fx-border-width: 3 3 3 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+.leaders-display .leader-card {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 .faith-track .in-range {
     -fx-border-color: #0044EFFF;
@@ -96,9 +109,18 @@
     -fx-font-size: 30;
     -fx-text-fill: white;
 }
+.leader-selection .leader-card {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+.leader-selection .choose-resources {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
 .deposit {
     -fx-background-image: url("../../images/deposit.png");
     -fx-background-size: contain;
+}
+.market #marketDisplay {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 .market .table {
     -fx-background-color: black;
@@ -139,16 +161,23 @@
 .deck .table{
     -fx-padding: 20;
 }
+.deck .development-card {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
 
 .market-results {
     -fx-background-color: saddlebrown;
     -fx-border-color: black;
     -fx-border-width: 0 2 2 2;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 .market-results .resource-box {
     -fx-padding: 5;
     -fx-border-color: #6a2e01;
     -fx-border-width: 0 0 3 0 0;
+}
+.market-results .resource-box > * {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 .market-results .margin-right  {
     -fx-border-width: 0 3 3 0 0;
@@ -156,6 +185,7 @@
 
 .otherPlayersDisplay > * {
     -fx-padding: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 .otherPlayersDisplay .selected {
     -fx-border-color: gold;

@@ -207,9 +207,6 @@
             <configuration>
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>project-classifier</shadedClassifierName>
-              <resource>
-                <directory>src/main/resources</directory>
-              </resource>
               <outputFile>target/shade/${project.artifactId}.jar</outputFile>
               <transformers>
                 <transformer implementation=

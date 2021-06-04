@@ -129,6 +129,7 @@ public class LeaderSelectionWidget extends HBox {
         HBox dragArea = new HBox(depositWidget, resourcePicker);
         dragArea.setAlignment(Pos.CENTER);
         dragArea.setSpacing(40);
+        dragArea.getStyleClass().add("choose-resources");
         box.setCenter(dragArea);
 
         HBox buttonBox = new HBox(chooseConfirmButton);

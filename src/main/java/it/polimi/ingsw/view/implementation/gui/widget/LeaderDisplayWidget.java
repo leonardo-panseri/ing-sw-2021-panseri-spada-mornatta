@@ -67,6 +67,9 @@ public class LeaderDisplayWidget extends VBox {
             newWidget.setScaleX(0.75);
             newWidget.setScaleY(0.75);
 
+            if(!player.isLocalPlayer())
+                newWidget.flipCard();
+
             leaderDisplay.getChildren().add(new Group(newWidget));
             leadersAndWidgets.put(newLeader, newWidget);
 

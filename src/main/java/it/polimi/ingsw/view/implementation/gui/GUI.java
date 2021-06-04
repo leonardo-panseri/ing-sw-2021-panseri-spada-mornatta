@@ -127,6 +127,12 @@ public class GUI extends View {
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setVolume(0.05);
+        stage.focusedProperty().addListener((change, oldVal, newVal) -> {
+            if(oldVal && !newVal)
+                mediaPlayer.pause();
+            else if(!oldVal && newVal)
+                mediaPlayer.play();
+        });
 
         scene = new Scene(homePage);
         stage.setScene(scene);
