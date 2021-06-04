@@ -124,7 +124,7 @@ public class LeaderSelectionWidget extends HBox {
         depositWidget.setDropAllowed(true);
         depositWidget.setOnDragDroppedHandler(buildOnDragDroppedListener(initialResourcesToChoose, chooseConfirmButton));
 
-        VBox resourcePicker = buildResourcePicker();
+        VBox resourcePicker = buildResourcePicker(initialResourcesToChoose);
         resourcePicker.setMaxHeight(depositWidget.getPrefHeight());
         HBox dragArea = new HBox(depositWidget, resourcePicker);
         dragArea.setAlignment(Pos.CENTER);
@@ -186,7 +186,7 @@ public class LeaderSelectionWidget extends HBox {
             GUI.instance().setGameState(GameState.WAIT_SELECT_LEADERS);
     }
 
-    private VBox buildResourcePicker() {
+    private VBox buildResourcePicker(int initialResourcesToChoose) {
         VBox box = new VBox();
         for(Resource resource : Resource.values()) {
             if(resource == Resource.FAITH)
@@ -194,11 +194,13 @@ public class LeaderSelectionWidget extends HBox {
             ImageView img = new ImageView(GUIUtils.getResourceImage(resource, 50, 50));
 
             img.setOnDragDetected(mouseEvent -> {
-                Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+                if(chosenResourcesCount < initialResourcesToChoose) {
+                    Dragboard db = img.startDragAndDrop(TransferMode.ANY);
 
-                db.setContent(GUIUtils.getClipboardForResource(resource, img));
+                    db.setContent(GUIUtils.getClipboardForResource(resource, img));
 
-                mouseEvent.consume();
+                    mouseEvent.consume();
+                }
             });
 
             box.getChildren().add(img);

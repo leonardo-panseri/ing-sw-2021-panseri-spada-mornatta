@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.implementation.gui.widget;
 
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
@@ -131,7 +132,7 @@ public class DepositWidget extends AnchorPane {
         img.setFitHeight(33);
 
         img.setOnDragDetected(mouseEvent -> {
-            if(img.getImage() != null && player.isLocalPlayer()) {
+            if(img.getImage() != null && player.isLocalPlayer() && GUI.instance().getGameState() == GameState.PLAYING) {
                 Dragboard db = img.startDragAndDrop(TransferMode.ANY);
 
                 ClipboardContent content = new ClipboardContent();

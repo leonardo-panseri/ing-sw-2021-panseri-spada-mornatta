@@ -9,6 +9,8 @@ import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import it.polimi.ingsw.view.messages.production.Production;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -25,9 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ProductionWidget extends FlowPane {
     @FXML
@@ -46,6 +46,8 @@ public class ProductionWidget extends FlowPane {
     private final List<Resource> desiredInput;
     private final List<Resource> desiredOutput;
 
+    private Map<Resource, StringProperty> resourcesCount;
+
     public ProductionWidget(PlayerBoardWidget playerBoard, List<Resource> input, List<Resource> output,
                             Class<? extends Production> productionType) {
         this.playerBoard = playerBoard;
@@ -55,6 +57,8 @@ public class ProductionWidget extends FlowPane {
 
         this.desiredInput = new ArrayList<>();
         this.desiredOutput = new ArrayList<>();
+
+        this.resourcesCount = new HashMap<>();
 
         FXMLUtils.loadWidgetFXML(this);
     }
@@ -75,6 +79,7 @@ public class ProductionWidget extends FlowPane {
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
             ImageView img = new ImageView(GUIUtils.getResourceImage(resource, 50, 50));
             Label quantity = new Label("" + playerBoard.getPlayer().getDeposit().countResource(resource));
+            resourcesCount.put(resource, quantity.textProperty());
             VBox textBox = new VBox(quantity);
             textBox.setAlignment(Pos.CENTER);
             HBox box = new HBox(img, textBox);
@@ -153,11 +158,21 @@ public class ProductionWidget extends FlowPane {
             }
 
             if(success) {
-                if(targetResource == null) {
-                    Resource finalResource = resource;
-                    Platform.runLater(() -> img.setImage(GUIUtils.getResourceImage(finalResource, 50, 50)));
-                } else if(resource != targetResource) {
-                    success = false;
+                if(isInput) {
+                    int quantity = Integer.parseInt(resourcesCount.get(resource).get());
+                    if(quantity > 0) {
+                        quantity--;
+                        resourcesCount.get(resource).setValue("" + quantity);
+                    } else success = false;
+                }
+
+                if(success) {
+                    if (targetResource == null) {
+                        Resource finalResource = resource;
+                        Platform.runLater(() -> img.setImage(GUIUtils.getResourceImage(finalResource, 50, 50)));
+                    } else if (resource != targetResource) {
+                        success = false;
+                    }
                 }
 
                 if(success) {
