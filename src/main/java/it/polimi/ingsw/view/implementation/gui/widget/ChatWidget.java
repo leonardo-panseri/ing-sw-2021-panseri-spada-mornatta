@@ -20,7 +20,6 @@ import javafx.scene.layout.VBox;
 public class ChatWidget extends VBox {
     @FXML
     private VBox chat;
-    //   private Button button;
     private TextField textInput;
     private ScrollPane scrollPane;
 
@@ -50,9 +49,15 @@ public class ChatWidget extends VBox {
             }
         });
 
+        textInput.getStyleClass().add("chat-input");
+
+        hbox.getStyleClass().add("chat-box");
         scrollPane.setContent(chat);
+        scrollPane.setPrefHeight(150);
         scrollPane.setMaxHeight(150);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        scrollPane.getStyleClass().add("chat-scroll-pane");
 
 
         for (String s : GUI.instance().getModel().getChatMessages()) {
@@ -74,7 +79,9 @@ public class ChatWidget extends VBox {
             Label label = new Label(message);
             label.setWrapText(true);
             label.setMaxWidth(150);
+            label.getStyleClass().add("chat-label");
             HBox content = new HBox(label);
+            content.getStyleClass().add("chat-box");
             chat.getChildren().add(content);
         });
     }
