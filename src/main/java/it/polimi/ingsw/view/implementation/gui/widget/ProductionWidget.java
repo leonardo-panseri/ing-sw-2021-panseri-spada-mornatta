@@ -9,7 +9,6 @@ import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import it.polimi.ingsw.view.messages.production.Production;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,7 +45,7 @@ public class ProductionWidget extends FlowPane {
     private final List<Resource> desiredInput;
     private final List<Resource> desiredOutput;
 
-    private Map<Resource, StringProperty> resourcesCount;
+    private final Map<Resource, StringProperty> resourcesCount;
 
     public ProductionWidget(PlayerBoardWidget playerBoard, List<Resource> input, List<Resource> output,
                             Class<? extends Production> productionType) {
