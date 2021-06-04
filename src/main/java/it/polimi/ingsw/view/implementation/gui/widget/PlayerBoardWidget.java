@@ -19,12 +19,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 public class PlayerBoardWidget extends StackPane {
+    @FXML
+    public Pane musicButtonDisplay;
     @FXML
     private Label messageDisplay;
     @FXML
@@ -151,6 +154,9 @@ public class PlayerBoardWidget extends StackPane {
 
         StrongBoxWidget strongBoxWidget = new StrongBoxWidget(player);
         strongBoxDisplay.getChildren().add(strongBoxWidget);
+
+        MusicButtonWidget musicButtonWidget = new MusicButtonWidget(GUI.instance().getMediaPlayer().getStatus() == MediaPlayer.Status.PLAYING);
+        musicButtonDisplay.getChildren().add(musicButtonWidget);
     }
 
     private void initializeOtherPlayersDisplay() {

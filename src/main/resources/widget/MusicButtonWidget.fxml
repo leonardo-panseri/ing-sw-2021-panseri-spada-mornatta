@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<fx:root type="Button" xmlns="https://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="it.polimi.ingsw.view.implementation.gui.widget.MusicButtonWidget"
+         stylesheets="@css/style.css"
+         prefHeight="50.0" prefWidth="50.0" onAction="#toggleMusic">
+
+</fx:root>

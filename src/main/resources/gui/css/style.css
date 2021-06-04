@@ -19,11 +19,3 @@
     -fx-background-image: url("../../images/home_bg.jpeg");
     -fx-background-size: contain;
 }
-.music-button {
-    -fx-pref-width: 150;
-    -fx-background-image: url("../../images/music.png");
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-color: transparent;
-}

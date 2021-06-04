@@ -58,5 +58,9 @@
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.rightAnchor>200</AnchorPane.rightAnchor>
         </Label>
+        <Pane fx:id="musicButtonDisplay">
+            <AnchorPane.topAnchor>20</AnchorPane.topAnchor>
+            <AnchorPane.rightAnchor>370</AnchorPane.rightAnchor>
+        </Pane>
     </AnchorPane>
 </fx:root>
