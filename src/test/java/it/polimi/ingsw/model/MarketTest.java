@@ -19,10 +19,6 @@ public class MarketTest {
         testGame.setCurrentPlayer(testGame.getPlayerAt(0));
         testMarket = testGame.getMarket();
         testMarket.initializeMarket();
-        for (int i = 0; i < 3; i++) {
-            System.out.println(testMarket.getRow(i));
-        }
-        System.out.println("\n");
     }
 
     @Test
@@ -73,10 +69,6 @@ public class MarketTest {
         Resource testFirstSphere = testMarket.getRow(0).get(0);
         testMarket.shiftRow(0);
 
-        for (int i = 0; i < 3; i++) {
-            System.out.println(testMarket.getRow(i));
-        }
-
         assertEquals(testMarket.getSlideResource(), testFirstSphere);
         assertEquals(testMarket.getRow(0).get(3), testSlideResource);
     }
@@ -86,10 +78,6 @@ public class MarketTest {
         Resource testSlideResource = testMarket.getSlideResource();
         Resource testFirstSphere = testMarket.getColumn(0).get(0);
         testMarket.shiftColumn(0);
-
-        for (int i = 0; i < 3; i++) {
-            System.out.println(testMarket.getRow(i));
-        }
 
         assertEquals(testMarket.getSlideResource(), testFirstSphere);
         assertEquals(testMarket.getColumn(0).get(2), testSlideResource);

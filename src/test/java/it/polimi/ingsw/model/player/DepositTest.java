@@ -16,18 +16,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepositTest {
-
-
     Game testGame;
     Deposit testDeposit;
     Player p1 = new Player("Davide");
-
-
-    void printDepo() {
-        System.out.println(testDeposit.getRow(1));
-        System.out.println(testDeposit.getRow(2));
-        System.out.println(testDeposit.getRow(3) + "\n");
-    }
 
     @BeforeEach
     void setUp() {
@@ -227,7 +218,7 @@ class DepositTest {
         testLeaderCard = new LeaderCard(1, testLeaderCardRequirement, testSpecialAbility);
         testMapLeaderCards.put(testLeaderCard, false);
 
-        List<LeaderCard> testListLeaderCards = new ArrayList<LeaderCard>(testMapLeaderCards.keySet());
+        List<LeaderCard> testListLeaderCards = new ArrayList<>(testMapLeaderCards.keySet());
         testGame.addPlayer(p1);
         testGame.getPlayerByName("Davide").setLeaderCards(testListLeaderCards);
         p1.setLeaderActive(testLeaderCard);

@@ -7,10 +7,6 @@ import it.polimi.ingsw.model.messages.InvalidActionUpdate;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.server.IServerPacket;
 import it.polimi.ingsw.server.Lobby;
-import it.polimi.ingsw.view.messages.production.BaseProduction;
-import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
-import it.polimi.ingsw.view.messages.production.LeaderProduction;
-import it.polimi.ingsw.view.messages.production.Production;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
