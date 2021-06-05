@@ -1,8 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.BaseProductionPower;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.card.LeaderCard;
+import it.polimi.ingsw.model.messages.InitialTurnUpdate;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.messages.EndTurnPlayerActionEvent;
 import it.polimi.ingsw.view.messages.MarketPlayerActionEvent;
@@ -10,8 +14,8 @@ import it.polimi.ingsw.view.messages.PlayerActionEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,5 +95,42 @@ class GameControllerTest {
         //Ignore the sent action because it is sent by a non current player
         controllerTest.update(act);
         assertEquals("test2", controllerTest.getGame().getCurrentPlayer().getNick());
+    }
+
+    @Test
+    void customGameConfig() {
+        Lobby lobby = new Lobby();
+        BaseProductionPower productionPower = new BaseProductionPower(Arrays.asList(Resource.COIN, Resource.SERVANT), Arrays.asList(Resource.FAITH, Resource.STONE));
+        try {
+            Field customGameConfig = lobby.getClass().getDeclaredField("customGameConfig");
+            customGameConfig.setAccessible(true);
+            GameConfig config = GameConfig.loadDefaultGameConfig();
+            assert config != null;
+            config.modifyBaseProduction(productionPower);
+            customGameConfig.set(lobby, config);
+            Field isGameConfigSet = lobby.getClass().getDeclaredField("isGameConfigSet");
+            isGameConfigSet.setAccessible(true);
+            isGameConfigSet.set(lobby, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        GameController gameController = new GameController(lobby);
+        assertEquals(productionPower.getInput(), gameController.getGame().getBaseProductionPower().getInput());
+        assertEquals(productionPower.getOutput(), gameController.getGame().getBaseProductionPower().getOutput());
+    }
+
+    @Test
+    void checkAlreadyPlayed() {
+        Player p1 = new Player("one");
+
+        controllerTest.addPlayer(p1);
+
+        assertDoesNotThrow(() -> controllerTest.checkAlreadyPlayed(p1));
+
+        p1.setHasAlreadyPlayed(true);
+
+        assertThrows(IllegalStateException.class, () -> controllerTest.checkAlreadyPlayed(p1));
     }
 }

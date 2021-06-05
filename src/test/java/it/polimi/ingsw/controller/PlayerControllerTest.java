@@ -7,6 +7,10 @@ import it.polimi.ingsw.model.messages.InvalidActionUpdate;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.server.IServerPacket;
 import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.view.messages.production.BaseProduction;
+import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
+import it.polimi.ingsw.view.messages.production.LeaderProduction;
+import it.polimi.ingsw.view.messages.production.Production;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -118,7 +122,7 @@ class PlayerControllerTest {
         assertEquals(1, p1.getBoard().getDeposit().countAllResources());
     }
 
-    /*@Test
+    @Test
     void chooseAndDiscardLeaderTest() {
         List<LeaderCard> chosenLeaders = new ArrayList<>();
         chosenLeaders.add(card1);
@@ -126,19 +130,19 @@ class PlayerControllerTest {
         chosenLeaders.add(card3);
 
         //Player has not selected exactly 2 cards
-        playerController.handleInitialSelection(p1, chosenLeaders);
+        playerController.handleInitialSelection(p1, chosenLeaders, new HashMap<>());
         assertTrue(updates.get(0) instanceof InvalidActionUpdate);
 
         //Player has selected some cards he does not have in hands
         chosenLeaders.remove(card3);
-        playerController.handleInitialSelection(p1, chosenLeaders);
+        playerController.handleInitialSelection(p1, chosenLeaders, new HashMap<>());
         assertTrue(updates.get(1) instanceof InvalidActionUpdate);
 
         //Player correctly selects 2 leaders
         List<LeaderCard> ownLeaders = new ArrayList<>(chosenLeaders);
         ownLeaders.add(card3);
         p1.setLeaderCards(ownLeaders);
-        playerController.handleInitialSelection(p1, chosenLeaders);
+        playerController.handleInitialSelection(p1, chosenLeaders, new HashMap<>());
         p1.setLeaderActive(card1);
         p1.setLeaderActive(card2);
         assertEquals(1, p1.numLeadersDiscount(Resource.STONE));
@@ -152,7 +156,7 @@ class PlayerControllerTest {
         p1.setLeaderCards(Collections.singletonList(card3));
         playerController.discardLeader(p1, card3);
         assertEquals(1, p1.getFaithPoints());
-    }*/
+    }
 
     @Test
     void useMarketTest() {
@@ -181,15 +185,15 @@ class PlayerControllerTest {
         });
     }
 
-    /*@Test
+    @Test
     void useProductions() {
         //Test all the production types
-        Production prod1 = new BaseProduction(Arrays.asList(Resource.STONE, Resource.STONE), Resource.FAITH);
+        Production prod1 = new BaseProduction(Arrays.asList(Resource.STONE, Resource.STONE), Collections.singletonList(Resource.FAITH));
         Production prod2 = new DevelopmentProduction(DeckTest.getCardByLevel(1, gc.getGame().getDeck()).getUuid());
         Production prod3 = new LeaderProduction(card3.getUuid(), Resource.SHIELD);
 
         //Test some other specific cases
-        Production prod4 = new BaseProduction(Arrays.asList(Resource.STONE, Resource.COIN), Resource.SERVANT);
+        Production prod4 = new BaseProduction(Arrays.asList(Resource.STONE, Resource.COIN), Collections.singletonList(Resource.SERVANT));
 
         List<Production> prods = Arrays.asList(prod1, prod2, prod3, prod4);
 
@@ -198,6 +202,8 @@ class PlayerControllerTest {
         for (IServerPacket update : updates) {
             assertTrue(update instanceof InvalidActionUpdate);
         }
+
+        gc.getTurnController().endTurn(p1);
 
         //Player can perform all the productions
         Map<Resource, Integer> cheat = new HashMap<>();
@@ -208,9 +214,10 @@ class PlayerControllerTest {
         p1.getBoard().addCard(1, DeckTest.getCardByLevel(1, gc.getGame().getDeck()));
         p1.setLeaderCards(Collections.singletonList(card3));
         p1.setLeaderActive(card3);
+
         playerController.useProductions(p1, prods);
-        assertEquals(4, updates.size());
-    }*/
+        assertEquals(5, updates.size());
+    }
 
     @Test
     void sendChatMessage() {
