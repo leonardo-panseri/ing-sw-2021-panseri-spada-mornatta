@@ -271,17 +271,33 @@
       "PURPLE": [
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 2
+          },
+          "level": 1,
+          "productionInput": {
+            "STONE": 1
+          },
+          "productionOutput": {
+            "FAITH": 1
+          },
+          "color": "PURPLE",
+          "victoryPoints": 1
+        },
+        {
+          "cost": {
+            "SERVANT": 1,
+            "COIN": 1,
+            "SHIELD": 1
           },
           "level": 1,
           "productionInput": {
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 1
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 2
         },
         {
           "cost": {
@@ -289,215 +305,227 @@
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "COIN": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 1,
+            "STONE": 1,
+            "SHIELD": 1
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 3
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 2,
+            "STONE": 2
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "COIN": 1,
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 2,
+            "FAITH": 1
           },
           "color": "PURPLE",
-          "victoryPoints": 0
-        },
-        {
-          "cost": {
-            "SERVANT": 3
-          },
-          "level": 1,
-          "productionInput": {
-            "COIN": 1
-          },
-          "productionOutput": {
-            "STONE": 3
-          },
-          "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 4
         }
       ],
       "GREEN": [
         {
           "cost": {
-            "STONE": 1
+            "SHIELD": 2
           },
           "level": 1,
           "productionInput": {
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 1
         },
         {
           "cost": {
-            "STONE": 1
+            "SERVANT": 1,
+            "STONE": 1,
+            "SHIELD": 1
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 2
         },
         {
           "cost": {
-            "STONE": 1
+            "SHIELD": 3
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 1,
+            "COIN": 1,
+            "SHIELD": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 3
         },
         {
           "cost": {
-            "STONE": 1
+            "COIN": 2,
+            "SHIELD": 2
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1,
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 2,
+            "FAITH": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 4
         }
       ],
       "BLUE": [
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 2
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 1
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 1
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 1,
+            "STONE": 1,
+            "COIN": 1
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 1
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 2
         },
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 3
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "STONE": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 1,
+            "COIN": 1,
+            "SHIELD": 1
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 3
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 2,
+            "COIN": 2
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1,
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 2,
+            "FAITH": 1
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 4
         }
       ],
       "YELLOW": [
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 2
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 1
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 1,
+            "COIN": 1,
+            "SHIELD": 1
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 2
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 3
           },
           "level": 1,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 1,
+            "STONE": 1,
+            "COIN": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 3
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 2,
+            "SHIELD": 2
           },
           "level": 1,
           "productionInput": {
+            "SERVANT": 1,
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 2,
+            "FAITH": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 4
         }
       ]
     },
@@ -505,233 +533,253 @@
       "PURPLE": [
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 4
           },
           "level": 2,
           "productionInput": {
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 2
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 5
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 3,
+            "COIN": 2
           },
           "level": 2,
           "productionInput": {
+            "SERVANT": 1,
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 3
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 6
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 5
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "STONE": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 2,
+            "FAITH": 2
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 7
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 3,
+            "SHIELD": 3
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 2,
+            "FAITH": 1
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 8
         }
       ],
       "GREEN": [
         {
           "cost": {
-            "SERVANT": 3
+            "SHIELD": 4
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 2
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 5
         },
         {
           "cost": {
-            "STONE": 3
+            "SERVANT": 2,
+            "SHIELD": 3
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1,
+            "SHIELD": 1
           },
           "productionOutput": {
             "STONE": 3
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 6
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SHIELD": 5
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "COIN": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 2,
+            "FAITH": 2
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 7
         },
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 3,
+            "SHIELD": 3
           },
           "level": 2,
           "productionInput": {
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 2,
+            "FAITH": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 8
         }
       ],
       "BLUE": [
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 4
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 2
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 5
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 2,
+            "COIN": 3
           },
           "level": 2,
           "productionInput": {
+            "STONE": 1,
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 3
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 6
         },
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 5
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 2,
+            "FAITH": 2
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 7
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 3,
+            "COIN": 3
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 2,
+            "FAITH": 1
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 8
         }
       ],
       "YELLOW": [
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 4
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "FAITH": 2
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 5
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 3,
+            "SHIELD": 2
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1,
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 3
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 6
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 5
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 2,
+            "FAITH": 2
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 7
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 3,
+            "STONE": 3
           },
           "level": 2,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 2,
+            "FAITH": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 8
         }
       ]
     },
@@ -739,233 +787,265 @@
       "PURPLE": [
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 6
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "STONE": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 3,
+            "FAITH": 2
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 9
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 5,
+            "COIN": 2
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1,
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 2,
+            "COIN": 2,
+            "FAITH": 1
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 10
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 7
           },
           "level": 3,
           "productionInput": {
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 1,
+            "FAITH": 3
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 11
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 4,
+            "SHIELD": 4
           },
           "level": 3,
           "productionInput": {
             "COIN": 1
           },
           "productionOutput": {
+            "SERVANT": 1,
             "STONE": 3
           },
           "color": "PURPLE",
-          "victoryPoints": 0
+          "victoryPoints": 12
         }
       ],
       "GREEN": [
         {
           "cost": {
-            "SERVANT": 3
+            "SHIELD": 6
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "COIN": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 3,
+            "FAITH": 2
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 9
         },
         {
           "cost": {
-            "STONE": 3
+            "SERVANT": 2,
+            "SHIELD": 5
           },
           "level": 3,
           "productionInput": {
+            "SERVANT": 1,
             "COIN": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "STONE": 2,
+            "SHIELD": 2,
+            "FAITH": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 10
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SHIELD": 7
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 1,
+            "FAITH": 3
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 11
         },
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 4,
+            "SHIELD": 4
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 3,
+            "SHIELD": 1
           },
           "color": "GREEN",
-          "victoryPoints": 0
+          "victoryPoints": 12
         }
       ],
       "BLUE": [
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 6
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 3,
+            "FAITH": 2
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 9
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 2,
+            "COIN": 5
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "COIN": 1,
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 2,
+            "STONE": 2,
+            "FAITH": 1
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 10
         },
         {
           "cost": {
-            "SERVANT": 3
+            "COIN": 7
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SHIELD": 1,
+            "FAITH": 3
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 11
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 4,
+            "COIN": 4
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 1,
+            "SHIELD": 3
           },
           "color": "BLUE",
-          "victoryPoints": 0
+          "victoryPoints": 12
         }
       ],
       "YELLOW": [
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 6
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 2
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 3,
+            "FAITH": 2
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 9
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 2,
+            "STONE": 5
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SERVANT": 1,
+            "STONE": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "COIN": 2,
+            "SHIELD": 2,
+            "FAITH": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 10
         },
         {
           "cost": {
-            "SERVANT": 3
+            "STONE": 7
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 1,
+            "FAITH": 3
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 11
         },
         {
           "cost": {
-            "SERVANT": 3
+            "SERVANT": 4,
+            "STONE": 4
           },
           "level": 3,
           "productionInput": {
-            "COIN": 1
+            "SHIELD": 1
           },
           "productionOutput": {
-            "STONE": 3
+            "SERVANT": 3,
+            "STONE": 1
           },
           "color": "YELLOW",
-          "victoryPoints": 0
+          "victoryPoints": 12
         }
       ]
     }
