@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.LeaderCardRequirement;
 import it.polimi.ingsw.model.card.SpecialAbility;
 import it.polimi.ingsw.view.GameState;
-import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.collections.MapChangeListener;
@@ -75,7 +74,7 @@ public class LeaderCardWidget extends StackPane {
         String resource = specialAbility.getTargetResource().toString().toLowerCase();
         InputStream image = LeaderCardWidget.class.getResourceAsStream("/images/resources/" + resource + ".png");
 
-        if(image == null) {
+        if (image == null) {
             System.err.println("Can't find image for " + resource);
             return Collections.emptyList();
         }
@@ -83,13 +82,13 @@ public class LeaderCardWidget extends StackPane {
         List<ImageView> results = new ArrayList<>();
         switch (specialAbility.getType()) {
             case PRODUCTION -> {
-                ImageView input = new ImageView(new Image(image,30.0, 41.0, true, true));
+                ImageView input = new ImageView(new Image(image, 30.0, 41.0, true, true));
                 input.setLayoutX(35);
                 input.setLayoutY(237);
                 results.add(input);
             }
             case DISCOUNT -> {
-                ImageView discount = new ImageView(new Image(image,22, 22, true, true));
+                ImageView discount = new ImageView(new Image(image, 22, 22, true, true));
                 discount.setLayoutX(144);
                 discount.setLayoutY(227);
                 results.add(discount);
@@ -107,10 +106,10 @@ public class LeaderCardWidget extends StackPane {
                 depot2.setOpacity(0.4);
                 results.add(depot2);
 
-                if(GUI.instance() != null) {
-                    if(GUI.instance().getScene().getRoot() instanceof PlayerBoardWidget) {
+                if (GUI.instance() != null) {
+                    if (GUI.instance().getScene().getRoot() instanceof PlayerBoardWidget) {
                         PlayerBoardWidget playerBoard = (PlayerBoardWidget) GUI.instance().getScene().getRoot();
-                        if(playerBoard.getPlayer().isLocalPlayer() && GUI.instance().getGameState() == GameState.PLAYING) {
+                        if (playerBoard.getPlayer().isLocalPlayer() && GUI.instance().getGameState() == GameState.PLAYING) {
                             registerDepositHandler(Arrays.asList(depot1, depot2), playerBoard);
                         }
                     }
@@ -130,15 +129,15 @@ public class LeaderCardWidget extends StackPane {
         int depositIndex = playerBoard.getPlayer().getDeposit().getLeaderDepositIndexForCard(leaderCard);
         updateDeposit(images, playerBoard.getPlayer().getDeposit().getLeadersDeposit(depositIndex));
         playerBoard.getPlayer().getDeposit().leaderDepositProperty().addListener(
-            (MapChangeListener<? super Integer, ? super List<Resource>>) change -> {
-                if(change.getKey() == depositIndex && change.wasAdded()) {
-                    updateDeposit(images, change.getValueAdded());
-                }
-            });
+                (MapChangeListener<? super Integer, ? super List<Resource>>) change -> {
+                    if (change.getKey() == depositIndex && change.wasAdded()) {
+                        updateDeposit(images, change.getValueAdded());
+                    }
+                });
 
-        for(ImageView img : images) {
+        for (ImageView img : images) {
             img.setOnDragDetected(mouseEvent -> {
-                if(img.getOpacity() == 1 && playerBoard.getPlayer().isLocalPlayer() && GUI.instance().isOwnTurn()) {
+                if (img.getOpacity() == 1 && playerBoard.getPlayer().isLocalPlayer() && GUI.instance().isOwnTurn()) {
                     Dragboard db = img.startDragAndDrop(TransferMode.ANY);
 
                     ClipboardContent content = new ClipboardContent();
@@ -155,7 +154,7 @@ public class LeaderCardWidget extends StackPane {
             img.setOnDragDone(dragEvent -> playerBoard.getDepositWidget().setDropAllowed(false));
 
             img.setOnDragOver(dragEvent -> {
-                if(dragEvent.getGestureSource() instanceof ImageView && GUI.instance().isOwnTurn()) {
+                if (dragEvent.getGestureSource() instanceof ImageView && GUI.instance().isOwnTurn()) {
                     dragEvent.acceptTransferModes(TransferMode.ANY);
                 }
 
@@ -170,7 +169,7 @@ public class LeaderCardWidget extends StackPane {
                     success = false;
                 }
 
-                if(success) {
+                if (success) {
                     GUI.instance().getActionSender().move(rowIndex + 1, depositIndex + 4);
                 }
 
@@ -190,7 +189,7 @@ public class LeaderCardWidget extends StackPane {
                 success = false;
             }
 
-            if(success) {
+            if (success) {
                 GUI.instance().getActionSender().move(depositIndex + 4, rowIndex + 1);
             }
 
@@ -200,8 +199,8 @@ public class LeaderCardWidget extends StackPane {
     }
 
     private void updateDeposit(List<ImageView> images, List<Resource> resources) {
-        for(int i = 1; i <= 2; i++) {
-            if(i <= resources.size())
+        for (int i = 1; i <= 2; i++) {
+            if (i <= resources.size())
                 images.get(i - 1).setOpacity(1);
             else
                 images.get(i - 1).setOpacity(0.4);

@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * Main server instance.
  */
@@ -15,7 +12,7 @@ public class Server {
 
     private final ServerSocket serverSocket;
 
-    private final  LobbyController lobbyController;
+    private final LobbyController lobbyController;
 
     /**
      * Constructs a new Server, initializing the ServerSocket, the FixedThreadPool and the LobbyController.
@@ -24,16 +21,16 @@ public class Server {
      */
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(PORT);
-        this.lobbyController = new LobbyController(this);
+        this.lobbyController = new LobbyController();
     }
 
     /**
      * Runs the server and makes it wait for and accept incoming connections.
      */
-    public void run(){
+    public void run() {
         System.out.println("Server starting...");
 
-        while(true){
+        while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
 

@@ -11,7 +11,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -87,21 +88,22 @@ public class EditLeaderCard extends BorderPane {
 
         try {
             victoryPoints = Integer.parseInt(this.victoryPoints.getText());
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
 
         resourceRequirementsControls.forEach((resource, control) -> {
             int quantity = GUIUtils.getSelectedQuantityForControl(control);
-            if (quantity!=0) resourceRequirements.put(resource, quantity);
+            if (quantity != 0) resourceRequirements.put(resource, quantity);
         });
 
         cardLevelRequirementsControls.forEach((color, control) -> {
             int quantity = GUIUtils.getSelectedQuantityForControl(control);
-            if (quantity!=0) cardLevelRequirements.put(color, quantity);
+            if (quantity != 0) cardLevelRequirements.put(color, quantity);
         });
 
         cardColorRequirementsControls.forEach((color, control) -> {
             int quantity = GUIUtils.getSelectedQuantityForControl(control);
-            if (quantity!=0) cardColorRequirements.put(color, quantity);
+            if (quantity != 0) cardColorRequirements.put(color, quantity);
         });
 
         specialAbilityType = SpecialAbilityType.valueOf(this.specialAbilityType.getSelectionModel().getSelectedItem());

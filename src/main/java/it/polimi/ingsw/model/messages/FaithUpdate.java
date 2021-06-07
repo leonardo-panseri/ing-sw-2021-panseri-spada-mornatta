@@ -15,9 +15,10 @@ public class FaithUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new FaithUpdate.
-     * @param playerName the player affected by the change
+     *
+     * @param playerName  the player affected by the change
      * @param faithPoints the new faith points of the player
-     * */
+     */
     public FaithUpdate(String playerName, int faithPoints) {
         super(playerName);
         this.faithPoints = faithPoints;

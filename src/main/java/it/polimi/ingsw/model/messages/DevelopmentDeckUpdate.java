@@ -20,8 +20,9 @@ public class DevelopmentDeckUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new DevelopmentDeckUpdate
+     *
      * @param developmentCards the new deck of development cards
-     * */
+     */
     public DevelopmentDeckUpdate(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards) {
         this.developmentCards = developmentCards;
     }

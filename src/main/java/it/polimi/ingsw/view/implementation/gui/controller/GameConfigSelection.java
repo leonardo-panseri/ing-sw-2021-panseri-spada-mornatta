@@ -29,7 +29,7 @@ public class GameConfigSelection {
             fileChooser.setTitle("Choose Custom Config");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Config files", "*.json"));
             selectedFile = fileChooser.showOpenDialog(GUI.instance().getScene().getWindow());
-            if(selectedFile != null) {
+            if (selectedFile != null) {
                 choose.setDisable(false);
                 config.setText(selectedFile.getName());
             }

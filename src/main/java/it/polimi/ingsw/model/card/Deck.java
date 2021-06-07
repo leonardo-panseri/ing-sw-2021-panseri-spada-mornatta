@@ -33,7 +33,7 @@ public class Deck extends Observable<IServerPacket> {
     /**
      * Constructs a new Deck with the given cards.
      *
-     * @param leaderCards the leader cards
+     * @param leaderCards      the leader cards
      * @param developmentCards the development cards
      */
     public Deck(List<LeaderCard> leaderCards, List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentCards) {
@@ -108,7 +108,7 @@ public class Deck extends Observable<IServerPacket> {
      */
     public synchronized void removeBoughtCard(DevelopmentCard card) throws EmptyStackException {
         DevelopmentCard removedCard = developmentCards.get(card.getLevel() - 1).get(card.getColor()).pop();
-        if(!removedCard.getUuid().equals(card.getUuid()))
+        if (!removedCard.getUuid().equals(card.getUuid()))
             System.err.println("Removed a card with the wrong UUID");
     }
 
@@ -120,14 +120,14 @@ public class Deck extends Observable<IServerPacket> {
     public void removeTwoDevelopmentCards(CardColor color) {
         int removed = 0;
         int index = 0;
-        while(removed < 2 && index < 3) {
+        while (removed < 2 && index < 3) {
             if (!developmentCards.get(index).get(color).isEmpty()) {
                 developmentCards.get(index).get(color).pop();
                 removed++;
             } else
                 index++;
         }
-        if(removed > 0)
+        if (removed > 0)
             notify(new DevelopmentDeckUpdate(developmentCards));
     }
 
@@ -139,8 +139,8 @@ public class Deck extends Observable<IServerPacket> {
      */
     public boolean isColorEmpty(CardColor color) {
         boolean empty = true;
-        for(HashMap<CardColor, Stack<DevelopmentCard>> pile : developmentCards) {
-            if(!pile.get(color).isEmpty()) empty = false;
+        for (HashMap<CardColor, Stack<DevelopmentCard>> pile : developmentCards) {
+            if (!pile.get(color).isEmpty()) empty = false;
         }
         return empty;
     }

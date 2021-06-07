@@ -42,6 +42,7 @@ public class Lobby extends Observable<IServerPacket> {
 
     /**
      * Gets the list of clients connected to this lobby
+     *
      * @return the list of client connections
      */
     List<SocketClientConnection> getConnections() {
@@ -73,12 +74,12 @@ public class Lobby extends Observable<IServerPacket> {
      * @throws IllegalStateException if 4 clients are already connected to this lobby
      */
     public void addConnection(SocketClientConnection connection) throws IllegalStateException {
-        if(connections.size() > 4)
+        if (connections.size() > 4)
             throw new IllegalStateException();
 
         connections.add(connection);
 
-        if(firstConnection == null)
+        if (firstConnection == null)
             firstConnection = connection;
 
         notify(new AddToLobbyMessage(connection, firstConnection == connection));
@@ -92,12 +93,12 @@ public class Lobby extends Observable<IServerPacket> {
      * @param playerName the player name to be set, if it's null or empty sends an error message to the client
      */
     public void setPlayerName(SocketClientConnection connection, String playerName) {
-        if(playerName == null || playerName.trim().equals("")) {
+        if (playerName == null || playerName.trim().equals("")) {
             notify(new ErrorMessage(connection, "Your username can't be empty"));
             return;
         }
-        for(SocketClientConnection clientConnection : connections) {
-            if(playerName.equalsIgnoreCase(clientConnection.getPlayerName())) {
+        for (SocketClientConnection clientConnection : connections) {
+            if (playerName.equalsIgnoreCase(clientConnection.getPlayerName())) {
                 notify(new ErrorMessage(connection, "This username is already taken"));
                 return;
             }
@@ -106,7 +107,7 @@ public class Lobby extends Observable<IServerPacket> {
         connection.setPlayerName(playerName);
         List<String> otherNames = new ArrayList<>();
         connections.forEach(con -> {
-            if(con.getPlayerName() != null)
+            if (con.getPlayerName() != null)
                 otherNames.add(con.getPlayerName());
         });
         notify(new PlayerConnectMessage(playerName, connections.size(), playersToStart, otherNames));
@@ -117,20 +118,20 @@ public class Lobby extends Observable<IServerPacket> {
      * sends an error message to the client. If the number given is less than the number of clients already connected
      * sends an error message to the client.
      *
-     * @param connection the connection that wants to set the number of players needed to start
+     * @param connection     the connection that wants to set the number of players needed to start
      * @param playersToStart the number of players needed to start the game, should be between 1 and 4, otherwise an
      *                       error message will be sent to the client
      */
     public void setPlayersToStart(SocketClientConnection connection, int playersToStart) {
-        if(connections.indexOf(connection) != 0) {
+        if (connections.indexOf(connection) != 0) {
             notify(new ErrorMessage(connection, "Only the first player that connected to the lobby can set the number of players needed to start the game"));
             return;
         }
-        if(playersToStart < 1 || playersToStart > 4) {
+        if (playersToStart < 1 || playersToStart > 4) {
             notify(new ErrorMessage(connection, "This is not a number between 1 and 4"));
             return;
         }
-        if(playersToStart < connections.size()) {
+        if (playersToStart < connections.size()) {
             notify(new ErrorMessage(connection, connections.size() + " players are already connected"));
             return;
         }
@@ -140,11 +141,11 @@ public class Lobby extends Observable<IServerPacket> {
     }
 
     public void setCustomGameConfig(SocketClientConnection connection, GameConfig gameConfig) {
-        if(connections.indexOf(connection) != 0) {
+        if (connections.indexOf(connection) != 0) {
             notify(new ErrorMessage(connection, "Only the first player that connected to the lobby can set the number of players needed to start the game"));
             return;
         }
-        if(gameConfig == null) {
+        if (gameConfig == null) {
             notify(new ErrorMessage(connection, "The game configuration file that you have chosen is invalid!"));
             return;
         }
@@ -174,7 +175,7 @@ public class Lobby extends Observable<IServerPacket> {
      * @param connection the connection to be removed from the lobby
      */
     public void disconnect(SocketClientConnection connection) {
-        if(connection == firstConnection) {
+        if (connection == firstConnection) {
             firstConnection = null;
             playersToStart = -1;
         }
@@ -197,8 +198,8 @@ public class Lobby extends Observable<IServerPacket> {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                for(SocketClientConnection conn : connections) {
-                    if(conn != null) {
+                for (SocketClientConnection conn : connections) {
+                    if (conn != null) {
                         conn.closeConnection();
                     }
                     connections.remove(conn);
@@ -220,11 +221,11 @@ public class Lobby extends Observable<IServerPacket> {
      * Checks if the Lobby can start a game.
      *
      * @return true if all connected clients have their name set and the number of connected clients is equal to
-     *         playersToStart, false otherwise
+     * playersToStart, false otherwise
      */
     public synchronized boolean canStart() {
-        for(SocketClientConnection conn : connections)
-            if(conn.getPlayerName() == null)
+        for (SocketClientConnection conn : connections)
+            if (conn.getPlayerName() == null)
                 return false;
         if (!isGameConfigSet) return false;
         return playersToStart == connections.size();
@@ -234,8 +235,8 @@ public class Lobby extends Observable<IServerPacket> {
      * Terminate the Lobby, disconnecting all clients.
      */
     public synchronized void terminate() {
-        for(SocketClientConnection conn : connections) {
-            if(conn != null) {
+        for (SocketClientConnection conn : connections) {
+            if (conn != null) {
                 conn.closeConnection();
             }
             connections.remove(conn);

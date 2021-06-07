@@ -67,7 +67,7 @@ public class Game extends Observable<IServerPacket> {
      * Gets the singleplayer opponent.
      *
      * @return the lorenzo that is the current singleplayer opponent, if the game is not singleplayer return
-     *         <code>null</code>
+     * <code>null</code>
      */
     public synchronized Lorenzo getLorenzo() {
         return lorenzo;
@@ -90,8 +90,8 @@ public class Game extends Observable<IServerPacket> {
      */
     public synchronized Player getPlayerByName(String playerName) {
         Player result = null;
-        for(Player player : players) {
-            if(player.getNick().equals(playerName)) {
+        for (Player player : players) {
+            if (player.getNick().equals(playerName)) {
                 result = player;
                 break;
             }
@@ -115,7 +115,7 @@ public class Game extends Observable<IServerPacket> {
      * @throws IllegalArgumentException if the given player is not in the player list of this game
      */
     public synchronized void setCurrentPlayer(Player currentPlayer) throws IllegalArgumentException {
-        if(!players.contains(currentPlayer))
+        if (!players.contains(currentPlayer))
             throw new IllegalArgumentException("The player is not in this game player list");
         this.currentPlayer = currentPlayer;
         notify(new TurnUpdate(currentPlayer.getNick()));
@@ -192,7 +192,7 @@ public class Game extends Observable<IServerPacket> {
      * @param player the player that caused this phase to start
      */
     public synchronized void startLastRound(Player player) {
-        if(gamePhase != GamePhase.LAST_ROUND) {
+        if (gamePhase != GamePhase.LAST_ROUND) {
             this.gamePhase = GamePhase.LAST_ROUND;
             notify(new LastRoundUpdate(player.getNick(), isLastPlayerTurn()));
         }
@@ -244,7 +244,7 @@ public class Game extends Observable<IServerPacket> {
     /**
      * Terminates a game, sending scores and the winner name to Players.
      *
-     * @param scores the final scores of this game
+     * @param scores     the final scores of this game
      * @param winnerName the winner name
      */
     public void terminate(Map<String, Integer> scores, String winnerName) {
@@ -255,8 +255,8 @@ public class Game extends Observable<IServerPacket> {
     /**
      * Terminates a single player game, sending results to the Player.
      *
-     * @param lorenzoWin boolean representing if Lorenzo has won
-     * @param loseReason the reason why Lorenzo has won, if lorenzoWin is false, this will be ignored
+     * @param lorenzoWin  boolean representing if Lorenzo has won
+     * @param loseReason  the reason why Lorenzo has won, if lorenzoWin is false, this will be ignored
      * @param playerScore the score of the Player, if lorenzoWin is true, this will be ignored
      */
     public void terminateSingleplayer(boolean lorenzoWin, String loseReason, int playerScore) {
@@ -271,8 +271,8 @@ public class Game extends Observable<IServerPacket> {
      * @return the victory points awarded by the given position in the faith track
      */
     public int calculateFaithTrackVictoryPoints(int faithPoints) {
-        for(int i = faithPoints; i > 0; i--) {
-            if(faithTrackPoints.containsKey(i)) return faithTrackPoints.get(i);
+        for (int i = faithPoints; i > 0; i--) {
+            if (faithTrackPoints.containsKey(i)) return faithTrackPoints.get(i);
         }
         return 0;
     }
@@ -284,8 +284,8 @@ public class Game extends Observable<IServerPacket> {
      * @return the index of the pope report slot if found, <code>-1</code> otherwise
      */
     public int checkForPopeReportSlot(int faithPoints) {
-        for(int i = faithPoints; i > 0; i--)
-            if(popeReports.containsKey(i)) return i;
+        for (int i = faithPoints; i > 0; i--)
+            if (popeReports.containsKey(i)) return i;
         return -1;
     }
 
@@ -295,11 +295,11 @@ public class Game extends Observable<IServerPacket> {
      * @param popeReportSlot the pope report slot that caused the activation
      */
     public void activatePopeReport(int popeReportSlot) {
-        if(!popeReports.containsKey(popeReportSlot))
+        if (!popeReports.containsKey(popeReportSlot))
             return;
         int minSlot = popeReportSlot - popeReports.get(popeReportSlot).get(1) + 1;
-        for(Player player : getPlayers()) {
-            if(player.getFaithPoints() >= minSlot && player.getFaithPoints() <= popeReportSlot)
+        for (Player player : getPlayers()) {
+            if (player.getFaithPoints() >= minSlot && player.getFaithPoints() <= popeReportSlot)
                 player.addPopeFavours(popeReports.get(popeReportSlot).get(0));
         }
         popeReports.remove(popeReportSlot);
@@ -307,7 +307,8 @@ public class Game extends Observable<IServerPacket> {
 
     /**
      * Notifies the clients of a new global chat message.
-     * @param sender the player that has sent the message
+     *
+     * @param sender  the player that has sent the message
      * @param message the content of the message
      */
     public void notifyChatMessage(String sender, String message) {

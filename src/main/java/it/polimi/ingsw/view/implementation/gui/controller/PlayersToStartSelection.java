@@ -20,7 +20,7 @@ public class PlayersToStartSelection {
             int num;
             try {
                 num = Integer.parseInt(playersToStart.getText());
-                if(num < 1 || num > 4)
+                if (num < 1 || num > 4)
                     throw new RuntimeException();
             } catch (Exception e) {
                 errorDisplay.setText("Must be a number between 1 and 4");

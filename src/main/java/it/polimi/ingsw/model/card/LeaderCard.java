@@ -24,9 +24,9 @@ public class LeaderCard extends Card {
     /**
      * Constructor for a new LeaderCard.
      *
-     * @param victoryPoints the amount of victory points that this card will give
+     * @param victoryPoints    the amount of victory points that this card will give
      * @param cardRequirements a leadercardrequirement object that stores the requirements, resources or cards, needed to activate the leader.
-     * @param specialAbility the special ability granted by the card upon activation.
+     * @param specialAbility   the special ability granted by the card upon activation.
      */
     public LeaderCard(int victoryPoints, LeaderCardRequirement cardRequirements, SpecialAbility specialAbility) {
         super(victoryPoints);

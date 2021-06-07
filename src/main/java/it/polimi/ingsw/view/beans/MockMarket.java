@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.Resource;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -68,7 +67,7 @@ public class MockMarket {
     /**
      * Updates a row of the market.
      *
-     * @param index the index representing the row that needs to be changed
+     * @param index   the index representing the row that needs to be changed
      * @param changes a List containing the resources that will be associated to the new row
      */
     public void updateMarketRow(int index, List<Resource> changes) {
@@ -78,7 +77,7 @@ public class MockMarket {
     /**
      * Update a column of the market.
      *
-     * @param index the index representing the column that needs to be changed
+     * @param index   the index representing the column that needs to be changed
      * @param changes a List containing the resources that will be associated to the new column
      */
     public void updateMarketColumn(int index, List<Resource> changes) {

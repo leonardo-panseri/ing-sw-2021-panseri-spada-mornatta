@@ -59,7 +59,7 @@ public abstract class ActionSender {
 
     public void setGameConfig(File gameConfig) {
         String serializedGameConfig = null;
-        if(gameConfig != null) {
+        if (gameConfig != null) {
             try {
                 FileInputStream is = new FileInputStream(gameConfig);
                 byte[] encoded = is.readAllBytes();
@@ -77,7 +77,7 @@ public abstract class ActionSender {
     }
 
     /**
-     *  Buys the DevelopmentCard selected from the deck.
+     * Buys the DevelopmentCard selected from the deck.
      *
      * @param cardIndex the index of the card to buy
      * @param slotIndex the slot in which the card will be put in
@@ -89,14 +89,14 @@ public abstract class ActionSender {
         int stackIndex = cardIndex == 0 ? 0 : (cardIndex - 1) - 4 * mapIndex;
 
         ArrayList<ObservableList<DevelopmentCard>> stacks = new ArrayList<>(deck.get(mapIndex).values());
-        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).get(stacks.get(stackIndex).size()-1).getUuid(), slotIndex));
+        getView().getClient().send(new BuyPlayerActionEvent(stacks.get(stackIndex).get(stacks.get(stackIndex).size() - 1).getUuid(), slotIndex));
     }
 
     /**
      * Choose a column or row of Marbles in the Market and take all the Resources displayed in the chosen column
      * or row, each Market Marble indicates a Resource.
      *
-     * @param marketIndex the index representing the row or column to drawn
+     * @param marketIndex      the index representing the row or column to drawn
      * @param whiteConversions special leader ability that when you take Resources from the market, each
      *                         white Marble in the chosen row or column gives you the indicated Resource
      */
@@ -137,8 +137,8 @@ public abstract class ActionSender {
         Map<Integer, List<Resource>> changes = new HashMap<>();
         Map<Integer, List<Resource>> leadersDepositChanges = new HashMap<>();
 
-        if(row1 < 4) {
-            if(row2 < 4) {
+        if (row1 < 4) {
+            if (row2 < 4) {
                 newRow1 = deposit.getRow(row2 - 1);
                 newRow2 = deposit.getRow(row1 - 1);
                 changes.put(row1, newRow1);
@@ -146,7 +146,7 @@ public abstract class ActionSender {
             } else {
                 newRow1 = new ArrayList<>(deposit.getRow(row1 - 1));
                 newRow2 = new ArrayList<>(deposit.getLeadersDeposit(row2 - 3));
-                if(!newRow1.isEmpty()) {
+                if (!newRow1.isEmpty()) {
                     Resource res = newRow1.remove(0);
                     newRow2.add(res);
                 }
@@ -154,10 +154,10 @@ public abstract class ActionSender {
                 leadersDepositChanges.put(row2 - 3, newRow2);
             }
         } else {
-            if(row2 < 4) {
+            if (row2 < 4) {
                 newRow1 = new ArrayList<>(deposit.getLeadersDeposit(row1 - 3));
                 newRow2 = new ArrayList<>(deposit.getRow(row2 - 1));
-                if(!newRow1.isEmpty()) {
+                if (!newRow1.isEmpty()) {
                     Resource res = newRow1.remove(0);
                     newRow2.add(res);
                 }
@@ -166,7 +166,7 @@ public abstract class ActionSender {
             } else {
                 newRow1 = new ArrayList<>(deposit.getLeadersDeposit(row1 - 3));
                 newRow2 = new ArrayList<>(deposit.getLeadersDeposit(row2 - 3));
-                if(!newRow1.isEmpty()) {
+                if (!newRow1.isEmpty()) {
                     Resource res = newRow1.remove(0);
                     newRow2.add(res);
                 }
@@ -186,7 +186,7 @@ public abstract class ActionSender {
      * In other words each depot must have the same Resource and all depots must have different Resource.
      *
      * @param resourceIndex thh index representing the Resource to store
-     * @param rowIndex the index representing the row of the deposit where the Resource will be stored
+     * @param rowIndex      the index representing the row of the deposit where the Resource will be stored
      */
 
     public void storeMarketResult(int resourceIndex, int rowIndex) {
@@ -198,10 +198,10 @@ public abstract class ActionSender {
         Resource movedResource = toBeStored.get(resourceIndex - 1);
         toBeStored.remove(movedResource);
 
-        if(rowIndex < 4){
+        if (rowIndex < 4) {
             changes.put(rowIndex, new ArrayList<>(deposit.getRow(rowIndex - 1)));
             changes.get(rowIndex).add(movedResource);
-        } else if(rowIndex == 4 || rowIndex == 5) {
+        } else if (rowIndex == 4 || rowIndex == 5) {
             List<Resource> newResources = new ArrayList<>(deposit.getLeadersDeposit(rowIndex - 3));
             newResources.add(movedResource);
             leadersDepositChanges.put(rowIndex - 3, newResources);
@@ -211,7 +211,7 @@ public abstract class ActionSender {
     }
 
     public void endTurn() {
-        if(!view.isOwnTurn()) {
+        if (!view.isOwnTurn()) {
             view.getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
             return;
         }
@@ -221,7 +221,7 @@ public abstract class ActionSender {
 
     /**
      * Activates a LeaderCard:  If you satisfy the requirement of a Leader Card in your hand, you can play
-     that LeaderCard. It will give you a special ability for the rest of the game.
+     * that LeaderCard. It will give you a special ability for the rest of the game.
      *
      * @param cardIndex the index of the LeaderCard to set active
      */
@@ -236,15 +236,15 @@ public abstract class ActionSender {
      * When you activate the production, you can freely use this power as usual.
      * You will receive a Resource of your choosing and 1 Faith Point.
      *
-     * @param leaderCard the card to be used
+     * @param leaderCard      the card to be used
      * @param desiredResource the desired Resource of your choosing to receive
      */
 
     public void useLeaderProduction(LeaderCard leaderCard, Resource desiredResource) throws IllegalArgumentException {
-        if(!getView().getModel().getLocalPlayer().isLeaderCardActive(leaderCard)) {
+        if (!getView().getModel().getLocalPlayer().isLeaderCardActive(leaderCard)) {
             throw new IllegalArgumentException("This leader card is not active!");
         }
-        if(leaderCard.getSpecialAbility().getType() != SpecialAbilityType.PRODUCTION) {
+        if (leaderCard.getSpecialAbility().getType() != SpecialAbilityType.PRODUCTION) {
             throw new IllegalArgumentException("This leader card does not have a production ability!");
         }
         getView().setUsingProductions(true);
@@ -262,7 +262,7 @@ public abstract class ActionSender {
      */
 
     public void useDevelopmentProduction(DevelopmentCard developmentCard) throws IllegalArgumentException {
-        if(developmentCard == null) {
+        if (developmentCard == null) {
             throw new IllegalArgumentException();
         }
 
@@ -276,7 +276,7 @@ public abstract class ActionSender {
      * Adds the base production ability to the queue. The basic production power allows you to pay 2 Resources of
      * any type (even 2 different Resources) to receive 1 Resource of your choosing.
      *
-     * @param inputResource a List representing the Resources needed to activate the base production.
+     * @param inputResource  a List representing the Resources needed to activate the base production.
      * @param outputResource a Resource representing the output of the base production.
      */
 
@@ -285,8 +285,8 @@ public abstract class ActionSender {
         addPendingProduction(new BaseProduction(inputResource, outputResource));
 
         Map<Resource, Integer> cost = new HashMap<>();
-        for(Resource res : inputResource) {
-            if(cost.containsKey(res))
+        for (Resource res : inputResource) {
+            if (cost.containsKey(res))
                 cost.put(res, cost.get(res) + 1);
             else
                 cost.put(res, 1);
@@ -300,7 +300,7 @@ public abstract class ActionSender {
      */
 
     public void executeProductions() throws IllegalArgumentException {
-        if(!getView().isUsingProductions() || getPendingProductions().isEmpty()) {
+        if (!getView().isUsingProductions() || getPendingProductions().isEmpty()) {
             throw new IllegalArgumentException();
         }
         getView().getClient().send(new ProductionPlayerActionEvent(getPendingProductions()));

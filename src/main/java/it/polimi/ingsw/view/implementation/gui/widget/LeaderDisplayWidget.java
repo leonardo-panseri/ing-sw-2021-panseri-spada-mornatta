@@ -67,7 +67,7 @@ public class LeaderDisplayWidget extends VBox {
             newWidget.setScaleX(0.75);
             newWidget.setScaleY(0.75);
 
-            if(!player.isLocalPlayer())
+            if (!player.isLocalPlayer())
                 newWidget.flipCard();
 
             leaderDisplay.getChildren().add(new Group(newWidget));
@@ -76,15 +76,16 @@ public class LeaderDisplayWidget extends VBox {
             if (active)
                 newWidget.getStyleClass().add("leader-active");
             else {
-                if(player.isLocalPlayer()){
+                if (player.isLocalPlayer()) {
                     ContextMenu contextMenu = buildContextMenu(newWidget);
                     newWidget.setOnMousePressed(event -> {
-                        if(!contextMenu.isShowing()) contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
+                        if (!contextMenu.isShowing())
+                            contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
                     });
                 }
             }
 
-            if(active && newLeader.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
+            if (active && newLeader.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
                 newWidget.setOnMouseClicked(mouseEvent -> playerBoard.openProductionModal(
                         Collections.singletonList(newLeader.getSpecialAbility().getTargetResource()),
                         Arrays.asList(null, Resource.FAITH), LeaderProduction.class, newLeader));
@@ -98,7 +99,7 @@ public class LeaderDisplayWidget extends VBox {
                 leadersAndWidgets.get(modifiedCard).getStyleClass().add("leader-active");
                 leadersAndWidgets.get(modifiedCard).setOnMouseClicked(null);
 
-                if(modifiedCard.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
+                if (modifiedCard.getSpecialAbility().getType() == SpecialAbilityType.PRODUCTION) {
                     leadersAndWidgets.get(modifiedCard).setOnMouseClicked(mouseEvent -> playerBoard.openProductionModal(
                             Collections.singletonList(modifiedCard.getSpecialAbility().getTargetResource()),
                             Arrays.asList(null, Resource.FAITH), LeaderProduction.class, modifiedCard));

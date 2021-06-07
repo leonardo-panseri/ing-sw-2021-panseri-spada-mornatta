@@ -19,6 +19,6 @@ public class GUIModelUpdateHandler extends ModelUpdateHandler {
 
     @Override
     public void updateChat(String sender, String message) {
-        getView().getModel().addChatMessage(sender + ": " + message );
+        getView().getModel().addChatMessage(sender + ": " + message);
     }
 }

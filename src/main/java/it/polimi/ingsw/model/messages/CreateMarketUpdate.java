@@ -19,7 +19,8 @@ public class CreateMarketUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new CreateMarketUpdate
-     * @param market the market, structured as a list of rows of the market
+     *
+     * @param market        the market, structured as a list of rows of the market
      * @param slideResource the resource in the slide
      */
     public CreateMarketUpdate(List<List<Resource>> market, Resource slideResource) {

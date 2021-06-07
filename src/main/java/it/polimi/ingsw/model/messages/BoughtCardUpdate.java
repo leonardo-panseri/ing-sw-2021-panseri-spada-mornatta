@@ -17,9 +17,10 @@ public class BoughtCardUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new BoughtCardUpdate
-     * @param playerName nick of the player that bought the card
+     *
+     * @param playerName      nick of the player that bought the card
      * @param developmentCard the bought card
-     * @param slot the board slot where the card was stacked
+     * @param slot            the board slot where the card was stacked
      */
     public BoughtCardUpdate(String playerName, DevelopmentCard developmentCard, int slot) {
         super(playerName);

@@ -34,6 +34,7 @@ public class DepositWidget extends AnchorPane {
     private final MockPlayer player;
     private boolean dropAllowed;
     private Consumer<DragEvent> dragDroppedHandler;
+
     public DepositWidget(MockPlayer player) {
         this.player = player;
         this.dropAllowed = false;
@@ -44,25 +45,25 @@ public class DepositWidget extends AnchorPane {
     @FXML
     private void initialize() {
         player.getDeposit().depositProperty().addListener((ListChangeListener<? super List<Resource>>) change -> {
-            while(change.next()) {
+            while (change.next()) {
                 int index = change.getFrom();
-                for(List<Resource> newRow : change.getAddedSubList())
+                for (List<Resource> newRow : change.getAddedSubList())
                     updateRow(index, newRow);
             }
         });
 
         topRow.setOnDragDropped(dragEvent -> {
-            if(dropAllowed) {
+            if (dropAllowed) {
                 dragDroppedHandler.accept(dragEvent);
             }
         });
         middleRow.setOnDragDropped(dragEvent -> {
-            if(dropAllowed) {
+            if (dropAllowed) {
                 dragDroppedHandler.accept(dragEvent);
             }
         });
         bottomRow.setOnDragDropped(dragEvent -> {
-            if(dropAllowed) {
+            if (dropAllowed) {
                 dragDroppedHandler.accept(dragEvent);
             }
         });
@@ -80,15 +81,15 @@ public class DepositWidget extends AnchorPane {
         bottomRow.setOnDragOver(dragOverListener);
 
         topRow.getChildren().add(buildEmptyImage("topRow"));
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             middleRow.getChildren().add(buildEmptyImage("middleRow"));
         }
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             bottomRow.getChildren().add(buildEmptyImage("bottomRow"));
         }
 
         List<List<Resource>> rows = player.getDeposit().getAllRows();
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             updateRow(i, rows.get(i));
         }
     }
@@ -99,24 +100,24 @@ public class DepositWidget extends AnchorPane {
             switch (index) {
                 case 0 -> {
                     ImageView view = ((ImageView) topRow.getChildren().get(0));
-                    if(resources.size() > 0)
+                    if (resources.size() > 0)
                         view.setImage(img);
                     else
                         view.setImage(null);
                 }
                 case 1 -> {
-                    for(int i = 0; i < 2; i++) {
+                    for (int i = 0; i < 2; i++) {
                         ImageView view = ((ImageView) middleRow.getChildren().get(i));
-                        if(i < resources.size())
+                        if (i < resources.size())
                             view.setImage(img);
                         else
                             view.setImage(null);
                     }
                 }
                 case 2 -> {
-                    for(int i = 0; i < 3; i++) {
+                    for (int i = 0; i < 3; i++) {
                         ImageView view = ((ImageView) bottomRow.getChildren().get(i));
-                        if(i < resources.size())
+                        if (i < resources.size())
                             view.setImage(img);
                         else
                             view.setImage(null);
@@ -132,7 +133,7 @@ public class DepositWidget extends AnchorPane {
         img.setFitHeight(33);
 
         img.setOnDragDetected(mouseEvent -> {
-            if(img.getImage() != null && player.isLocalPlayer() && GUI.instance().getGameState() == GameState.PLAYING) {
+            if (img.getImage() != null && player.isLocalPlayer() && GUI.instance().getGameState() == GameState.PLAYING) {
                 Dragboard db = img.startDragAndDrop(TransferMode.ANY);
 
                 ClipboardContent content = new ClipboardContent();
@@ -163,7 +164,7 @@ public class DepositWidget extends AnchorPane {
                 success = false;
             }
 
-            if(success) {
+            if (success) {
                 GUI.instance().getActionSender().move(rowFromIndex, rowToIndex);
             }
 
@@ -181,7 +182,7 @@ public class DepositWidget extends AnchorPane {
     }
 
     public static int getRowId(Object node) throws IllegalArgumentException {
-        if(!(node instanceof  Node))
+        if (!(node instanceof Node))
             throw new IllegalArgumentException();
         int rowIndex;
         String id = ((Node) node).getId();

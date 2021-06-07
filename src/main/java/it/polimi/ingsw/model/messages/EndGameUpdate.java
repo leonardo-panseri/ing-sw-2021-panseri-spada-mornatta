@@ -17,9 +17,10 @@ public class EndGameUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new EndGameUpdate.
-     * @param scores a map containing player names with their relative scores
+     *
+     * @param scores     a map containing player names with their relative scores
      * @param winnerName the nick of the winner
-     * */
+     */
     public EndGameUpdate(Map<String, Integer> scores, String winnerName) {
         this.scores = scores;
         this.winnerName = winnerName;

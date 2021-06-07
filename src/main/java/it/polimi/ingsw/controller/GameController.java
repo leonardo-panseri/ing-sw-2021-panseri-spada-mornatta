@@ -27,13 +27,13 @@ public class GameController implements Observer<PlayerActionEvent> {
     public GameController(Lobby lobby) {
         this.lobby = lobby;
         GameConfig gameConfig = lobby.getCustomGameConfig();
-        if(gameConfig != null)
+        if (gameConfig != null)
             game = new Game(gameConfig);
         else
             game = new Game();
         turnController = new TurnController(this);
         playerController = new PlayerController(this);
-        if(lobby.isSinglePlayer())
+        if (lobby.isSinglePlayer())
             lorenzoController = new LorenzoController(this);
         else
             lorenzoController = null;
@@ -100,9 +100,9 @@ public class GameController implements Observer<PlayerActionEvent> {
         Map<String, Integer> scores = new HashMap<>();
         int maxScore = 0;
         String winner = "";
-        for(Player player : game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             int score = calculateScore(player);
-            if(score > maxScore) {
+            if (score > maxScore) {
                 maxScore = score;
             }
             scores.put(player.getNick(), score);
@@ -110,9 +110,9 @@ public class GameController implements Observer<PlayerActionEvent> {
 
         int maxResource = 0;
         for (Player player : game.getPlayers()) {
-            if(maxScore == calculateScore(player)) {
+            if (maxScore == calculateScore(player)) {
                 int resources = player.getBoard().getDeposit().countAllResources();
-                if(resources > maxResource) {
+                if (resources > maxResource) {
                     maxResource = resources;
                     winner = player.getNick();
                 }
@@ -172,8 +172,8 @@ public class GameController implements Observer<PlayerActionEvent> {
      * @param player the player to check
      * @throws IllegalStateException if it is not the turn of the given player
      */
-    synchronized void checkTurn(Player player) throws  IllegalStateException {
-        if(!getGame().getCurrentPlayer().equals(player)) {
+    synchronized void checkTurn(Player player) throws IllegalStateException {
+        if (!getGame().getCurrentPlayer().equals(player)) {
             String errorMessage = "Not your turn!";
             game.notifyInvalidAction(player, errorMessage);
             throw new IllegalStateException(errorMessage);
@@ -186,8 +186,8 @@ public class GameController implements Observer<PlayerActionEvent> {
      * @param player the player to check
      * @throws IllegalStateException if the player has already performed one of the three major actions
      */
-    synchronized void checkAlreadyPlayed(Player player) throws  IllegalStateException {
-        if(player.hasAlreadyPlayed()) {
+    synchronized void checkAlreadyPlayed(Player player) throws IllegalStateException {
+        if (player.hasAlreadyPlayed()) {
             String errorMessage = "You have already done one of the three major actions!";
             game.notifyInvalidAction(player, errorMessage);
             throw new IllegalStateException(errorMessage);

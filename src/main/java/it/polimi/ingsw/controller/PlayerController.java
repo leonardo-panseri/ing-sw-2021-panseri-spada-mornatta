@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Handles the actions performed by each player during the game,
@@ -58,9 +57,9 @@ public class PlayerController {
      * If the player cannot afford the card, or does not have a space for the card, prints an error and returns.
      * Prior to buying the card, checks if the player has any discount granted by the leaders.
      *
-     * @param player the player who wants to buy the card
+     * @param player          the player who wants to buy the card
      * @param developmentCard the desired development card
-     * @param slot the slot of the player's board where to stack the bought card
+     * @param slot            the slot of the player's board where to stack the bought card
      */
     public synchronized void buyDevelopmentCard(Player player, DevelopmentCard developmentCard, int slot) {
         gameController.checkTurn(player);
@@ -81,9 +80,9 @@ public class PlayerController {
 
         //Check for leaders discounts
         Map<Resource, Integer> cost = new HashMap<>(developmentCard.getCost());
-        for(Resource res: cost.keySet()) {
+        for (Resource res : cost.keySet()) {
             int discount = player.numLeadersDiscount(res);
-            if(discount > 0) {
+            if (discount > 0) {
                 cost.put(res, cost.get(res) - discount);
                 if (cost.get(res) < 0) cost.put(res, 0);
             }
@@ -91,7 +90,7 @@ public class PlayerController {
         player.getBoard().getDeposit().removeResources(cost);
         gameController.getGame().getDeck().removeBoughtCard(developmentCard);
 
-        if(gameController.isSinglePlayer() && gameController.getGame().getDeck().isColorEmpty(developmentCard.getColor())) {
+        if (gameController.isSinglePlayer() && gameController.getGame().getDeck().isColorEmpty(developmentCard.getColor())) {
             gameController.getGame().terminateSingleplayer(true,
                     "You bought the last " + developmentCard.getColor().toString().toLowerCase() + " development card", -1);
             return;
@@ -110,9 +109,9 @@ public class PlayerController {
      * Updates a player deposit after storing a resource or moving rows, if the move is legal.
      * If it's not the player's turn, prints an error and returns.
      *
-     * @param player the owner of the deposit
-     * @param changes a map containing the indexes of the changed rows and the new rows to replace them with
-     * @param toBeStored the list of drawn resource still waiting to be stored
+     * @param player         the owner of the deposit
+     * @param changes        a map containing the indexes of the changed rows and the new rows to replace them with
+     * @param toBeStored     the list of drawn resource still waiting to be stored
      * @param leadersDeposit the leaders deposits granted by some leaders
      */
     public synchronized void updatePlayerDeposit(Player player, Map<Integer, List<Resource>> changes, List<Resource> toBeStored, Map<Integer, List<Resource>> leadersDeposit) {
@@ -134,7 +133,7 @@ public class PlayerController {
      * Also checks if the player has crossed a pope reports, or if the player has reached the end of the faith track.
      *
      * @param player the player that wants to discard a leader
-     * @param card the card to be activated
+     * @param card   the card to be activated
      */
     public synchronized void discardLeader(Player player, LeaderCard card) {
         gameController.checkTurn(player);
@@ -157,19 +156,19 @@ public class PlayerController {
      * If the player does not have a leader that grants the selected white resource conversion,
      * prints an error and returns.
      *
-     * @param player the player that wants to use the market
-     * @param selection the selected row/column (columns -> 0,1,2,3; rows -> 4,5,6)
+     * @param player           the player that wants to use the market
+     * @param selection        the selected row/column (columns -> 0,1,2,3; rows -> 4,5,6)
      * @param whiteConversions the list of requested conversion resources
      */
     public synchronized void useMarket(Player player, int selection, List<Resource> whiteConversions) {
         gameController.checkTurn(player);
         gameController.checkAlreadyPlayed(player);
 
-        if(selection < 0 || selection > 6) {
+        if (selection < 0 || selection > 6) {
             gameController.getGame().notifyInvalidAction(player, "You have specified an invalid index for the market!");
             return;
         }
-        for(Resource whiteConversion : whiteConversions) {
+        for (Resource whiteConversion : whiteConversions) {
             if (!player.hasLeaderWhiteConversion(whiteConversion)) {
                 gameController.getGame().notifyInvalidAction(player,
                         "You don't have the white conversion special ability for resource " + whiteConversion + "!");
@@ -197,8 +196,7 @@ public class PlayerController {
                     whiteConversionIndex++;
                 } else
                     marketResults.remove(i);
-            }
-            else if (marketResults.get(i) == Resource.FAITH) {
+            } else if (marketResults.get(i) == Resource.FAITH) {
                 faithIncrement++;
                 marketResults.remove(i);
             }
@@ -220,7 +218,7 @@ public class PlayerController {
      * checks if the player crossed a pope report or made the game end.
      * Eventually, stores the obtained resources in the strongbox.
      *
-     * @param player the player that wants to perform the productions
+     * @param player      the player that wants to perform the productions
      * @param productions the list of productions
      */
     public synchronized void useProductions(Player player, List<Production> productions) {
@@ -255,8 +253,8 @@ public class PlayerController {
      * If the player has not specified an output resource, prints an error and returns.
      * If the player has not enough resource to complete the production, prints an error and returns.
      *
-     * @param player the player that uses the production
-     * @param baseProductionInput the two production input resources
+     * @param player               the player that uses the production
+     * @param baseProductionInput  the two production input resources
      * @param baseProductionOutput the output resource
      * @return a map containing the output resource
      */
@@ -278,13 +276,13 @@ public class PlayerController {
         }
 
         Map<Resource, Integer> cost = new HashMap<>();
-        if(!isBaseProductionValid(expectedInput, baseProductionInput, cost))
+        if (!isBaseProductionValid(expectedInput, baseProductionInput, cost))
             throw new IllegalArgumentException("One of your base production input resources is invalid!");
 
-        if(!isBaseProductionValid(expectedOutput, baseProductionOutput, null))
+        if (!isBaseProductionValid(expectedOutput, baseProductionOutput, null))
             throw new IllegalArgumentException("One of your base production output resources is invalid!");
 
-        for(Resource resource : cost.keySet()) {
+        for (Resource resource : cost.keySet()) {
             if (player.getBoard().getDeposit().getAmountOfResource(resource) < cost.get(resource)) {
                 throw new IllegalArgumentException("you don't have enough " + resource + "!");
             }
@@ -293,8 +291,8 @@ public class PlayerController {
         player.getBoard().getDeposit().removeResources(cost);
 
         Map<Resource, Integer> result = new HashMap<>();
-        for(Resource resource : baseProductionOutput) {
-            if(result.containsKey(resource)) {
+        for (Resource resource : baseProductionOutput) {
+            if (result.containsKey(resource)) {
                 int previous = result.get(resource);
                 result.put(resource, previous + 1);
             } else {
@@ -309,24 +307,24 @@ public class PlayerController {
      * to the cost map
      *
      * @param expected the list of expected resources, null represents that any resource is valid
-     * @param actual the list of actual resources
-     * @param cost the map where to add resources with their quantity, if it is null this will not be done
+     * @param actual   the list of actual resources
+     * @param cost     the map where to add resources with their quantity, if it is null this will not be done
      * @return true if the actual production is valid, false otherwise
      */
     private boolean isBaseProductionValid(List<Resource> expected, List<Resource> actual, Map<Resource, Integer> cost) {
-        for(Resource resource : actual) {
+        for (Resource resource : actual) {
             int index = expected.lastIndexOf(resource);
-            if(index == -1) {
+            if (index == -1) {
                 int indexNull = expected.lastIndexOf(null);
-                if(indexNull == -1)
+                if (indexNull == -1)
                     return false;
                 else
                     expected.remove(indexNull);
             } else
                 expected.remove(index);
 
-            if(cost != null)
-                if(cost.containsKey(resource)) {
+            if (cost != null)
+                if (cost.containsKey(resource)) {
                     int previous = cost.get(resource);
                     cost.put(resource, previous + 1);
                 } else {
@@ -340,7 +338,7 @@ public class PlayerController {
      * Uses the production of the given DevelopmentCard.
      *
      * @param player the player that wants to use this production
-     * @param card the wanted development card
+     * @param card   the wanted development card
      * @return a map containing the results of this production
      * @throws IllegalArgumentException if <ul><li>it's not the player's turn</li>
      *                                  <li>the card is null</li>
@@ -371,7 +369,7 @@ public class PlayerController {
      * Uses the production ability of the given LeaderCard with the given Resource as the output.
      *
      * @param player the player that wants to use this production power
-     * @param card the leader card with the wanted production ability
+     * @param card   the leader card with the wanted production ability
      * @param output the resource that will be awarded as an output of this production
      * @return a map containing the results of this production
      * @throws IllegalArgumentException if <ul><li>it's not the player's turn</li>
@@ -412,10 +410,10 @@ public class PlayerController {
      * Selects the LeaderCards that the Player wants to keep, discarding the others.
      *
      * @param player the player that is selecting the cards
-     * @param cards a list of cards that has been selected, the length of this list must be 2, otherwise prints an error
-     *              to console and returns
+     * @param cards  a list of cards that has been selected, the length of this list must be 2, otherwise prints an error
+     *               to console and returns
      */
-    public synchronized void handleInitialSelection(Player player, List<LeaderCard> cards,  Map<Integer, List<Resource>> selectedResources) {
+    public synchronized void handleInitialSelection(Player player, List<LeaderCard> cards, Map<Integer, List<Resource>> selectedResources) {
         gameController.checkTurn(player);
 
         if (cards.size() != 2) {
@@ -426,17 +424,17 @@ public class PlayerController {
         ArrayList<Resource> resources = new ArrayList<>();
         selectedResources.values().forEach(resources::addAll);
         int resourcesCount = resources.size();
-        if(resourcesCount != player.getInitialResourcesToPick()) {
+        if (resourcesCount != player.getInitialResourcesToPick()) {
             gameController.getGame().notifyInvalidAction(player, "You have selected an invalid number of initial resources!");
             return;
         }
 
-        if(!player.isLeaderSelectionValid(cards)) {
+        if (!player.isLeaderSelectionValid(cards)) {
             gameController.getGame().notifyInvalidAction(player, "One of the leader cards that you have selected is invalid!");
             return;
         }
 
-        if(resourcesCount > 0)
+        if (resourcesCount > 0)
             try {
                 player.getBoard().getDeposit().setInitialResources(selectedResources);
             } catch (IllegalArgumentException e) {
@@ -459,16 +457,16 @@ public class PlayerController {
      */
     void checkFaithPoints(Player player) {
         int popeReportSlot = gameController.getGame().checkForPopeReportSlot(player.getFaithPoints());
-        if(popeReportSlot != -1)
+        if (popeReportSlot != -1)
             gameController.getGame().activatePopeReport(popeReportSlot);
-        if(player.getFaithPoints() > 23)
+        if (player.getFaithPoints() > 23)
             gameController.getGame().startLastRound(player);
     }
 
     /**
      * Sends a chat message to all players.
      *
-     * @param sender the player who wrote this message
+     * @param sender  the player who wrote this message
      * @param message the message that will be sent
      */
     public synchronized void sendChatMessage(Player sender, String message) {

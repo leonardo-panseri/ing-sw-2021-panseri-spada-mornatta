@@ -1,21 +1,14 @@
 package it.polimi.ingsw.view.implementation.cli;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.messages.GameConfigMessage;
-import it.polimi.ingsw.client.messages.PlayerNameMessage;
-import it.polimi.ingsw.client.messages.PlayersToStartMessage;
 import it.polimi.ingsw.constant.AnsiColor;
 import it.polimi.ingsw.constant.Constants;
 import it.polimi.ingsw.constant.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.messages.InitialSelectionPlayerActionEvent;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class CLI extends View {
@@ -40,7 +33,7 @@ public class CLI extends View {
     @Override
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
         super.handlePlayerConnect(playerName, currentPlayers, playersToStart, otherConnectedPlayers);
-        if(getClient().isNoServer()) {
+        if (getClient().isNoServer()) {
             getRenderer().showGameMessage("If you want to use a custom configuration input the file path (relative to the game directory)," +
                     " otherwise input 'n':");
             return;
@@ -50,7 +43,7 @@ public class CLI extends View {
         getRenderer().showLobbyMessage(playersToStartSet ? ViewString.PLAYER_CONNECTED_WITH_COUNT.formatted(playerName, currentPlayers, playersToStart) :
                 ViewString.PLAYER_CONNECTED.formatted(playerName));
 
-        if(playerName.equals(getPlayerName()) && isLobbyMaster())
+        if (playerName.equals(getPlayerName()) && isLobbyMaster())
             getRenderer().showGameMessage(ViewString.CHOOSE_PLAYERS_TO_START);
     }
 
@@ -98,7 +91,7 @@ public class CLI extends View {
         Scanner scanner = new Scanner(System.in);
         System.out.println(AnsiColor.BLUE + Constants.MASTER + AnsiColor.RESET);
 
-        if(!getClient().isNoServer())
+        if (!getClient().isNoServer())
             getRenderer().showGameMessage("Enter the server ip and port (leave blank for localhost):");
         else
             addToLobby(false);
@@ -107,21 +100,21 @@ public class CLI extends View {
         while (getClient().isActive()) {
             command = scanner.nextLine();
 
-            if(!getClient().isActive())
+            if (!getClient().isActive())
                 break;
 
-            cmdSwitch :
+            cmdSwitch:
             switch (getGameState()) {
                 case CONNECTING -> {
-                    if(command.isBlank()) {
-                        if(!getClient().connect())
+                    if (command.isBlank()) {
+                        if (!getClient().connect())
                             getRenderer().showErrorMessage("Unknown host or port, please try again!");
                         break;
                     }
 
                     String[] ipAndPort = command.split(":");
 
-                    if(ipAndPort.length != 2) {
+                    if (ipAndPort.length != 2) {
                         getRenderer().showErrorMessage("Invalid format, please type \"serverip:port\"!");
                         break;
                     }
@@ -138,7 +131,7 @@ public class CLI extends View {
                     getClient().setIp(ip);
                     getClient().setPort(port);
 
-                    if(!getClient().connect())
+                    if (!getClient().connect())
                         getRenderer().showErrorMessage("Unknown host or port, please try again!");
                 }
                 case CHOOSING_NAME -> setPlayerName(command);
@@ -159,7 +152,7 @@ public class CLI extends View {
                     getActionSender().setPlayersToStart(playersToStart);
                 }
                 case CHOOSING_GAME_CONFIG -> {
-                    if(command.equalsIgnoreCase("n")) {
+                    if (command.equalsIgnoreCase("n")) {
                         getActionSender().setGameConfig(null);
                         getRenderer().showGameMessage("Playing using the default game rules!");
                         break;
@@ -199,9 +192,9 @@ public class CLI extends View {
                     selectedLeaderCards = uuids;
 
                     int initialResourcesToChoose = getModel().getLocalPlayer().getInitialResourcesToChoose();
-                    if(initialResourcesToChoose > 0) {
+                    if (initialResourcesToChoose > 0) {
                         int initialFaith = getModel().getLocalPlayer().getFaithPoints();
-                        if(getModel().getLocalPlayer().getFaithPoints() != 0)
+                        if (getModel().getLocalPlayer().getFaithPoints() != 0)
                             getRenderer().showGameMessage("You start with " + initialFaith + " faith point!");
 
                         getRenderer().showGameMessage("You must choose " + initialResourcesToChoose + " starting resources!");
@@ -210,7 +203,7 @@ public class CLI extends View {
                         setGameState(GameState.CHOOSING_RESOURCES);
                     } else {
                         getActionSender().selectLeaders(this.selectedLeaderCards, new HashMap<>());
-                        if(!getClient().isNoServer())
+                        if (!getClient().isNoServer())
                             setGameState(GameState.WAIT_SELECT_LEADERS);
                     }
                 }
@@ -218,15 +211,15 @@ public class CLI extends View {
                     String[] rawResourcesToKeep = command.split(",");
                     int resourcesToChoose = getModel().getLocalPlayer().getInitialResourcesToChoose();
 
-                    if(rawResourcesToKeep.length != resourcesToChoose) {
+                    if (rawResourcesToKeep.length != resourcesToChoose) {
                         getRenderer().showErrorMessage("Invalid syntax!");
                         break;
                     }
 
                     Map<Integer, List<Resource>> selectedResources = new HashMap<>();
-                    for(String rawResource : rawResourcesToKeep) {
+                    for (String rawResource : rawResourcesToKeep) {
                         String[] resourceAndPosition = rawResource.split(" ");
-                        if(resourceAndPosition.length != 2) {
+                        if (resourceAndPosition.length != 2) {
                             getRenderer().showErrorMessage("Invalid syntax!");
                             break cmdSwitch;
                         }
@@ -245,20 +238,20 @@ public class CLI extends View {
                             getRenderer().showErrorMessage(resourceAndPosition[0] + " slot is not a valid number!");
                             break cmdSwitch;
                         }
-                        if(slot < 1 || slot > 3) {
+                        if (slot < 1 || slot > 3) {
                             getRenderer().showErrorMessage(resourceAndPosition[0] + " slot is not a number between 1 and 3!");
                             break cmdSwitch;
                         }
 
-                        if(selectedResources.containsKey(slot))
-                            if(selectedResources.get(slot).get(0).equals(resource))
+                        if (selectedResources.containsKey(slot))
+                            if (selectedResources.get(slot).get(0).equals(resource))
                                 selectedResources.get(slot).add(resource);
                             else {
                                 getRenderer().showErrorMessage(resource + " has been placed in a slot with a mismatched resource!");
                                 break cmdSwitch;
                             }
                         else {
-                            for(List<Resource> row : selectedResources.values()) {
+                            for (List<Resource> row : selectedResources.values()) {
                                 if (row.contains(resource)) {
                                     getRenderer().showErrorMessage(resource + " has been stored in 2 different rows!");
                                     break cmdSwitch;
@@ -267,7 +260,7 @@ public class CLI extends View {
                             selectedResources.put(slot, new ArrayList<>(Collections.singleton(resource)));
                         }
 
-                        if(selectedResources.containsKey(1)) {
+                        if (selectedResources.containsKey(1)) {
                             if (selectedResources.get(1).size() > 1) {
                                 getRenderer().showErrorMessage("Top row overflow!");
                                 break cmdSwitch;

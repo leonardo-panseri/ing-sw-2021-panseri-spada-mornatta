@@ -19,7 +19,7 @@ public class SpecialAbility implements Serializable {
     /**
      * Constructor for a new SpecialAbility.
      *
-     * @param type a special ability type
+     * @param type           a special ability type
      * @param targetResource the target resource
      */
     public SpecialAbility(SpecialAbilityType type, Resource targetResource) {

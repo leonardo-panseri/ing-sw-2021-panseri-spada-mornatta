@@ -64,7 +64,7 @@ public class MockModel {
      * @return the local player, if it has not been set yet returns null
      */
     public MockPlayer getLocalPlayer() {
-        if(localPlayer == null)
+        if (localPlayer == null)
             System.err.println("Tried to get local player but it was not set");
         return localPlayer;
     }
@@ -92,12 +92,12 @@ public class MockModel {
      * Creates a new MockPlayer and adds it to the player map, if a player with this name is already present returns it
      * instead.
      *
-     * @param name the name of the player
+     * @param name        the name of the player
      * @param localPlayer if this player should be set as the local player
      * @return the new player added or the existing one with this name if found
      */
     public MockPlayer addPlayer(String name, boolean localPlayer) {
-        if(!players.containsKey(name.toLowerCase())) {
+        if (!players.containsKey(name.toLowerCase())) {
             MockPlayer newPlayer = new MockPlayer(name, localPlayer);
             players.put(name.toLowerCase(), newPlayer);
             return newPlayer;
@@ -123,13 +123,13 @@ public class MockModel {
     public void setDevelopmentDeck(List<HashMap<CardColor, Stack<DevelopmentCard>>> developmentDeck) {
         this.developmentDeck.clear();
         developmentDeck.forEach(cardColorStackHashMap -> {
-                HashMap<CardColor, ObservableList<DevelopmentCard>> observableListHashMap = new HashMap<>();
-                cardColorStackHashMap.forEach((cardColor, developmentCards) -> {
-                    ObservableList<DevelopmentCard> observableStack = FXCollections.observableList(developmentCards);
-                    observableListHashMap.put(cardColor, observableStack);
-                });
-                this.developmentDeck.add(observableListHashMap);
-            }
+                    HashMap<CardColor, ObservableList<DevelopmentCard>> observableListHashMap = new HashMap<>();
+                    cardColorStackHashMap.forEach((cardColor, developmentCards) -> {
+                        ObservableList<DevelopmentCard> observableStack = FXCollections.observableList(developmentCards);
+                        observableListHashMap.put(cardColor, observableStack);
+                    });
+                    this.developmentDeck.add(observableListHashMap);
+                }
         );
     }
 
@@ -160,11 +160,12 @@ public class MockModel {
             this.playersToStart.setValue(playersToStart);
         });
     }
-    public void addChatMessage(String message){
+
+    public void addChatMessage(String message) {
         chatMessages.add(message);
     }
 
-    public ObservableList<String> getChatMessages(){
+    public ObservableList<String> getChatMessages() {
         return chatMessages;
     }
 
@@ -186,7 +187,7 @@ public class MockModel {
         @Override
         public void set(String newValue) {
             super.set(newValue);
-            if(valueListener != null) {
+            if (valueListener != null) {
                 valueListener.onValueSet(newValue);
             }
         }

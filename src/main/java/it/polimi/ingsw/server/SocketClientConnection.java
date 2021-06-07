@@ -26,7 +26,7 @@ public class SocketClientConnection implements Runnable {
     /**
      * Creates a new SocketClientConnection that manages the communication with the given Socket.
      *
-     * @param socket the client socket
+     * @param socket          the client socket
      * @param lobbyController the main lobby controller
      */
     SocketClientConnection(Socket socket, LobbyController lobbyController) {
@@ -41,7 +41,7 @@ public class SocketClientConnection implements Runnable {
      *
      * @return true if the instance is still running, false otherwise
      */
-    synchronized boolean isActive(){
+    synchronized boolean isActive() {
         return active;
     }
 
@@ -134,7 +134,7 @@ public class SocketClientConnection implements Runnable {
     @Override
     public void run() {
         ObjectInputStream in;
-        try{
+        try {
             writeThread = new WriteThread(this, socket);
             writeThread.start();
             in = new ObjectInputStream(socket.getInputStream());
@@ -142,7 +142,7 @@ public class SocketClientConnection implements Runnable {
             remoteView.getLobbyController().addToLobby(this);
 
             Object read;
-            while(isActive()){
+            while (isActive()) {
                 read = in.readObject();
 
                 try {
@@ -158,7 +158,7 @@ public class SocketClientConnection implements Runnable {
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());
             e.printStackTrace();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             close();
@@ -180,7 +180,7 @@ class WriteThread extends Thread {
      * Constructs a new WriteThread owned by the given SocketClientConnection, and that writes to the given Socket.
      *
      * @param clientConnection the parent socket client connection
-     * @param socket the socket to write to
+     * @param socket           the socket to write to
      * @throws IOException if the ObjectOutputStream can't be created
      */
     WriteThread(SocketClientConnection clientConnection, Socket socket) throws IOException {
@@ -205,7 +205,7 @@ class WriteThread extends Thread {
                 out.flush();
             }
         } catch (EOFException ignored) {
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error in SocketClientConnection WriteThread");
             clientConnection.setInactive();
@@ -218,7 +218,7 @@ class WriteThread extends Thread {
      * @param message the message to be sent, should be a {@link IServerPacket}
      */
     public synchronized void send(Object message) {
-        if(bufferOut.remainingCapacity() > 0) {
+        if (bufferOut.remainingCapacity() > 0) {
             bufferOut.add(message);
         } else {
             System.err.println("WRITE_THREAD: Trying to send too many messages at once!");

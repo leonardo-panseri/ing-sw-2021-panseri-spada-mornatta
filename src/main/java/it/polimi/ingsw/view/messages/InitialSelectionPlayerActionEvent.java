@@ -17,7 +17,7 @@ public class InitialSelectionPlayerActionEvent extends PlayerActionEvent {
     private final List<UUID> selectedLeadersUUID;
     private final Map<Integer, List<Resource>> selectedResources;
 
-    public InitialSelectionPlayerActionEvent(List<UUID> selectedLeadersUUID,  Map<Integer, List<Resource>> selectedResources) {
+    public InitialSelectionPlayerActionEvent(List<UUID> selectedLeadersUUID, Map<Integer, List<Resource>> selectedResources) {
         this.selectedLeadersUUID = selectedLeadersUUID;
         this.selectedResources = selectedResources;
     }
@@ -25,9 +25,9 @@ public class InitialSelectionPlayerActionEvent extends PlayerActionEvent {
     @Override
     public void process(GameController controller) {
         List<LeaderCard> cards = new ArrayList<>();
-        for(UUID uuid : selectedLeadersUUID) {
+        for (UUID uuid : selectedLeadersUUID) {
             LeaderCard card = getPlayer().getLeaderCardByUuid(uuid);
-            if(card == null) {
+            if (card == null) {
                 System.err.println("SelectLeadersPlayerActionEvent: Can't find leader card");
                 break;
             }

@@ -55,11 +55,11 @@ public class MockPlayerBoard {
      * @return the development card at the top of the given slot, or null if the slot is empty
      */
     public DevelopmentCard getTopDevelopmentCardAt(int slot) {
-        if(slot < 0 || slot > 2)
+        if (slot < 0 || slot > 2)
             return null;
 
         try {
-            return developmentCards.get(slot).get(developmentCards.get(slot).size()-1);
+            return developmentCards.get(slot).get(developmentCards.get(slot).size() - 1);
         } catch (EmptyStackException ignored) {
         }
         return null;
@@ -69,7 +69,7 @@ public class MockPlayerBoard {
      * Shows if the current player has any DevelopmentCards.
      *
      * @return true if the current player has at least one development card, false if
-     *         the player does not have any.
+     * the player does not have any.
      */
     public boolean hasOwnDevelopmentCard() {
         for (ObservableList<DevelopmentCard> stack : developmentCards) {

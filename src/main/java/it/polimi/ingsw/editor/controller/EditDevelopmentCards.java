@@ -28,10 +28,10 @@ public class EditDevelopmentCards {
     private void initialize() {
         List<HashMap<CardColor, Stack<DevelopmentCard>>> devCards = GameConfigEditor.getGameConfig().getDevelopmentCards();
 
-        for(int i = 0; i < devCards.size(); i++) {
+        for (int i = 0; i < devCards.size(); i++) {
             Accordion colorsAccordion = new Accordion();
 
-            for(CardColor color : CardColor.values()) {
+            for (CardColor color : CardColor.values()) {
                 List<DevelopmentCardWidget> cards = new ArrayList<>();
 
                 devCards.get(i).get(color).forEach(card -> cards.add(new DevelopmentCardWidget(card)));
@@ -47,13 +47,13 @@ public class EditDevelopmentCards {
                 colorsAccordion.getStyleClass().add("dev-cards-colors");
             }
 
-            TitledPane levelPane = new TitledPane("Level " + (i+1), colorsAccordion);
+            TitledPane levelPane = new TitledPane("Level " + (i + 1), colorsAccordion);
             levelsAccordion.getPanes().add(levelPane);
         }
     }
 
     private void goToDevelopmentCardEdit(DevelopmentCardWidget widget) {
-        if(widget == null)
+        if (widget == null)
             return;
 
         EditDevelopmentCard edit = new EditDevelopmentCard(widget);

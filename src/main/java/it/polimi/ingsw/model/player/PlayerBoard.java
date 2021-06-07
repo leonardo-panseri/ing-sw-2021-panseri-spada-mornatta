@@ -37,7 +37,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
      *
      * @return the deposit
      */
-    public Deposit getDeposit(){
+    public Deposit getDeposit() {
         return deposit;
     }
 
@@ -58,8 +58,8 @@ public class PlayerBoard extends Observable<IServerPacket> {
      */
     public synchronized DevelopmentCard getDevelopmentCardByUuid(UUID uuid) {
         DevelopmentCard card = null;
-        for(Stack<DevelopmentCard> slot : getAllCardSlots()) {
-            if(!slot.isEmpty() && slot.peek().getUuid().equals(uuid))
+        for (Stack<DevelopmentCard> slot : getAllCardSlots()) {
+            if (!slot.isEmpty() && slot.peek().getUuid().equals(uuid))
                 card = slot.peek();
         }
         return card;
@@ -73,9 +73,9 @@ public class PlayerBoard extends Observable<IServerPacket> {
      */
     public int getAmountOfCardOfColor(CardColor color) {
         int amount = 0;
-        for(Stack<DevelopmentCard> slot : getAllCardSlots())
-            for(DevelopmentCard card : slot)
-                if(card.getColor() == color)
+        for (Stack<DevelopmentCard> slot : getAllCardSlots())
+            for (DevelopmentCard card : slot)
+                if (card.getColor() == color)
                     amount++;
         return amount;
     }
@@ -88,9 +88,9 @@ public class PlayerBoard extends Observable<IServerPacket> {
      * @return true if found, false otherwise
      */
     public boolean hasCardOfColorAndLevel(CardColor color, int level) {
-        for(Stack<DevelopmentCard> slot : getAllCardSlots())
-            for(DevelopmentCard card : slot)
-                if(card.getColor() == color && card.getLevel() == level)
+        for (Stack<DevelopmentCard> slot : getAllCardSlots())
+            for (DevelopmentCard card : slot)
+                if (card.getColor() == color && card.getLevel() == level)
                     return true;
         return false;
     }
@@ -99,24 +99,24 @@ public class PlayerBoard extends Observable<IServerPacket> {
      * Checks if a card of the given level can be placed in the given slot.
      *
      * @param level the level of the card
-     * @param slot the slot to place the card in (1 -> left, 2 -> center, 3 -> right)
+     * @param slot  the slot to place the card in (1 -> left, 2 -> center, 3 -> right)
      * @return true if the card can be placed in the slot, false otherwise
      */
     public boolean canPlaceCardOfLevel(int level, int slot) {
-        if(slot < 1 || slot > 3)
+        if (slot < 1 || slot > 3)
             return false;
 
         List<Stack<DevelopmentCard>> slots = getAllCardSlots();
 
-        if(slots.get(slot - 1).size() >= 3)
+        if (slots.get(slot - 1).size() >= 3)
             return false;
 
         boolean canPlace = false;
-        if(level == 1) {
-            if(slots.get(slot - 1).isEmpty()) {
+        if (level == 1) {
+            if (slots.get(slot - 1).isEmpty()) {
                 canPlace = true;
             }
-        } else if(level > 1 && level < 4) {
+        } else if (level > 1 && level < 4) {
             if (slots.get(slot - 1).isEmpty()) {
                 return false;
             }
@@ -136,7 +136,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
      */
     public int getNumberOfDevelopmentCards() {
         int amount = 0;
-        for(Stack<DevelopmentCard> slot : getAllCardSlots())
+        for (Stack<DevelopmentCard> slot : getAllCardSlots())
             amount += slot.size();
         return amount;
     }
@@ -148,8 +148,8 @@ public class PlayerBoard extends Observable<IServerPacket> {
      */
     public int getDevelopmentCardsTotalVictoryPoints() {
         int victoryPoints = 0;
-        for(Stack<DevelopmentCard> slot : getAllCardSlots()) {
-            for(DevelopmentCard card : slot)
+        for (Stack<DevelopmentCard> slot : getAllCardSlots()) {
+            for (DevelopmentCard card : slot)
                 victoryPoints += card.getVictoryPoints();
         }
         return victoryPoints;
@@ -158,7 +158,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
     /**
      * Calls for the method to push the bought development card in the desired stack.
      *
-     * @param slot the slot where to add the card (1 -> left, 2 -> center, 3 -> right)
+     * @param slot            the slot where to add the card (1 -> left, 2 -> center, 3 -> right)
      * @param developmentCard the bought development card
      */
     public synchronized void addCard(int slot, DevelopmentCard developmentCard) {
@@ -178,7 +178,7 @@ public class PlayerBoard extends Observable<IServerPacket> {
      * Pushes the development card on top of the slot, if the move is possible.
      *
      * @param developmentCard the card to push
-     * @param cardSlot the slot where to push the card
+     * @param cardSlot        the slot where to push the card
      */
     private void pushDevelopmentCard(DevelopmentCard developmentCard, Stack<DevelopmentCard> cardSlot) {
         if (cardSlot.size() == 0 && developmentCard.getLevel() == 1) {

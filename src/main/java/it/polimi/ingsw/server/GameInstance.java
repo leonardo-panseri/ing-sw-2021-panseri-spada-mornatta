@@ -30,7 +30,7 @@ public class GameInstance implements Runnable {
 
         GameController controller = new GameController(lobby);
         List<RemoteView> registeredViews = new ArrayList<>();
-        for(SocketClientConnection conn : lobby.getConnections()) {
+        for (SocketClientConnection conn : lobby.getConnections()) {
             conn.setLobbyUUID(lobby.getUuid());
 
             Player player = new Player(conn.getPlayerName());
@@ -44,12 +44,12 @@ public class GameInstance implements Runnable {
             controller.getGame().getMarket().addObserver(remoteView);
             registeredViews.add(remoteView);
 
-            if(lobby.isSinglePlayer())
+            if (lobby.isSinglePlayer())
                 controller.getGame().createLorenzo().addObserver(remoteView);
         }
 
-        for(Player player : controller.getGame().getPlayers()) {
-            for(RemoteView remoteView : registeredViews) {
+        for (Player player : controller.getGame().getPlayers()) {
+            for (RemoteView remoteView : registeredViews) {
                 player.addObserver(remoteView);
                 player.getBoard().addObserver(remoteView);
                 player.getBoard().getDeposit().addObserver(remoteView);

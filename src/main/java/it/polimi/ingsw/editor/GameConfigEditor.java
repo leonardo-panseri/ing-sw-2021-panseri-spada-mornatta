@@ -22,7 +22,7 @@ public class GameConfigEditor {
         gameConfig = GameConfig.loadDefaultGameConfig();
     }
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         homePage = FXMLUtils.loadFXML("/editor/Home");
 
         Font.loadFont(GameConfigEditor.class.getResourceAsStream("/fonts/Girassol-Regular.ttf"), 16);
@@ -37,7 +37,7 @@ public class GameConfigEditor {
         scene.setRoot(homePage);
     }
 
-    public static void goToEditLeaderCards()  {
+    public static void goToEditLeaderCards() {
         Parent editLeaderCardsPage = FXMLUtils.loadFXML("/editor/EditLeaderCards");
         scene.setRoot(editLeaderCardsPage);
     }
@@ -70,7 +70,7 @@ public class GameConfigEditor {
     }
 
     public static void setSavable(boolean savable) {
-        VBox commandVBox = (VBox) homePage.getChildrenUnmodifiable().get(homePage.getChildrenUnmodifiable().size()-1);
+        VBox commandVBox = (VBox) homePage.getChildrenUnmodifiable().get(homePage.getChildrenUnmodifiable().size() - 1);
         commandVBox.getChildren().get(commandVBox.getChildren().size() - 1).setDisable(!savable);
     }
 }

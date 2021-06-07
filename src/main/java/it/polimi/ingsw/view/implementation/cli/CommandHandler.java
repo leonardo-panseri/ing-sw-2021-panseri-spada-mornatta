@@ -7,7 +7,10 @@ import it.polimi.ingsw.model.card.LeaderCard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class CommandHandler {
     private final CLI cli;
@@ -103,7 +106,7 @@ public class CommandHandler {
     }
 
     public void draw(String[] args) {
-                int marketIndex;
+        int marketIndex;
         try {
             marketIndex = Integer.parseInt(args[0]);
             if (marketIndex < 1 || marketIndex > 7) throw new IllegalArgumentException("incorrect_format");
@@ -222,7 +225,7 @@ public class CommandHandler {
         if (args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
         }
-        int index ;
+        int index;
         try {
             index = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
@@ -313,7 +316,7 @@ public class CommandHandler {
                     }
                 }
                 List<Resource> outputResources = new ArrayList<>();
-                for(int i = expectedInput.size()+1; i < numOfArgs; i++) {
+                for (int i = expectedInput.size() + 1; i < numOfArgs; i++) {
                     try {
                         outputResources.add(Resource.valueOf(args[i].toUpperCase()));
                     } catch (IllegalArgumentException e) {

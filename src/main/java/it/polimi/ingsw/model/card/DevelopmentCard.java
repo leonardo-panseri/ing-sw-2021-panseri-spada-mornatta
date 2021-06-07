@@ -30,12 +30,12 @@ public class DevelopmentCard extends Card {
     /**
      * Constructor for a new DevelopmentCard.
      *
-     * @param victoryPoints the amount of victory points that this card will give
-     * @param cost a map containing the cost of the card, in terms of each resource
-     * @param level the level of the card
-     * @param productionInput a map of resources needed to activate the production power
+     * @param victoryPoints    the amount of victory points that this card will give
+     * @param cost             a map containing the cost of the card, in terms of each resource
+     * @param level            the level of the card
+     * @param productionInput  a map of resources needed to activate the production power
      * @param productionOutput a map of resources produced by the production power
-     * @param color the color of the card
+     * @param color            the color of the card
      */
     public DevelopmentCard(int victoryPoints, Map<Resource, Integer> cost, int level, Map<Resource, Integer> productionInput,
                            Map<Resource, Integer> productionOutput, CardColor color) {
@@ -50,10 +50,10 @@ public class DevelopmentCard extends Card {
     @Override
     public synchronized boolean canPlayerAfford(Player player) {
         Map<Resource, Integer> discountedCost = new HashMap<>(getCost());
-        for(Resource res: discountedCost.keySet()) {
+        for (Resource res : discountedCost.keySet()) {
             int discount = player.numLeadersDiscount(res);
             discountedCost.put(res, discountedCost.get(res) - discount);
-            if(discountedCost.get(res) < 0) discountedCost.put(res, 0);
+            if (discountedCost.get(res) < 0) discountedCost.put(res, 0);
         }
         return player.hasResources(discountedCost);
     }

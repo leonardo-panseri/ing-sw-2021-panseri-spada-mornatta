@@ -16,7 +16,7 @@ public class SocketClientWrite extends Thread {
     /**
      * Constructs a new SocketClientWrite for the given Client that will write to the given ObjectOutputStream.
      *
-     * @param client the client that is associated with this thread
+     * @param client    the client that is associated with this thread
      * @param socketOut the output stream where messages will be sent
      */
     public SocketClientWrite(Client client, ObjectOutputStream socketOut) {
@@ -41,7 +41,7 @@ public class SocketClientWrite extends Thread {
                 socketOut.flush();
             }
         } catch (InterruptedException ignored) {
-        } catch(Exception e) {
+        } catch (Exception e) {
             client.terminate();
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class SocketClientWrite extends Thread {
      * @param message the object that will be sent to the server
      */
     public synchronized void send(Object message) {
-        if(bufferOut.remainingCapacity() > 0) {
+        if (bufferOut.remainingCapacity() > 0) {
             bufferOut.add(message);
         } else {
             System.err.println("WRITE_THREAD: Trying to send too many messages at once!");

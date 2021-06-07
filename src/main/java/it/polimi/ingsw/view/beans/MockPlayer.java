@@ -6,11 +6,9 @@ import it.polimi.ingsw.model.card.SpecialAbilityType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -195,8 +193,8 @@ public class MockPlayer {
 
     public List<Resource> getExchangeAbility() {
         List<Resource> resources = new ArrayList<>();
-        for(LeaderCard card : leaderCards.keySet()) {
-            if(leaderCards.get(card) && card.getSpecialAbility().getType() == SpecialAbilityType.EXCHANGE) {
+        for (LeaderCard card : leaderCards.keySet()) {
+            if (leaderCards.get(card) && card.getSpecialAbility().getType() == SpecialAbilityType.EXCHANGE) {
                 resources.add(card.getSpecialAbility().getTargetResource());
             }
         }

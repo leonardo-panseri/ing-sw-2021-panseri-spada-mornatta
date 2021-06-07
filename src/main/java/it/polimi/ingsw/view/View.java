@@ -118,7 +118,7 @@ public abstract class View {
     }
 
     public void setUsingProductions(boolean usingProductions) {
-        if(!this.usingProductions && usingProductions)
+        if (!this.usingProductions && usingProductions)
             getModel().getLocalPlayer().getDeposit().saveCurrentState();
         this.usingProductions = usingProductions;
     }
@@ -128,22 +128,22 @@ public abstract class View {
          */
     public void addToLobby(boolean isFirstConnection) {
         setGameState(GameState.CHOOSING_NAME);
-        if(isFirstConnection)
+        if (isFirstConnection)
             lobbyMaster = true;
     }
 
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
-        if(playerName.equals(getPlayerName())) {
+        if (playerName.equals(getPlayerName())) {
             MockPlayer localPlayer = getModel().addPlayer(getPlayerName(), true);
             getModel().setLocalPlayer(localPlayer);
-            if(getClient().isNoServer()) {
+            if (getClient().isNoServer()) {
                 setGameState(GameState.CHOOSING_GAME_CONFIG);
             } else if (isLobbyMaster()) {
                 setGameState(GameState.CHOOSING_PLAYERS);
             } else
                 setGameState(GameState.WAITING_PLAYERS);
 
-            if(!otherConnectedPlayers.isEmpty()) {
+            if (!otherConnectedPlayers.isEmpty()) {
                 otherConnectedPlayers.forEach(player -> getModel().addPlayer(player, false));
             }
         } else {
@@ -172,7 +172,7 @@ public abstract class View {
 
     public void handleInvalidAction(String errorMessage) {
         getRenderer().showErrorMessage(errorMessage);
-        if(isUsingProductions() && errorMessage.startsWith("Error during production"))
+        if (isUsingProductions() && errorMessage.startsWith("Error during production"))
             getModel().getLocalPlayer().getDeposit().restoreSavedState();
         setUsingProductions(false);
     }

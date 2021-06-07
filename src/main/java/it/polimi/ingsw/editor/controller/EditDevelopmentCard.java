@@ -86,7 +86,8 @@ public class EditDevelopmentCard extends BorderPane {
 
         try {
             victoryPoints = Integer.parseInt(this.victoryPoints.getText());
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
 
         inputResourcesControls.forEach((resource, control) -> {
             int quantity = GUIUtils.getSelectedQuantityForControl(control);

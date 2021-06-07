@@ -27,7 +27,7 @@ public abstract class ModelUpdateHandler {
      * {@link GamePhase#PLAYING}, {@link GamePhase#END}.
      *
      * @param gamePhase The different states in which the game can be are: {@link GamePhase#SELECTING_LEADERS},
-     *        {@link GamePhase#PLAYING}, {@link GamePhase#END}
+     *                  {@link GamePhase#PLAYING}, {@link GamePhase#END}
      */
     public void updateGamePhase(GamePhase gamePhase) {
         switch (gamePhase) {
@@ -55,7 +55,7 @@ public abstract class ModelUpdateHandler {
     /**
      * Updates the LeaderCards of the given player if his GamePhase is {@link GamePhase#PLAYING}.
      *
-     * @param playerName the name of the given player
+     * @param playerName   the name of the given player
      * @param ownedLeaders a map representing the LeaderCards owned by the given player {@link GamePhase#PLAYING},
      *                     with a boolean attribute that indicates if the LeaderCard is active
      */
@@ -66,13 +66,13 @@ public abstract class ModelUpdateHandler {
         }
 
         if (player.isLocalPlayer()) {
-            if(getView().getGameState() == GameState.PLAYING) {
-                if(ownedLeaders.size() == player.getLeaderCards().size())
+            if (getView().getGameState() == GameState.PLAYING) {
+                if (ownedLeaders.size() == player.getLeaderCards().size())
                     getView().getRenderer().showGameMessage("Leader card successfully activated");
                 else
                     getView().getRenderer().showGameMessage("Leader card discarded (+1 Faith)");
             } else {
-                if(ownedLeaders.size() == 2) { // When the player leader card selection is confirmed
+                if (ownedLeaders.size() == 2) { // When the player leader card selection is confirmed
                     for (LeaderCard card : ownedLeaders.keySet()) {
                         if (card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) {
                             player.getDeposit().registerLeaderCardToDeposit(card);
@@ -89,8 +89,8 @@ public abstract class ModelUpdateHandler {
      * Updates the development cards of the given player.
      *
      * @param playerName the name of the given player
-     * @param card the development card to set
-     * @param slot the slot in which the development card will be set
+     * @param card       the development card to set
+     * @param slot       the slot in which the development card will be set
      */
     public void updateDevelopmentCards(String playerName, DevelopmentCard card, int slot) {
         MockPlayer player = getView().getModel().getPlayer(playerName);
@@ -124,8 +124,8 @@ public abstract class ModelUpdateHandler {
     /**
      * Updates a row or column of the market with the resources given.
      *
-     * @param index the index of the row or column to update
-     * @param changes the updated row or column of the market
+     * @param index         the index of the row or column to update
+     * @param changes       the updated row or column of the market
      * @param slideResource the resource to be put in the slide
      */
     public void updateMarket(int index, List<Resource> changes, Resource slideResource) {
@@ -138,8 +138,8 @@ public abstract class ModelUpdateHandler {
     /**
      * Updates the deposit of a given player.
      *
-     * @param playerName the name of the player whose deposit needs to be updated.
-     * @param changes a map representing the new deposit of the player after the updated is made
+     * @param playerName     the name of the player whose deposit needs to be updated.
+     * @param changes        a map representing the new deposit of the player after the updated is made
      * @param leadersDeposit a map representing the new deposit of the leaders of the player after the updated is made
      */
     public void updateDeposit(String playerName, Map<Integer, List<Resource>> changes, Map<Integer, List<Resource>> leadersDeposit) {
@@ -158,7 +158,7 @@ public abstract class ModelUpdateHandler {
      * Updates the StrongBox of the given player.
      *
      * @param playerName the name of the player whose strongbox needs to be updated
-     * @param strongbox a Map representing the new strongbox of the player after the update is made
+     * @param strongbox  a Map representing the new strongbox of the player after the update is made
      */
     public void updateStrongbox(String playerName, Map<Resource, Integer> strongbox) {
         MockPlayer player = getView().getModel().getPlayer(playerName);
@@ -172,7 +172,7 @@ public abstract class ModelUpdateHandler {
     /**
      * Updates the faithPoints of a given player.
      *
-     * @param playerName the name of the player whose faith points need to be updated
+     * @param playerName  the name of the player whose faith points need to be updated
      * @param faithPoints an integer representing the new number of faith points after the update is made
      */
     public void updateFaith(String playerName, int faithPoints) {
@@ -187,7 +187,7 @@ public abstract class ModelUpdateHandler {
     /**
      * Updates the popeFavours of a given player.
      *
-     * @param playerName the name of the player whose pope favours need to be updated
+     * @param playerName  the name of the player whose pope favours need to be updated
      * @param popeFavours an integer representing the new number of pope favours after the update is made
      */
     public void updatePopeFavours(String playerName, int popeFavours) {
@@ -202,7 +202,7 @@ public abstract class ModelUpdateHandler {
     /**
      * Updates the chat.
      *
-     * @param sender the name of the sender of the message
+     * @param sender  the name of the sender of the message
      * @param message a string representing the message written by the player
      */
     public void updateChat(String sender, String message) {
@@ -213,7 +213,7 @@ public abstract class ModelUpdateHandler {
      * Inserts the resources drawn from the market by a given player.
      *
      * @param playerName the name of the player whose drawn resources need to be stored
-     * @param result a list representing the resources to store
+     * @param result     a list representing the resources to store
      */
     public void insertDrawnResources(String playerName, List<Resource> result) {
         MockPlayer player = getView().getModel().getPlayer(playerName);

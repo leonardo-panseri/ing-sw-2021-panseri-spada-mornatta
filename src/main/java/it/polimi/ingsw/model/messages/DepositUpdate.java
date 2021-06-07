@@ -19,8 +19,9 @@ public class DepositUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new DepositUpdate
-     * @param player nick of the owner of the deposit
-     * @param changes a map where the Integer is the index of a changed row, and the List is the new row of the deposit
+     *
+     * @param player         nick of the owner of the deposit
+     * @param changes        a map where the Integer is the index of a changed row, and the List is the new row of the deposit
      * @param leadersDeposit a map that represents the possible deposits granted by some leaders
      */
     public DepositUpdate(String player, Map<Integer, List<Resource>> changes, Map<Integer, List<Resource>> leadersDeposit) {

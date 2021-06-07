@@ -20,7 +20,7 @@ public class PlayerConnectMessage extends ServerMessage {
     /**
      * Constructs a new PlayerConnectMessage for the player with the given name.
      *
-     * @param playerName the name of the player that just connected
+     * @param playerName     the name of the player that just connected
      * @param currentPlayers the current number of players in the lobby
      * @param playersToStart the number of players required to start the game in the lobby
      */

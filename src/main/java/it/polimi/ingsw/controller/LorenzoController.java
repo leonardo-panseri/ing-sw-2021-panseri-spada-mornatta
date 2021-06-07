@@ -24,7 +24,7 @@ public class LorenzoController {
     public void executeAction() {
         LorenzoAction nextAction = gameController.getGame().getLorenzo().popAction();
         boolean isGameOver = nextAction.execute(this);
-        if(!isGameOver)
+        if (!isGameOver)
             gameController.getGame().getLorenzo().endTurn(gameController.getGame().getCurrentPlayer().getNick(), nextAction);
     }
 
@@ -36,7 +36,7 @@ public class LorenzoController {
      */
     public boolean executeDevelopmentAction(CardColor color) {
         gameController.getGame().getDeck().removeTwoDevelopmentCards(color);
-        if(gameController.getGame().getDeck().isColorEmpty(color)) {
+        if (gameController.getGame().getDeck().isColorEmpty(color)) {
             gameController.getGame().terminateSingleplayer(true,
                     "Lorenzo has destroyed all " + color.toString().toLowerCase() + " development cards", -1);
             return true;
@@ -73,9 +73,9 @@ public class LorenzoController {
      */
     boolean checkLorenzoFaith() {
         int popeReportSlot = gameController.getGame().checkForPopeReportSlot(gameController.getGame().getLorenzo().getFaithPoints());
-        if(popeReportSlot != -1)
+        if (popeReportSlot != -1)
             gameController.getGame().activatePopeReport(popeReportSlot);
-        if(gameController.getGame().getLorenzo().getFaithPoints() > 23) {
+        if (gameController.getGame().getLorenzo().getFaithPoints() > 23) {
             gameController.getGame().terminateSingleplayer(true,
                     "Lorenzo has reached the end of the faith track", -1);
             return true;

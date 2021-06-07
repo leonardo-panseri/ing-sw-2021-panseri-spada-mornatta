@@ -1,4 +1,5 @@
 package it.polimi.ingsw.editor.controller;
+
 import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import javafx.fxml.FXML;

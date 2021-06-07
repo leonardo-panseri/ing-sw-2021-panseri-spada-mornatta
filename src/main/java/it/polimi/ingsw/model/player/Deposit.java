@@ -7,7 +7,10 @@ import it.polimi.ingsw.model.messages.MarketResultUpdate;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Models the deposit of a player board, comprehensive of the three rows of resources slots, adn the strongbox.
@@ -366,7 +369,7 @@ public class Deposit extends Observable<IServerPacket> {
             while (removed < resources.get(res)) {
                 int row = findResource(res);
 
-                if(row == -1) {
+                if (row == -1) {
                     System.err.println("Trying to remove too much resources from deposit");
                     break;
                 }

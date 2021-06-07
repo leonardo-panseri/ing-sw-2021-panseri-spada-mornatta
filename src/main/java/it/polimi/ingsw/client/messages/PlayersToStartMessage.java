@@ -16,7 +16,7 @@ public class PlayersToStartMessage extends ClientMessage {
     /**
      * Constructs a new PlayersToStartMessage.
      *
-     * @param playersToStart  the number of players needed to start the game that the client has chosen
+     * @param playersToStart the number of players needed to start the game that the client has chosen
      */
     public PlayersToStartMessage(int playersToStart) {
         this.playersToStart = playersToStart;

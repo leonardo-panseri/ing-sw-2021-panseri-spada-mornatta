@@ -43,7 +43,7 @@ public class EditLeaderCards {
 
         leaderCardsView.setCellFactory(leaderCardWidgetListView -> new EditableLeaderCardCell());
         leaderCardsView.setOnMouseClicked(mouseEvent ->
-            goToLeaderCardEdit(leaderCardsView.getSelectionModel().getSelectedItem()));
+                goToLeaderCardEdit(leaderCardsView.getSelectionModel().getSelectedItem()));
     }
 
     @FXML
@@ -72,7 +72,7 @@ public class EditLeaderCards {
     }
 
     private void goToLeaderCardEdit(LeaderCardWidget leaderCardWidget) {
-        if(leaderCardWidget == null)
+        if (leaderCardWidget == null)
             return;
 
         EditLeaderCard editLeaderCard = new EditLeaderCard(leaderCardWidget);
@@ -85,7 +85,7 @@ final class EditableLeaderCardCell extends ListCell<LeaderCardWidget> {
     protected void updateItem(LeaderCardWidget item, boolean empty) {
         super.updateItem(item, empty);
 
-        if(empty)
+        if (empty)
             setGraphic(null);
         else {
             HBox hBox = new HBox();

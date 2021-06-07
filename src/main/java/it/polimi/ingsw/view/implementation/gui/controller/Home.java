@@ -26,7 +26,7 @@ public class Home {
         serverIp.setOnMouseClicked(mouseEvent -> serverIp.selectAll());
 
         connect.setOnAction(actionEvent -> {
-            if(!GUI.instance().getClient().connect()) {
+            if (!GUI.instance().getClient().connect()) {
                 errorDisplay.setText("Can't connect to the server!");
                 errorDisplay.setVisible(true);
             }

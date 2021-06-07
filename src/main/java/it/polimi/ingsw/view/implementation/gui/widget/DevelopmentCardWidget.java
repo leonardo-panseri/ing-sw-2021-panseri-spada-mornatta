@@ -35,7 +35,7 @@ public class DevelopmentCardWidget extends AnchorPane {
     @FXML
     private void initialize() {
         developmentCard.getCost().forEach((resource, quantity) ->
-            cost.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity)));
+                cost.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity)));
 
         developmentCard.getProductionInput().forEach((resource, quantity) ->
                 input.getChildren().add(GUIUtils.buildResourceDisplay("resources/" + resource.toString().toLowerCase(), quantity)));

@@ -6,7 +6,9 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.widget.FaithTrackWidget;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,19 +39,19 @@ public class EditFaithTrack {
         Map<Integer, Integer> victoryPoints = GameConfigEditor.getGameConfig().getFaithTrackPoints();
         Map<Integer, List<Integer>> popeReports = GameConfigEditor.getGameConfig().getPopeReports();
 
-        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(popeReports, victoryPoints,player);
+        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(popeReports, victoryPoints, player);
         faithTrackDisplay.getChildren().add(faithTrackWidget);
 
         List<BorderPane> vpControls = new ArrayList<>();
         List<BorderPane> prControls = new ArrayList<>();
-        for(int i = 1; i < 25; i++) {
+        for (int i = 1; i < 25; i++) {
             BorderPane controlVP = GUIUtils.buildControl("" + i, victoryPoints.getOrDefault(i, -1));
             victoryPointsControls.put(i, controlVP);
             vpControls.add(controlVP);
 
             int popeReportVP = -1;
             int popeReportSize = 0;
-            if(popeReports.containsKey(i)) {
+            if (popeReports.containsKey(i)) {
                 popeReportVP = popeReports.get(i).get(0);
                 popeReportSize = popeReports.get(i).get(1);
             }
@@ -65,13 +67,13 @@ public class EditFaithTrack {
             checkBox.setOnAction(actionEvent -> {
                 popeReportVPControl.setEditable(checkBox.isSelected());
                 popeReportSizeControl.setEditable(checkBox.isSelected());
-                if(!checkBox.isSelected()) {
+                if (!checkBox.isSelected()) {
                     popeReportVPControl.setText("" + 0);
                     popeReportSizeControl.setText("" + 0);
                 }
             });
 
-            if(popeReportVP != -1) {
+            if (popeReportVP != -1) {
                 checkBox.setSelected(true);
                 popeReportVPControl.setText("" + popeReportVP);
                 popeReportSizeControl.setText("" + popeReportSize);
@@ -108,12 +110,12 @@ public class EditFaithTrack {
 
         victoryPointsControls.forEach((position, control) -> {
             int victoryPoints = GUIUtils.getSelectedQuantityForControl(control);
-            if(victoryPoints != 0) newVictoryPoints.put(position, victoryPoints);
+            if (victoryPoints != 0) newVictoryPoints.put(position, victoryPoints);
         });
 
         popeReportsControls.forEach((position, control) -> {
             CheckBox checkBox = (CheckBox) control.getLeft();
-            if(checkBox.isSelected()) {
+            if (checkBox.isSelected()) {
                 HBox box = (HBox) control.getRight();
                 TextField vpInput = (TextField) box.getChildren().get(0);
                 TextField sizeInput = (TextField) box.getChildren().get(1);
@@ -121,12 +123,13 @@ public class EditFaithTrack {
                 try {
                     vp = Integer.parseInt(vpInput.getText());
                     size = Integer.parseInt(sizeInput.getText());
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException ignored) {
+                }
                 newPopeReports.put(position, Arrays.asList(vp, size));
             }
         });
 
-        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(newPopeReports, newVictoryPoints,player);
+        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(newPopeReports, newVictoryPoints, player);
         faithTrackDisplay.getChildren().setAll(faithTrackWidget);
 
         GameConfigEditor.getGameConfig().modifyFaithTrack(newPopeReports, newVictoryPoints);

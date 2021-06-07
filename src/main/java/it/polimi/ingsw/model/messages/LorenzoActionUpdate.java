@@ -8,7 +8,7 @@ import java.io.Serial;
 /**
  * Update sent after Lorenzo performs an action, in single player mode.
  */
-public class LorenzoActionUpdate extends PropertyUpdate{
+public class LorenzoActionUpdate extends PropertyUpdate {
     @Serial
     private static final long serialVersionUID = 5123184263333073010L;
 
@@ -16,6 +16,7 @@ public class LorenzoActionUpdate extends PropertyUpdate{
 
     /**
      * Constructor that takes in the executed action.
+     *
      * @param action the executed action
      */
     public LorenzoActionUpdate(LorenzoAction action) {

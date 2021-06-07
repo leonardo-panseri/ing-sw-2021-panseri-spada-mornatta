@@ -17,8 +17,9 @@ public class MarketResultUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new MarketResultUpdate.
+     *
      * @param playerName the player that drew from the market
-     * @param result a list of resource drawn from the market
+     * @param result     a list of resource drawn from the market
      **/
     public MarketResultUpdate(String playerName, List<Resource> result) {
         super(playerName);

@@ -18,7 +18,7 @@ public class InvalidActionUpdate extends PropertyUpdate {
     /**
      * Constructs a new InvalidActionUpdate for the given Player with the given error message.
      *
-     * @param player the player that performed the invalid action
+     * @param player       the player that performed the invalid action
      * @param errorMessage the error message
      */
     public InvalidActionUpdate(Player player, String errorMessage) {

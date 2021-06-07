@@ -129,9 +129,9 @@ public class Player extends Observable<IServerPacket> {
      *                                  already active
      */
     public void setLeaderActive(LeaderCard leaderCard) throws IllegalArgumentException {
-        if(!leaderCards.containsKey(leaderCard))
+        if (!leaderCards.containsKey(leaderCard))
             throw new IllegalArgumentException("You don't have this leader card!");
-        if(leaderCards.get(leaderCard))
+        if (leaderCards.get(leaderCard))
             throw new IllegalArgumentException("This leader card is already active!");
 
         leaderCards.put(leaderCard, true);
@@ -141,8 +141,8 @@ public class Player extends Observable<IServerPacket> {
     /**
      * Notifies this Player of the start of the game, sending him all necessary information.
      *
-     * @param leaderCards the initial leader cards to give to the player
-     * @param resourcesToPick the number of resources that the player can pick
+     * @param leaderCards      the initial leader cards to give to the player
+     * @param resourcesToPick  the number of resources that the player can pick
      * @param faithPointsGiven the amount of faith points initially given to the player
      */
     public void notifyInitialTurn(List<LeaderCard> leaderCards, int resourcesToPick, int faithPointsGiven) {
@@ -168,14 +168,15 @@ public class Player extends Observable<IServerPacket> {
 
     /**
      * Checks if the player has some leaders that grant a discount on the given resource.
+     *
      * @param res the resource to be checked
      * @return the number of discounts on the given resource
      */
     public int numLeadersDiscount(Resource res) {
         int result = 0;
-        for (LeaderCard card: leaderCards.keySet()) {
+        for (LeaderCard card : leaderCards.keySet()) {
             if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DISCOUNT) {
-                if(card.getSpecialAbility().getTargetResource() == res) result++;
+                if (card.getSpecialAbility().getTargetResource() == res) result++;
             }
         }
         return result;
@@ -188,9 +189,9 @@ public class Player extends Observable<IServerPacket> {
      * @return true if the player has this special ability, false otherwise
      */
     public boolean hasLeaderWhiteConversion(Resource resource) {
-        for(LeaderCard card : leaderCards.keySet()) {
-            if(isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.EXCHANGE)
-                if(card.getSpecialAbility().getTargetResource() == resource) return true;
+        for (LeaderCard card : leaderCards.keySet()) {
+            if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.EXCHANGE)
+                if (card.getSpecialAbility().getTargetResource() == resource) return true;
         }
         return false;
     }
@@ -203,7 +204,7 @@ public class Player extends Observable<IServerPacket> {
      */
     public boolean hasLeaderDeposits(List<Resource> resourcesToCheck) {
         List<Resource> resources = new ArrayList<>(resourcesToCheck);
-        for(LeaderCard card : leaderCards.keySet()) {
+        for (LeaderCard card : leaderCards.keySet()) {
             if (isLeaderActive(card) && card.getSpecialAbility().getType() == SpecialAbilityType.DEPOT) {
                 int indexFound = resources.lastIndexOf(card.getSpecialAbility().getTargetResource());
                 if (indexFound != -1)
@@ -220,7 +221,7 @@ public class Player extends Observable<IServerPacket> {
      */
     public synchronized void addFaithPoints(int faithPoints) {
         this.faithPoints += faithPoints;
-        if(this.faithPoints > 24) this.faithPoints = 24;
+        if (this.faithPoints > 24) this.faithPoints = 24;
         notify(new FaithUpdate(getNick(), getFaithPoints()));
     }
 
@@ -242,9 +243,9 @@ public class Player extends Observable<IServerPacket> {
      *                                  already active
      */
     public void discardLeader(LeaderCard card) throws IllegalArgumentException {
-        if(!leaderCards.containsKey(card))
+        if (!leaderCards.containsKey(card))
             throw new IllegalArgumentException("You don't have this leader card!");
-        if(leaderCards.get(card))
+        if (leaderCards.get(card))
             throw new IllegalArgumentException("This leader card is active, you cannot discard it!");
 
         leaderCards.remove(card);
@@ -260,8 +261,8 @@ public class Player extends Observable<IServerPacket> {
      * @return true if the selected leader cards are valid, false otherwise
      */
     public boolean isLeaderSelectionValid(List<LeaderCard> selected) {
-        for(LeaderCard card : selected) {
-            if(!leaderCards.containsKey(card))
+        for (LeaderCard card : selected) {
+            if (!leaderCards.containsKey(card))
                 return false;
         }
         return true;
@@ -289,8 +290,8 @@ public class Player extends Observable<IServerPacket> {
      */
     public LeaderCard getLeaderCardByUuid(UUID uuid) {
         LeaderCard result = null;
-        for(LeaderCard card : leaderCards.keySet()) {
-            if(uuid.equals(card.getUuid())) {
+        for (LeaderCard card : leaderCards.keySet()) {
+            if (uuid.equals(card.getUuid())) {
                 result = card;
                 break;
             }
@@ -305,8 +306,8 @@ public class Player extends Observable<IServerPacket> {
      */
     public int getLeaderCardsTotalVictoryPoints() {
         int victoryPoints = 0;
-        for(LeaderCard card : leaderCards.keySet()) {
-            if(isLeaderActive(card))
+        for (LeaderCard card : leaderCards.keySet()) {
+            if (isLeaderActive(card))
                 victoryPoints += card.getVictoryPoints();
         }
         return victoryPoints;
@@ -323,7 +324,7 @@ public class Player extends Observable<IServerPacket> {
         for (Resource res : resources.keySet()) {
             int required = resources.get(res);
             int playerAmount = getBoard().getDeposit().getAmountOfResource(res);
-            if(playerAmount < required)
+            if (playerAmount < required)
                 canAfford = false;
         }
         return canAfford;

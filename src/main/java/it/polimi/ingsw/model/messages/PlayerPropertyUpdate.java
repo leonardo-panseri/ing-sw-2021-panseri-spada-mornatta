@@ -13,6 +13,7 @@ public abstract class PlayerPropertyUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new PlayerPropertyUpdate.
+     *
      * @param playerName the player affected by the change
      **/
     public PlayerPropertyUpdate(String playerName) {

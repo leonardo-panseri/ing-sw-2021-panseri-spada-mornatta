@@ -15,6 +15,7 @@ public class LorenzoFaithUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new LorenzoUpdate.
+     *
      * @param points the new Lorenzo faith points
      **/
     public LorenzoFaithUpdate(int points) {

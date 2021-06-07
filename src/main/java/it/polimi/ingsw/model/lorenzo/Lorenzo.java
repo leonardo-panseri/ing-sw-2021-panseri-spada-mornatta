@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.lorenzo;
 
 import it.polimi.ingsw.model.lorenzo.action.LorenzoAction;
 import it.polimi.ingsw.model.messages.LorenzoActionUpdate;
+import it.polimi.ingsw.model.messages.LorenzoFaithUpdate;
 import it.polimi.ingsw.model.messages.TurnUpdate;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.model.messages.LorenzoFaithUpdate;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;

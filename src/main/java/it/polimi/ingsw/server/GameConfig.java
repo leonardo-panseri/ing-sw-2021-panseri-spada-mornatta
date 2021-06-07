@@ -12,7 +12,10 @@ import java.io.InputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 public class GameConfig implements Serializable {
     @Serial
@@ -79,7 +82,7 @@ public class GameConfig implements Serializable {
 
     public static GameConfig loadDefaultGameConfig() {
         InputStream in = GameConfig.class.getClassLoader().getResourceAsStream(DEFAULT_GAMECONFIG_PATH);
-        if(in == null) {
+        if (in == null) {
             System.err.println("Can't open default game config!");
             return null;
         }

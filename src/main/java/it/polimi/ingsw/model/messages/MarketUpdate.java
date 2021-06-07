@@ -19,8 +19,9 @@ public class MarketUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new MarketUpdate.
-     * @param index the row/column drawn by the player
-     * @param changedList new list of the resources replacing the old one
+     *
+     * @param index         the row/column drawn by the player
+     * @param changedList   new list of the resources replacing the old one
      * @param slideResource the new slide resource
      **/
     public MarketUpdate(int index, List<Resource> changedList, Resource slideResource) {

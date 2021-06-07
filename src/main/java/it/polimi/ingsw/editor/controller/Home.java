@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Home {
     @FXML
@@ -35,11 +38,10 @@ public class Home {
     @FXML
     private void saveConfig() {
         File config = new File("custom_config_" + System.currentTimeMillis() + ".json");
-        try{
-            if(!config.createNewFile()) {
+        try {
+            if (!config.createNewFile()) {
                 System.out.println("File already existing.");
-            }
-            else {
+            } else {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(config));
                 writer.write(GameConfig.serialize(GameConfigEditor.getGameConfig()));
                 writer.close();

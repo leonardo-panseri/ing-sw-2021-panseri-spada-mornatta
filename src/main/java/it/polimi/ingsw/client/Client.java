@@ -3,17 +3,13 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.GameConfigMessage;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.messages.PropertyUpdate;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.server.IServerPacket;
 import it.polimi.ingsw.server.Lobby;
-import it.polimi.ingsw.server.messages.AddToLobbyMessage;
 import it.polimi.ingsw.server.messages.GameStartMessage;
-import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.cli.CLI;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.messages.PlayerActionEvent;
@@ -28,10 +24,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 /**
  * Main client instance.
@@ -62,12 +56,12 @@ public class Client {
      * @param startCli a boolean indicating if the client should be started in CLI mode
      * @param noServer a boolean indicating if the client should not connect to the server and play locally
      */
-    public Client(Stage stage, boolean startCli, boolean noServer){
+    public Client(Stage stage, boolean startCli, boolean noServer) {
         this.stage = stage;
         this.startCli = startCli;
         this.noServer = noServer;
 
-        if(noServer)
+        if (noServer)
             localExecutor = Executors.newFixedThreadPool(16);
     }
 
@@ -76,29 +70,29 @@ public class Client {
      *
      * @return true if the client is active, false otherwise
      */
-    public synchronized boolean isActive(){
+    public synchronized boolean isActive() {
         return active;
     }
 
     /**
      * Terminates this client.
      */
-    public synchronized void terminate(){
+    public synchronized void terminate() {
         this.active = false;
-        if(!isNoServer()) {
-            if(socket != null)
+        if (!isNoServer()) {
+            if (socket != null)
                 try {
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-            if(writeThread != null)
+            if (writeThread != null)
                 writeThread.interrupt();
 
             System.out.flush();
 
-            if(readThread != null)
+            if (readThread != null)
                 readThread.interrupt();
         }
         System.exit(0);
@@ -144,11 +138,9 @@ public class Client {
 
     /**
      * Starts the main client loop, reading and interpreting user commands.
-     *
-     * @throws IOException if the creation of the socket input or output stream fails
      */
-    public void run() throws IOException {
-        if(startCli) {
+    public void run() {
+        if (startCli) {
             view = new CLI(this);
         } else view = new GUI(this, stage);
 

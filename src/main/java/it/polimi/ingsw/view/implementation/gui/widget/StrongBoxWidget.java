@@ -22,6 +22,7 @@ public class StrongBoxWidget extends FlowPane {
     private HBox stoneRow;
 
     private final MockPlayer player;
+
     public StrongBoxWidget(MockPlayer player) {
         this.player = player;
         FXMLUtils.loadWidgetFXML(this);
@@ -29,7 +30,7 @@ public class StrongBoxWidget extends FlowPane {
 
     @FXML
     private void initialize() {
-        for(Resource resource : player.getDeposit().strongBoxProperty().keySet()) {
+        for (Resource resource : player.getDeposit().strongBoxProperty().keySet()) {
             createStrongBoxRow(resource, player.getDeposit().strongBoxProperty().get(resource));
         }
 

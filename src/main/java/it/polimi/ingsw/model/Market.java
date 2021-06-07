@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.model.messages.CreateMarketUpdate;
 import it.polimi.ingsw.model.messages.MarketUpdate;
+import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.server.IServerPacket;
 
 import java.util.ArrayList;

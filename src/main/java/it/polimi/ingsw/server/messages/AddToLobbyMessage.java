@@ -17,7 +17,7 @@ public class AddToLobbyMessage extends DirectServerMessage {
     /**
      * Constructs a new AddToLobbyMessage for the given client connection.
      *
-     * @param recipient the client connection to send this message to
+     * @param recipient       the client connection to send this message to
      * @param firstConnection true if the client is the first to connect to the lobby, false otherwise
      */
     public AddToLobbyMessage(SocketClientConnection recipient, boolean firstConnection) {

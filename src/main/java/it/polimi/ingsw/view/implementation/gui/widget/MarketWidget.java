@@ -37,6 +37,7 @@ public class MarketWidget extends StackPane {
 
     private final ImageView[][] gridPaneContent;
     private final HashMap<ImageView, Resource> resourceExchange;
+
     public MarketWidget() {
         this.gridPaneContent = new ImageView[3][5];
         this.resourceExchange = new HashMap<>();
@@ -50,13 +51,13 @@ public class MarketWidget extends StackPane {
         ObservableList<List<Resource>> grid = GUI.instance().getModel().getMarket().gridProperty();
         ObjectProperty<Resource> slideResource = GUI.instance().getModel().getMarket().slideResourceProperty();
 
-        for(int i = 0; i < grid.size(); i++) {
+        for (int i = 0; i < grid.size(); i++) {
             updateRow(i, grid.get(i));
         }
         updateSlideResource(slideResource.get());
 
         grid.addListener((ListChangeListener<? super List<Resource>>) change -> {
-            while(change.next()) {
+            while (change.next()) {
                 int index = change.getFrom();
                 List<Resource> newRow = change.getAddedSubList().get(0);
                 updateRow(index, newRow);
@@ -64,7 +65,7 @@ public class MarketWidget extends StackPane {
         });
         slideResource.addListener((change, oldValue, newValue) -> updateSlideResource(newValue));
 
-        if(GUI.instance().isOwnTurn())
+        if (GUI.instance().isOwnTurn())
             instructions.setVisible(true);
         GUI.instance().ownTurnProperty().addListener((change, oldVal, newVal) -> instructions.setVisible(newVal));
     }
@@ -81,17 +82,17 @@ public class MarketWidget extends StackPane {
         };
 
         // Populating the grid
-        for(int i = 0; i < 5; i++) {
-            for(int j = 0; j < 6; j++) {
-                if(j == 0 && i != 4 || i == 0 && j != 5) { // Cell of the slide
-                    if(i != 3) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (j == 0 && i != 4 || i == 0 && j != 5) { // Cell of the slide
+                    if (i != 3) {
                         BorderPane slideCell = new BorderPane();
                         slideCell.setPrefHeight(100);
                         slideCell.setPrefWidth(100);
                         slideCell.getStyleClass().add("slide");
                         marketDisplay.add(slideCell, j, i, 1, 1);
                     }
-                } else if(j == 5 || i == 4) { // Cell of the margin
+                } else if (j == 5 || i == 4) { // Cell of the margin
                     BorderPane marginCell = new BorderPane();
                     marginCell.setPrefHeight(100);
                     marginCell.setPrefWidth(100);
@@ -99,12 +100,12 @@ public class MarketWidget extends StackPane {
                     marketDisplay.add(marginCell, j, i, 1, 1);
 
                     // Cells of the margin that will accept drag events
-                    if(i == 4 && j != 0 && j != 5) {
+                    if (i == 4 && j != 0 && j != 5) {
                         marginCell.setId("" + j);
                         marginCell.setCenter(new Label("^"));
                         marginCell.setOnDragOver(dragAccept);
                         marginCell.setOnDragDropped(dragDroppedHandler());
-                    } else if(j == 5 && i != 0 && i != 4) {
+                    } else if (j == 5 && i != 0 && i != 4) {
                         marginCell.setId("" + (4 + i));
                         marginCell.setCenter(new Label("<"));
                         marginCell.setOnDragOver(dragAccept);
@@ -125,7 +126,7 @@ public class MarketWidget extends StackPane {
 
         // Handler to start drag events from the slide resource
         emptyImg.setOnDragDetected(mouseEvent -> {
-            if(GUI.instance().isOwnTurn()) {
+            if (GUI.instance().isOwnTurn()) {
                 Dragboard db = emptyImg.startDragAndDrop(TransferMode.ANY);
 
                 ClipboardContent content = new ClipboardContent();
@@ -144,7 +145,7 @@ public class MarketWidget extends StackPane {
 
     private void updateRow(int index, List<Resource> row) {
         Platform.runLater(() -> {
-            for(int i = 1; i < 5; i++) {
+            for (int i = 1; i < 5; i++) {
                 gridPaneContent[index][i].setImage(GUIUtils.getResourceImage(row.get(i - 1), 80, 80));
             }
         });
@@ -160,7 +161,7 @@ public class MarketWidget extends StackPane {
             int marketIndex = Integer.parseInt(target.getId());
 
             List<Resource> availableToExchange = GUI.instance().getModel().getLocalPlayer().getExchangeAbility();
-            if(availableToExchange.size() == 0) {
+            if (availableToExchange.size() == 0) {
                 GUI.instance().getActionSender().draw(marketIndex, availableToExchange);
             } else {
                 int whiteResourcesCount = GUI.instance().getModel().getMarket().countWhiteResources(marketIndex);
@@ -197,7 +198,7 @@ public class MarketWidget extends StackPane {
             dragEvent.consume();
         };
 
-        for(int i = 0; i < whiteResourcesCount; i++) {
+        for (int i = 0; i < whiteResourcesCount; i++) {
             ImageView imageView = new ImageView(GUIUtils.getResourceImage(null, 80, 80));
 
             resourceExchange.put(imageView, null);
@@ -214,13 +215,13 @@ public class MarketWidget extends StackPane {
                     success = false;
                 }
 
-                if(success) {
+                if (success) {
                     imageView.setImage(GUIUtils.getResourceImage(resource, 80, 80));
                     resourceExchange.put(imageView, resource);
 
-                    boolean done  = true;
-                    for(Resource res : resourceExchange.values()) {
-                        if(res == null) {
+                    boolean done = true;
+                    for (Resource res : resourceExchange.values()) {
+                        if (res == null) {
                             done = false;
                             break;
                         }

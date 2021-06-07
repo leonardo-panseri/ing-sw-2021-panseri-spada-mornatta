@@ -18,7 +18,8 @@ public class OwnedLeadersUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new OwnedLeadersUpdate.
-     * @param playerName the player affected by the modification
+     *
+     * @param playerName  the player affected by the modification
      * @param leaderCards the new map of leaders, with activation values
      **/
     public OwnedLeadersUpdate(String playerName, Map<LeaderCard, Boolean> leaderCards) {

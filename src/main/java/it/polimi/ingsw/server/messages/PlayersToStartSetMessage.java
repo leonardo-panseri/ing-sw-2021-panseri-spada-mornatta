@@ -17,7 +17,7 @@ public class PlayersToStartSetMessage extends DirectServerMessage {
     /**
      * Constructs a new PlayersToStartSetMessage.
      *
-     * @param recipient the client to send this message to
+     * @param recipient      the client to send this message to
      * @param playersToStart number that has been set
      */
     public PlayersToStartSetMessage(SocketClientConnection recipient, int playersToStart) {

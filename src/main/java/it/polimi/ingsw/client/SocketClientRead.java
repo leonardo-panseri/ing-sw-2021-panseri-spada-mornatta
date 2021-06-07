@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.IProcessablePacket;
 import it.polimi.ingsw.server.IServerPacket;
+
 import java.io.ObjectInputStream;
 import java.net.SocketException;
 
@@ -15,7 +16,7 @@ public class SocketClientRead extends Thread {
     /**
      * Constructs a new SocketClientRead for the given Client that will read messages from the given ObjectInputStream.
      *
-     * @param client the client that is associated with this thread
+     * @param client   the client that is associated with this thread
      * @param socketIn the input stream from where messages will be read
      */
     public SocketClientRead(Client client, ObjectInputStream socketIn) {
@@ -34,8 +35,8 @@ public class SocketClientRead extends Thread {
             while (client.isActive()) {
                 Object packet = socketIn.readObject();
 
-                if(packet instanceof IProcessablePacket) {
-                    if(packet instanceof IServerPacket) {
+                if (packet instanceof IProcessablePacket) {
+                    if (packet instanceof IServerPacket) {
                         IServerPacket serverPacket = (IServerPacket) packet;
 
                         System.out.println("Received: " + packet);
@@ -55,7 +56,7 @@ public class SocketClientRead extends Thread {
             }
         } catch (SocketException ignored) {
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             client.terminate();
         }

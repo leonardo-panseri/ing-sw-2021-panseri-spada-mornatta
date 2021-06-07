@@ -14,7 +14,10 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CLIRenderer extends Renderer {
 
@@ -85,7 +88,7 @@ public class CLIRenderer extends Renderer {
         int index = 1;
         for (ObservableList<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
-                if (stack.get(stack.size()-1) == card) {
+                if (stack.get(stack.size() - 1) == card) {
                     System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
                 }
                 renderDevelopmentCard(card, index);
@@ -114,7 +117,7 @@ public class CLIRenderer extends Renderer {
     @Override
     public void printOthersLeaderCards(String playerName) {
         MockPlayer otherPlayer = getView().getModel().getPlayer(playerName);
-        if (otherPlayer == null ) {
+        if (otherPlayer == null) {
             System.err.println(playerName + " not found in local model!");
             return;
         }
@@ -146,7 +149,7 @@ public class CLIRenderer extends Renderer {
         List<ObservableList<DevelopmentCard>> targetCards = otherPlayer.getPlayerBoard().getDevelopmentCards();
         for (ObservableList<DevelopmentCard> stack : targetCards) {
             for (DevelopmentCard card : stack) {
-                if (stack.get(stack.size()-1) == card) {
+                if (stack.get(stack.size() - 1) == card) {
                     System.out.println(AnsiColor.BRIGHT_BLUE + "USABLE CARD" + AnsiColor.RESET);
                 }
                 renderDevelopmentCard(card, -1);
@@ -212,7 +215,7 @@ public class CLIRenderer extends Renderer {
         int index = 1;
         for (HashMap<CardColor, ObservableList<DevelopmentCard>> map : deck) {
             for (ObservableList<DevelopmentCard> stack : map.values()) {
-                if (!stack.isEmpty()) renderDevelopmentCard(stack.get(stack.size()-1), index);
+                if (!stack.isEmpty()) renderDevelopmentCard(stack.get(stack.size() - 1), index);
                 index++;
             }
         }
@@ -422,7 +425,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints a chat message.
      *
-     * @param sender a string showing the name of the sender
+     * @param sender  a string showing the name of the sender
      * @param message a string representing the message
      */
     @Override
@@ -433,7 +436,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the final scores of the game.
      *
-     * @param scores a Map showing the name of each player and its points
+     * @param scores     a Map showing the name of each player and its points
      * @param winnerName a String showing the name of the winner
      */
     @Override
@@ -449,8 +452,8 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the final scores of a single player game.
      *
-     * @param lorenzoWin a Boolean true if Lorenzo wins, else false
-     * @param loseReason a String showing the reason of the loss
+     * @param lorenzoWin  a Boolean true if Lorenzo wins, else false
+     * @param loseReason  a String showing the reason of the loss
      * @param playerScore the number representing the score of the player
      */
     @Override
@@ -467,7 +470,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the DevelopmentCard with its attributes such as its production input and its production output.
      *
-     * @param card the development card to print
+     * @param card  the development card to print
      * @param label the label of the card
      */
     @Override
@@ -518,7 +521,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the LeaderCard with its attributes such as its resource requirements, card color requirements and its card level requirements.
      *
-     * @param card the leader card to print
+     * @param card  the leader card to print
      * @param label the label of the card
      */
     @Override
@@ -567,7 +570,7 @@ public class CLIRenderer extends Renderer {
     /**
      * Prints the market.
      *
-     * @param grid a list of a list representing the resources which make up the market
+     * @param grid          a list of a list representing the resources which make up the market
      * @param slideResource a Resource representing the Resource in the slide
      */
     @Override
@@ -588,7 +591,7 @@ public class CLIRenderer extends Renderer {
                 market = market.concat(color + "*     * " + AnsiColor.RESET);
             }
             market = market.concat("|");
-            market = market.concat(Constants.SIDEARROW + (r+5) + "\n");
+            market = market.concat(Constants.SIDEARROW + (r + 5) + "\n");
             for (int i = 0; i < 4; i++) {
                 String color = AnsiColor.getResourceColor(grid.get(r).get(i));
                 market = market.concat("|  ");

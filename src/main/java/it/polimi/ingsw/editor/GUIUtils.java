@@ -1,17 +1,9 @@
 package it.polimi.ingsw.editor;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
-import java.util.Objects;
 
 public class GUIUtils {
     public static BorderPane buildControl(String name, int quantity) {
@@ -22,10 +14,10 @@ public class GUIUtils {
 
         checkBox.setOnAction(actionEvent -> {
             input.setEditable(checkBox.isSelected());
-            if(!checkBox.isSelected()) input.setText("" + 0);
+            if (!checkBox.isSelected()) input.setText("" + 0);
         });
 
-        if(quantity != -1) {
+        if (quantity != -1) {
             checkBox.setSelected(true);
             input.setText("" + quantity);
         } else {
@@ -42,11 +34,12 @@ public class GUIUtils {
 
     public static int getSelectedQuantityForControl(BorderPane control) {
         int quantity = 0;
-        if (((CheckBox)control.getLeft()).isSelected()) {
+        if (((CheckBox) control.getLeft()).isSelected()) {
             TextField textField = (TextField) control.getRight();
             try {
                 quantity = Integer.parseInt(textField.getText());
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
         return quantity;
     }

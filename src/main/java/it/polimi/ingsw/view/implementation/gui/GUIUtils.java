@@ -14,9 +14,9 @@ import java.util.Objects;
 
 public class GUIUtils {
     public static Image getResourceImage(Resource resource, double width, double height) {
-        String path = "/images/resources/" + (resource != null ? resource.toString().toLowerCase() : "any") + ".png" ;
+        String path = "/images/resources/" + (resource != null ? resource.toString().toLowerCase() : "any") + ".png";
         InputStream imgIs = GUIUtils.class.getResourceAsStream(path);
-        if(imgIs == null) {
+        if (imgIs == null) {
             System.err.println("Image not found for " + resource);
             return new Image("");
         }

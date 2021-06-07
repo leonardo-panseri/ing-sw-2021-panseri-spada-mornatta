@@ -16,7 +16,7 @@ public class Observable<T> {
      *
      * @param observer the observer that will be added
      */
-    public void addObserver(Observer<T> observer){
+    public void addObserver(Observer<T> observer) {
         synchronized (observers) {
             observers.add(observer);
         }
@@ -27,9 +27,9 @@ public class Observable<T> {
      *
      * @param message the message that will be notified
      */
-    protected void notify(T message){
+    protected void notify(T message) {
         synchronized (observers) {
-            for(Observer<T> observer : observers){
+            for (Observer<T> observer : observers) {
                 observer.update(message);
             }
         }

@@ -35,7 +35,7 @@ public class WaitingPlayers {
         currentPlayers.textProperty().bind(gui.getModel().currentPlayersProperty().asString());
         playersToStart.textProperty().bind(gui.getModel().playersToStartProperty().asString());
 
-        if(gui.getModel().playersToStartProperty().get() == -1) {
+        if (gui.getModel().playersToStartProperty().get() == -1) {
             playersNumberDisplay.setVisible(false);
             gui.getModel().playersToStartProperty().addListener((change, prev, next) -> {
                 if (next.intValue() != -1)
@@ -45,7 +45,7 @@ public class WaitingPlayers {
 
         players = FXCollections.observableList(new ArrayList<>(gui.getModel().getPlayers().keySet()));
         gui.getModel().getPlayers().addListener((MapChangeListener<String, MockPlayer>) change -> {
-            if(change.wasAdded())
+            if (change.wasAdded())
                 Platform.runLater(() -> players.addAll(change.getKey()));
         });
         playerList.setItems(players);

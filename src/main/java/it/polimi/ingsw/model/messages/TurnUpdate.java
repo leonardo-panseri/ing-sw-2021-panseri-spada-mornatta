@@ -15,6 +15,7 @@ public class TurnUpdate extends PropertyUpdate {
 
     /**
      * Constructor: creates a new TurnUpdate.
+     *
      * @param currentPlayerName the current playing player
      **/
     public TurnUpdate(String currentPlayerName) {

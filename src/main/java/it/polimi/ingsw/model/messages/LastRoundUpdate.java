@@ -13,9 +13,11 @@ public class LastRoundUpdate extends PlayerPropertyUpdate {
     private static final long serialVersionUID = -3370016451218144806L;
 
     private final boolean hasLastPlayerCompleted;
+
     /**
      * Constructor: creates a new FaithUpdate.
-     * @param playerName the player that ended the game
+     *
+     * @param playerName             the player that ended the game
      * @param hasLastPlayerCompleted indicates if the player that has completed the game is the last player
      **/
     public LastRoundUpdate(String playerName, boolean hasLastPlayerCompleted) {
@@ -25,7 +27,7 @@ public class LastRoundUpdate extends PlayerPropertyUpdate {
 
     @Override
     public void process(View view) {
-        if (!hasLastPlayerCompleted){
+        if (!hasLastPlayerCompleted) {
             view.getRenderer().showLobbyMessage("Player " + getPlayerName() +
                     " has completed the game! This is the last round!");
         }

@@ -30,7 +30,7 @@ public class TurnController {
 
         for (int i = 0; i < gameController.getGame().getPlayerCount(); i++) {
             List<LeaderCard> draw = gameController.getGame().getDeck().initialDrawLeaders();
-            gameController.getGame().getPlayerAt(i).notifyInitialTurn(draw, (i+1)/2, (i+1)/3);
+            gameController.getGame().getPlayerAt(i).notifyInitialTurn(draw, (i + 1) / 2, (i + 1) / 3);
         }
         gameController.getGame().setGamePhase(GamePhase.SELECTING_LEADERS);
     }
@@ -51,8 +51,8 @@ public class TurnController {
         }
 
         int discardedMarketResults = player.getBoard().getDeposit().getUnusedMarketResults();
-        if(discardedMarketResults > 0) {
-            if(gameController.isSinglePlayer()) {
+        if (discardedMarketResults > 0) {
+            if (gameController.isSinglePlayer()) {
                 gameController.getGame().getLorenzo().addPoints(discardedMarketResults);
                 gameController.getLorenzoController().checkLorenzoFaith();
             } else {
@@ -67,14 +67,14 @@ public class TurnController {
 
         player.setHasAlreadyPlayed(false);
 
-        if(!gameController.isSinglePlayer() && gameController.getGame().isLastRound() &&
+        if (!gameController.isSinglePlayer() && gameController.getGame().isLastRound() &&
                 gameController.getGame().isLastPlayerTurn()) {
             gameController.endGame();
-        } else if(gameController.isSinglePlayer() && gameController.getGame().isLastRound()) {
+        } else if (gameController.isSinglePlayer() && gameController.getGame().isLastRound()) {
             gameController.getGame().terminateSingleplayer(false, "",
                     gameController.calculateScore(gameController.getGame().getCurrentPlayer()));
         } else {
-            if(gameController.isSinglePlayer())
+            if (gameController.isSinglePlayer())
                 gameController.getLorenzoController().executeAction();
             else
                 gameController.getGame().nextPlayer();

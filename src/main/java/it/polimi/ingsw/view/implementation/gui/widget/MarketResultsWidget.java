@@ -24,6 +24,7 @@ public class MarketResultsWidget extends VBox {
     public FlowPane marketResultsDisplay;
 
     private final PlayerBoardWidget playerBoard;
+
     public MarketResultsWidget(PlayerBoardWidget playerBoard) {
         this.playerBoard = playerBoard;
 
@@ -32,13 +33,13 @@ public class MarketResultsWidget extends VBox {
 
     @FXML
     private void initialize() {
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             ImageView img = new ImageView();
             BorderPane imgWrapper = new BorderPane(img);
             imgWrapper.setPrefWidth(60);
             imgWrapper.setPrefHeight(60);
             imgWrapper.getStyleClass().add("resource-box");
-            if(i != 3)
+            if (i != 3)
                 imgWrapper.getStyleClass().add("margin-right");
             marketResultsDisplay.getChildren().add(imgWrapper);
         }
@@ -49,13 +50,13 @@ public class MarketResultsWidget extends VBox {
     }
 
     private void updateMarketResults(List<Resource> resources) {
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             ImageView imageView = (ImageView) ((BorderPane) marketResultsDisplay.getChildren().get(i)).getCenter();
-            if(i < resources.size()) {
+            if (i < resources.size()) {
                 imageView.setImage(GUIUtils.getResourceImage(resources.get(i), 50, 50));
                 int finalI = i;
                 imageView.setOnDragDetected(mouseEvent -> {
-                    if(playerBoard.getPlayer().isLocalPlayer()) {
+                    if (playerBoard.getPlayer().isLocalPlayer()) {
                         playerBoard.getDepositWidget().setDropAllowed(true);
                         playerBoard.getDepositWidget().setOnDragDroppedHandler(storeMarketResultHandler());
 
@@ -91,7 +92,7 @@ public class MarketResultsWidget extends VBox {
                 success = false;
             }
 
-            if(success) {
+            if (success) {
                 GUI.instance().getActionSender().storeMarketResult(resourceIndex, rowIndex);
             }
 

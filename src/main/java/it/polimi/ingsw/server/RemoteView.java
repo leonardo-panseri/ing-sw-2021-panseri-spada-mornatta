@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.IProcessablePacket;
+import it.polimi.ingsw.client.messages.ClientMessage;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.messages.InvalidActionUpdate;
-import it.polimi.ingsw.server.messages.DirectServerMessage;
-import it.polimi.ingsw.view.messages.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.client.messages.ClientMessage;
+import it.polimi.ingsw.server.messages.DirectServerMessage;
+import it.polimi.ingsw.view.messages.PlayerActionEvent;
 
 /**
  * Represents a client view on the server. It is responsible of handling incoming and outgoing messages and updates to
@@ -22,7 +22,7 @@ public class RemoteView implements Observer<IServerPacket> {
     /**
      * Constructs a new RemoteView associated with the given client connection.
      *
-     * @param connection the connection to be associated with this remote view
+     * @param connection      the connection to be associated with this remote view
      * @param lobbyController the lobby controller that should handle this remote view
      */
     public RemoteView(SocketClientConnection connection, LobbyController lobbyController) {
@@ -75,7 +75,7 @@ public class RemoteView implements Observer<IServerPacket> {
      * @param event the player action event that will be notified to the game controller
      */
     private void notifyActionEvent(PlayerActionEvent event) {
-        if(gameController != null) {
+        if (gameController != null) {
             event.setPlayer(player);
             try {
                 gameController.update(event);
@@ -93,7 +93,7 @@ public class RemoteView implements Observer<IServerPacket> {
      * @param message the client message that will be notified to the lobby controller
      */
     private void notifyClientMessage(ClientMessage message) {
-        if(gameController == null) {
+        if (gameController == null) {
             message.setClientConnection(getClientConnection());
             try {
                 lobbyController.update(message);
@@ -111,13 +111,13 @@ public class RemoteView implements Observer<IServerPacket> {
      */
     @Override
     public synchronized void update(IServerPacket packet) {
-        if(packet instanceof DirectServerMessage) {
+        if (packet instanceof DirectServerMessage) {
             DirectServerMessage dm = (DirectServerMessage) packet;
-            if(dm.getRecipient() == clientConnection)
+            if (dm.getRecipient() == clientConnection)
                 clientConnection.send(dm);
         } else if (packet instanceof InvalidActionUpdate) {
             InvalidActionUpdate update = (InvalidActionUpdate) packet;
-            if(update.getPlayer() == player)
+            if (update.getPlayer() == player)
                 clientConnection.send(update);
         } else
             clientConnection.send(packet);
@@ -131,11 +131,11 @@ public class RemoteView implements Observer<IServerPacket> {
     void handlePacket(Object packet) {
         System.out.println("Received: " + packet);
 
-        if(packet instanceof IProcessablePacket) {
-            if(packet instanceof ClientMessage) {
+        if (packet instanceof IProcessablePacket) {
+            if (packet instanceof ClientMessage) {
                 ClientMessage clientMessage = (ClientMessage) packet;
                 notifyClientMessage(clientMessage);
-            } else if(packet instanceof PlayerActionEvent) {
+            } else if (packet instanceof PlayerActionEvent) {
                 PlayerActionEvent actionEvent = (PlayerActionEvent) packet;
                 notifyActionEvent(actionEvent);
             }

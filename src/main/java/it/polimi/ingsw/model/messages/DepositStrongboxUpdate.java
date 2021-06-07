@@ -17,8 +17,9 @@ public class DepositStrongboxUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new DepositStrongboxUpdate
+     *
      * @param playerName nick of the owner of the strongbox
-     * @param strongBox a map that represents the strongbox
+     * @param strongBox  a map that represents the strongbox
      */
     public DepositStrongboxUpdate(String playerName, Map<Resource, Integer> strongBox) {
         super(playerName);

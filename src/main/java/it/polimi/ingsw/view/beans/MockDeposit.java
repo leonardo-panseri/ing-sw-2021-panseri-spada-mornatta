@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+
 import java.util.*;
 
 /**
@@ -50,7 +51,7 @@ public class MockDeposit {
     /**
      * Sets the given resources in the row with the given index.
      *
-     * @param index the index of the row to change (0 -> top row, 1 -> middle row, 2 -> bottom row)
+     * @param index   the index of the row to change (0 -> top row, 1 -> middle row, 2 -> bottom row)
      * @param changes the new row to override to the row with the id
      */
     public void setRow(int index, List<Resource> changes) {
@@ -58,11 +59,11 @@ public class MockDeposit {
     }
 
     public boolean addToRow(int index, Resource resource) {
-        if(deposit.get(index).size() >= index + 1)
+        if (deposit.get(index).size() >= index + 1)
             return false;
         List<Resource> row = deposit.get(index);
-        if(row.size() > 0)
-            if(resource != row.get(0))
+        if (row.size() > 0)
+            if (resource != row.get(0))
                 return false;
         row.add(resource);
         setRow(index, row);
@@ -120,7 +121,7 @@ public class MockDeposit {
      * @return a list containing the leader deposit at the given index
      */
     public List<Resource> getLeadersDeposit(int index) {
-        if(index != 1 && index != 2) {
+        if (index != 1 && index != 2) {
             System.err.println("Tried to get a leader deposit with an incorrect index");
             return null;
         }
@@ -131,15 +132,15 @@ public class MockDeposit {
      * Gets the active leader deposits.
      *
      * @return a map associating the indexes of the leaders to the corresponding deposits if the leaders are active and
-     *         have the deposit ability
+     * have the deposit ability
      */
     public Map<Integer, List<Resource>> getActiveLeadersDeposit() {
         HashMap<Integer, List<Resource>> result = new HashMap<>();
         LeaderCard card1 = player.getLeaderCardAt(0);
         LeaderCard card2 = player.getLeaderCardAt(1);
-        if(card1 != null && card1.getSpecialAbility().getType() == SpecialAbilityType.DEPOT && player.isLeaderCardActive(card1))
+        if (card1 != null && card1.getSpecialAbility().getType() == SpecialAbilityType.DEPOT && player.isLeaderCardActive(card1))
             result.put(1, leadersDeposit.get(1));
-        if(card2 != null && card2.getSpecialAbility().getType() == SpecialAbilityType.DEPOT && player.isLeaderCardActive(card2))
+        if (card2 != null && card2.getSpecialAbility().getType() == SpecialAbilityType.DEPOT && player.isLeaderCardActive(card2))
             result.put(2, leadersDeposit.get(2));
 
         return result;
@@ -182,7 +183,7 @@ public class MockDeposit {
     }
 
     public void registerLeaderCardToDeposit(LeaderCard card) {
-        if(leaderCardToDepositLink.containsValue(1))
+        if (leaderCardToDepositLink.containsValue(1))
             leaderCardToDepositLink.put(card.getUuid(), 2);
         else
             leaderCardToDepositLink.put(card.getUuid(), 1);
@@ -202,15 +203,15 @@ public class MockDeposit {
 
     private void deepCopy(List<List<Resource>> depositBackup, List<List<Resource>> deposit,
                           Map<Resource, Integer> strongboxBackup, Map<Resource, Integer> strongbox, Map<Integer,
-                          List<Resource>> leadersDepositBackup, Map<Integer, List<Resource>> leadersDeposit) {
+            List<Resource>> leadersDepositBackup, Map<Integer, List<Resource>> leadersDeposit) {
         depositBackup.clear();
-        for(List<Resource> row : deposit) {
+        for (List<Resource> row : deposit) {
             depositBackup.add(new ArrayList<>(row));
         }
         strongboxBackup.clear();
         strongboxBackup.putAll(strongbox);
         leadersDepositBackup.clear();
-        for(Integer index : leadersDeposit.keySet()) {
+        for (Integer index : leadersDeposit.keySet()) {
             leadersDepositBackup.put(index, new ArrayList<>(leadersDeposit.get(index)));
         }
     }
@@ -220,7 +221,7 @@ public class MockDeposit {
             int removed = 0;
             while (removed < resources.get(res)) {
                 int row = findResource(res);
-                if(row == -1) {
+                if (row == -1) {
                     view.getRenderer().showErrorMessage("You don't have the resources for this production!");
                     break;
                 }
@@ -232,7 +233,7 @@ public class MockDeposit {
     int removeResource(int row, Resource resource) {
         if (row >= 1 && row <= 3) {
             List<Resource> newRow = new ArrayList<>(deposit.get(row - 1));
-            if(newRow.remove(resource)) {
+            if (newRow.remove(resource)) {
                 deposit.set(row - 1, newRow);
                 return 1;
             }
@@ -249,9 +250,9 @@ public class MockDeposit {
                 return 1;
             }
         } else if (row == 6) {
-            if(strongbox.get(resource) > 0) {
+            if (strongbox.get(resource) > 0) {
                 int newQuantity = strongbox.get(resource) - 1;
-                if(newQuantity == 0)
+                if (newQuantity == 0)
                     strongbox.remove(resource);
                 else
                     strongbox.put(resource, newQuantity);
@@ -262,8 +263,8 @@ public class MockDeposit {
     }
 
     int findResource(Resource res) {
-        for(int i = 0; i < 3; i++) {
-            if(deposit.get(i).contains(res))
+        for (int i = 0; i < 3; i++) {
+            if (deposit.get(i).contains(res))
                 return i + 1;
         }
         if (leadersDeposit.get(1).contains(res)) return 4;
@@ -276,18 +277,18 @@ public class MockDeposit {
 
     public int countResource(Resource resource) {
         int count = 0;
-        for(int i = 0; i < 3; i++) {
-            for(Resource res : deposit.get(i))
-                if(resource == res)
+        for (int i = 0; i < 3; i++) {
+            for (Resource res : deposit.get(i))
+                if (resource == res)
                     count++;
         }
-        for(Resource res : leadersDeposit.get(1))
-            if(resource == res)
+        for (Resource res : leadersDeposit.get(1))
+            if (resource == res)
                 count++;
-        for(Resource res : leadersDeposit.get(2))
-            if(resource == res)
+        for (Resource res : leadersDeposit.get(2))
+            if (resource == res)
                 count++;
-        if(strongbox.containsKey(resource))
+        if (strongbox.containsKey(resource))
             count += strongbox.get(resource);
         return count;
     }

@@ -59,6 +59,7 @@ public class PlayerBoardWidget extends StackPane {
 
     private final MockPlayer player;
     private DepositWidget depositWidget;
+
     public PlayerBoardWidget(MockPlayer player) {
         this.player = player;
 
@@ -70,7 +71,7 @@ public class PlayerBoardWidget extends StackPane {
         initializeWidgets();
 
         messageDisplay.setText(GUI.instance().isOwnTurn() ? "It's your turn" :
-                        "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + " turn");
+                "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + " turn");
         GUI.instance().getModel().currentPlayerNameProperty().addListener((change, oldVal, newVal) -> Platform.runLater(() -> {
             if (GUI.instance().getPlayerName().equals(newVal)) {
                 messageDisplay.setText("It's your turn");
@@ -84,7 +85,7 @@ public class PlayerBoardWidget extends StackPane {
 
         GUI.instance().getActionSender().pendingProductionsProperty().addListener(
                 (ListChangeListener<? super Production>) change -> Platform.runLater(() -> {
-                    if(change.getList().size() > 0) {
+                    if (change.getList().size() > 0) {
                         productionLabel.setText("You have " + change.getList().size() + " queued productions:");
                         productionExecute.setVisible(true);
                     } else {
@@ -94,14 +95,14 @@ public class PlayerBoardWidget extends StackPane {
 
         if (GUI.instance().getGameState() == GameState.SELECT_LEADERS) {
             openLeaderSelection();
-        } else if(GUI.instance().getGameState() == GameState.WAIT_SELECT_LEADERS) {
+        } else if (GUI.instance().getGameState() == GameState.WAIT_SELECT_LEADERS) {
             openWaitForLeaderSelection();
         }
 
-        if(GUI.instance().getGameState() != GameState.PLAYING) {
+        if (GUI.instance().getGameState() != GameState.PLAYING) {
             GUI.instance().gameStateProperty().addListener((change, oldState, newState) -> {
                 if ((oldState == GameState.SELECT_LEADERS && newState == GameState.WAIT_SELECT_LEADERS)
-                    || (oldState == GameState.CHOOSING_RESOURCES && newState == GameState.WAIT_SELECT_LEADERS)) {
+                        || (oldState == GameState.CHOOSING_RESOURCES && newState == GameState.WAIT_SELECT_LEADERS)) {
                     Platform.runLater(() -> {
                         closeLeaderSelection();
                         openWaitForLeaderSelection();
@@ -120,7 +121,7 @@ public class PlayerBoardWidget extends StackPane {
 
     private void initializeWidgets() {
         GameConfig gameConfig = GUI.instance().getModel().getGameConfig();
-        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints(),player);
+        FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints(), player);
         faithTrackWidget.setScaleX(1.6);
         faithTrackWidget.setScaleY(1.6);
         faithTrackDisplay.getChildren().add(new Group(faithTrackWidget));
@@ -160,9 +161,9 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     private void initializeOtherPlayersDisplay() {
-        String path = "/images/user.png" ;
+        String path = "/images/user.png";
         InputStream imgIs = GUIUtils.class.getResourceAsStream(path);
-        if(imgIs == null) {
+        if (imgIs == null) {
             System.err.println("User image not found");
             return;
         }
@@ -176,7 +177,7 @@ public class PlayerBoardWidget extends StackPane {
         VBox currentPlayerBox = new VBox(currentPlayerImgWrapper, currentPlayerName);
         currentPlayerBox.setAlignment(Pos.CENTER);
 
-        if(player == GUI.instance().getModel().getLocalPlayer())
+        if (player == GUI.instance().getModel().getLocalPlayer())
             currentPlayerBox.getStyleClass().add("selected");
 
         currentPlayerBox.setOnMouseClicked(mouseEvent ->
@@ -185,8 +186,8 @@ public class PlayerBoardWidget extends StackPane {
 
         otherPlayersDisplay.getChildren().add(currentPlayerBox);
 
-        for(MockPlayer player : GUI.instance().getModel().getPlayers().values()) {
-            if(player.isLocalPlayer())
+        for (MockPlayer player : GUI.instance().getModel().getPlayers().values()) {
+            if (player.isLocalPlayer())
                 continue;
             ImageView img = new ImageView(image);
             BorderPane imgWrapper = new BorderPane(img);
@@ -196,7 +197,7 @@ public class PlayerBoardWidget extends StackPane {
             VBox playerBox = new VBox(imgWrapper, playerName);
             playerBox.setAlignment(Pos.CENTER);
 
-            if(this.player == player)
+            if (this.player == player)
                 playerBox.getStyleClass().add("selected");
 
             playerBox.setOnMouseClicked(mouseEvent ->
@@ -207,7 +208,7 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     private void openLeaderSelection() {
-        if(!isLeaderSelectionOpen()) {
+        if (!isLeaderSelectionOpen()) {
             LeaderSelectionWidget selectionWidget = new LeaderSelectionWidget(GUI.instance().getModel().getLocalPlayer().getLeaderCards().keySet());
             getChildren().add(selectionWidget);
         } else
@@ -215,7 +216,7 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     private void closeLeaderSelection() {
-        if(isLeaderSelectionOpen())
+        if (isLeaderSelectionOpen())
             getChildren().remove(1);
     }
 
@@ -224,7 +225,7 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     private void openWaitForLeaderSelection() {
-        if(!isWaitForLeaderSelectionOpen()) {
+        if (!isWaitForLeaderSelectionOpen()) {
             Label text = new Label("Wait while other players select their Leader cards...");
             text.getStyleClass().add("leader-select-title");
             FlowPane pane = new FlowPane(text);
@@ -245,7 +246,7 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     private void closeWaitForLeaderSelection() {
-        if(isWaitForLeaderSelectionOpen())
+        if (isWaitForLeaderSelectionOpen())
             getChildren().remove(1);
     }
 
@@ -254,7 +255,7 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     protected void openProductionModal(List<Resource> input, List<Resource> output, Class<? extends Production> prodType, Card card) {
-        if(!isProductionModalOpen()) {
+        if (!isProductionModalOpen()) {
             Platform.runLater(() -> {
                 ProductionWidget productionWidget = new ProductionWidget(this, input, output, prodType, card);
                 getChildren().add(productionWidget);
@@ -263,7 +264,7 @@ public class PlayerBoardWidget extends StackPane {
     }
 
     protected void closeProductionModal() {
-        if(isProductionModalOpen())
+        if (isProductionModalOpen())
             Platform.runLater(() -> getChildren().remove(1));
     }
 

@@ -2,9 +2,10 @@ package it.polimi.ingsw.view.messages;
 
 import it.polimi.ingsw.controller.GameController;
 
-public class ChatPlayerActionEvent extends PlayerActionEvent{
+public class ChatPlayerActionEvent extends PlayerActionEvent {
 
     private final String message;
+
     public ChatPlayerActionEvent(String message) {
         this.message = message;
     }

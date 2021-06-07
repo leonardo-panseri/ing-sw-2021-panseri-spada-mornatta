@@ -18,8 +18,8 @@ public class EndSingleplayerGameUpdate extends PropertyUpdate {
     /**
      * Constructs a new EndSinglePlayerGameUpdate with the given circumstances.
      *
-     * @param lorenzoWin boolean representing if Lorenzo has won
-     * @param loseReason the reason why Lorenzo has won, if lorenzoWin is false, this will be ignored
+     * @param lorenzoWin  boolean representing if Lorenzo has won
+     * @param loseReason  the reason why Lorenzo has won, if lorenzoWin is false, this will be ignored
      * @param playerScore the score of the Player, if lorenzoWin is true, this will be ignored
      */
     public EndSingleplayerGameUpdate(boolean lorenzoWin, String loseReason, int playerScore) {

@@ -35,6 +35,7 @@ public class LeaderSelectionWidget extends HBox {
     private final List<UUID> chosenCards;
     private final Map<Integer, List<Resource>> chosenResources;
     private int chosenResourcesCount;
+
     public LeaderSelectionWidget(Set<LeaderCard> leaderCards) {
         this.leaderCards = leaderCards;
         this.cardsChoice = new HashMap<>();
@@ -49,11 +50,11 @@ public class LeaderSelectionWidget extends HBox {
 
     @FXML
     private void initialize() {
-        for(LeaderCard card : leaderCards) {
+        for (LeaderCard card : leaderCards) {
             LeaderCardWidget leaderCardWidget = new LeaderCardWidget(card);
             leadersDisplay.getChildren().add(leaderCardWidget);
             leaderCardWidget.setOnMouseClicked(mouseEvent -> {
-                if(!leaderCardWidget.isCardFlipped() && done) {
+                if (!leaderCardWidget.isCardFlipped() && done) {
                     return;
                 }
                 leaderCardWidget.flipCard();
@@ -70,8 +71,8 @@ public class LeaderSelectionWidget extends HBox {
 
     private void checkIfDone() {
         int found = 0;
-        for(boolean active : cardsChoice.values()) {
-            if(!active) found++;
+        for (boolean active : cardsChoice.values()) {
+            if (!active) found++;
         }
         done = found > 1;
         confirmButton.setDisable(!done);
@@ -88,7 +89,7 @@ public class LeaderSelectionWidget extends HBox {
 
         GUI gui = GUI.instance();
         int initialResourcesToChoose = gui.getModel().getLocalPlayer().getInitialResourcesToChoose();
-        if(initialResourcesToChoose > 0) {
+        if (initialResourcesToChoose > 0) {
             goToChooseResources(initialResourcesToChoose);
 
             gui.setGameState(GameState.CHOOSING_RESOURCES);
@@ -106,7 +107,7 @@ public class LeaderSelectionWidget extends HBox {
         box.setMaxHeight(400);
         int initialFaith = GUI.instance().getModel().getLocalPlayer().getFaithPoints();
         String titleText = "";
-        if(initialFaith != 0) {
+        if (initialFaith != 0) {
             titleText += "You start with " + initialFaith + " faith point!\n";
         }
 
@@ -156,17 +157,17 @@ public class LeaderSelectionWidget extends HBox {
                     success = false;
                 }
             }
-            if(success) {
-                if(chosenResourcesCount < initialResourcesToChoose) {
+            if (success) {
+                if (chosenResourcesCount < initialResourcesToChoose) {
                     success = GUI.instance().getModel().getLocalPlayer().getDeposit().addToRow(rowIndex, res);
 
-                    if(success) {
+                    if (success) {
                         chosenResourcesCount++;
 
-                        if(chosenResourcesCount >= initialResourcesToChoose)
+                        if (chosenResourcesCount >= initialResourcesToChoose)
                             Platform.runLater(() -> chooseConfirmButton.setDisable(false));
 
-                        if(chosenResources.containsKey(rowIndex + 1))
+                        if (chosenResources.containsKey(rowIndex + 1))
                             chosenResources.get(rowIndex + 1).add(res);
                         else
                             chosenResources.put(rowIndex + 1, new ArrayList<>(Collections.singletonList(res)));
@@ -182,19 +183,19 @@ public class LeaderSelectionWidget extends HBox {
 
     private void confirmSelection() {
         GUI.instance().getActionSender().selectLeaders(chosenCards, chosenResources);
-        if(!GUI.instance().getClient().isNoServer())
+        if (!GUI.instance().getClient().isNoServer())
             GUI.instance().setGameState(GameState.WAIT_SELECT_LEADERS);
     }
 
     private VBox buildResourcePicker(int initialResourcesToChoose) {
         VBox box = new VBox();
-        for(Resource resource : Resource.values()) {
-            if(resource == Resource.FAITH)
+        for (Resource resource : Resource.values()) {
+            if (resource == Resource.FAITH)
                 continue;
             ImageView img = new ImageView(GUIUtils.getResourceImage(resource, 50, 50));
 
             img.setOnDragDetected(mouseEvent -> {
-                if(chosenResourcesCount < initialResourcesToChoose) {
+                if (chosenResourcesCount < initialResourcesToChoose) {
                     Dragboard db = img.startDragAndDrop(TransferMode.ANY);
 
                     db.setContent(GUIUtils.getClipboardForResource(resource, img));

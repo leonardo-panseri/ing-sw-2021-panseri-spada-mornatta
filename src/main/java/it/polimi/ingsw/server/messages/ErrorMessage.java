@@ -18,7 +18,7 @@ public class ErrorMessage extends DirectServerMessage {
      * Constructs a new ErrorMessage for the given client with the given message.
      *
      * @param recipient the client to send this message to
-     * @param message the error message to send
+     * @param message   the error message to send
      */
     public ErrorMessage(SocketClientConnection recipient, String message) {
         super(recipient);

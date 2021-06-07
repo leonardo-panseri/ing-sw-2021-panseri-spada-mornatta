@@ -15,7 +15,8 @@ public class PopeFavourUpdate extends PlayerPropertyUpdate {
 
     /**
      * Constructor: creates a new PopeFavourUpdate.
-     * @param playerName the player affected by the change
+     *
+     * @param playerName  the player affected by the change
      * @param popeFavours the new gained pope favours
      **/
     public PopeFavourUpdate(String playerName, int popeFavours) {

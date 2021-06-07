@@ -7,7 +7,6 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.messages.BuyPlayerActionEvent;
 import it.polimi.ingsw.view.messages.production.DevelopmentProduction;
-import it.polimi.ingsw.view.messages.production.LeaderProduction;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -22,7 +21,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DevelopmentSlotsWidget extends StackPane {
     private final List<GridPane> layerGrids;
@@ -95,17 +97,17 @@ public class DevelopmentSlotsWidget extends StackPane {
             List<Resource> input = new ArrayList<>();
             List<Resource> output = new ArrayList<>();
             addedItem.getProductionInput().forEach((res, quantity) -> {
-                for(int i = 0; i < quantity; i++) {
+                for (int i = 0; i < quantity; i++) {
                     input.add(res);
                 }
             });
             addedItem.getProductionOutput().forEach((res, quantity) -> {
-                for(int i = 0; i < quantity; i++) {
+                for (int i = 0; i < quantity; i++) {
                     output.add(res);
                 }
             });
             card.setOnMouseClicked(mouseEvent ->
-                playerBoard.openProductionModal(input, output, DevelopmentProduction.class, addedItem));
+                    playerBoard.openProductionModal(input, output, DevelopmentProduction.class, addedItem));
 
             card.setScaleX(0.8);
             card.setScaleY(0.8);
@@ -118,7 +120,7 @@ public class DevelopmentSlotsWidget extends StackPane {
         ObservableList<Node> childrens = pane.getChildren();
         for (Node node : childrens) {
             if (GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == slotIndex && node instanceof VBox) {
-                if(((VBox) node).getChildren().size() > 0) result = node;
+                if (((VBox) node).getChildren().size() > 0) result = node;
                 break;
             }
         }
@@ -150,7 +152,7 @@ public class DevelopmentSlotsWidget extends StackPane {
             DevelopmentCardWidget developmentCardWidget;
             DevelopmentCard card = null;
             if (event.getGestureSource() instanceof BorderPane && GUI.instance().isOwnTurn()) {
-                if(player.isLocalPlayer()){
+                if (player.isLocalPlayer()) {
                     success = true;
                     pane = (BorderPane) event.getGestureSource();
                     group = (Group) pane.getChildren().get(0);
@@ -159,8 +161,8 @@ public class DevelopmentSlotsWidget extends StackPane {
                 }
             }
 
-            if(success) {
-                GUI.instance().getClient().send(new BuyPlayerActionEvent(card.getUuid(), slotIndex+1));
+            if (success) {
+                GUI.instance().getClient().send(new BuyPlayerActionEvent(card.getUuid(), slotIndex + 1));
             }
             event.setDropCompleted(success);
 

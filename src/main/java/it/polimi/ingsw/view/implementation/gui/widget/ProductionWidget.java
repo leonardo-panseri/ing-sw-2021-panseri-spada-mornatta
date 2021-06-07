@@ -102,7 +102,7 @@ public class ProductionWidget extends FlowPane {
         productionDisplay.getChildren().add(buildResourcesPane(input, true));
 
         InputStream is = ProductionWidget.class.getResourceAsStream("/images/parentheses.png");
-        if(is != null) {
+        if (is != null) {
             ImageView separator = new ImageView(new Image(is, 300, 20, true, true));
             productionDisplay.getChildren().add(separator);
         }
@@ -115,14 +115,14 @@ public class ProductionWidget extends FlowPane {
         pane.setAlignment(Pos.CENTER);
         pane.setPrefWidth(300);
         pane.setPrefHeight(300);
-        for(Resource res : list) {
+        for (Resource res : list) {
             ImageView img = new ImageView(GUIUtils.getResourceImage(res, 50, 50));
 
-            if(opaque) {
+            if (opaque) {
                 img.setOpacity(0.4);
                 img.setOnDragOver(dragOverHandler(img));
                 img.setOnDragDropped(dragDroppedHandler(img, res, true));
-            } else if(res == null) {
+            } else if (res == null) {
                 img.setOpacity(0.4);
                 img.setOnDragOver(dragOverHandler(img));
                 img.setOnDragDropped(dragDroppedHandler(img, null, false));
@@ -135,8 +135,8 @@ public class ProductionWidget extends FlowPane {
 
     private EventHandler<DragEvent> dragOverHandler(ImageView img) {
         return dragEvent -> {
-            if(dragEvent.getGestureSource() instanceof ImageView && dragEvent.getDragboard().hasString() &&
-            img.getOpacity() < 1) {
+            if (dragEvent.getGestureSource() instanceof ImageView && dragEvent.getDragboard().hasString() &&
+                    img.getOpacity() < 1) {
                 dragEvent.acceptTransferModes(TransferMode.ANY);
             }
 
@@ -156,16 +156,16 @@ public class ProductionWidget extends FlowPane {
                 success = false;
             }
 
-            if(success) {
-                if(isInput) {
+            if (success) {
+                if (isInput) {
                     int quantity = Integer.parseInt(resourcesCount.get(resource).get());
-                    if(quantity > 0) {
+                    if (quantity > 0) {
                         quantity--;
                         resourcesCount.get(resource).setValue("" + quantity);
                     } else success = false;
                 }
 
-                if(success) {
+                if (success) {
                     if (targetResource == null) {
                         Resource finalResource = resource;
                         Platform.runLater(() -> img.setImage(GUIUtils.getResourceImage(finalResource, 50, 50)));
@@ -174,7 +174,7 @@ public class ProductionWidget extends FlowPane {
                     }
                 }
 
-                if(success) {
+                if (success) {
                     Platform.runLater(() -> img.setOpacity(1));
 
                     if (isInput)
@@ -193,7 +193,7 @@ public class ProductionWidget extends FlowPane {
 
     private void checkIfDone() {
         Platform.runLater(() -> {
-            if(input.size() == desiredInput.size() && output.size() == desiredOutput.size())
+            if (input.size() == desiredInput.size() && output.size() == desiredOutput.size())
                 confirmButton.setDisable(false);
         });
     }

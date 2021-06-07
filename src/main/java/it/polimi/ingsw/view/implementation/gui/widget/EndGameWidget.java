@@ -24,7 +24,7 @@ public class EndGameWidget extends VBox {
         winnerLabel = new Label(winnerName + " is the true Master of Renaissance!");
         scoreList = new GridPane();
         int i = 0;
-        for(Map.Entry<String, Integer> entry : scores.entrySet()) {
+        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
             scoreList.addRow(i, new Label(entry.getKey()), new Label(entry.getValue().toString()));
             i++;
         }
@@ -36,7 +36,7 @@ public class EndGameWidget extends VBox {
     }
 
     public EndGameWidget(boolean lorenzoWin, String loseReason, int playerScore) {
-        if(lorenzoWin) {
+        if (lorenzoWin) {
             winnerLabel = new Label("Lorenzo is still the true Master of Renaissance!");
             loseReasonLabel = new Label(loseReason);
         } else {
@@ -51,12 +51,12 @@ public class EndGameWidget extends VBox {
     private void initialize() {
         FlowPane.setMargin(winnerLabel, new Insets(0, 0, 20, 0));
         scoresBox.getChildren().add(winnerLabel);
-        if(scoreList != null) {
+        if (scoreList != null) {
             HBox centeredList = new HBox(scoreList);
             centeredList.setAlignment(Pos.CENTER);
             scoresBox.getChildren().add(centeredList);
         } else {
-            if(loseReasonLabel != null) {
+            if (loseReasonLabel != null) {
                 HBox centeredReason = new HBox(loseReasonLabel);
                 centeredReason.setAlignment(Pos.CENTER);
                 scoresBox.getChildren().add(centeredReason);
