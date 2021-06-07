@@ -133,6 +133,11 @@ public class MockModel {
         );
     }
 
+    public void removeDevelopmentCard(DevelopmentCard card) {
+        ObservableList<DevelopmentCard> list = developmentDeck.get(card.getLevel() - 1).get(card.getColor());
+        list.remove(card);
+    }
+
     /**
      * Gets the market.
      *

@@ -99,6 +99,7 @@ public abstract class ModelUpdateHandler {
         }
 
         player.getPlayerBoard().setNewDevelopmentCard(card, slot);
+        getView().getModel().removeDevelopmentCard(card);
     }
 
     /**

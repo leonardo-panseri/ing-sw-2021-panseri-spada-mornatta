@@ -21,10 +21,13 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class DeckWidget extends StackPane {
 
     private final List<GridPane> layerGrids;
+    private int loadedLevels = 0;
 
     public DeckWidget() {
         layerGrids = new ArrayList<>();
@@ -46,31 +49,19 @@ public class DeckWidget extends StackPane {
             getChildren().add(hBox);
         }
 
-        for (int i = 0; i < 4; i++) {
-            for (CardColor color : CardColor.values()) {
-                if (developmentDeck.get(0).get(color).size() <= i)
-                    continue;
-                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(0).get(color).get(developmentDeck.get(0).get(color).size() - i - 1));
-                BorderPane pane = createPane(color, card);
-                GridPane.setRowIndex(pane, 2);
-                layerGrids.get(3 - i).getChildren().add(pane);
+        Consumer<LoadCards.LoadedCards> callback = result -> Platform.runLater(() -> {
+            result.addToLayerGrids(layerGrids);
+            loadedLevels++;
+
+            if(loadedLevels == 3) {
+                ObservableList<Node> children = layerGrids.get(3).getChildren();
+                for (Node node : children) {
+                    setDraggableDevCard(node);
+                }
             }
-            for (CardColor color : CardColor.values()) {
-                if (developmentDeck.get(1).get(color).size() <= i)
-                    continue;
-                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(1).get(color).get(developmentDeck.get(1).get(color).size() - i - 1));
-                BorderPane pane = createPane(color, card);
-                GridPane.setRowIndex(pane, 1);
-                layerGrids.get(3 - i).getChildren().add(pane);
-            }
-            for (CardColor color : CardColor.values()) {
-                if (developmentDeck.get(2).get(color).size() <= i)
-                    continue;
-                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(2).get(color).get(developmentDeck.get(2).get(color).size() - i - 1));
-                BorderPane pane = createPane(color, card);
-                GridPane.setRowIndex(pane, 0);
-                layerGrids.get(3 - i).getChildren().add(pane);
-            }
+        });
+        for(int i = 0; i < 3; i++) {
+            new Thread(new LoadCards(i, callback)).start();
         }
 
         Button goBackButton = new Button("Back");
@@ -94,23 +85,9 @@ public class DeckWidget extends StackPane {
                 });
             }
         }
-
-        ObservableList<Node> children = layerGrids.get(3).getChildren();
-        for (Node node : children) {
-            setDraggableDevCard(node);
-        }
     }
 
-    private BorderPane createPane(CardColor color, DevelopmentCardWidget card) {
-        double SCALE_FACTOR = 0.65;
-        card.setScaleX(SCALE_FACTOR);
-        card.setScaleY(SCALE_FACTOR);
-        Group group = new Group(card);
-        BorderPane pane = new BorderPane(group);
-        pane.getStyleClass().add("table");
-        GridPane.setColumnIndex(pane, CardColor.valueOf(color.toString()).ordinal());
-        return pane;
-    }
+
 
     private void removeCards(DevelopmentCard removedCard) {
         Platform.runLater(() -> {
@@ -164,4 +141,66 @@ public class DeckWidget extends StackPane {
         GUI.instance().getScene().setRoot(new PlayerBoardWidget(GUI.instance().getModel().getLocalPlayer()));
     }
 }
+class LoadCards implements Runnable {
+    private static final double SCALE_FACTOR = 0.65;
 
+    private final int level;
+    private final LoadedCards result;
+    private final Consumer<LoadedCards> callback;
+
+    static class LoadedCards {
+        private final Map<Integer, List<BorderPane>> result;
+
+        LoadedCards() {
+            this.result = new HashMap<>();
+
+            result.put(0, new ArrayList<>());
+            result.put(1, new ArrayList<>());
+            result.put(2, new ArrayList<>());
+            result.put(3, new ArrayList<>());
+        }
+
+        void add(int index, BorderPane pane) {
+            result.get(index).add(pane);
+        }
+
+        void addToLayerGrids(List<GridPane> layerGrids) {
+            for(int i = 0; i < 4; i++) {
+                layerGrids.get(i).getChildren().addAll(result.get(i));
+            }
+        }
+    }
+
+    LoadCards(int level, Consumer<LoadedCards> callback) {
+        this.level = level;
+        this.result = new LoadedCards();
+        this.callback = callback;
+    }
+
+    @Override
+    public void run() {
+        List<HashMap<CardColor, ObservableList<DevelopmentCard>>> developmentDeck = GUI.instance().getModel().getDevelopmentDeck();
+        for (int i = 0; i < 4; i++) {
+            for (CardColor color : CardColor.values()) {
+                if (developmentDeck.get(level).get(color).size() <= i)
+                    continue;
+                DevelopmentCardWidget card = new DevelopmentCardWidget(developmentDeck.get(level).get(color).get(developmentDeck.get(level).get(color).size() - i - 1));
+                BorderPane pane = createPane(color, card);
+                GridPane.setRowIndex(pane, 2 - level);
+                result.add(3-i, pane);
+            }
+        }
+
+        callback.accept(result);
+    }
+
+    private BorderPane createPane(CardColor color, DevelopmentCardWidget card) {
+        card.setScaleX(SCALE_FACTOR);
+        card.setScaleY(SCALE_FACTOR);
+        Group group = new Group(card);
+        BorderPane pane = new BorderPane(group);
+        pane.getStyleClass().add("table");
+        GridPane.setColumnIndex(pane, CardColor.valueOf(color.toString()).ordinal());
+        return pane;
+    }
+}
