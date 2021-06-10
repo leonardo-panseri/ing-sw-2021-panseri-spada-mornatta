@@ -159,6 +159,19 @@ public class Client {
         this.port = port;
     }
 
+    public boolean connect(String address) {
+        String[] split = address.split(":");
+        if(split.length != 2)
+            return false;
+        setIp(split[0]);
+        try {
+            setPort(Integer.parseInt(split[1]));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return connect();
+    }
+
     public boolean connect() {
         try {
             socket = new Socket(ip, port);
