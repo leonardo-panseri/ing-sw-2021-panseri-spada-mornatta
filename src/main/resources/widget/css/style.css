@@ -28,6 +28,28 @@
     -fx-background-position: center;
 }
 
+.development-card .label {
+    -fx-font-size: 16;
+}
+
+.development-card #cost .label {
+    -fx-pref-height: 35.0;
+    -fx-pref-width: 12.0;
+    -fx-text-fill: white;
+}
+
+.development-card #input .label {
+    -fx-font-weight: bold;
+}
+
+.development-card #output .label {
+    -fx-font-weight: bold;
+}
+
+.development-card #victoryPoints {
+    -fx-alignment: center;
+}
+
 .base-production {
     -fx-background-image: url("../../images/base-production.png");
 }
@@ -48,8 +70,10 @@
 }
 
 .player-board #messageDisplay {
-    -fx-font-size: 20;
+    -fx-font-size: 30;
     -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-font-family: 'Girassol', cursive;
 }
 
 .player-board #lorenzoActionDisplay {
@@ -65,11 +89,15 @@
 .player-board .nav-buttons .label {
     -fx-alignment: center;
     -fx-pref-width: 150;
+    -fx-text-fill: black;
+    -fx-font-family: 'Girassol', cursive;
 }
 
 .player-board .nav-buttons .button {
     -fx-pref-width: 150;
     -fx-font-size: 20;
+    -fx-text-fill: black;
+    -fx-font-family: 'Girassol', cursive;
     -fx-background-image: url("../../images/main-button.png");
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
@@ -158,6 +186,26 @@
     -fx-padding: 20;
 }
 
+.market .top-left {
+    -fx-background-radius: 14 0 0 0;
+    -fx-border-radius: 14 0 0 0;
+}
+
+.market .top-right {
+    -fx-background-radius: 0 14 0 0;
+    -fx-border-radius: 0 14 0 0;
+}
+
+.market .bottom-left {
+    -fx-background-radius: 0 0 0 14;
+    -fx-border-radius: 0 0 0 14;
+}
+
+.market .bottom-right {
+    -fx-background-radius: 0 0 14 0;
+    -fx-border-radius: 0 0 14 0;
+}
+
 .market .margin {
     -fx-background-color: saddlebrown;
     -fx-padding: 20;
@@ -173,13 +221,16 @@
 }
 
 .market .exchange-modal-box .label {
-    -fx-font-size: 20;
+    -fx-font-size: 25;
     -fx-text-fill: white;
+    -fx-font-family: 'Girassol', cursive;
     -fx-text-alignment: center;
 }
 
 .market #instructions {
-    -fx-font-size: 15;
+    -fx-font-size: 20;
+    -fx-text-fill: black;
+    -fx-font-family: 'Girassol', cursive;
 }
 
 .leader-active {
@@ -316,7 +367,8 @@
     -fx-padding: 0 50;
 }
 .end-game-container .label {
-    -fx-font-size: 30;
+    -fx-font-size: 40;
     -fx-text-fill: white;
+    -fx-font-family: 'Girassol', cursive;
     -fx-font-weight: bold;
 }

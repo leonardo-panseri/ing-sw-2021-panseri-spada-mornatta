@@ -90,6 +90,7 @@ public class MarketWidget extends StackPane {
                         slideCell.setPrefHeight(100);
                         slideCell.setPrefWidth(100);
                         slideCell.getStyleClass().add("slide");
+                        if (i==0 && j==0) slideCell.getStyleClass().add("top-left");
                         marketDisplay.add(slideCell, j, i, 1, 1);
                     }
                 } else if (j == 5 || i == 4) { // Cell of the margin
@@ -98,6 +99,10 @@ public class MarketWidget extends StackPane {
                     marginCell.setPrefWidth(100);
                     marginCell.getStyleClass().add("margin");
                     marketDisplay.add(marginCell, j, i, 1, 1);
+
+                    if (j == 5 && i == 0) marginCell.getStyleClass().add("top-right");
+                    else if (i == 4 && j == 0) marginCell.getStyleClass().add("bottom-left");
+                    else if (i == 4 && j == 5) marginCell.getStyleClass().add("bottom-right");
 
                     // Cells of the margin that will accept drag events
                     if (i == 4 && j != 0 && j != 5) {

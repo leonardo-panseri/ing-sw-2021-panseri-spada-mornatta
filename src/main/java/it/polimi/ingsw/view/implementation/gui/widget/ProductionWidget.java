@@ -103,7 +103,7 @@ public class ProductionWidget extends FlowPane {
 
         InputStream is = ProductionWidget.class.getResourceAsStream("/images/parentheses.png");
         if (is != null) {
-            ImageView separator = new ImageView(new Image(is, 300, 20, true, true));
+            ImageView separator = new ImageView(new Image(is, 50, 300, false, true));
             productionDisplay.getChildren().add(separator);
         }
 

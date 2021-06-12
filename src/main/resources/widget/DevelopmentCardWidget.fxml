@@ -12,6 +12,5 @@
     <FlowPane fx:id="cost" alignment="CENTER" layoutX="56.0" layoutY="9.0" prefHeight="39.0" prefWidth="81.0"/>
     <VBox fx:id="input" alignment="CENTER" layoutX="27.0" layoutY="155.0" prefHeight="73.0" prefWidth="51.0"/>
     <VBox fx:id="output" alignment="CENTER" layoutX="109.0" layoutY="153.0" prefHeight="73.0" prefWidth="51.0"/>
-    <Label fx:id="victoryPoints" alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="253.0" prefHeight="17.0" prefWidth="17.0"
-           text="10"/>
+    <Label fx:id="victoryPoints" alignment="CENTER" contentDisplay="CENTER" layoutX="88.0" layoutY="249.0" prefHeight="17.0" prefWidth="17.0"/>
 </fx:root>

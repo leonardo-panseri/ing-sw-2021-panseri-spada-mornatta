@@ -14,6 +14,7 @@
     <FlowPane alignment="CENTER" fx:id="marketResultsDisplay">
     </FlowPane>
     <HBox alignment="CENTER">
-        <Label style="-fx-font-size: 15;">Market Results</Label>
+        <Label style="-fx-font-size: 20; -fx-text-fill: black;
+    -fx-font-family: 'Girassol', cursive;">Market Results</Label>
     </HBox>
 </fx:root>

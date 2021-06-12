@@ -142,7 +142,7 @@ public class DeckWidget extends StackPane {
     }
 }
 class LoadCards implements Runnable {
-    private static final double SCALE_FACTOR = 0.65;
+    private static final double SCALE_FACTOR = 0.68;
 
     private final int level;
     private final LoadedCards result;
