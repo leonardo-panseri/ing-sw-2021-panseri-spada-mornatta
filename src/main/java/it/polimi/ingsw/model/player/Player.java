@@ -280,19 +280,6 @@ public class Player extends Observable<IServerPacket> {
 
         leaderCards = selectedLeaders;
         notify(new OwnedLeadersUpdate(getNick(), leaderCards));
-
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                ArrayList<LeaderCard> leaders = new ArrayList<>(leaderCards.keySet());
-                LeaderCard card1 = leaders.get(1);
-                LeaderCard card2 = leaders.get(0);
-                setLeaderActive(card2);
-                setLeaderActive(card1);
-            }
-        }, 5000);
     }
 
     /**
