@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.implementation.gui.GUIUtils;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -164,13 +165,13 @@ public class LeaderCardWidget extends StackPane {
                 boolean success = true;
                 int rowIndex = -1;
                 try {
-                    rowIndex = DepositWidget.getRowId(dragEvent.getGestureSource());
+                    rowIndex = DepositWidget.getRowId(((Node)dragEvent.getGestureSource()).getParent());
                 } catch (IllegalArgumentException e) {
                     success = false;
                 }
 
                 if (success) {
-                    GUI.instance().getActionSender().move(rowIndex + 1, depositIndex + 4);
+                    GUI.instance().getActionSender().move(rowIndex + 1, depositIndex + 3);
                 }
 
                 dragEvent.setDropCompleted(success);
