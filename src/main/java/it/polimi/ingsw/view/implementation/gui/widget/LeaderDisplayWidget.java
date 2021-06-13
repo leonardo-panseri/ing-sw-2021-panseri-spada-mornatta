@@ -78,7 +78,7 @@ public class LeaderDisplayWidget extends VBox {
             else {
                 if (player.isLocalPlayer()) {
                     ContextMenu contextMenu = buildContextMenu(newWidget);
-                    newWidget.setOnMousePressed(event -> {
+                    newWidget.setOnMouseClicked(event -> {
                         if (!contextMenu.isShowing())
                             contextMenu.show(newWidget, event.getScreenX(), event.getScreenY());
                     });

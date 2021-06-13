@@ -99,12 +99,14 @@ public class StrongBoxWidget extends FlowPane {
     }
 
     public void removeStrongBoxRow(Resource resource) {
-        switch (resource) {
-            case COIN -> this.getChildren().remove(coinRow);
-            case SERVANT -> this.getChildren().remove(servantRow);
-            case STONE -> this.getChildren().remove(stoneRow);
-            case SHIELD -> this.getChildren().remove(shieldRow);
-        }
+        Platform.runLater(() -> {
+            switch (resource) {
+                case COIN -> this.getChildren().remove(coinRow);
+                case SERVANT -> this.getChildren().remove(servantRow);
+                case STONE -> this.getChildren().remove(stoneRow);
+                case SHIELD -> this.getChildren().remove(shieldRow);
+            }
+        });
     }
 }
 
