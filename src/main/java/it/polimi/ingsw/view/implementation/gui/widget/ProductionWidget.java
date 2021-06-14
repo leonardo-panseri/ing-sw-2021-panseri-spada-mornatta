@@ -126,7 +126,7 @@ public class ProductionWidget extends FlowPane {
                 img.setOpacity(0.4);
                 img.setOnDragOver(dragOverHandler(img));
                 img.setOnDragDropped(dragDroppedHandler(img, null, false));
-            }
+            } else desiredOutput.add(res);
 
             pane.getChildren().add(img);
         }

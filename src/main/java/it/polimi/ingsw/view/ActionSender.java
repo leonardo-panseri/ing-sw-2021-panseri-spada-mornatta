@@ -269,7 +269,7 @@ public abstract class ActionSender {
         getView().setUsingProductions(true);
         addPendingProduction(new DevelopmentProduction(developmentCard.getUuid()));
 
-        getView().getModel().getLocalPlayer().getDeposit().removeResources(getView(), developmentCard.getCost());
+        getView().getModel().getLocalPlayer().getDeposit().removeResources(getView(), developmentCard.getProductionInput());
     }
 
     /**
