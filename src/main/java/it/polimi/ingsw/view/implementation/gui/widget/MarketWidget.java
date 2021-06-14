@@ -170,7 +170,8 @@ public class MarketWidget extends StackPane {
                 GUI.instance().getActionSender().draw(marketIndex, availableToExchange);
             } else {
                 int whiteResourcesCount = GUI.instance().getModel().getMarket().countWhiteResources(marketIndex);
-                openExchangeModal(marketIndex, whiteResourcesCount, availableToExchange);
+                if (whiteResourcesCount > 0) openExchangeModal(marketIndex, whiteResourcesCount, availableToExchange);
+                else GUI.instance().getActionSender().draw(marketIndex, availableToExchange);
             }
 
             event.setDropCompleted(true);
