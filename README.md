@@ -78,3 +78,5 @@ to play a single player match without connecting to a server.
 **MagicDraw** - UML diagrams
 
 **Intellij IDEA Ultimate** - main IDE 
+
+**Photoshop** - custom assets creation
