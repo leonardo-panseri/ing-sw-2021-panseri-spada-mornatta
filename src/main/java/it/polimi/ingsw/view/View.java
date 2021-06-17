@@ -172,9 +172,10 @@ public abstract class View {
 
     public void handleInvalidAction(String errorMessage) {
         getRenderer().showErrorMessage(errorMessage);
-        if (isUsingProductions() && errorMessage.startsWith("Error during production"))
+        if (isUsingProductions() && errorMessage.startsWith("Error during production")) {
             getModel().getLocalPlayer().getDeposit().restoreSavedState();
-        setUsingProductions(false);
+            setUsingProductions(false);
+        }
     }
 
     public abstract void handleEndGame(Map<String, Integer> scores, String winnerName);

@@ -223,7 +223,12 @@ public class PlayerController {
      */
     public synchronized void useProductions(Player player, List<Production> productions) {
         gameController.checkTurn(player);
-        gameController.checkAlreadyPlayed(player);
+        try{
+            gameController.checkAlreadyPlayed(player);
+        } catch (IllegalStateException e) {
+            gameController.getGame().notifyInvalidAction(player, "Error during productions!");
+            return;
+        }
 
         Map<Resource, Integer> result = new HashMap<>();
         for (Production production : productions) {

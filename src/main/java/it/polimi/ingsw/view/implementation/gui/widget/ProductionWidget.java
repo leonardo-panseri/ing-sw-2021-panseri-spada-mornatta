@@ -159,7 +159,7 @@ public class ProductionWidget extends FlowPane {
             if (success) {
                 if (isInput) {
                     int quantity = Integer.parseInt(resourcesCount.get(resource).get());
-                    if (quantity > 0) {
+                    if (quantity > 0 && (targetResource == null || resource == targetResource)) {
                         quantity--;
                         resourcesCount.get(resource).setValue("" + quantity);
                     } else success = false;
