@@ -162,16 +162,24 @@ public class LeaderCardWidget extends StackPane {
                 dragEvent.consume();
             });
             img.setOnDragDropped(dragEvent -> {
+                Dragboard db = dragEvent.getDragboard();
                 boolean success = true;
-                int rowIndex = -1;
+                boolean fromMarketResults = false;
+                int sourceIndex = -1;
                 try {
-                    rowIndex = DepositWidget.getRowId(((Node)dragEvent.getGestureSource()).getParent());
+                    String sourceType = db.getString();
+                    if (sourceType != null && sourceType.startsWith("marketResult")) {
+                        sourceIndex = Integer.parseInt(db.getString().replace("marketResult", ""));
+                        fromMarketResults = true;
+                    }
+                    else sourceIndex = DepositWidget.getRowId(((Node)dragEvent.getGestureSource()).getParent());
                 } catch (IllegalArgumentException e) {
                     success = false;
                 }
 
                 if (success) {
-                    GUI.instance().getActionSender().move(rowIndex + 1, depositIndex + 3);
+                    if (fromMarketResults) GUI.instance().getActionSender().storeMarketResult(sourceIndex, depositIndex + 3);
+                    else GUI.instance().getActionSender().move(sourceIndex + 1, depositIndex + 3);
                 }
 
                 dragEvent.setDropCompleted(success);
@@ -191,7 +199,7 @@ public class LeaderCardWidget extends StackPane {
             }
 
             if (success) {
-                GUI.instance().getActionSender().move(depositIndex + 4, rowIndex + 1);
+                GUI.instance().getActionSender().move(depositIndex + 3, rowIndex + 1);
             }
 
             dragEvent.setDropCompleted(success);

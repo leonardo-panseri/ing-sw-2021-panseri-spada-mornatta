@@ -190,6 +190,8 @@ public class DepositWidget extends AnchorPane {
             case "topRow" -> rowIndex = 0;
             case "middleRow" -> rowIndex = 1;
             case "bottomRow" -> rowIndex = 2;
+            case "leaderDeposit1" -> rowIndex = 4;
+            case "leaderDeposit2" -> rowIndex = 5;
             default -> throw new IllegalArgumentException();
         }
         return rowIndex;
