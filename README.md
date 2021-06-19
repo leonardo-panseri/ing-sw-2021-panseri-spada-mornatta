@@ -43,7 +43,7 @@ First you need to create a server instance to host the matches with:
 
 `java -jar GC04-server.jar`
 
-This will run a server on the default port(12345).
+This will run a server on the default port (12345).
 
 ## Starting the client
 
