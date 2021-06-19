@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.card.SpecialAbilityType;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.GUI;
 import it.polimi.ingsw.view.messages.ActivateLeaderPlayerActionEvent;
+import it.polimi.ingsw.view.messages.DiscardLeaderPlayerActionEvent;
 import it.polimi.ingsw.view.messages.production.LeaderProduction;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
@@ -27,7 +28,7 @@ public class LeaderDisplayWidget extends VBox {
 
     private final PlayerBoardWidget playerBoard;
     private final MockPlayer player;
-    private final Map<LeaderCard, LeaderCardWidget> leadersAndWidgets;
+    private final Map<LeaderCard, Group> leadersAndWidgets;
 
     public LeaderDisplayWidget(PlayerBoardWidget playerBoard) {
         this.playerBoard = playerBoard;
@@ -70,8 +71,9 @@ public class LeaderDisplayWidget extends VBox {
             if (!player.isLocalPlayer())
                 newWidget.flipCard();
 
-            leaderDisplay.getChildren().add(new Group(newWidget));
-            leadersAndWidgets.put(newLeader, newWidget);
+            Group leaderWrapper = new Group(newWidget);
+            leaderDisplay.getChildren().add(leaderWrapper);
+            leadersAndWidgets.put(newLeader, leaderWrapper);
 
             if (active)
                 newWidget.getStyleClass().add("leader-active");
@@ -111,10 +113,12 @@ public class LeaderDisplayWidget extends VBox {
     private ContextMenu buildContextMenu(LeaderCardWidget cardWidget) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem menuItem1 = new MenuItem("Activate Leader");
+        MenuItem menuItem2 = new MenuItem("Discard Leader");
 
         menuItem1.setOnAction((event) -> GUI.instance().getClient().send(new ActivateLeaderPlayerActionEvent(cardWidget.getLeaderCard().getUuid())));
+        menuItem2.setOnAction((event -> GUI.instance().getClient().send(new DiscardLeaderPlayerActionEvent(cardWidget.getLeaderCard().getUuid()))));
 
-        contextMenu.getItems().addAll(menuItem1);
+        contextMenu.getItems().addAll(menuItem1, menuItem2);
         return contextMenu;
     }
 }
