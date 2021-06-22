@@ -194,16 +194,6 @@ public class MockDeposit {
     }
 
     public void saveCurrentState() {
-        deepCopy(depositBackup, deposit, strongboxBackup, strongbox, leadersDepositBackup, leadersDeposit);
-    }
-
-    public void restoreSavedState() {
-        deepCopy(deposit, depositBackup, strongbox, strongboxBackup, leadersDeposit, leadersDepositBackup);
-    }
-
-    private void deepCopy(List<List<Resource>> depositBackup, List<List<Resource>> deposit,
-                          Map<Resource, Integer> strongboxBackup, Map<Resource, Integer> strongbox, Map<Integer,
-            List<Resource>> leadersDepositBackup, Map<Integer, List<Resource>> leadersDeposit) {
         depositBackup.clear();
         for (List<Resource> row : deposit) {
             depositBackup.add(new ArrayList<>(row));
@@ -214,6 +204,18 @@ public class MockDeposit {
         for (Integer index : leadersDeposit.keySet()) {
             leadersDepositBackup.put(index, new ArrayList<>(leadersDeposit.get(index)));
         }
+    }
+
+    public void restoreSavedState() {
+        for(int i = 0; i < 3; i++) {
+            deposit.set(i, depositBackup.get(i));
+        }
+
+        strongbox.clear();
+        strongbox.putAll(strongboxBackup);
+
+        leadersDeposit.clear();
+        leadersDeposit.putAll(leadersDepositBackup);
     }
 
     public void removeResources(View view, Map<Resource, Integer> resources) {

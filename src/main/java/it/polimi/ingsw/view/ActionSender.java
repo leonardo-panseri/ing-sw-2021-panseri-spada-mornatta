@@ -216,6 +216,11 @@ public abstract class ActionSender {
             return;
         }
 
+        if (getView().isUsingProductions() && !getPendingProductions().isEmpty()) {
+            view.getRenderer().showErrorMessage("Execute your queued productions before ending the turn!");
+            return;
+        }
+
         view.getClient().send(new EndTurnPlayerActionEvent());
     }
 
