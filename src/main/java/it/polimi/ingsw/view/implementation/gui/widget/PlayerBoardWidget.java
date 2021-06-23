@@ -83,6 +83,10 @@ public class PlayerBoardWidget extends StackPane {
         GUI.instance().getModel().lorenzoActionProperty().setValueListener(value ->
                 Platform.runLater(() -> lorenzoActionDisplay.setText(value)));
 
+        if(!GUI.instance().getActionSender().getPendingProductions().isEmpty()) {
+            productionLabel.setText("You have " + GUI.instance().getActionSender().getPendingProductions().size() + " queued productions:");
+            productionExecute.setVisible(true);
+        }
         GUI.instance().getActionSender().pendingProductionsProperty().addListener(
                 (ListChangeListener<? super Production>) change -> Platform.runLater(() -> {
                     if (change.getList().size() > 0) {

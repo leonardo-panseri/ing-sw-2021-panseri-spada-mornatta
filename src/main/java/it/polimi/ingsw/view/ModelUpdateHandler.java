@@ -98,6 +98,10 @@ public abstract class ModelUpdateHandler {
             player = getView().getModel().addPlayer(playerName, false);
         }
 
+        if(player.isLocalPlayer()) {
+            checkForPendingProductions();
+        }
+
         player.getPlayerBoard().setNewDevelopmentCard(card, slot);
         getView().getModel().removeDevelopmentCard(card);
     }
@@ -222,10 +226,22 @@ public abstract class ModelUpdateHandler {
             player = getView().getModel().addPlayer(playerName, false);
         }
 
+        if(player.isLocalPlayer()) {
+            checkForPendingProductions();
+        }
+
         player.getDeposit().setMarketResult(result);
     }
 
     public void handleLorenzoAction(LorenzoAction action) {
         getView().getModel().lorenzoActionProperty().set(action.toString());
+    }
+
+    private void checkForPendingProductions() {
+        if(getView().isUsingProductions()) {
+            getView().getModel().getLocalPlayer().getDeposit().restoreSavedState();
+            getView().getActionSender().clearPendingProductions();
+            getView().setUsingProductions(false);
+        }
     }
 }

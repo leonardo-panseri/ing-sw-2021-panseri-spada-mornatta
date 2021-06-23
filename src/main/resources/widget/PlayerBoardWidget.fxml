@@ -11,7 +11,7 @@
             <AnchorPane.bottomAnchor>10</AnchorPane.bottomAnchor>
             <HBox fx:id="faithTrackDisplay" alignment="CENTER" prefWidth="1000.0" prefHeight="50" />
             <HBox>
-                <Pane fx:id="playerBoardDisplay" prefWidth="1000.0" prefHeight="508">
+                <Pane fx:id="playerBoardDisplay" prefWidth="1050.0" prefHeight="508">
                     <VBox.margin><Insets top="30" /></VBox.margin>
                     <Pane fx:id="depositDisplay" layoutX="20.0" layoutY="36.5"/>
                     <Pane fx:id="strongBoxDisplay" layoutX="40" layoutY="340"/>
@@ -59,7 +59,7 @@
             <AnchorPane.rightAnchor>200</AnchorPane.rightAnchor>
         </Label>
         <Pane fx:id="musicButtonDisplay">
-            <AnchorPane.topAnchor>70</AnchorPane.topAnchor>
+            <AnchorPane.topAnchor>75</AnchorPane.topAnchor>
             <AnchorPane.rightAnchor>220</AnchorPane.rightAnchor>
         </Pane>
     </AnchorPane>
