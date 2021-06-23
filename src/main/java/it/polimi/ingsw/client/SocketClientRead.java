@@ -39,7 +39,7 @@ public class SocketClientRead extends Thread {
                     if (packet instanceof IServerPacket) {
                         IServerPacket serverPacket = (IServerPacket) packet;
 
-                        System.out.println("Received: " + packet);
+                        // System.out.println("Received: " + packet);
 
                         try {
                             serverPacket.process(client.getView());
