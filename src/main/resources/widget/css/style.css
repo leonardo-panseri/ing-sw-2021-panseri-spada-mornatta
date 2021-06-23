@@ -1,3 +1,9 @@
+.pope-favours .label {
+    -fx-font-family: 'Girassol', cursive;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
 .leader-card .label {
     -fx-font-size: 16;
 }

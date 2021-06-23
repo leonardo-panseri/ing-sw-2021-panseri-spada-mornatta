@@ -18,7 +18,7 @@ import java.util.Map;
 public class MockPlayer {
     private final String name;
     private final boolean localPlayer;
-    private int popeFavours;
+    private final IntegerProperty popeFavours;
     private final IntegerProperty faithPoints;
 
     private int initialResourcesToChoose;
@@ -30,7 +30,7 @@ public class MockPlayer {
         this.name = name;
         this.localPlayer = localPlayer;
         faithPoints = new SimpleIntegerProperty(0);
-        this.popeFavours = 0;
+        this.popeFavours = new SimpleIntegerProperty(0);
         this.leaderCards = FXCollections.observableHashMap();
         this.playerBoard = new MockPlayerBoard(this);
     }
@@ -72,7 +72,7 @@ public class MockPlayer {
      * @return the number of pope favours of the player
      */
     public int getPopeFavours() {
-        return popeFavours;
+        return popeFavours.get();
     }
 
     /**
@@ -81,7 +81,11 @@ public class MockPlayer {
      * @param popeFavours the new number of pope favours of the player
      */
     public void setPopeFavours(int popeFavours) {
-        this.popeFavours = popeFavours;
+        this.popeFavours.set(popeFavours);
+    }
+
+    public IntegerProperty popeFavoursProperty() {
+        return popeFavours;
     }
 
     /**

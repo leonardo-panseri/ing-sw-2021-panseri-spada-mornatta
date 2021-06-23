@@ -4,6 +4,7 @@ import it.polimi.ingsw.FXMLUtils;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -167,6 +168,22 @@ public class FaithTrackWidget extends GridPane {
             }
             addColumn(i, box);
         }
+
+        Label popeFavoursTitle = new Label("Pope Favours:");
+        HBox popeFavorsTitleCentered = new HBox(popeFavoursTitle);
+        popeFavorsTitleCentered.setAlignment(Pos.CENTER);
+        VBox.setMargin(popeFavorsTitleCentered, new Insets(0, 0, 0, 10));
+
+        Label popeFavoursDisplay = new Label();
+        popeFavoursDisplay.textProperty().bind(player.popeFavoursProperty().asString());
+        HBox popeFavorsDisplayCentered = new HBox(popeFavoursDisplay);
+        popeFavorsDisplayCentered.setAlignment(Pos.CENTER);
+        VBox.setMargin(popeFavorsDisplayCentered, new Insets(0, 0, 0, 10));
+
+        VBox popeFavoursContainer = new VBox(popeFavorsTitleCentered, popeFavorsDisplayCentered);
+        popeFavoursContainer.getStyleClass().add("pope-favours");
+        popeFavoursContainer.setAlignment(Pos.CENTER);
+        addColumn(25, popeFavoursContainer);
     }
 
 }
