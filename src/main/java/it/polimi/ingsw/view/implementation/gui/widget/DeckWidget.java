@@ -38,7 +38,20 @@ public class DeckWidget extends StackPane {
     private void initialize() {
         List<HashMap<CardColor, ObservableList<DevelopmentCard>>> developmentDeck = GUI.instance().getModel().getDevelopmentDeck();
         for (int i = 0; i < 4; i++) {
-            layerGrids.add(new GridPane());
+            GridPane gridPane = new GridPane();
+
+            for (int j = 0; j < 4; j++) {
+                ColumnConstraints colConst = new ColumnConstraints();
+                colConst.setPercentWidth(100.0 / 4);
+                gridPane.getColumnConstraints().add(colConst);
+            }
+            for (int j = 0; j < 3; j++) {
+                RowConstraints rowConst = new RowConstraints();
+                rowConst.setPercentHeight(100.0 / 3);
+                gridPane.getRowConstraints().add(rowConst);
+            }
+
+            layerGrids.add(gridPane);
             VBox vBox = new VBox();
             vBox.getChildren().add(layerGrids.get(i));
             vBox.setAlignment(Pos.CENTER);
