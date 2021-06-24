@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.beans;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.LeaderCard;
 import it.polimi.ingsw.model.card.SpecialAbilityType;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -81,7 +82,7 @@ public class MockPlayer {
      * @param popeFavours the new number of pope favours of the player
      */
     public void setPopeFavours(int popeFavours) {
-        this.popeFavours.set(popeFavours);
+        Platform.runLater(() -> this.popeFavours.set(popeFavours));
     }
 
     public IntegerProperty popeFavoursProperty() {
