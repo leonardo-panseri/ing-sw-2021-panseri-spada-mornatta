@@ -46,10 +46,10 @@ public class ChatWidget extends VBox {
         scrollPane.setPrefHeight(150);
         scrollPane.setMaxHeight(150);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.vvalueProperty().bind(chat.heightProperty());
         scrollPane.getStyleClass().add("chat-scroll-pane");
         hbox.getStyleClass().add("chat-box");
         textInput.getStyleClass().add("chat-input");
-
         for (String s : GUI.instance().getModel().getChatMessages()) {
             showMessage(s);
         }
