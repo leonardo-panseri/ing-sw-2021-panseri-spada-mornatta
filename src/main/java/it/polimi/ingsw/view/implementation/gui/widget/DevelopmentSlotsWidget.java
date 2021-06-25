@@ -88,6 +88,7 @@ public class DevelopmentSlotsWidget extends StackPane {
                 prevCard.setOnMouseClicked(null);
                 layerGrids.add(new GridPane());
                 initGrid(layerGrids.get(layerGrids.size() - 1));
+                layerGrids.get(layerGrids.size() - 1).setPickOnBounds(false);
                 layerGrids.get(layerGrids.size() - 1).setTranslateY(-40.0);
                 getChildren().add(layerGrids.get(layerGrids.size() - 1));
             }
@@ -120,7 +121,7 @@ public class DevelopmentSlotsWidget extends StackPane {
         ObservableList<Node> childrens = pane.getChildren();
         for (Node node : childrens) {
             if (GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == slotIndex && node instanceof VBox) {
-                if (((VBox) node).getChildren().size() > 0) result = node;
+                if (((VBox) node).getChildren().size() > 0) result = ((VBox) node).getChildren().get(0);
                 break;
             }
         }
@@ -131,6 +132,7 @@ public class DevelopmentSlotsWidget extends StackPane {
         List<VBox> slots = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             slots.add(new VBox());
+            if(grid != layerGrids.get(0)) slots.get(i).setPickOnBounds(false);
             slots.get(i).setPrefHeight(294.0);
             slots.get(i).setPrefWidth(195.0);
             GridPane.setRowIndex(slots.get(i), 0);
