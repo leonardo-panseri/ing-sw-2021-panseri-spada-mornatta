@@ -260,10 +260,12 @@ public class PlayerBoardWidget extends StackPane {
 
     protected void openProductionModal(List<Resource> input, List<Resource> output, Class<? extends Production> prodType, Card card) {
         if (!isProductionModalOpen()) {
-            Platform.runLater(() -> {
-                ProductionWidget productionWidget = new ProductionWidget(this, input, output, prodType, card);
-                getChildren().add(productionWidget);
-            });
+            if(player.isLocalPlayer() && GUI.instance().isOwnTurn()) {
+                Platform.runLater(() -> {
+                    ProductionWidget productionWidget = new ProductionWidget(this, input, output, prodType, card);
+                    getChildren().add(productionWidget);
+                });
+            }
         }
     }
 

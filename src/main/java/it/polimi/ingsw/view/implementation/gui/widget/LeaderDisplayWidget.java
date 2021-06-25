@@ -68,7 +68,7 @@ public class LeaderDisplayWidget extends VBox {
             newWidget.setScaleX(0.75);
             newWidget.setScaleY(0.75);
 
-            if (!player.isLocalPlayer())
+            if (!active && !player.isLocalPlayer())
                 newWidget.flipCard();
 
             Group leaderWrapper = new Group(newWidget);
