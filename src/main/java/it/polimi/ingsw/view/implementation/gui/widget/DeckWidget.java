@@ -104,7 +104,7 @@ public class DeckWidget extends StackPane {
 
     private void removeCards(DevelopmentCard removedCard) {
         Platform.runLater(() -> {
-            int modifiedLayerIndex = GUI.instance().getModel().getDevelopmentDeck().get(removedCard.getLevel()).get(removedCard.getColor()).size() - 1;
+            int modifiedLayerIndex = GUI.instance().getModel().getDevelopmentDeck().get(removedCard.getLevel() - 1).get(removedCard.getColor()).size() - 1;
             GridPane modifiedLayer = layerGrids.get(modifiedLayerIndex);
             ObservableList<Node> children = modifiedLayer.getChildren();
             for (Node node : children) {

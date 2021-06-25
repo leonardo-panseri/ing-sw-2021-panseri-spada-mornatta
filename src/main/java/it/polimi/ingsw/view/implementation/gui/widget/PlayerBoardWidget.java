@@ -76,7 +76,7 @@ public class PlayerBoardWidget extends StackPane {
             if (GUI.instance().getPlayerName().equals(newVal)) {
                 messageDisplay.setText("It's your turn");
             } else {
-                messageDisplay.setText("It's " + newVal + " turn");
+                messageDisplay.setText("It's " + newVal + "'s turn");
             }
         }));
 
