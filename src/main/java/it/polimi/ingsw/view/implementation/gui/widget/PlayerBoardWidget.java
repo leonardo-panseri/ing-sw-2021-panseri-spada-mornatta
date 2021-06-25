@@ -71,7 +71,7 @@ public class PlayerBoardWidget extends StackPane {
         initializeWidgets();
 
         messageDisplay.setText(GUI.instance().isOwnTurn() ? "It's your turn" :
-                "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + " turn");
+                "It's " + GUI.instance().getModel().currentPlayerNameProperty().get() + "'s turn");
         GUI.instance().getModel().currentPlayerNameProperty().addListener((change, oldVal, newVal) -> Platform.runLater(() -> {
             if (GUI.instance().getPlayerName().equals(newVal)) {
                 messageDisplay.setText("It's your turn");

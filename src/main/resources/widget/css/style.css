@@ -241,7 +241,7 @@
 
 .leader-active {
     -fx-border-color: #0044EFFF;
-    -fx-border-width: 2 2 2 2;
+    -fx-border-width: 4 4 4 4;
     -fx-border-style: solid;
     -fx-border-radius: 0 0;
     -fx-border-insets: 0 0 0 0 0;
