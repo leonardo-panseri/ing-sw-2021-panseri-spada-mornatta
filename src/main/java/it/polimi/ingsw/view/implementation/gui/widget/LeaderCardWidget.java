@@ -128,6 +128,10 @@ public class LeaderCardWidget extends StackPane {
 
     private void registerDepositHandler(List<ImageView> images, PlayerBoardWidget playerBoard) {
         int depositIndex = playerBoard.getPlayer().getDeposit().getLeaderDepositIndexForCard(leaderCard);
+
+        if(depositIndex == -1)
+            return;
+
         updateDeposit(images, playerBoard.getPlayer().getDeposit().getLeadersDeposit(depositIndex));
         playerBoard.getPlayer().getDeposit().leaderDepositProperty().addListener(
                 (MapChangeListener<? super Integer, ? super List<Resource>>) change -> {

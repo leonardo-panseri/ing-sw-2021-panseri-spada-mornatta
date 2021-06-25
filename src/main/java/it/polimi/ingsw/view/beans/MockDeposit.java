@@ -190,6 +190,13 @@ public class MockDeposit {
     }
 
     public int getLeaderDepositIndexForCard(LeaderCard card) {
+        if(!leaderCardToDepositLink.containsKey(card.getUuid())) {
+            //TODO Check and fix this
+            System.err.println("Leader Card " + card + " is not in leaderCardToDepositLink");
+            System.err.println("leaderCardToDepositLink: " + leaderCardToDepositLink);
+            return -1;
+        }
+
         return leaderCardToDepositLink.get(card.getUuid());
     }
 
