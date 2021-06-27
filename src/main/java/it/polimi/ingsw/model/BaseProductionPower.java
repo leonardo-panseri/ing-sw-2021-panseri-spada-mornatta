@@ -17,15 +17,31 @@ public class BaseProductionPower implements Serializable {
     private final List<Resource> input;
     private final List<Resource> output;
 
+    /**
+     * Constructs a new BaseProductionPower.
+     *
+     * @param input a list of resources used as input of the base production
+     * @param output a list of resources used as output of the base production
+     */
     public BaseProductionPower(List<Resource> input, List<Resource> output) {
         this.input = new ArrayList<>(input);
         this.output = new ArrayList<>(output);
     }
 
+    /**
+     * Gets the list of resources used as input of the base production.
+     *
+     * @return the list of resources used as input of the base production
+     */
     public List<Resource> getInput() {
         return new ArrayList<>(input);
     }
 
+    /**
+     * Gets the list of resources used as input of the base production as a map.
+     *
+     * @return a map containing the input resources
+     */
     public Map<Resource, Integer> getInputMap() {
         Map<Resource, Integer> input = new HashMap<>();
         for (Resource resource : getInput()) {
@@ -37,10 +53,20 @@ public class BaseProductionPower implements Serializable {
         return input;
     }
 
+    /**
+     * Gets the list of resources used as output of the base production.
+     *
+     * @return the list of resources used as output of the base production
+     */
     public List<Resource> getOutput() {
         return new ArrayList<>(output);
     }
 
+    /**
+     * Gets the list of resources used as output of the base production as a map.
+     *
+     * @return a map containing the output resources
+     */
     public Map<Resource, Integer> getOutputMap() {
         Map<Resource, Integer> output = new HashMap<>();
         for (Resource resource : getOutput()) {

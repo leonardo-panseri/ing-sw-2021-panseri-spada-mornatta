@@ -315,6 +315,13 @@ public class Game extends Observable<IServerPacket> {
         notify(new ChatUpdate(sender, message));
     }
 
+
+    /**
+     * Notifies the Player that one of the action that he has tried to perform is invalid.
+     *
+     * @param player the player that should be notified
+     * @param message the error message
+     */
     public void notifyInvalidAction(Player player, String message) {
         notify(new InvalidActionUpdate(player, message));
     }
