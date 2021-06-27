@@ -11,11 +11,18 @@ import it.polimi.ingsw.view.View;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Command line interface main class
+ */
 public class CLI extends View {
     private final CommandHandler commandHandler;
 
     private List<UUID> selectedLeaderCards;
 
+    /**
+     * Creates a new CLI for the given client
+     * @param client the client that requests a command line interface
+     */
     public CLI(Client client) {
         super(client);
         this.setModelUpdateHandler(new CLIModelUpdateHandler(this));

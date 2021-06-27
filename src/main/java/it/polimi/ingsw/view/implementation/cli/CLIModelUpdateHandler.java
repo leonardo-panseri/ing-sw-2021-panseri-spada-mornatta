@@ -12,7 +12,16 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 
 import java.util.List;
 
+/**
+ * Implementation of ModelUpdateHandler for the CLI.
+ */
+
 public class CLIModelUpdateHandler extends ModelUpdateHandler {
+
+    /**
+     * Creates a new CLIModelUpdateHandler for the given View.
+     * @param view the cli to be associated with this updater
+     */
     protected CLIModelUpdateHandler(View view) {
         super(view);
     }

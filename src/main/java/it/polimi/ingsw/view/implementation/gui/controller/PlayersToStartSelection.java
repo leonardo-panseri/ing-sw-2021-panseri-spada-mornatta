@@ -6,6 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * Page for the selection of the number of players required.
+ */
 public class PlayersToStartSelection {
     @FXML
     private TextField playersToStart;

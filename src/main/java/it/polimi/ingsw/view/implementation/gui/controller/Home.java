@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+/**
+ * Home page where the user can fill in a text field with ip:port of the server.
+ */
 public class Home {
     @FXML
     public VBox leftVBox;

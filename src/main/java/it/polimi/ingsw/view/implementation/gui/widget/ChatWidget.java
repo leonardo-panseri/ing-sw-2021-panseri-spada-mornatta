@@ -12,12 +12,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Widget that represents the chat.
+ */
 public class ChatWidget extends VBox {
     @FXML
     private VBox chat;
     private TextField textInput;
 
-
+    /**
+     * Creates the chat widget.
+     */
     public ChatWidget() {
 
         FXMLUtils.loadWidgetFXML(this);
@@ -64,6 +69,10 @@ public class ChatWidget extends VBox {
         });
     }
 
+    /**
+     * Inserts a new message in the chat.
+     * @param message the message
+     */
     public void showMessage(String message) {
         Platform.runLater(() -> {
             Label label = new Label(message);

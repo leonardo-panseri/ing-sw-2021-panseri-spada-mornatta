@@ -9,7 +9,16 @@ import it.polimi.ingsw.view.View;
 
 import java.util.List;
 
+/**
+ * Implementation of the ActionSender for the CLI.
+ */
+
 public class CLIActionSender extends ActionSender {
+
+    /**
+     * Creates a new CLIActionSender for the given View
+     * @param view the CLI to be associated with this ActionSender
+     */
     public CLIActionSender(View view) {
         super(view);
     }

@@ -19,8 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of the Renderer for the CLI.
+ */
+
 public class CLIRenderer extends Renderer {
 
+    /**
+     * Creates a new CLIRenderer for the given View.
+     * @param view the cli to be associated with this CLIRenderer
+     */
     protected CLIRenderer(View view) {
         super(view);
     }

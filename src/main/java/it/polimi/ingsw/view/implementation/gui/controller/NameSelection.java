@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+/**
+ * Page for the selection of the user name.
+ */
+
 public class NameSelection {
     @FXML
     private TextField username;

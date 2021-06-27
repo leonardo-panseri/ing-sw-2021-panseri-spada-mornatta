@@ -23,6 +23,10 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Widget that represents a deposit.
+ */
+
 public class DepositWidget extends AnchorPane {
     @FXML
     private HBox topRow;
@@ -35,6 +39,10 @@ public class DepositWidget extends AnchorPane {
     private boolean dropAllowed;
     private Consumer<DragEvent> dragDroppedHandler;
 
+    /**
+     * Creates a new deposit widget for the given player.
+     * @param player the player that owns the deposit
+     */
     public DepositWidget(MockPlayer player) {
         this.player = player;
         this.dropAllowed = false;
@@ -94,6 +102,11 @@ public class DepositWidget extends AnchorPane {
         }
     }
 
+    /**
+     * Updates the deposit with the modified row provided in input.
+     * @param index the index of the modified row
+     * @param resources the modified row of resources
+     */
     private void updateRow(int index, List<Resource> resources) {
         Platform.runLater(() -> {
             Image img = resources.size() > 0 ? GUIUtils.getResourceImage(resources.get(0), 39.0, 33.0) : null;
@@ -127,6 +140,11 @@ public class DepositWidget extends AnchorPane {
         });
     }
 
+    /**
+     * Builds an empty image view for a specified row that later will contain a resource.
+     * @param rowId the row where to build an empty image view
+     * @return an empty image view
+     */
     private ImageView buildEmptyImage(String rowId) {
         ImageView img = new ImageView();
         img.setFitHeight(39);
@@ -152,6 +170,11 @@ public class DepositWidget extends AnchorPane {
         return img;
     }
 
+    /**
+     * Callback function after a drag and drop on the deposit. It handles the various player actions that move resources
+     * from one storage to another.
+     * @return a consumer of the drag event that executes this function
+     */
     private Consumer<DragEvent> moveResourceHandler() {
         return dragEvent -> {
             boolean success = true;
@@ -173,14 +196,28 @@ public class DepositWidget extends AnchorPane {
         };
     }
 
+    /**
+     * Sets if drop is allowed in this deposit.
+     * @param dropAllowed true if drop is allowed
+     */
     public void setDropAllowed(boolean dropAllowed) {
         this.dropAllowed = dropAllowed;
     }
 
+    /**
+     * Sets the handler for drop events on this deposit.
+     * @param eventHandler the consumer to be set as drop event callback function
+     */
     public void setOnDragDroppedHandler(Consumer<DragEvent> eventHandler) {
         this.dragDroppedHandler = eventHandler;
     }
 
+    /**
+     * Gets the row id for the given resource node.
+     * @param node the node containing the resource
+     * @return the index of the resource
+     * @throws IllegalArgumentException if the input is not a Node, or if the resource is not in any storage
+     */
     public static int getRowId(Object node) throws IllegalArgumentException {
         if (!(node instanceof Node))
             throw new IllegalArgumentException();

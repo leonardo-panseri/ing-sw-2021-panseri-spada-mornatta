@@ -24,11 +24,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * Widget that represents the deck of development cards.
+ */
+
 public class DeckWidget extends StackPane {
 
     private final List<GridPane> layerGrids;
     private int loadedLevels = 0;
 
+    /**
+     * Creates a new deck widget.
+     */
     public DeckWidget() {
         layerGrids = new ArrayList<>();
         FXMLUtils.loadWidgetFXML(this);
@@ -100,8 +107,10 @@ public class DeckWidget extends StackPane {
         }
     }
 
-
-
+    /**
+     * Callback function that removes the bought card from the widget.
+     * @param removedCard the bought card
+     */
     private void removeCards(DevelopmentCard removedCard) {
         Platform.runLater(() -> {
             int modifiedLayerIndex = GUI.instance().getModel().getDevelopmentDeck().get(removedCard.getLevel() - 1).get(removedCard.getColor()).size() - 1;
@@ -119,6 +128,12 @@ public class DeckWidget extends StackPane {
         });
     }
 
+    /**
+     * Function that sets the drag function to the next card in the stack, when the previous one has been bought.
+     * @param layerToBeUpdated the grid pane that contains the bought card
+     * @param color the color of the bought card
+     * @param level the level of the bought card
+     */
     private void updateDraggable(int layerToBeUpdated, CardColor color, int level) {
         ObservableList<Node> children = layerGrids.get(layerToBeUpdated).getChildren();
         for (Node node : children) {
@@ -129,6 +144,10 @@ public class DeckWidget extends StackPane {
         }
     }
 
+    /**
+     * Function that sets the drag function to the given card.
+     * @param node the node containing the card
+     */
     private void setDraggableDevCard(Node node) {
         BorderPane pane = (BorderPane) node;
         Group group = (Group) pane.getChildren().get(0);
@@ -154,6 +173,10 @@ public class DeckWidget extends StackPane {
         GUI.instance().getScene().setRoot(new PlayerBoardWidget(GUI.instance().getModel().getLocalPlayer()));
     }
 }
+
+/**
+ * Runnable class to permit asynchronous loading of the development decks when loading this widget.
+ */
 class LoadCards implements Runnable {
     private static final double SCALE_FACTOR = 0.68;
 
@@ -184,6 +207,11 @@ class LoadCards implements Runnable {
         }
     }
 
+    /**
+     * Creates LoadCards runnable for the deck of the given level, using a callback function at the end.
+     * @param level the level of the deck
+     * @param callback the function to be called at the end of the execution
+     */
     LoadCards(int level, Consumer<LoadedCards> callback) {
         this.level = level;
         this.result = new LoadedCards();
@@ -207,6 +235,12 @@ class LoadCards implements Runnable {
         callback.accept(result);
     }
 
+    /**
+     * Creates a BorderPane in the right position of the grid depending on the color of the card.
+     * @param color the color of the card
+     * @param card the card
+     * @return a border pane containing the card widget
+     */
     private BorderPane createPane(CardColor color, DevelopmentCardWidget card) {
         card.setScaleX(SCALE_FACTOR);
         card.setScaleY(SCALE_FACTOR);

@@ -14,6 +14,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
+/**
+ * Lobby page where users wait for the match to start when there are enough players.
+ */
 public class WaitingPlayers {
     @FXML
     private VBox playersNumberDisplay;

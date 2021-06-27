@@ -12,13 +12,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Handler for the cli commands, it has the task to recognize input from user and call the right function,
+ * related to the player move.
+ */
+
 public class CommandHandler {
     private final CLI cli;
 
+    /**
+     * Creates a new CommandHandler for the given CLI.
+     * @param cli the cli to be associated to this CommandHandler
+     */
     public CommandHandler(CLI cli) {
         this.cli = cli;
     }
 
+    /**
+     * The main method. It parses the input, checking if it corresponds to a possible move, and in this case it calls it.
+     * @param command user input in the CLI
+     * @throws IllegalArgumentException if the input does not match with any possible player action
+     */
     public void handle(String command) throws IllegalArgumentException {
         if (command == null)
             throw new IllegalArgumentException("Command can't be null");
@@ -50,39 +64,67 @@ public class CommandHandler {
         }
     }
 
+    /**
+     * Calls the method to make the player see his leader cards.
+     */
     public void viewLeaders() {
         cli.getRenderer().printOwnLeaders();
     }
 
+    /**
+     * Calls the method to make the player see his development cards.
+     */
     public void viewDevelopment() {
         cli.getRenderer().printOwnDevelopmentCards();
     }
 
+    /**
+     * Calls the method to make the player see the deck.
+     */
     public void viewDeck() {
         cli.getRenderer().printDevelopmentDeck();
     }
 
+    /**
+     * Calls the method to make the player see his deposit.
+     */
     public void viewDeposit() {
         cli.getRenderer().printOwnDeposit();
     }
 
+    /**
+     * Calls the method to make the player see his strongbox.
+     */
     public void viewStrongbox() {
         cli.getRenderer().printOwnStrongbox();
     }
 
+    /**
+     * Calls the method to make the player see the market.
+     */
     public void viewMarket() {
         cli.getRenderer().printMarket();
     }
 
+    /**
+     * Calls the method to make the player see what he drew from the market.
+     */
     public void viewResult() {
         cli.getRenderer().printMarketResult();
     }
 
+    /**
+     * Calls the methods to make the player see his faith and pope favours.
+     */
     public void viewFaith() {
         cli.getRenderer().printFaith(cli.getModel().getLocalPlayer().getFaithPoints());
         cli.getRenderer().printFavours(cli.getModel().getLocalPlayer().getPopeFavours());
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send a "buy" player action event.
+     * @param args the decomposed user command
+     */
     public void buy(String[] args) {
         int cardIndex;
         try {
@@ -105,6 +147,10 @@ public class CommandHandler {
         cli.getActionSender().buyDevelopmentCard(cardIndex, slotIndex);
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send a "draw" action event.
+     * @param args the decomposed user command
+     */
     public void draw(String[] args) {
         int marketIndex;
         try {
@@ -130,6 +176,10 @@ public class CommandHandler {
         cli.getActionSender().draw(marketIndex, whiteConversions);
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the methods to spy other players' boards.
+     * @param args the decomposed user command
+     */
     public void spy(String[] args) {
         if (args.length < 2) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.SPY);
@@ -148,6 +198,10 @@ public class CommandHandler {
         }
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send a "discard" action event.
+     * @param args the decomposed user command
+     */
     public void discard(String[] args) {
         if (args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.DISCARD);
@@ -166,6 +220,10 @@ public class CommandHandler {
         cli.getActionSender().discard(index);
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send a "move" action event.
+     * @param args the decomposed user command
+     */
     public void move(String[] args) {
         if (args.length < 2) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.MOVE_DEPOSIT);
@@ -189,6 +247,10 @@ public class CommandHandler {
         cli.getActionSender().move(index[0], index[1]);
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send a "store" action event.
+     * @param args the decomposed user command
+     */
     public void store(String[] args) {
         if (args.length < 2) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.STORE_DEPOSIT);
@@ -217,10 +279,18 @@ public class CommandHandler {
         cli.getActionSender().storeMarketResult(index[0], index[1]);
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send an "end turn" action event.
+     * @param args the decomposed user command
+     */
     public void endturn(String[] args) {
         cli.getActionSender().endTurn();
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send an "activate" action event.
+     * @param args the decomposed user command
+     */
     public void activate(String[] args) {
         if (args.length < 1) {
             System.out.println(ViewString.INCORRECT_FORMAT + ViewString.ACTIVATE_LEADER);
@@ -239,10 +309,17 @@ public class CommandHandler {
         cli.getActionSender().setActive(index);
     }
 
+    /**
+     * Calls the method to make the player see all the possible commands.
+     */
     public void help(String[] args) {
         cli.getRenderer().help();
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to add a pending production.
+     * @param args the decomposed user command
+     */
     public void production(String[] args) {
         if (args.length < 1) {
             cli.getRenderer().showErrorMessage(ViewString.INCORRECT_FORMAT + ViewString.USE_PRODUCTION);
@@ -330,6 +407,10 @@ public class CommandHandler {
         }
     }
 
+    /**
+     * Checks if the arguments are correct and then calls for the action sender to send a "production" action event.
+     * @param args the decomposed user command
+     */
     public void execute(String[] args) {
         if (!cli.isUsingProductions()) {
             cli.getRenderer().showErrorMessage("You are not using productions");
@@ -338,6 +419,10 @@ public class CommandHandler {
         cli.getActionSender().executeProductions();
     }
 
+    /**
+     * Calls for the action sender to issue a new chat from the player.
+     * @param splitMessage the split message
+     */
     public void chat(String[] splitMessage) {
         String message = String.join(" ", splitMessage);
         cli.getActionSender().sendChatMessage(message);

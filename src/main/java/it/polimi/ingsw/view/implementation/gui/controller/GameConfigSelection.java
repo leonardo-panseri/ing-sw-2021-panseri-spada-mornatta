@@ -8,6 +8,10 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 
+/**
+ * Page for the selection of the game configuration (custom or default).
+ */
+
 public class GameConfigSelection {
     @FXML
     private TextField config;
