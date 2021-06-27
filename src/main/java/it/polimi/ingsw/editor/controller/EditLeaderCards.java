@@ -19,12 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * List of LeaderCards.
+ */
 public class EditLeaderCards {
     @FXML
     private VBox leaderCardsContainer;
 
     private ListView<LeaderCardWidget> leaderCardsView;
 
+    /**
+     * Navigates to the home page.
+     */
     @FXML
     private void goToHome() {
         GameConfigEditor.goToHome();
@@ -46,6 +52,9 @@ public class EditLeaderCards {
                 goToLeaderCardEdit(leaderCardsView.getSelectionModel().getSelectedItem()));
     }
 
+    /**
+     * Creates a new default LeaderCard and navigates to the edit widget.
+     */
     @FXML
     private void createNewLeaderCard() {
         int victoryPoints;
@@ -71,6 +80,11 @@ public class EditLeaderCards {
         goToLeaderCardEdit(newDefaultWidget);
     }
 
+    /**
+     * Navigates to the LeaderCard edit widget.
+     *
+     * @param leaderCardWidget the widget for the leader card to be edited
+     */
     private void goToLeaderCardEdit(LeaderCardWidget leaderCardWidget) {
         if (leaderCardWidget == null)
             return;
@@ -80,6 +94,9 @@ public class EditLeaderCards {
     }
 }
 
+/**
+ * ListCell implementation to center items horizontally in every cell.
+ */
 final class EditableLeaderCardCell extends ListCell<LeaderCardWidget> {
     @Override
     protected void updateItem(LeaderCardWidget item, boolean empty) {

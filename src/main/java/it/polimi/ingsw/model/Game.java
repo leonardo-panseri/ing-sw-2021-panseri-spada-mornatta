@@ -299,7 +299,7 @@ public class Game extends Observable<IServerPacket> {
             return;
         int minSlot = popeReportSlot - popeReports.get(popeReportSlot).get(1) + 1;
         for (Player player : getPlayers()) {
-            if (player.getFaithPoints() >= minSlot && player.getFaithPoints() <= popeReportSlot)
+            if (player.getFaithPoints() >= minSlot)
                 player.addPopeFavours(popeReports.get(popeReportSlot).get(0));
         }
         popeReports.remove(popeReportSlot);

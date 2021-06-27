@@ -1,6 +1,6 @@
 package it.polimi.ingsw.editor.controller;
 
-import it.polimi.ingsw.editor.GUIUtils;
+import it.polimi.ingsw.editor.EditorGUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.view.beans.MockPlayer;
 import it.polimi.ingsw.view.implementation.gui.widget.FaithTrackWidget;
@@ -15,6 +15,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.*;
 
+/**
+ * Page for editing the faith track.
+ */
 public class EditFaithTrack {
     @FXML
     private HBox faithTrackDisplay;
@@ -27,12 +30,14 @@ public class EditFaithTrack {
     private final Map<Integer, BorderPane> popeReportsControls;
     private final MockPlayer player;
 
+    /**
+     * Constructs a new EditFaithTrack.
+     */
     public EditFaithTrack() {
         this.victoryPointsControls = new HashMap<>();
         this.popeReportsControls = new HashMap<>();
         this.player = null;
     }
-
 
     @FXML
     private void initialize() {
@@ -45,7 +50,7 @@ public class EditFaithTrack {
         List<BorderPane> vpControls = new ArrayList<>();
         List<BorderPane> prControls = new ArrayList<>();
         for (int i = 1; i < 25; i++) {
-            BorderPane controlVP = GUIUtils.buildControl("" + i, victoryPoints.getOrDefault(i, -1));
+            BorderPane controlVP = EditorGUIUtils.buildControl("" + i, victoryPoints.getOrDefault(i, -1));
             victoryPointsControls.put(i, controlVP);
             vpControls.add(controlVP);
 
@@ -58,10 +63,10 @@ public class EditFaithTrack {
 
             CheckBox checkBox = new CheckBox("" + i);
             TextField popeReportVPControl = new TextField();
-            popeReportVPControl.setTextFormatter(GUIUtils.getNumberInputTextFormatter());
+            popeReportVPControl.setTextFormatter(EditorGUIUtils.getNumberInputTextFormatter());
             popeReportVPControl.setPrefWidth(30);
             TextField popeReportSizeControl = new TextField();
-            popeReportSizeControl.setTextFormatter(GUIUtils.getNumberInputTextFormatter());
+            popeReportSizeControl.setTextFormatter(EditorGUIUtils.getNumberInputTextFormatter());
             popeReportSizeControl.setPrefWidth(30);
 
             checkBox.setOnAction(actionEvent -> {
@@ -98,18 +103,24 @@ public class EditFaithTrack {
         this.popeReports.getChildren().add(new ListView<>(FXCollections.observableList(prControls)));
     }
 
+    /**
+     * Navigates to the home page.
+     */
     @FXML
     private void goToHome() {
         GameConfigEditor.goToHome();
     }
 
+    /**
+     * Saves the edited faith track to the custom GameConfig.
+     */
     @FXML
     private void saveFaithTrack() {
         Map<Integer, Integer> newVictoryPoints = new HashMap<>();
         Map<Integer, List<Integer>> newPopeReports = new HashMap<>();
 
         victoryPointsControls.forEach((position, control) -> {
-            int victoryPoints = GUIUtils.getSelectedQuantityForControl(control);
+            int victoryPoints = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (victoryPoints != 0) newVictoryPoints.put(position, victoryPoints);
         });
 

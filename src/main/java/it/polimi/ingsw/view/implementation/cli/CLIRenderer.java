@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.implementation.cli;
 
-import it.polimi.ingsw.constant.AnsiColor;
-import it.polimi.ingsw.constant.AnsiSymbol;
-import it.polimi.ingsw.constant.Constants;
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.implementation.cli.utils.AnsiColor;
+import it.polimi.ingsw.view.implementation.cli.utils.AnsiSymbol;
+import it.polimi.ingsw.view.implementation.cli.utils.ASCIIArt;
+import it.polimi.ingsw.view.implementation.cli.utils.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -584,25 +584,25 @@ public class CLIRenderer extends Renderer {
                 market = market.concat(color + "/ * \\  " + AnsiColor.RESET);
             }
             market = market.concat("|");
-            market = market.concat(Constants.SIDEARROW + "\n");
+            market = market.concat(ASCIIArt.SIDEARROW + "\n");
             for (int i = 0; i < 4; i++) {
                 String color = AnsiColor.getResourceColor(grid.get(r).get(i));
                 market = market.concat("| ");
                 market = market.concat(color + "*     * " + AnsiColor.RESET);
             }
             market = market.concat("|");
-            market = market.concat(Constants.SIDEARROW + (r + 5) + "\n");
+            market = market.concat(ASCIIArt.SIDEARROW + (r + 5) + "\n");
             for (int i = 0; i < 4; i++) {
                 String color = AnsiColor.getResourceColor(grid.get(r).get(i));
                 market = market.concat("|  ");
                 market = market.concat(color + "\\ * /  " + AnsiColor.RESET);
             }
             market = market.concat("|");
-            market = market.concat(Constants.SIDEARROW + "\n");
+            market = market.concat(ASCIIArt.SIDEARROW + "\n");
             market = market.concat("-----------------------------------------\n");
         }
-        market = market.concat(Constants.BOTTOMARROWS);
-        market = market.concat(Constants.BOTTOMINDEX);
+        market = market.concat(ASCIIArt.BOTTOMARROWS);
+        market = market.concat(ASCIIArt.BOTTOMINDEX);
 
         System.out.println(market);
         System.out.println("Slide resource: " + renderResource(slideResource));

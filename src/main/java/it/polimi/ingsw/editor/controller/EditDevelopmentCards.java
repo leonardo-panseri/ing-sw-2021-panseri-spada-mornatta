@@ -17,8 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * List of all the DevelopmentCards.
+ */
 public class EditDevelopmentCards {
-
     @FXML
     private VBox developmentCardsContainer;
     @FXML
@@ -52,6 +54,11 @@ public class EditDevelopmentCards {
         }
     }
 
+    /**
+     * Navigates to the edit DevelopmentCard page.
+     *
+     * @param widget the widget for the development card to be edited
+     */
     private void goToDevelopmentCardEdit(DevelopmentCardWidget widget) {
         if (widget == null)
             return;
@@ -60,6 +67,9 @@ public class EditDevelopmentCards {
         GameConfigEditor.goToEditDevelopmentCard(edit);
     }
 
+    /**
+     * Navigates to the home page.
+     */
     @FXML
     private void goToHome() {
         GameConfigEditor.goToHome();

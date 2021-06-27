@@ -1,6 +1,6 @@
-package it.polimi.ingsw.constant;
+package it.polimi.ingsw.view.implementation.cli.utils;
 
-public class Constants {
+public class ASCIIArt {
     public static final String MASTER = """
              __       __                        __                                                     ______         _______                                 __                                                           \s
             /  \\     /  |                      /  |                                                   /      \\       /       \\                               /  |                                                          \s

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.implementation.cli;
 
-import it.polimi.ingsw.constant.AnsiColor;
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.implementation.cli.utils.AnsiColor;
+import it.polimi.ingsw.view.implementation.cli.utils.ViewString;
 import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.lorenzo.action.LorenzoAction;
