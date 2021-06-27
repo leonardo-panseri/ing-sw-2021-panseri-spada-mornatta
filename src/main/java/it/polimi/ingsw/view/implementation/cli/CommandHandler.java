@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.implementation.cli;
 
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.implementation.cli.utils.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderCard;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.constant;
+package it.polimi.ingsw.view.implementation.cli.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

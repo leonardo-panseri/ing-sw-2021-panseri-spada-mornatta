@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.messages.GameConfigMessage;
 import it.polimi.ingsw.client.messages.PlayersToStartMessage;
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.implementation.cli.utils.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;

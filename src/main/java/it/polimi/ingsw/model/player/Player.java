@@ -330,10 +330,20 @@ public class Player extends Observable<IServerPacket> {
         return canAfford;
     }
 
+    /**
+     * Checks if this Player has already done one of the three major actions during his turn.
+     *
+     * @return true if has already played, false otherwise
+     */
     public boolean hasAlreadyPlayed() {
         return hasAlreadyPlayed;
     }
 
+    /**
+     * Sets if this Player has already done one of the three major actions during his turn.
+     *
+     * @param hasAlreadyPlayed true if has already played, false otherwise
+     */
     public void setHasAlreadyPlayed(boolean hasAlreadyPlayed) {
         this.hasAlreadyPlayed = hasAlreadyPlayed;
     }

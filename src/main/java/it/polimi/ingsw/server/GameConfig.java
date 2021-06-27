@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+/**
+ * Class representing a game configuration that will be used to play the game.
+ */
 public class GameConfig implements Serializable {
     @Serial
     private static final long serialVersionUID = 5450385480341924714L;
@@ -52,6 +55,12 @@ public class GameConfig implements Serializable {
         return developmentCards;
     }
 
+    /**
+     * Serializes the given GameConfig to a String.
+     *
+     * @param gameConfig the game config to serialize
+     * @return a string representing the given game config
+     */
     public static String serialize(GameConfig gameConfig) {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
@@ -71,6 +80,12 @@ public class GameConfig implements Serializable {
         return gson.toJson(gameConfig);
     }
 
+    /**
+     * Deserializes the given serialized GameConfig.
+     *
+     * @param serializedGameConfig a string representing a game config
+     * @return the deserialized game config
+     */
     public static GameConfig deserialize(String serializedGameConfig) {
         Gson gson = new Gson();
         try {
@@ -80,6 +95,11 @@ public class GameConfig implements Serializable {
         }
     }
 
+    /**
+     * Loads the default game config.
+     *
+     * @return the default game config
+     */
     public static GameConfig loadDefaultGameConfig() {
         InputStream in = GameConfig.class.getClassLoader().getResourceAsStream(DEFAULT_GAMECONFIG_PATH);
         if (in == null) {

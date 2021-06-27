@@ -1,7 +1,7 @@
 package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.FXMLUtils;
-import it.polimi.ingsw.editor.GUIUtils;
+import it.polimi.ingsw.editor.EditorGUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.*;
@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+/**
+ * Widget for editing a LeaderCard.
+ */
 public class EditLeaderCard extends BorderPane {
     @FXML
     private VBox resourceRequirements;
@@ -34,12 +37,16 @@ public class EditLeaderCard extends BorderPane {
     @FXML
     private ChoiceBox<String> specialAbilityResource;
 
-
     private LeaderCardWidget leaderCardWidget;
     private final Map<Resource, BorderPane> resourceRequirementsControls;
     private final Map<CardColor, BorderPane> cardColorRequirementsControls;
     private final Map<CardColor, BorderPane> cardLevelRequirementsControls;
 
+    /**
+     * Constructs a new EditLeaderCard widget.
+     *
+     * @param leaderCardWidget the widget for the leader card to be edited
+     */
     public EditLeaderCard(LeaderCardWidget leaderCardWidget) {
         this.leaderCardWidget = leaderCardWidget;
         this.resourceRequirementsControls = new HashMap<>();
@@ -58,7 +65,7 @@ public class EditLeaderCard extends BorderPane {
 
         constructRequirementsControls();
 
-        victoryPoints.setTextFormatter(GUIUtils.getNumberInputTextFormatter());
+        victoryPoints.setTextFormatter(EditorGUIUtils.getNumberInputTextFormatter());
         victoryPoints.setText("" + leaderCardWidget.getLeaderCard().getVictoryPoints());
 
         List<String> abilityTypes = new ArrayList<>();
@@ -72,11 +79,17 @@ public class EditLeaderCard extends BorderPane {
         specialAbilityResource.getSelectionModel().select(leaderCardWidget.getLeaderCard().getSpecialAbility().getTargetResource().toString());
     }
 
+    /**
+     * Navigates to the LeaderCards list.
+     */
     @FXML
     private void goToEditLeaderCards() {
         GameConfigEditor.goToEditLeaderCards();
     }
 
+    /**
+     * Saves the edited LeaderCard to the custom GameConfig.
+     */
     @FXML
     private void saveLeaderCard() {
         int victoryPoints = 0;
@@ -92,17 +105,17 @@ public class EditLeaderCard extends BorderPane {
         }
 
         resourceRequirementsControls.forEach((resource, control) -> {
-            int quantity = GUIUtils.getSelectedQuantityForControl(control);
+            int quantity = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (quantity != 0) resourceRequirements.put(resource, quantity);
         });
 
         cardLevelRequirementsControls.forEach((color, control) -> {
-            int quantity = GUIUtils.getSelectedQuantityForControl(control);
+            int quantity = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (quantity != 0) cardLevelRequirements.put(color, quantity);
         });
 
         cardColorRequirementsControls.forEach((color, control) -> {
-            int quantity = GUIUtils.getSelectedQuantityForControl(control);
+            int quantity = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (quantity != 0) cardColorRequirements.put(color, quantity);
         });
 
@@ -127,6 +140,9 @@ public class EditLeaderCard extends BorderPane {
         this.leaderCardWidget = modifiedWidget;
     }
 
+    /**
+     * Deletes the LeaderCard.
+     */
     @FXML
     private void deleteLeaderCard() {
         Stage dialog = new Stage();
@@ -144,28 +160,36 @@ public class EditLeaderCard extends BorderPane {
         goToEditLeaderCards();
     }
 
+    /**
+     * Gets the LeaderCardWidget for the edited card.
+     *
+     * @return the leader card widget for the edited card
+     */
     public LeaderCardWidget getLeaderCardWidget() {
         return leaderCardWidget;
     }
 
+    /**
+     * Builds the controls to modify the LeaderCard requirements.
+     */
     private void constructRequirementsControls() {
         Map<Resource, Integer> resReq = leaderCardWidget.getLeaderCard().getCardRequirements().getResourceRequirements();
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
-            BorderPane control = GUIUtils.buildControl(resource.toString(), resReq.getOrDefault(resource, -1));
+            BorderPane control = EditorGUIUtils.buildControl(resource.toString(), resReq.getOrDefault(resource, -1));
             resourceRequirements.getChildren().add(control);
             resourceRequirementsControls.put(resource, control);
         });
 
         Map<CardColor, Integer> colorReq = leaderCardWidget.getLeaderCard().getCardRequirements().getCardColorRequirements();
         Arrays.stream(CardColor.values()).forEach(color -> {
-            BorderPane control = GUIUtils.buildControl(color.toString(), colorReq.getOrDefault(color, -1));
+            BorderPane control = EditorGUIUtils.buildControl(color.toString(), colorReq.getOrDefault(color, -1));
             cardColorRequirements.getChildren().add(control);
             cardColorRequirementsControls.put(color, control);
         });
 
         Map<CardColor, Integer> levelReq = leaderCardWidget.getLeaderCard().getCardRequirements().getCardLevelRequirements();
         Arrays.stream(CardColor.values()).forEach(color -> {
-            BorderPane control = GUIUtils.buildControl(color.toString(), levelReq.getOrDefault(color, -1));
+            BorderPane control = EditorGUIUtils.buildControl(color.toString(), levelReq.getOrDefault(color, -1));
             cardLevelRequirements.getChildren().add(control);
             cardLevelRequirementsControls.put(color, control);
         });

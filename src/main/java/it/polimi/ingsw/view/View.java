@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.messages.PlayerNameMessage;
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.implementation.cli.utils.ViewString;
 import it.polimi.ingsw.server.GameConfig;
 import it.polimi.ingsw.view.beans.MockModel;
 import it.polimi.ingsw.view.beans.MockPlayer;

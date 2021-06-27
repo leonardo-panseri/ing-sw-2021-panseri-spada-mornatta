@@ -107,6 +107,11 @@ public class Client {
         return view;
     }
 
+    /**
+     * Checks if this Client instance is set to play without connecting to a remote server.
+     *
+     * @return true if the client is playing locally, false otherwise
+     */
     public boolean isNoServer() {
         return noServer;
     }
@@ -151,14 +156,30 @@ public class Client {
         }
     }
 
+    /**
+     * Set the ip of the game server to connect to.
+     *
+     * @param ip the ip of the game server
+     */
     public void setIp(String ip) {
         this.ip = ip;
     }
 
+    /**
+     * Set the port of the game server to connect to.
+     *
+     * @param port the port of the game server
+     */
     public void setPort(int port) {
         this.port = port;
     }
 
+    /**
+     * Connects to the game server at the given address.
+     *
+     * @param address a string representing the address (host:port)
+     * @return true if the connection is successful, false otherwise
+     */
     public boolean connect(String address) {
         String[] split = address.split(":");
         if(split.length != 2)
@@ -172,6 +193,11 @@ public class Client {
         return connect();
     }
 
+    /**
+     * Connects to the game server.
+     *
+     * @return true if the connection is successful, false otherwise
+     */
     public boolean connect() {
         try {
             socket = new Socket(ip, port);
@@ -192,6 +218,10 @@ public class Client {
         return true;
     }
 
+    /**
+     * Initializes a game without connecting to a remote game server. Instantiates all necessary model objects and controllers that
+     * usually would be instantiated only by the server.
+     */
     private void initializeLocalGame() {
         Lobby localLobby = new Lobby();
         try {
@@ -230,6 +260,9 @@ public class Client {
         localGameController.getTurnController().start();
     }
 
+    /**
+     * Resets this Client instance to the initial state, closing the connection with the server.
+     */
     public void reset() {
         ip = "localhost";
         port = 12345;

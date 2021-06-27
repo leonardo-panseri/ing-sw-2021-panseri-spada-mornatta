@@ -1,7 +1,7 @@
 package it.polimi.ingsw.editor.controller;
 
 import it.polimi.ingsw.FXMLUtils;
-import it.polimi.ingsw.editor.GUIUtils;
+import it.polimi.ingsw.editor.EditorGUIUtils;
 import it.polimi.ingsw.editor.GameConfigEditor;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -16,6 +16,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Widget to edit a DevelopmentCard.
+ */
 public class EditDevelopmentCard extends BorderPane {
     @FXML
     private VBox devCardDisplay;
@@ -33,6 +36,11 @@ public class EditDevelopmentCard extends BorderPane {
     private final Map<Resource, BorderPane> inputResourcesControls;
     private final Map<Resource, BorderPane> outputResourcesControls;
 
+    /**
+     * Constructs a new EditDevelopmentCard widget,
+     *
+     * @param developmentCardWidget the widget for the development card to be edited
+     */
     public EditDevelopmentCard(DevelopmentCardWidget developmentCardWidget) {
         this.developmentCardWidget = developmentCardWidget;
         costControls = new HashMap<>();
@@ -49,29 +57,32 @@ public class EditDevelopmentCard extends BorderPane {
 
         Map<Resource, Integer> costRes = developmentCardWidget.getDevelopmentCard().getCost();
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
-            BorderPane control = GUIUtils.buildControl(resource.toString(), costRes.getOrDefault(resource, -1));
+            BorderPane control = EditorGUIUtils.buildControl(resource.toString(), costRes.getOrDefault(resource, -1));
             this.cost.getChildren().add(control);
             costControls.put(resource, control);
         });
 
-        victoryPoints.setTextFormatter(GUIUtils.getNumberInputTextFormatter());
+        victoryPoints.setTextFormatter(EditorGUIUtils.getNumberInputTextFormatter());
         victoryPoints.setText("" + developmentCardWidget.getDevelopmentCard().getVictoryPoints());
 
         Map<Resource, Integer> inputRes = developmentCardWidget.getDevelopmentCard().getProductionInput();
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
-            BorderPane control = GUIUtils.buildControl(resource.toString(), inputRes.getOrDefault(resource, -1));
+            BorderPane control = EditorGUIUtils.buildControl(resource.toString(), inputRes.getOrDefault(resource, -1));
             this.inputResources.getChildren().add(control);
             inputResourcesControls.put(resource, control);
         });
 
         Map<Resource, Integer> outputRes = developmentCardWidget.getDevelopmentCard().getProductionOutput();
         Arrays.stream(Resource.values()).forEach(resource -> {
-            BorderPane control = GUIUtils.buildControl(resource.toString(), outputRes.getOrDefault(resource, -1));
+            BorderPane control = EditorGUIUtils.buildControl(resource.toString(), outputRes.getOrDefault(resource, -1));
             this.outputResources.getChildren().add(control);
             outputResourcesControls.put(resource, control);
         });
     }
 
+    /**
+     * Saves the edited DevelopmentCard to the custom GameConfig.
+     */
     @FXML
     private void saveDevelopmentCard() {
         Map<Resource, Integer> cost = new HashMap<>();
@@ -80,7 +91,7 @@ public class EditDevelopmentCard extends BorderPane {
         Map<Resource, Integer> prodOutput = new HashMap<>();
 
         costControls.forEach((resource, control) -> {
-            int quantity = GUIUtils.getSelectedQuantityForControl(control);
+            int quantity = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (quantity != 0) cost.put(resource, quantity);
         });
 
@@ -90,12 +101,12 @@ public class EditDevelopmentCard extends BorderPane {
         }
 
         inputResourcesControls.forEach((resource, control) -> {
-            int quantity = GUIUtils.getSelectedQuantityForControl(control);
+            int quantity = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (quantity != 0) prodInput.put(resource, quantity);
         });
 
         outputResourcesControls.forEach((resource, control) -> {
-            int quantity = GUIUtils.getSelectedQuantityForControl(control);
+            int quantity = EditorGUIUtils.getSelectedQuantityForControl(control);
             if (quantity != 0) prodOutput.put(resource, quantity);
         });
 
@@ -113,6 +124,9 @@ public class EditDevelopmentCard extends BorderPane {
         VBox.setMargin(developmentCardWidget, new Insets(0, 20, 0, 20));
     }
 
+    /**
+     * Navigates to the DevelopmentCards list.
+     */
     @FXML
     private void goToEditDevelopmentCards() {
         GameConfigEditor.goToEditDevelopmentCards();

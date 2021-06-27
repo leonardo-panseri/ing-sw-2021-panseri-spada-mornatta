@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.implementation.gui;
 
+import it.polimi.ingsw.editor.EditorGUIUtils;
 import it.polimi.ingsw.model.Resource;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -37,7 +38,7 @@ public class GUIUtils {
 
         VBox imageBox = new VBox();
         imageBox.setAlignment(Pos.CENTER);
-        ImageView image = new ImageView(new Image(Objects.requireNonNull(it.polimi.ingsw.editor.GUIUtils.class.getResourceAsStream("/images/" + imageName + ".png"))));
+        ImageView image = new ImageView(new Image(Objects.requireNonNull(EditorGUIUtils.class.getResourceAsStream("/images/" + imageName + ".png"))));
         image.setFitHeight(36.0);
         image.setFitWidth(23.0);
         image.setPreserveRatio(true);

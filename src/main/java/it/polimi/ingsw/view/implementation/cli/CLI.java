@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.implementation.cli;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.constant.AnsiColor;
-import it.polimi.ingsw.constant.Constants;
-import it.polimi.ingsw.constant.ViewString;
+import it.polimi.ingsw.view.implementation.cli.utils.AnsiColor;
+import it.polimi.ingsw.view.implementation.cli.utils.ASCIIArt;
+import it.polimi.ingsw.view.implementation.cli.utils.ViewString;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.view.GameState;
 import it.polimi.ingsw.view.View;
@@ -96,7 +96,7 @@ public class CLI extends View {
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(AnsiColor.BLUE + Constants.MASTER + AnsiColor.RESET);
+        System.out.println(AnsiColor.BLUE + ASCIIArt.MASTER + AnsiColor.RESET);
 
         if (!getClient().isNoServer())
             getRenderer().showGameMessage("Enter the server ip and port (leave blank for localhost):");

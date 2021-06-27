@@ -14,6 +14,11 @@ public class GameStartMessage extends ServerMessage {
 
     private final GameConfig gameConfig;
 
+    /**
+     * Constructs a new GameStartMessage.
+     *
+     * @param gameConfig the game config that will be used for this game
+     */
     public GameStartMessage(GameConfig gameConfig) {
         this.gameConfig = gameConfig;
     }

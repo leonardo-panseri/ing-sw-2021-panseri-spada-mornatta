@@ -299,7 +299,7 @@ public class Game extends Observable<IServerPacket> {
             return;
         int minSlot = popeReportSlot - popeReports.get(popeReportSlot).get(1) + 1;
         for (Player player : getPlayers()) {
-            if (player.getFaithPoints() >= minSlot && player.getFaithPoints() <= popeReportSlot)
+            if (player.getFaithPoints() >= minSlot)
                 player.addPopeFavours(popeReports.get(popeReportSlot).get(0));
         }
         popeReports.remove(popeReportSlot);
@@ -315,6 +315,13 @@ public class Game extends Observable<IServerPacket> {
         notify(new ChatUpdate(sender, message));
     }
 
+
+    /**
+     * Notifies the Player that one of the action that he has tried to perform is invalid.
+     *
+     * @param player the player that should be notified
+     * @param message the error message
+     */
     public void notifyInvalidAction(Player player, String message) {
         notify(new InvalidActionUpdate(player, message));
     }

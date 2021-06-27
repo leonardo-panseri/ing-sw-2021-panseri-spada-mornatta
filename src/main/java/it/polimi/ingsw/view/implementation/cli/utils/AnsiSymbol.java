@@ -1,4 +1,4 @@
-package it.polimi.ingsw.constant;
+package it.polimi.ingsw.view.implementation.cli.utils;
 
 public abstract class AnsiSymbol {
     public static final String CROSS = "\u2671";
