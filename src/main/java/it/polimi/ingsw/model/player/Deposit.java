@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Models the deposit of a player board, comprehensive of the three rows of resources slots, adn the strongbox.
+ * Models the deposit of a player board, comprehensive of the three rows of resources slots, and the strongbox.
  * Rows are indexed starting from 1 and ending to 3, from top to bottom. The eventual leaders deposit are represented by 4.
  */
 public class Deposit extends Observable<IServerPacket> {
