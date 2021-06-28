@@ -28,6 +28,9 @@ import javafx.scene.layout.VBox;
 import java.io.InputStream;
 import java.util.*;
 
+/**
+ * Widget to create and queue a production.
+ */
 public class ProductionWidget extends FlowPane {
     @FXML
     private VBox resourcesDisplay;
@@ -47,6 +50,16 @@ public class ProductionWidget extends FlowPane {
 
     private final Map<Resource, StringProperty> resourcesCount;
 
+    /**
+     * Constructs a new ProductionWidget.
+     *
+     * @param playerBoard the player board that this production widget was opened from
+     * @param input a list of resources that are the input of the production, if one element is null that means that the
+     *             slot can accept any resource
+     * @param output a list of resources that are the output of the production, if one element is null that means that the
+     *      *             slot can accept any resource
+     * @param productionType the type of this production
+     */
     public ProductionWidget(PlayerBoardWidget playerBoard, List<Resource> input, List<Resource> output,
                             Class<? extends Production> productionType) {
         this.playerBoard = playerBoard;
@@ -62,6 +75,17 @@ public class ProductionWidget extends FlowPane {
         FXMLUtils.loadWidgetFXML(this);
     }
 
+    /**
+     * Constructs a new ProductionWidget.
+     *
+     * @param playerBoard the player board that this production widget was opened from
+     * @param input a list of resources that are the input of the production, if one element is null that means that the
+     *             slot can accept any resource
+     * @param output a list of resources that are the output of the production, if one element is null that means that the
+     *      *             slot can accept any resource
+     * @param productionType the type of this production
+     * @param card the card that this production is from
+     */
     public ProductionWidget(PlayerBoardWidget playerBoard, List<Resource> input, List<Resource> output,
                             Class<? extends Production> productionType, Card card) {
         this(playerBoard, input, output, productionType);
@@ -74,6 +98,9 @@ public class ProductionWidget extends FlowPane {
         buildProductionDisplay();
     }
 
+    /**
+     * Builds a display that shows how man resources the player has available for the production.
+     */
     private void buildResourcesDisplay() {
         Arrays.stream(Resource.values()).filter(resource -> resource != Resource.FAITH).forEach(resource -> {
             ImageView img = new ImageView(GUIUtils.getResourceImage(resource, 50, 50));
@@ -98,6 +125,9 @@ public class ProductionWidget extends FlowPane {
         });
     }
 
+    /**
+     * Builds the display for the production.
+     */
     private void buildProductionDisplay() {
         productionDisplay.getChildren().add(buildResourcesPane(input, true));
 
@@ -110,6 +140,13 @@ public class ProductionWidget extends FlowPane {
         productionDisplay.getChildren().add(buildResourcesPane(output, false));
     }
 
+    /**
+     * Builds a pane containing the images of the resources from the list,
+     *
+     * @param list a list of resources
+     * @param opaque true if the images should be opaque
+     * @return a pane containing images for the resources
+     */
     private FlowPane buildResourcesPane(List<Resource> list, boolean opaque) {
         FlowPane pane = new FlowPane(20, 20);
         pane.setAlignment(Pos.CENTER);
@@ -133,6 +170,12 @@ public class ProductionWidget extends FlowPane {
         return pane;
     }
 
+    /**
+     * Gets the drag over handler for the given ImageView.
+     *
+     * @param img the image view
+     * @return the event handler
+     */
     private EventHandler<DragEvent> dragOverHandler(ImageView img) {
         return dragEvent -> {
             if (dragEvent.getGestureSource() instanceof ImageView && dragEvent.getDragboard().hasString() &&
@@ -144,6 +187,14 @@ public class ProductionWidget extends FlowPane {
         };
     }
 
+    /**
+     * Gets the drag dropped handler for the given ImageView.
+     *
+     * @param img the image view
+     * @param targetResource the resource that the image view is displaying
+     * @param isInput true if the image view is part of the input section, false otherwise
+     * @return the event handler
+     */
     private EventHandler<DragEvent> dragDroppedHandler(ImageView img, Resource targetResource, boolean isInput) {
         return dragEvent -> {
             Dragboard db = dragEvent.getDragboard();
@@ -191,6 +242,9 @@ public class ProductionWidget extends FlowPane {
         };
     }
 
+    /**
+     * Check if the production is completed and can be queued.
+     */
     private void checkIfDone() {
         Platform.runLater(() -> {
             if (input.size() == desiredInput.size() && output.size() == desiredOutput.size())
@@ -198,6 +252,9 @@ public class ProductionWidget extends FlowPane {
         });
     }
 
+    /**
+     * Queues the production and closes this widget.
+     */
     @FXML
     private void queueProduction() {
         switch (productionType.getSimpleName()) {
@@ -208,6 +265,9 @@ public class ProductionWidget extends FlowPane {
         closeProductionModal();
     }
 
+    /**
+     * Closes this widget.
+     */
     @FXML
     private void closeProductionModal() {
         playerBoard.closeProductionModal();
