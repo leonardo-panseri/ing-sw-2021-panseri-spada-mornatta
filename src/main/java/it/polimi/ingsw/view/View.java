@@ -14,6 +14,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class responsible of orchestrating all the functionalities of the game interface.
+ */
 public abstract class View {
     private final Client client;
 
@@ -28,7 +31,11 @@ public abstract class View {
     private BooleanProperty ownTurn;
     private boolean usingProductions;
 
-
+    /**
+     * Constructs a new View.
+     *
+     * @param client the client responsible for this view
+     */
     public View(Client client) {
         this.client = client;
         this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);
@@ -37,6 +44,9 @@ public abstract class View {
         this.model = new MockModel();
     }
 
+    /**
+     * Entry method to initialize the View.
+     */
     public abstract void run();
 
     /**
@@ -76,6 +86,11 @@ public abstract class View {
         return playerName;
     }
 
+    /**
+     * Checks if the local player is the first one that joined the lobby.
+     *
+     * @return true if the player is the first one that joined the lobby, false otherwise
+     */
     public boolean isLobbyMaster() {
         return lobbyMaster;
     }
@@ -108,6 +123,11 @@ public abstract class View {
         this.gameState.setValue(gameState);
     }
 
+    /**
+     * Sets the local player username.
+     *
+     * @param playerName the local player username
+     */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
         getClient().send(new PlayerNameMessage(playerName));
@@ -126,12 +146,26 @@ public abstract class View {
     /*
         Handle ServerMessages
          */
+
+    /**
+     * Handles the successful connection to a server lobby.
+     *
+     * @param isFirstConnection true if this client is the first to connect to the lobby, false otherwise
+     */
     public void addToLobby(boolean isFirstConnection) {
         setGameState(GameState.CHOOSING_NAME);
         if (isFirstConnection)
             lobbyMaster = true;
     }
 
+    /**
+     * Handles the connection of an other player to the lobby.
+     *
+     * @param playerName the name of the player that connected
+     * @param currentPlayers the amount of players connected to the lobby
+     * @param playersToStart the number of players required to start the game
+     * @param otherConnectedPlayers the list of the other connected player names
+     */
     public void handlePlayerConnect(String playerName, int currentPlayers, int playersToStart, List<String> otherConnectedPlayers) {
         if (playerName.equals(getPlayerName())) {
             MockPlayer localPlayer = getModel().addPlayer(getPlayerName(), true);
@@ -159,8 +193,18 @@ public abstract class View {
         setGameState(GameState.WAITING_PLAYERS);
     }
 
+    /**
+     * Handles the disconnection of one of the other players from the lobby.
+     *
+     * @param playerName the name of the player that disconnected
+     */
     public abstract void handlePlayerDisconnect(String playerName);
 
+    /**
+     * Handles the game start.
+     *
+     * @param gameConfig the game config used for this game
+     */
     public void handleGameStart(GameConfig gameConfig) {
         getModel().setGameConfig(gameConfig);
 
@@ -168,8 +212,18 @@ public abstract class View {
         getRenderer().showLobbyMessage(ViewString.GAME_STARTING);
     }
 
+    /**
+     * Handles the disconnection of one of the other players, terminating the game.
+     *
+     * @param playerName the name of the player that disconnected
+     */
     public abstract void handlePlayerCrash(String playerName);
 
+    /**
+     * Handles an invalid action done by this client.
+     *
+     * @param errorMessage error message given by the server
+     */
     public void handleInvalidAction(String errorMessage) {
         getRenderer().showErrorMessage(errorMessage);
         if (isUsingProductions() && errorMessage.startsWith("Error during production")) {
@@ -178,10 +232,26 @@ public abstract class View {
         }
     }
 
+    /**
+     * Handles the ending of the game.
+     *
+     * @param scores a map associating usernames with their scores
+     * @param winnerName the username of the winner
+     */
     public abstract void handleEndGame(Map<String, Integer> scores, String winnerName);
 
+    /**
+     * Handles the ending of the singleplayer game.
+     *
+     * @param lorenzoWin true if the opponent has won the game, false otherwise
+     * @param loseReason the reason of the defeat, may be null
+     * @param playerScore the score of the player, valid only if lorenzoWin is false
+     */
     public abstract void handleEndSingleplayerGame(boolean lorenzoWin, String loseReason, int playerScore);
 
+    /**
+     * Resets the View to the pre game state.
+     */
     protected void reset() {
         this.gameState = new SimpleObjectProperty<>(GameState.CONNECTING);
         this.ownTurn = new SimpleBooleanProperty(false);

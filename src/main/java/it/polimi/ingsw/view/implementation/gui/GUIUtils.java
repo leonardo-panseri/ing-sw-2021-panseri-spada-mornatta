@@ -13,7 +13,18 @@ import javafx.scene.layout.VBox;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Utils class for common tasks needed by the GUI.
+ */
 public class GUIUtils {
+    /**
+     * Gets the Image for a resource. If the given resource is null returns the image indicating any resources.
+     *
+     * @param resource a game resource
+     * @param width the width of the image
+     * @param height the height of the image
+     * @return the image for the resource
+     */
     public static Image getResourceImage(Resource resource, double width, double height) {
         String path = "/images/resources/" + (resource != null ? resource.toString().toLowerCase() : "any") + ".png";
         InputStream imgIs = GUIUtils.class.getResourceAsStream(path);
@@ -24,6 +35,13 @@ public class GUIUtils {
         return new Image(imgIs, width, height, true, true);
     }
 
+    /**
+     * Creates the ClipboardContent for the given resource.
+     *
+     * @param resource the resource
+     * @param img the imageview that will use this clipboard
+     * @return clipboardcontent containing info about the resource
+     */
     public static ClipboardContent getClipboardForResource(Resource resource, ImageView img) {
         ClipboardContent content = new ClipboardContent();
         content.putString(resource.toString());
@@ -31,6 +49,13 @@ public class GUIUtils {
         return content;
     }
 
+    /**
+     * Build a box containing an image on the left and a number on the right.
+     *
+     * @param imageName the path to the image
+     * @param quantity the quantity to display to the right of the image
+     * @return an hbox containing the image and the quantity
+     */
     public static HBox buildResourceDisplay(String imageName, int quantity) {
         HBox box = new HBox();
         box.getStyleClass().add("hbox");

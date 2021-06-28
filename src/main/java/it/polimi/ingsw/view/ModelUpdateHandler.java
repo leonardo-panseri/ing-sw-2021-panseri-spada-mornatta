@@ -11,13 +11,26 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class responsible of handling the updates that are received from the server.
+ */
 public abstract class ModelUpdateHandler {
     private final View view;
 
+    /**
+     * Constructs a new ModelUpdateHandler.
+     *
+     * @param view the view responsible of this model update handler
+     */
     protected ModelUpdateHandler(View view) {
         this.view = view;
     }
 
+    /**
+     * Gets the View.
+     *
+     * @return the view
+     */
     public View getView() {
         return view;
     }
@@ -42,6 +55,14 @@ public abstract class ModelUpdateHandler {
         }
     }
 
+    /**
+     * Handles the initial turn update, setting the LeaderCards and the quantity of resources that the player is allowed
+     * to choose in the first turn.
+     *
+     * @param playerName the name of the player of this update
+     * @param leaderCards the leader cards
+     * @param resourceToChoose the number od resources to choose
+     */
     public void handleInitialTurn(String playerName, Map<LeaderCard, Boolean> leaderCards, int resourceToChoose) {
         MockPlayer player = getView().getModel().getPlayer(playerName);
         if (player == null) {
@@ -233,10 +254,19 @@ public abstract class ModelUpdateHandler {
         player.getDeposit().setMarketResult(result);
     }
 
+    /**
+     * Handles an action from the singleplayer opponent.
+     *
+     * @param action the action of the opponent
+     */
     public void handleLorenzoAction(LorenzoAction action) {
         getView().getModel().lorenzoActionProperty().set(action.toString());
     }
 
+    /**
+     * Checks if there are any pending productions, if so restores the state of the deposit to before that the productions
+     * were queued.
+     */
     private void checkForPendingProductions() {
         if(getView().isUsingProductions()) {
             getView().getModel().getLocalPlayer().getDeposit().restoreSavedState();

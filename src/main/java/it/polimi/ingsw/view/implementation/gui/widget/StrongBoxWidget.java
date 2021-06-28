@@ -15,6 +15,9 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Widget for displaying the strongbox of a Player.
+ */
 public class StrongBoxWidget extends FlowPane {
     private HBox servantRow;
     private HBox coinRow;
@@ -23,6 +26,11 @@ public class StrongBoxWidget extends FlowPane {
 
     private final MockPlayer player;
 
+    /**
+     * Constructs a new StrongBoxWidget.
+     *
+     * @param player the player whose strongbox will be displayed
+     */
     public StrongBoxWidget(MockPlayer player) {
         this.player = player;
         FXMLUtils.loadWidgetFXML(this);
@@ -50,6 +58,12 @@ public class StrongBoxWidget extends FlowPane {
         });
     }
 
+    /**
+     * Create a display with the resource image and the quantity that is currently present in the strongbox.
+     *
+     * @param resType the resource type to display
+     * @param numberOf the quantity of this resource
+     */
     public void createStrongBoxRow(Resource resType, int numberOf) {
         Platform.runLater(() -> {
             Image image = GUIUtils.getResourceImage(resType, 50, 50);
@@ -87,6 +101,12 @@ public class StrongBoxWidget extends FlowPane {
         });
     }
 
+    /**
+     * Updates the resource's quantity.
+     *
+     * @param resType the resource to update
+     * @param numberOf the quantity of the resource
+     */
     public void updateStrongBox(Resource resType, int numberOf) {
         Platform.runLater(() -> {
             switch (resType) {
@@ -98,6 +118,11 @@ public class StrongBoxWidget extends FlowPane {
         });
     }
 
+    /**
+     * Removes the row for the given resource from the strongbox display.
+     *
+     * @param resource the resource to remove
+     */
     public void removeStrongBoxRow(Resource resource) {
         Platform.runLater(() -> {
             switch (resource) {

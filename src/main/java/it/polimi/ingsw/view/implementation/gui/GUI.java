@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Singleton class orchestrating all the functionalities of the gui.
+ */
 public class GUI extends View {
     private static GUI instance;
 
@@ -25,6 +28,12 @@ public class GUI extends View {
     private MediaPlayer mediaPlayer;
     private boolean wasPlayingMusicBefore;
 
+    /**
+     * Constructs a new GUI.
+     *
+     * @param client the client that is the owner of this gui
+     * @param stage the main stage of the application
+     */
     public GUI(Client client, Stage stage) {
         super(client);
         this.stage = stage;
@@ -36,6 +45,11 @@ public class GUI extends View {
         instance = this;
     }
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the instance
+     */
     public static GUI instance() {
         return instance;
     }
@@ -109,6 +123,9 @@ public class GUI extends View {
         resetAndGoHome();
     }
 
+    /**
+     * Resets the view and loads the home page.
+     */
     public void resetAndGoHome() {
         reset();
         Platform.runLater(() -> {
@@ -117,6 +134,9 @@ public class GUI extends View {
         });
     }
 
+    /**
+     * Shows the local player's PlayerBoard.
+     */
     public void showPlayerBoard() {
         Platform.runLater(() -> {
             PlayerBoardWidget playerBoard = new PlayerBoardWidget(getModel().getLocalPlayer());

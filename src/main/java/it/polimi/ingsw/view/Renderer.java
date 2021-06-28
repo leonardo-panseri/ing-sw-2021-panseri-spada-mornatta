@@ -8,6 +8,9 @@ import it.polimi.ingsw.view.beans.MockPlayer;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class responsible of game components rendering, mainly used for the CLI.
+ */
 public abstract class Renderer {
     private final View view;
 
@@ -19,59 +22,61 @@ public abstract class Renderer {
         return view;
     }
 
-    public abstract void showGameMessage(String message);
+    public void showGameMessage(String message){}
 
-    public abstract void showLobbyMessage(String message);
+    public void showLobbyMessage(String message){}
 
     public abstract void showErrorMessage(String message);
 
-    public abstract void printMarket();
+    public void printMarket(){}
 
-    public abstract void printOwnLeaders();
+    public void printOwnLeaders(){}
 
-    public abstract void printOwnDevelopmentCards();
+    public void printOwnDevelopmentCards(){}
 
-    public abstract void printOwnDeposit();
+    public void printOwnDeposit(){}
 
-    public abstract void printOwnStrongbox();
+    public void printOwnStrongbox(){}
 
-    public abstract void printOthersLeaderCards(String playerName);
+    public void printOthersLeaderCards(String playerName){}
 
-    public abstract void printOthersDevelopmentCards(String playerName);
+    public void printOthersDevelopmentCards(String playerName){}
 
-    public abstract void printOthersDeposit(String playerName);
+    public void printOthersDeposit(String playerName){}
 
-    public abstract void printOthersFaith(String playerName);
+    public void printOthersFaith(String playerName){}
 
-    public abstract void printOthersFavours(String playerName);
+    public void printOthersFavours(String playerName){}
 
-    public abstract void printDevelopmentDeck();
+    public void printDevelopmentDeck(){}
 
-    public abstract void printFaith(int faith);
+    public void printFaith(int faith){}
 
-    public abstract void printFavours(int popeFavours);
+    public void printFavours(int popeFavours){}
 
-    public abstract void printMarketResult();
+    public void printMarketResult(){}
 
-    public abstract void printChatMessage(String sender, String message);
+    public void printChatMessage(String sender, String message){}
 
-    public abstract void printFinalScores(Map<String, Integer> scores, String winnerName);
+    public void printFinalScores(Map<String, Integer> scores, String winnerName){}
 
-    public abstract void printSingleplayerFinalScore(boolean lorenzoWin, String loseReason, int playerScore);
+    public void printSingleplayerFinalScore(boolean lorenzoWin, String loseReason, int playerScore){}
 
-    public abstract void renderDevelopmentCard(DevelopmentCard card, int label);
+    public void renderDevelopmentCard(DevelopmentCard card, int label){}
 
-    public abstract void renderLeaderCard(LeaderCard card, int label);
+    public void renderLeaderCard(LeaderCard card, int label){}
 
-    public abstract void renderDeposit(MockPlayer player);
+    public void renderDeposit(MockPlayer player){}
 
-    public abstract void renderLeadersDeposit(MockPlayer player);
+    public void renderLeadersDeposit(MockPlayer player){}
 
-    public abstract void renderStrongbox(MockPlayer player);
+    public void renderStrongbox(MockPlayer player){}
 
-    public abstract void renderMarket(List<List<Resource>> grid, Resource slideResource);
+    public void renderMarket(List<List<Resource>> grid, Resource slideResource){}
 
-    public abstract String renderResource(Resource res);
+    public String renderResource(Resource res){
+        return "";
+    }
 
-    public abstract void help();
+    public void help(){}
 }

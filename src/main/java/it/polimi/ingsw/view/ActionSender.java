@@ -23,40 +23,81 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+/**
+ * Class responsible of sending user interactions to the server.
+ */
 public abstract class ActionSender {
     private final View view;
 
     private final ObservableList<Production> pendingProductions;
 
+    /**
+     * Constructs a new ActionSender.
+     *
+     * @param view the view responsible of this action sender
+     */
     public ActionSender(View view) {
         this.view = view;
         this.pendingProductions = FXCollections.observableArrayList();
     }
 
+    /**
+     * Gets the View.
+     *
+     * @return the view
+     */
     public View getView() {
         return view;
     }
 
+    /**
+     * Gets the pending productions list.
+     *
+     * @return the list containing the pending productions
+     */
     public List<Production> getPendingProductions() {
         return pendingProductions;
     }
 
+    /**
+     * Gets the pending productions list as an ObservableList.
+     *
+     * @return the observable list containing the pending productions
+     */
     public ObservableList<Production> pendingProductionsProperty() {
         return pendingProductions;
     }
 
+    /**
+     * Adds the given production to the pending productions list.
+     *
+     * @param production the production to be added
+     */
     protected void addPendingProduction(Production production) {
         pendingProductions.add(production);
     }
 
+    /**
+     * Clears the list of pending productions.
+     */
     protected void clearPendingProductions() {
         pendingProductions.clear();
     }
 
+    /**
+     * Sets the number of players required to start this game.
+     *
+     * @param playersToStart the number of players required to start the game
+     */
     public void setPlayersToStart(int playersToStart) {
         getView().getClient().send(new PlayersToStartMessage(playersToStart));
     }
 
+    /**
+     * Sets the GameConfig that will be used for this game.
+     *
+     * @param gameConfig the file containing the configurations
+     */
     public void setGameConfig(File gameConfig) {
         String serializedGameConfig = null;
         if (gameConfig != null) {
@@ -72,6 +113,12 @@ public abstract class ActionSender {
         getView().getClient().send(new GameConfigMessage(serializedGameConfig));
     }
 
+    /**
+     * Selects the leader cards that will be kept and the initial resources to pick.
+     *
+     * @param leaderCards a list of the uuids of the leader cards that will be kept
+     * @param selectedResources a map containing the deposit rows associated to the chosen resources for that row
+     */
     public void selectLeaders(List<UUID> leaderCards, Map<Integer, List<Resource>> selectedResources) {
         getView().getClient().send(new InitialSelectionPlayerActionEvent(leaderCards, selectedResources));
     }
@@ -82,7 +129,6 @@ public abstract class ActionSender {
      * @param cardIndex the index of the card to buy
      * @param slotIndex the slot in which the card will be put in
      */
-
     public void buyDevelopmentCard(int cardIndex, int slotIndex) {
         List<HashMap<CardColor, ObservableList<DevelopmentCard>>> deck = getView().getModel().getDevelopmentDeck();
         int mapIndex = cardIndex == 0 ? 0 : (cardIndex - 1) / 4;
@@ -100,7 +146,6 @@ public abstract class ActionSender {
      * @param whiteConversions special leader ability that when you take Resources from the market, each
      *                         white Marble in the chosen row or column gives you the indicated Resource
      */
-
     public void draw(int marketIndex, List<Resource> whiteConversions) {
         getView().getClient().send(new MarketPlayerActionEvent(marketIndex - 1, whiteConversions));
     }
@@ -110,7 +155,6 @@ public abstract class ActionSender {
      *
      * @param cardIndex the index of the card to discard
      */
-
     public void discard(int cardIndex) {
         LeaderCard cardToDiscard = getView().getModel().getLocalPlayer().getLeaderCardAt(cardIndex - 1);
         if (getView().getModel().getLocalPlayer().isLeaderCardActive(cardToDiscard)) {
@@ -128,7 +172,6 @@ public abstract class ActionSender {
      * @param row1 the index of the row of your deposit to be moved
      * @param row2 the index of the row of your deposit where {@param row2} will be moved
      */
-
     public void move(int row1, int row2) {
         MockDeposit deposit = getView().getModel().getLocalPlayer().getDeposit();
 
@@ -188,7 +231,6 @@ public abstract class ActionSender {
      * @param resourceIndex thh index representing the Resource to store
      * @param rowIndex      the index representing the row of the deposit where the Resource will be stored
      */
-
     public void storeMarketResult(int resourceIndex, int rowIndex) {
         MockDeposit deposit = getView().getModel().getLocalPlayer().getDeposit();
 
@@ -210,6 +252,10 @@ public abstract class ActionSender {
         getView().getClient().send(new DepositPlayerActionEvent(changes, toBeStored, leadersDepositChanges));
     }
 
+    /**
+     * Ends the current turn, usable only if the local player is currently playing. Also this will be prevented if the
+     * local player has queued productions.
+     */
     public void endTurn() {
         if (!view.isOwnTurn()) {
             view.getRenderer().showErrorMessage(ViewString.NOT_YOUR_TURN);
@@ -230,7 +276,6 @@ public abstract class ActionSender {
      *
      * @param cardIndex the index of the LeaderCard to set active
      */
-
     public void setActive(int cardIndex) {
         LeaderCard setActive = getView().getModel().getLocalPlayer().getLeaderCardAt(cardIndex - 1);
         getView().getClient().send(new ActivateLeaderPlayerActionEvent(setActive.getUuid()));
@@ -244,7 +289,6 @@ public abstract class ActionSender {
      * @param leaderCard      the card to be used
      * @param desiredResource the desired Resource of your choosing to receive
      */
-
     public void useLeaderProduction(LeaderCard leaderCard, Resource desiredResource) throws IllegalArgumentException {
         if (!getView().getModel().getLocalPlayer().isLeaderCardActive(leaderCard)) {
             throw new IllegalArgumentException("This leader card is not active!");
@@ -265,7 +309,6 @@ public abstract class ActionSender {
      *
      * @param developmentCard the DevelopmentCard to use
      */
-
     public void useDevelopmentProduction(DevelopmentCard developmentCard) throws IllegalArgumentException {
         if (developmentCard == null) {
             throw new IllegalArgumentException();
@@ -284,7 +327,6 @@ public abstract class ActionSender {
      * @param inputResource  a List representing the Resources needed to activate the base production.
      * @param outputResource a Resource representing the output of the base production.
      */
-
     public void useBaseProduction(List<Resource> inputResource, List<Resource> outputResource) {
         getView().setUsingProductions(true);
         addPendingProduction(new BaseProduction(inputResource, outputResource));
@@ -303,7 +345,6 @@ public abstract class ActionSender {
      * Checks if the development productions and the base productions in the queue can be executed and, if so,
      * executes them.
      */
-
     public void executeProductions() throws IllegalArgumentException {
         if (!getView().isUsingProductions() || getPendingProductions().isEmpty()) {
             throw new IllegalArgumentException();
@@ -317,7 +358,6 @@ public abstract class ActionSender {
      *
      * @param message the message to send
      */
-
     public void sendChatMessage(String message) {
         getView().getClient().send(new ChatPlayerActionEvent(message));
     }
