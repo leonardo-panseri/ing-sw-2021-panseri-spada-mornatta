@@ -22,6 +22,11 @@ import javafx.scene.layout.VBox;
 import java.util.*;
 import java.util.function.Consumer;
 
+/**
+ * Widget that is used at the beginning of the match to let the player decide which leader cards to keep and,
+ * optionally, which resources to take.
+ */
+
 public class LeaderSelectionWidget extends HBox {
     @FXML
     private HBox leadersDisplay;
@@ -36,6 +41,10 @@ public class LeaderSelectionWidget extends HBox {
     private final Map<Integer, List<Resource>> chosenResources;
     private int chosenResourcesCount;
 
+    /**
+     * Creates a new LeaderSelectionWidget with the given 4 leader cards.
+     * @param leaderCards the 4 starting leader cards of a player
+     */
     public LeaderSelectionWidget(Set<LeaderCard> leaderCards) {
         this.leaderCards = leaderCards;
         this.cardsChoice = new HashMap<>();
@@ -69,6 +78,9 @@ public class LeaderSelectionWidget extends HBox {
         });
     }
 
+    /**
+     * Checks if the player has already chosen 2 cards to discard.
+     */
     private void checkIfDone() {
         int found = 0;
         for (boolean active : cardsChoice.values()) {
@@ -78,6 +90,9 @@ public class LeaderSelectionWidget extends HBox {
         confirmButton.setDisable(!done);
     }
 
+    /**
+     * Keeps the selected leader card and, if the player has to chose resources too, goes to resource selection screen.
+     */
     private void chooseCards() {
         int added = 0;
         for (Map.Entry<LeaderCard, Boolean> entry : cardsChoice.entrySet()) {
@@ -98,6 +113,10 @@ public class LeaderSelectionWidget extends HBox {
         }
     }
 
+    /**
+     * Goes to the resource selection screen.
+     * @param initialResourcesToChoose how many resources the player has to choose
+     */
     private void goToChooseResources(int initialResourcesToChoose) {
         BorderPane box = new BorderPane();
         box.getStyleClass().add("selection-box");
@@ -141,6 +160,13 @@ public class LeaderSelectionWidget extends HBox {
         getChildren().add(box);
     }
 
+    /**
+     * Creates a consumer function for the drag and drop event on one of the free slots of resources.
+     * This function adds the chosen resources to the player's deposit if the event has succeeded.
+     * @param initialResourcesToChoose how many resources the player has to chose
+     * @param chooseConfirmButton the button that lets the player confirm his choice
+     * @return the consumer function
+     */
     private Consumer<DragEvent> buildOnDragDroppedListener(int initialResourcesToChoose, Button chooseConfirmButton) {
         return event -> {
             Dragboard db = event.getDragboard();
@@ -181,12 +207,21 @@ public class LeaderSelectionWidget extends HBox {
         };
     }
 
+    /**
+     * Sends a player action event to the server via ActionSender with the chosen card and chosen resources.
+     */
     private void confirmSelection() {
         GUI.instance().getActionSender().selectLeaders(chosenCards, chosenResources);
         if (!GUI.instance().getClient().isNoServer())
             GUI.instance().setGameState(GameState.WAIT_SELECT_LEADERS);
     }
 
+    /**
+     * Builds an image view for each resource, so that the player can drag them and drop them in the free slots
+     * when choosing initial resources.
+     * @param initialResourcesToChoose the number of resources the player has to choose
+     * @return a VBox containing a draggable image view for each resource
+     */
     private VBox buildResourcePicker(int initialResourcesToChoose) {
         VBox box = new VBox();
         for (Resource resource : Resource.values()) {

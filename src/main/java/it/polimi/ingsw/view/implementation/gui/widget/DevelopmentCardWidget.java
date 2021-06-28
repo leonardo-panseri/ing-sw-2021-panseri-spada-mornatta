@@ -10,6 +10,10 @@ import javafx.scene.layout.*;
 
 import java.util.Objects;
 
+/**
+ * Widget that represents a development card.
+ */
+
 public class DevelopmentCardWidget extends AnchorPane {
     @FXML
     private FlowPane cost;
@@ -21,6 +25,11 @@ public class DevelopmentCardWidget extends AnchorPane {
     private Label victoryPoints;
 
     private final DevelopmentCard developmentCard;
+
+    /**
+     * Constructor for a new DevelopmentCardWidget.
+     * @param developmentCard the development card to be represented in this widget
+     */
 
     public DevelopmentCardWidget(DevelopmentCard developmentCard) {
         this.developmentCard = developmentCard;

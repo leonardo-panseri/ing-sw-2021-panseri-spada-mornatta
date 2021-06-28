@@ -11,6 +11,10 @@ import javafx.scene.layout.*;
 
 import java.util.Map;
 
+/**
+ * Widget that shows the rank when a game ends.
+ */
+
 public class EndGameWidget extends VBox {
     @FXML
     private FlowPane scoresBox;
@@ -20,6 +24,11 @@ public class EndGameWidget extends VBox {
     private Label scoreLabel;
     private GridPane scoreList;
 
+    /**
+     * Creates a new EndGameWidget for multiplayer games.
+     * @param scores a map containing the score for each player
+     * @param winnerName nick of the winner
+     */
     public EndGameWidget(Map<String, Integer> scores, String winnerName) {
         winnerLabel = new Label(winnerName + " is the true Master of Renaissance!");
         scoreList = new GridPane();
@@ -35,6 +44,12 @@ public class EndGameWidget extends VBox {
         FXMLUtils.loadWidgetFXML(this);
     }
 
+    /**
+     * Creates a new EndGameWidget for single player games.
+     * @param lorenzoWin true if lorenzo won
+     * @param loseReason description of the reason why the player won
+     * @param playerScore the score of the player, displayed only if the player won
+     */
     public EndGameWidget(boolean lorenzoWin, String loseReason, int playerScore) {
         if (lorenzoWin) {
             winnerLabel = new Label("Lorenzo is still the true Master of Renaissance!");

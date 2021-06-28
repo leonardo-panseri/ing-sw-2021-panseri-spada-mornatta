@@ -26,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Widget that shows the stacks of development cards owned by the player.
+ */
+
 public class DevelopmentSlotsWidget extends StackPane {
     private final List<GridPane> layerGrids;
     private final Map<GridPane, List<VBox>> gridSlots;
@@ -33,6 +37,11 @@ public class DevelopmentSlotsWidget extends StackPane {
 
     private final PlayerBoardWidget playerBoard;
     private final MockPlayer player;
+
+    /**
+     * Creates a new DevelopmentSlotsWidget for the given player board.
+     * @param playerBoard the board of the player that owns the stacks of cards
+     */
 
     public DevelopmentSlotsWidget(PlayerBoardWidget playerBoard) {
         this.playerBoard = playerBoard;
@@ -81,6 +90,11 @@ public class DevelopmentSlotsWidget extends StackPane {
         }
     }
 
+    /**
+     * Inserts a new development card widget in the given slot, then sets the click event to open the production.
+     * @param addedItem the bought development card
+     * @param slotIndex the index of the slot where to put the new card
+     */
     private void pushCard(DevelopmentCard addedItem, int slotIndex) {
         Platform.runLater(() -> {
             Node prevCard = checkSlotEmpty(layerGrids.get(layerGrids.size() - 1), slotIndex);
@@ -116,6 +130,12 @@ public class DevelopmentSlotsWidget extends StackPane {
         });
     }
 
+    /**
+     * Checks if a slot is empty or has already a card in it.
+     * @param pane the grid pane where to check if there is a card or not
+     * @param slotIndex the index of the slot
+     * @return the DevelopmentCardWidget that is in the slot, or null if the slot is empty
+     */
     private Node checkSlotEmpty(GridPane pane, int slotIndex) {
         Node result = null;
         ObservableList<Node> childrens = pane.getChildren();
@@ -128,6 +148,10 @@ public class DevelopmentSlotsWidget extends StackPane {
         return result;
     }
 
+    /**
+     * Creates the placeholders for DevelopmentCardWidgets for the new grid layer.
+     * @param grid the new grid layer
+     */
     private void initGrid(GridPane grid) {
         List<VBox> slots = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -146,6 +170,11 @@ public class DevelopmentSlotsWidget extends StackPane {
 
     }
 
+    /**
+     * Creates the callback function for when the player wants to place a new card on the new bought card
+     * @param slotIndex the slot index
+     * @return a callback function for a drop event
+     */
     private EventHandler<? super DragEvent> buildOnDragDropped(int slotIndex) {
         return event -> {
             boolean success = false;

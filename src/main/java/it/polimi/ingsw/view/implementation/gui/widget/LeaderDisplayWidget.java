@@ -22,6 +22,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Widget that shows the leader cards possessed by a player.
+ */
+
 public class LeaderDisplayWidget extends VBox {
     @FXML
     public VBox leaderDisplay;
@@ -30,6 +34,10 @@ public class LeaderDisplayWidget extends VBox {
     private final MockPlayer player;
     private final Map<LeaderCard, Group> leadersAndWidgets;
 
+    /**
+     * Creates a new leader display widget for the given player board.
+     * @param playerBoard the player board of the player that owns the leader cards
+     */
     public LeaderDisplayWidget(PlayerBoardWidget playerBoard) {
         this.playerBoard = playerBoard;
         this.player = playerBoard.getPlayer();
@@ -54,6 +62,10 @@ public class LeaderDisplayWidget extends VBox {
         });
     }
 
+    /**
+     * Removes a leader card widget after the player discarded the relative leader card
+     * @param cardToRemove the leader card to remove
+     */
     private void removeLeader(LeaderCard cardToRemove) {
         Platform.runLater(() -> {
             leaderDisplay.getChildren().remove(leadersAndWidgets.get(cardToRemove));
@@ -61,6 +73,11 @@ public class LeaderDisplayWidget extends VBox {
         });
     }
 
+    /**
+     * Creates a new leader card widget and adds it to the leader display
+     * @param newLeader the new leader card to be added
+     * @param active true if the card is active
+     */
     private void addLeader(LeaderCard newLeader, boolean active) {
         Platform.runLater(() -> {
             LeaderCardWidget newWidget = new LeaderCardWidget(newLeader);
@@ -95,6 +112,12 @@ public class LeaderDisplayWidget extends VBox {
         });
     }
 
+    /**
+     * Sets the visual property of a leader card when it is activated. If the card has a production power,
+     * sets the click handler for the use of the power.
+     * @param modifiedCard the leader card that has been activated
+     * @param previousValue false if the card was not active
+     */
     private void updateLeaders(LeaderCard modifiedCard, boolean previousValue) {
         Platform.runLater(() -> {
             if (!previousValue) {
@@ -110,6 +133,12 @@ public class LeaderDisplayWidget extends VBox {
         });
     }
 
+    /**
+     * Builds a context menu for a leader card widget, to permit the activation of the leader card
+     * or to let the player discard it.
+     * @param cardWidget the leader card widget that where to put the new context menu
+     * @return the context menu with the two options
+     */
     private ContextMenu buildContextMenu(LeaderCardWidget cardWidget) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem menuItem1 = new MenuItem("Activate Leader");

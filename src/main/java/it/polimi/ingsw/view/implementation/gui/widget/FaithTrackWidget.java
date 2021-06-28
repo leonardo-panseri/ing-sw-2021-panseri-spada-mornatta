@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Widget that represents the faith track of a player.
+ */
+
 public class FaithTrackWidget extends GridPane {
 
     private final Map<Integer, List<Integer>> popeReports;
@@ -28,6 +32,14 @@ public class FaithTrackWidget extends GridPane {
     private Background backgroundGoldenTile;
     private Background backgroundPopeFavour;
     private Background backgroundPopeTile;
+
+    /**
+     * Creates a new faith track widget for the given player,
+     * building it with the configuration of pope reports and faith points tiles.
+     * @param popeReports the configuration of pope reports
+     * @param faithTrackPoints the configuration of faith tiles
+     * @param player the player that owns the faith track
+     */
 
     public FaithTrackWidget(Map<Integer, List<Integer>> popeReports, Map<Integer, Integer> faithTrackPoints, MockPlayer player) {
         this.faithTrackPoints = faithTrackPoints;
@@ -91,6 +103,12 @@ public class FaithTrackWidget extends GridPane {
         }
     }
 
+    /**
+     * Checks if a tile is in the range of a pope report.
+     * @param index index of the tile to check
+     * @return -1 if the tile is not in any range, 2 if the tile has a pope report in it,
+     *          0 if the the tile is the last in range, 1 if the tile in simply in range
+     */
     private int isInRange(int index) {
         if (index == 0) return -1;
         for (Integer popeReport : popeReports.keySet()) {
@@ -106,6 +124,10 @@ public class FaithTrackWidget extends GridPane {
         return -1;
     }
 
+    /**
+     * Creates a new faith track widget with the updated faith.
+     * @param currentFaithPoints the updated faith points
+     */
     private void updateFaithPoints(int currentFaithPoints) {
         Platform.runLater(() -> {
             this.getChildren().removeAll(getChildren());
@@ -113,6 +135,10 @@ public class FaithTrackWidget extends GridPane {
         });
     }
 
+    /**
+     * Builds the faith track widget checking the type of every tile and changing the visual properties according to it.
+     * @param currentPosition the current amount of faith of a player
+     */
     private void createFaithTrack(int currentPosition) {
         for (int i = 0; i < 25; i++) {
             VBox box = new VBox();

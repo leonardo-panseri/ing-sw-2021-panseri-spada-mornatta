@@ -24,6 +24,10 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Consumer;
 
+/**
+ * Widget that represents a leader card.
+ */
+
 public class LeaderCardWidget extends StackPane {
     @FXML
     private AnchorPane cardPane;
@@ -36,6 +40,11 @@ public class LeaderCardWidget extends StackPane {
 
     private final LeaderCard leaderCard;
     private boolean cardFlipped;
+
+    /**
+     * Creates a new LeaderCardWidget for the given leader card.
+     * @param leaderCard the leader card to be represented by this widget
+     */
 
     public LeaderCardWidget(LeaderCard leaderCard) {
         this.leaderCard = leaderCard;
@@ -71,6 +80,11 @@ public class LeaderCardWidget extends StackPane {
         cardPane.getChildren().addAll(specialAbility);
     }
 
+    /**
+     * Builds the special ability visual representation for a leader card.
+     * @param specialAbility the type of the special ability
+     * @return a list of image view components to be added to the widget
+     */
     private List<ImageView> buildSpecialAbility(SpecialAbility specialAbility) {
         String resource = specialAbility.getTargetResource().toString().toLowerCase();
         InputStream image = LeaderCardWidget.class.getResourceAsStream("/images/resources/" + resource + ".png");
@@ -126,6 +140,11 @@ public class LeaderCardWidget extends StackPane {
         return results;
     }
 
+    /**
+     * Registers the appropriate handlers (drag and drop) for a leader card that has a leader deposit.
+     * @param images the image view components of the resource deposits
+     * @param playerBoard the player board that contains the leader deposit
+     */
     private void registerDepositHandler(List<ImageView> images, PlayerBoardWidget playerBoard) {
         int depositIndex = playerBoard.getPlayer().getDeposit().getLeaderDepositIndexForCard(leaderCard);
 
@@ -192,6 +211,11 @@ public class LeaderCardWidget extends StackPane {
         }
     }
 
+    /**
+     * Creates a callback function for a drag event from a leader deposit to the standard deposit.
+     * @param depositIndex the index of the leader deposit
+     * @return a consumer of a drag event
+     */
     private Consumer<DragEvent> depositResourceMoveHandler(int depositIndex) {
         return dragEvent -> {
             boolean success = true;
@@ -211,6 +235,11 @@ public class LeaderCardWidget extends StackPane {
         };
     }
 
+    /**
+     * Changes the opacity of the resources in a leader deposit when a resource is added or removed.
+     * @param images the list of image views that are part of the leader deposit
+     * @param resources the resources in the leader deposit
+     */
     private void updateDeposit(List<ImageView> images, List<Resource> resources) {
         for (int i = 1; i <= 2; i++) {
             if (i <= resources.size())
@@ -220,11 +249,18 @@ public class LeaderCardWidget extends StackPane {
         }
     }
 
+    /**
+     * Flips a leader card.
+     */
     public void flipCard() {
         cardFlipped = !cardFlipped;
         cardBack.setVisible(cardFlipped);
     }
 
+    /**
+     * Checks if a leader card is flipped over the back.
+     * @return true is the card is flipped, with the back that points upwards
+     */
     public boolean isCardFlipped() {
         return cardFlipped;
     }
