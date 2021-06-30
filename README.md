@@ -57,6 +57,9 @@ Otherwise, if you want to run a new CLI client you can use:
 
 `java -jar GC04.jar -cli`
 
+***If you want to use the CLI and you are using Windows, make sure to use 
+`java -Dfile.encoding="UTF-8" -jar GC04.jar -cli` to render colours properly.***
+
 ## Additional run parameters
 
 To make use of the additional functionalities, you can run:
