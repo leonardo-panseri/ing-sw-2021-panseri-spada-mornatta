@@ -254,6 +254,7 @@ public class Client {
         player.getBoard().addObserver(localObserver);
         player.getBoard().getDeposit().addObserver(localObserver);
 
+        getView().getModel().currentPlayersProperty().set(1);
         (new GameStartMessage(localGameConfig == null ? GameConfig.loadDefaultGameConfig() : localGameConfig)).process(getView());
         localGameController.getGame().getMarket().initializeMarket();
         localGameController.getGame().getDeck().shuffleDevelopmentDeck();
