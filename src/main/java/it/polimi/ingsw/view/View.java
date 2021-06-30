@@ -210,6 +210,12 @@ public abstract class View {
 
         setGameState(GameState.STARTING);
         getRenderer().showLobbyMessage(ViewString.GAME_STARTING);
+
+        // If it is a singleplayer game initializes Lorenzo in the mock model
+        if(getModel().currentPlayersProperty().get() == 1) {
+            MockPlayer lorenzo = getModel().addPlayer("Lorenzo", false);
+            lorenzo.setFaithPoints(0);
+        }
     }
 
     /**
