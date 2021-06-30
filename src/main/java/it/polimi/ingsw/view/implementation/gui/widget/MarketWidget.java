@@ -25,6 +25,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Widget that models the market.
+ */
+
 public class MarketWidget extends StackPane {
     @FXML
     private Label instructions;
@@ -38,6 +42,9 @@ public class MarketWidget extends StackPane {
     private final ImageView[][] gridPaneContent;
     private final HashMap<ImageView, Resource> resourceExchange;
 
+    /**
+     * Creates a new market widget with a matrix of image views that will contain the resources images.
+     */
     public MarketWidget() {
         this.gridPaneContent = new ImageView[3][5];
         this.resourceExchange = new HashMap<>();
@@ -70,6 +77,10 @@ public class MarketWidget extends StackPane {
         GUI.instance().ownTurnProperty().addListener((change, oldVal, newVal) -> instructions.setVisible(newVal));
     }
 
+    /**
+     * Initialize the content of the grid with panes and sets drag listeners.
+     * Also initialize the slide resource pane.
+     */
     private void initializeGrid() {
         // Handler to accept drag events
         EventHandler<DragEvent> dragAccept = event -> {
@@ -148,6 +159,11 @@ public class MarketWidget extends StackPane {
         gridPaneContent[2][0] = emptyImg;
     }
 
+    /**
+     * Sets the content of a row/column when it is modified.
+     * @param index the index of the row/column
+     * @param row the new list of resources
+     */
     private void updateRow(int index, List<Resource> row) {
         Platform.runLater(() -> {
             for (int i = 1; i < 5; i++) {
@@ -156,10 +172,18 @@ public class MarketWidget extends StackPane {
         });
     }
 
+    /**
+     * Updates the slide resource.
+     * @param resource the new slide resource
+     */
     private void updateSlideResource(Resource resource) {
         Platform.runLater(() -> gridPaneContent[2][0].setImage(GUIUtils.getResourceImage(resource, 80, 80)));
     }
 
+    /**
+     * Creates the drag and drop handler for a cell of the market.
+     * @return the event handler
+     */
     private EventHandler<DragEvent> dragDroppedHandler() {
         return event -> {
             Node target = (Node) event.getGestureTarget();
@@ -180,6 +204,12 @@ public class MarketWidget extends StackPane {
         };
     }
 
+    /**
+     * Creates and open a modal for when a player has leaders that provide the ability to exchange white resources.
+     * @param marketIndex the index of the row/column drawn
+     * @param whiteResourcesCount the number of white resources in the row/column
+     * @param availableToExchange the list of resources granted by leaders
+     */
     private void openExchangeModal(int marketIndex, int whiteResourcesCount, List<Resource> availableToExchange) {
         Button confirmButton = new Button("Confirm");
         confirmButton.setDisable(true);
