@@ -25,6 +25,10 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Main widget that represents a player board.
+ */
+
 public class PlayerBoardWidget extends StackPane {
     @FXML
     public Pane musicButtonDisplay;
@@ -59,6 +63,11 @@ public class PlayerBoardWidget extends StackPane {
 
     private final MockPlayer player;
     private DepositWidget depositWidget;
+
+    /**
+     * Creates a player board widget for a given player.
+     * @param player the player that owns the player board
+     */
 
     public PlayerBoardWidget(MockPlayer player) {
         this.player = player;
@@ -123,6 +132,9 @@ public class PlayerBoardWidget extends StackPane {
         }
     }
 
+    /**
+     * Creates all sub-widgets included in the player board.
+     */
     private void initializeWidgets() {
         GameConfig gameConfig = GUI.instance().getModel().getGameConfig();
         FaithTrackWidget faithTrackWidget = new FaithTrackWidget(gameConfig.getPopeReports(), gameConfig.getFaithTrackPoints(), player);
@@ -164,6 +176,9 @@ public class PlayerBoardWidget extends StackPane {
         musicButtonDisplay.getChildren().add(musicButtonWidget);
     }
 
+    /**
+     * Creates the other user images that, after being clicked on, show the relative player's board.
+     */
     private void initializeOtherPlayersDisplay() {
         String path = "/images/user.png";
         InputStream imgIs = GUIUtils.class.getResourceAsStream(path);
@@ -211,6 +226,9 @@ public class PlayerBoardWidget extends StackPane {
         }
     }
 
+    /**
+     * Opens the selection widget for the initial phase of the game, when player has to choose leaders and resources.
+     */
     private void openLeaderSelection() {
         if (!isLeaderSelectionOpen()) {
             LeaderSelectionWidget selectionWidget = new LeaderSelectionWidget(GUI.instance().getModel().getLocalPlayer().getLeaderCards().keySet());
@@ -219,15 +237,26 @@ public class PlayerBoardWidget extends StackPane {
             System.out.println("leader selection not open");
     }
 
+    /**
+     * Closes the selection widget for the initial phase of the game, when player has to choose leaders and resources.
+     */
     private void closeLeaderSelection() {
         if (isLeaderSelectionOpen())
             getChildren().remove(1);
     }
 
+    /**
+     * Checks if the initial selection widget is open.
+     * @return true if the widget is open
+     */
     private boolean isLeaderSelectionOpen() {
         return getChildren().size() > 1 && getChildren().get(1) instanceof LeaderSelectionWidget;
     }
 
+    /**
+     * Opens the waiting widget for the initial phase of the game,
+     * when has to wait while other choose initial leaders and resources.
+     */
     private void openWaitForLeaderSelection() {
         if (!isWaitForLeaderSelectionOpen()) {
             Label text = new Label("Wait while other players select their Leader cards...");
@@ -249,15 +278,31 @@ public class PlayerBoardWidget extends StackPane {
             System.out.println("leader wait not open");
     }
 
+    /**
+     * Closes the waiting widget for the initial phase of the game,
+     * when has to wait while other choose initial leaders and resources.
+     */
     private void closeWaitForLeaderSelection() {
         if (isWaitForLeaderSelectionOpen())
             getChildren().remove(1);
     }
 
+    /**
+     * Checks if the initial selection waiting widget is open.
+     * @return true if the widget is open
+     */
     private boolean isWaitForLeaderSelectionOpen() {
         return getChildren().size() > 1 && getChildren().get(1) instanceof HBox;
     }
 
+    /**
+     * Opens a production modal when a production icon is clicked
+     * (base production, development production or leader production)
+     * @param input the required input resources
+     * @param output the required output resources
+     * @param prodType the type of the production
+     * @param card null if the production is the base production
+     */
     protected void openProductionModal(List<Resource> input, List<Resource> output, Class<? extends Production> prodType, Card card) {
         if (!isProductionModalOpen()) {
             if(player.isLocalPlayer() && GUI.instance().isOwnTurn()) {
@@ -269,11 +314,18 @@ public class PlayerBoardWidget extends StackPane {
         }
     }
 
+    /**
+     * Closes the production modal
+     */
     protected void closeProductionModal() {
         if (isProductionModalOpen())
             Platform.runLater(() -> getChildren().remove(1));
     }
 
+    /**
+     * Checks if the production modal is open.
+     * @return true if a production modal is open
+     */
     private boolean isProductionModalOpen() {
         return getChildren().size() > 1 && getChildren().get(1) instanceof ProductionWidget;
     }

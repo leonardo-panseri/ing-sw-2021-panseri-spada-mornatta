@@ -19,12 +19,20 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * Widget that represents the resources drawn by a player from the market, waiting to be stored.
+ */
+
 public class MarketResultsWidget extends VBox {
     @FXML
     public FlowPane marketResultsDisplay;
 
     private final PlayerBoardWidget playerBoard;
 
+    /**
+     * Creates a new widget for the given player board of a player.
+     * @param playerBoard the player board of the player that has drawn from the market
+     */
     public MarketResultsWidget(PlayerBoardWidget playerBoard) {
         this.playerBoard = playerBoard;
 
@@ -49,6 +57,10 @@ public class MarketResultsWidget extends VBox {
                 .map(resToCast -> (Resource) resToCast).collect(Collectors.toList())));
     }
 
+    /**
+     * Updates the widget with the new drawn resources and sets the drag listener.
+     * @param resources the list of resources drawn by a player
+     */
     private void updateMarketResults(List<Resource> resources) {
         for (int i = 0; i < 4; i++) {
             ImageView imageView = (ImageView) ((BorderPane) marketResultsDisplay.getChildren().get(i)).getCenter();
@@ -77,6 +89,11 @@ public class MarketResultsWidget extends VBox {
         }
     }
 
+    /**
+     * Constructs a consumer function for the deposit when the player has started
+     * a drag and drop action from a resource in this widget.
+     * @return a consumer function of drag event
+     */
     private Consumer<DragEvent> storeMarketResultHandler() {
         return dragEvent -> {
             Dragboard db = dragEvent.getDragboard();

@@ -171,7 +171,7 @@ public class DepositWidget extends AnchorPane {
     }
 
     /**
-     * Callback function after a drag and drop on the deposit. It handles the various player actions that move resources
+     * Consumer function called after a drag and drop on the deposit. It handles the various player actions that move resources
      * from one storage to another.
      * @return a consumer of the drag event that executes this function
      */
