@@ -33,9 +33,7 @@ Final project for the course Software Engineering 2020/2021 at Polimi.
 
 To build and run this project you need to install Java 15 or later.
 
-After cloning this repo you can:
-- Build and run tests with `mvn package`
-- Build docs with `mvn javadoc:javadoc`
+After cloning this repo you can find JavaDocs and JARs inside the folder "delivarables", along with UML schemas.
 
 ## Starting the server
 
