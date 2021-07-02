@@ -195,21 +195,24 @@ public class FaithTrackWidget extends GridPane {
             addColumn(i, box);
         }
 
-        Label popeFavoursTitle = new Label("Pope Favours:");
-        HBox popeFavorsTitleCentered = new HBox(popeFavoursTitle);
-        popeFavorsTitleCentered.setAlignment(Pos.CENTER);
-        VBox.setMargin(popeFavorsTitleCentered, new Insets(0, 0, 0, 10));
+        if(player!=null) {
+            Label popeFavoursTitle = new Label("Pope Favours:");
+            HBox popeFavorsTitleCentered = new HBox(popeFavoursTitle);
+            popeFavorsTitleCentered.setAlignment(Pos.CENTER);
+            VBox.setMargin(popeFavorsTitleCentered, new Insets(0, 0, 0, 10));
 
-        Label popeFavoursDisplay = new Label();
-        popeFavoursDisplay.textProperty().bind(player.popeFavoursProperty().asString());
-        HBox popeFavorsDisplayCentered = new HBox(popeFavoursDisplay);
-        popeFavorsDisplayCentered.setAlignment(Pos.CENTER);
-        VBox.setMargin(popeFavorsDisplayCentered, new Insets(0, 0, 0, 10));
+            Label popeFavoursDisplay = new Label();
+            popeFavoursDisplay.textProperty().bind(player.popeFavoursProperty().asString());
+            HBox popeFavorsDisplayCentered = new HBox(popeFavoursDisplay);
+            popeFavorsDisplayCentered.setAlignment(Pos.CENTER);
+            VBox.setMargin(popeFavorsDisplayCentered, new Insets(0, 0, 0, 10));
 
-        VBox popeFavoursContainer = new VBox(popeFavorsTitleCentered, popeFavorsDisplayCentered);
-        popeFavoursContainer.getStyleClass().add("pope-favours");
-        popeFavoursContainer.setAlignment(Pos.CENTER);
-        addColumn(25, popeFavoursContainer);
+            VBox popeFavoursContainer = new VBox(popeFavorsTitleCentered, popeFavorsDisplayCentered);
+            popeFavoursContainer.getStyleClass().add("pope-favours");
+            popeFavoursContainer.setAlignment(Pos.CENTER);
+            addColumn(25, popeFavoursContainer);
+        }
+
     }
 
 }

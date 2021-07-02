@@ -373,7 +373,7 @@
     -fx-padding: 0 50;
 }
 .end-game-container .label {
-    -fx-font-size: 40;
+    -fx-font-size: 30;
     -fx-text-fill: white;
     -fx-font-family: 'Girassol', cursive;
     -fx-font-weight: bold;

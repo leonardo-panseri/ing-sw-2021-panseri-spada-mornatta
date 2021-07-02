@@ -91,6 +91,11 @@ public class Deposit extends Observable<IServerPacket> {
         leadersDeposit.put(2, new ArrayList<>());
         marketResults = new ArrayList<>();
         this.player = player;
+
+        //Cheat for testing purposes
+        if(player.getNick().startsWith("test")) {
+            for (Resource res : Resource.values()) strongBox.put(res, 99);
+        }
     }
 
     /**

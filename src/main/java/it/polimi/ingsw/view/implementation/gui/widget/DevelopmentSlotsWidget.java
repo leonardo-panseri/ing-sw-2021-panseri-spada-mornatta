@@ -97,16 +97,23 @@ public class DevelopmentSlotsWidget extends StackPane {
      */
     private void pushCard(DevelopmentCard addedItem, int slotIndex) {
         Platform.runLater(() -> {
-            Node prevCard = checkSlotEmpty(layerGrids.get(layerGrids.size() - 1), slotIndex);
-            if (prevCard != null) {
+            GridPane chosenLayer = null;
+            for (GridPane grid : layerGrids) {
+                if (checkSlotEmpty(grid, slotIndex) == null) {
+                    chosenLayer = grid;
+                    break;
+                }
+            }
+            if (chosenLayer == null) {
+                Node prevCard = checkSlotEmpty(layerGrids.get(layerGrids.size()-1), slotIndex);
                 prevCard.setOnMouseClicked(null);
                 layerGrids.add(new GridPane());
                 initGrid(layerGrids.get(layerGrids.size() - 1));
                 layerGrids.get(layerGrids.size() - 1).setPickOnBounds(false);
-                layerGrids.get(layerGrids.size() - 1).setTranslateY(-40.0);
+                layerGrids.get(layerGrids.size() - 1).setTranslateY(-40.0 * (layerGrids.size() - 1));
                 getChildren().add(layerGrids.get(layerGrids.size() - 1));
+                chosenLayer = layerGrids.get(layerGrids.size() - 1);
             }
-            GridPane chosenLayer = layerGrids.get(layerGrids.size() - 1);
             DevelopmentCardWidget card = new DevelopmentCardWidget(addedItem);
 
             List<Resource> input = new ArrayList<>();

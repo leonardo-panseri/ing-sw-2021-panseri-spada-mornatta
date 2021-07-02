@@ -32,10 +32,10 @@ public class EndGameWidget extends VBox {
     public EndGameWidget(Map<String, Integer> scores, String winnerName) {
         winnerLabel = new Label(winnerName + " is the true Master of Renaissance!");
         scoreList = new GridPane();
-        int i = 0;
+        int i = scores.size();
         for (Map.Entry<String, Integer> entry : scores.entrySet()) {
             scoreList.addRow(i, new Label(entry.getKey()), new Label(entry.getValue().toString()));
-            i++;
+            i--;
         }
         scoreList.setPrefWidth(200);
         scoreList.getColumnConstraints().add(new ColumnConstraints(150));

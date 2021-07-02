@@ -122,7 +122,7 @@ public class GameController implements Observer<PlayerActionEvent> {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(scores.entrySet());
         list.sort(Map.Entry.comparingByValue());
 
-        Map<String, Integer> results = new HashMap<>();
+        Map<String, Integer> results = new LinkedHashMap<>();
         for (Map.Entry<String, Integer> entry : list) {
             results.put(entry.getKey(), entry.getValue());
         }

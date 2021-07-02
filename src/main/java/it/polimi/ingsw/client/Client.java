@@ -268,10 +268,10 @@ public class Client {
         ip = "localhost";
         port = 12345;
 
-        writeThread.interrupt();
-        readThread.interrupt();
+        if (writeThread != null) writeThread.interrupt();
+        if (readThread != null) readThread.interrupt();
         try {
-            socket.close();
+            if (socket != null) socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
