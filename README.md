@@ -70,6 +70,9 @@ Eventually, you can run:
 `java -jar GC04.jar -noserver`
 to play a single player match without connecting to a server.
 
+## Test Cheat
+For examination and testing purposes, if a player is named "test" or with a nick that starts with it, it will gain access to 99 resources of each type.
+
 ## Team Members
 * [Leonardo Panseri](https://github.com/leonardo-panseri)
 * [Davide Mornatta](https://github.com/davidemornatta)
