@@ -15,10 +15,8 @@ Final project for the course Software Engineering 2020/2021 at Polimi.
 | GUI | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
 | CLI | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
 | Multiple games | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Persistence | [![RED](https://via.placeholder.com//15/f03c15/f03c15)](#) |
 | Offline Single Player | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
 | Editable Parameters & Game Editor | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Disconnection resilience | [![RED](https://via.placeholder.com//15/f03c15/f03c15)](#) |
 
 <!--
 [![RED](https://via.placeholder.com//15/f03c15/f03c15)](#)
