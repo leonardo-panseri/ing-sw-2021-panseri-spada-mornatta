@@ -9,20 +9,14 @@ Final project for the course Software Engineering 2020/2021 at Polimi.
 
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
-| Basic rules | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Complete rules | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Socket | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| GUI | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| CLI | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Multiple games | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Offline Single Player | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-| Editable Parameters & Game Editor | [![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#) |
-
-<!--
-[![RED](https://via.placeholder.com//15/f03c15/f03c15)](#)
-[![YELLOW](https://via.placeholder.com//15/ffdd00/ffdd00)](#)
-[![GREEN](https://via.placeholder.com//15/44bb44/44bb44)](#)
--->
+| Basic rules | 🟩 |
+| Complete rules | 🟩 |
+| Socket | 🟩 |
+| GUI | 🟩 |
+| CLI | 🟩 |
+| Multiple games | 🟩 |
+| Offline Single Player | 🟩 |
+| Editable Parameters & Game Editor | 🟩 |
 
 ## Tests coverage
 
