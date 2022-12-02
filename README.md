@@ -3,7 +3,7 @@
 Final project for the course Software Engineering 2020/2021 at Polimi.
 
 **Teacher:** Gianpaolo Cugola  
-**Mark:** 30/30 cum laude
+**Grade:** 30/30 cum laude
 
 ## Project Status
 
